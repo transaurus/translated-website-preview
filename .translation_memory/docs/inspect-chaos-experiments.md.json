@@ -1,0 +1,172 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "docs/inspect-chaos-experiments.md",
+  "source_file_content_hash": "a4bbae5be6b32aa092cb182ff2429e538509d84da41a6468ee6efb221c25f195",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Inspect Results of Chaos Experiments\n---",
+      "source_content_hash": "fbb7e420617cb2a65388e1d6d067e9111d00ddf12902c7f7808103b5d7aeb0fa",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "This document describes how to use Chaos Mesh to check running status and results of chaos experiments.",
+      "source_content_hash": "f0c710665b7e02f2bb047f34ea587aa5bbca9a3282bf0f8cf0dcf74b112e190e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、Chaos Meshを使用してカオス実験の実行ステータスと結果を確認する方法について説明します。"
+      }
+    },
+    {
+      "segment_id": "a703643c",
+      "source_content": "## Introduction to steps of a chaos experiment",
+      "source_content_hash": "fa057dd69f75734b395c04e065e1ee44bb4b3ce96c7a0b9151a09d7b7b157acd",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## カオス実験のステップ概要"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "In Chaos Mesh, the life cycle of a chaos experiment is divided into four steps, according to its running process:",
+      "source_content_hash": "ff31e2aaa26845d8ccd0d967cffcc202853b887fbf9a8127ecfa59a0ed7c3577",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshでは、カオス実験のライフサイクルは実行プロセスに基づいて4つのステップに分かれています："
+      }
+    },
+    {
+      "segment_id": "be33979e",
+      "source_content": "- Injecting: Chaos experiment is in the process of fault injection. Normally, this step lasts for a short time. If the \"Injecting\" step lasts a long time, it may be due to some exceptions in the chaos experiment. In this case, you can check `Events` to find the cause of the exceptions.\n- Running: After the faults have been successfully injected into all target pods, the chaos experiment starts running.\n- Paused: when executing a [paused](run-a-chaos-experiment.md#pause-chaos-experiments) process for a running chaos experiment, Chaos Mesh restores the injected faults from all target pods, which indicates the experiment is paused.\n- Finished: if the `duration` parameter of the experiment is configured, and when the experiment runs it up, Chaos Mesh restores the injected faults from all target pods, which indicates that the experiment is finished.",
+      "source_content_hash": "fe5f0f24d101ed7f18ea7e0ae897dfeaa197aaaafebb3cc9d3d20d431202f8c8",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 注入中（Injecting）: カオス実験が障害注入プロセス中である状態。通常、このステップは短時間で終了します。「注入中」ステップが長時間続く場合、カオス実験に何らかの異常が発生している可能性があります。この場合、`Events`を確認して異常の原因を特定できます。\n- 実行中（Running）: すべてのターゲットPodに障害が正常に注入された後、カオス実験が実行を開始した状態。\n- 一時停止中（Paused）: 実行中のカオス実験に対して[一時停止](run-a-chaos-experiment.md#pause-chaos-experiments)プロセスを実行すると、Chaos MeshはすべてのターゲットPodから注入された障害を復元し、実験が一時停止したことを示します。\n- 終了（Finished）: 実験の`duration`パラメータが設定されており、その時間が経過すると、Chaos MeshはすべてのターゲットPodから注入された障害を復元し、実験が終了したことを示します。"
+      }
+    },
+    {
+      "segment_id": "cbe57f9d",
+      "source_content": "## Check results using Chaos Dashboard",
+      "source_content_hash": "b56871c1fd7c8965a74cb61d88b17a439ba4a84a66096f13f83cda95ee1c0658",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Dashboardを使用した結果確認"
+      }
+    },
+    {
+      "segment_id": "39b3772c",
+      "source_content": "You can check the running steps of chaos experiments on any of the following pages using Chaos Dashboard:",
+      "source_content_hash": "73e6a3d84ce32de8a9c6cf24acd5a7c651ef61f892931460f45f8fc9c50341cb",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Dashboardでは、以下のいずれかのページでカオス実験の実行ステップを確認できます："
+      }
+    },
+    {
+      "segment_id": "3b695c37",
+      "source_content": "- List of chaos experiments:\n\n  ![Experimental Status](img/list_chaos_status.png)\n\n- Details of chaos experiments:\n\n  ![Experimental Status](img/chaos_detail_status.png)",
+      "source_content_hash": "a0e8543208dfa2bfd405c8b7e52b234237c9371d539d21e4eadbe3dca28e22d8",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- カオス実験の一覧:\n\n  ![実験ステータス](img/list_chaos_status.png)\n\n- カオス実験の詳細:\n\n  ![実験ステータス](img/chaos_detail_status.png)"
+      }
+    },
+    {
+      "segment_id": "d2808037",
+      "source_content": ":::note\n\n- If the **\"Injecting\"** step lasts for a long time, it may be due to some anomalies in the chaos experiment (e.g. the configured selectors have not selected target pods where to inject chaos actions). In this case, you can check **`Events`** to find the cause of the exceptions and check the configuration of the chaos experiment.\n- Chaos Dashboard only displays [main steps of a chaos experiment](#introduction-to-steps-of-a-chaos-experiment). For more detailed information about experiment status and results, run the `kubectl` command.\n\n:::",
+      "source_content_hash": "567d65a74c7651f60eac99391206f35f7d41b25474536512abdc20f14061de72",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\n- **「注入中」**ステップが長時間続く場合、カオス実験に何らかの異常（例：設定されたセレクタが障害を注入するターゲットPodを選択できていないなど）が発生している可能性があります。この場合、**`Events`**を確認して異常の原因を特定し、カオス実験の設定を確認してください。\n- Chaos Dashboardは[カオス実験の主要ステップ](#introduction-to-steps-of-a-chaos-experiment)のみを表示します。実験ステータスと結果に関するより詳細な情報が必要な場合は、`kubectl`コマンドを実行してください。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "f422383e",
+      "source_content": "## Check results using the `kubectl` command",
+      "source_content_hash": "0c2aeac4108c3b39666f23352ed28f33a4db0868e8617c7abcdcd5bfe55bedd9",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## `kubectl`コマンドを使用した結果確認"
+      }
+    },
+    {
+      "segment_id": "97ae4a01",
+      "source_content": "To confirm the results of chaos experiments, use the following `kubectl describe` command to check the `Status` and `Events` of experiment objects.",
+      "source_content_hash": "5a10d16aa45d88b3d246d1edc2ae91222e91ba77388bf332ea0b0875c362a7dc",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "カオス実験の結果を確認するには、以下の`kubectl describe`コマンドを使用して実験オブジェクトの`Status`と`Events`を確認します。"
+      }
+    },
+    {
+      "segment_id": "de8f60af",
+      "source_content": "```shell\nkubectl describe podchaos pod-failure-tikv -n tidb-cluster\n```",
+      "source_content_hash": "40a7e4b6c5ba1dbc9e13462352d6e1a3ac61a32cfcd90949f3578eca081a3992",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_de8f60af"
+      }
+    },
+    {
+      "segment_id": "1042b50d",
+      "source_content": "The expected output is as follows:",
+      "source_content_hash": "f619ab41c913a7405e4d6ae7b0212d3658fe20bdf352850f375a0b552e74b38a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "期待される出力は以下の通りです："
+      }
+    },
+    {
+      "segment_id": "6648a219",
+      "source_content": "```shell\n...\nStatus:\n  Conditions:\n    Reason:\n    Status:  False\n    Type:    Paused\n    Reason:\n    Status:  True\n    Type:    Selected\n    Reason:\n    Status:  True\n    Type:    AllInjected\n    Reason:\n    Status:  False\n    Type:    AllRecovered\n  Experiment:\n    Container Records:\n      Id:            tidb-cluster/basic-tikv-0\n      Phase:         Injected\n      Selector Key:  .\n    Desired Phase:   Run\nEvents:\n  Type    Reason           Age   From          Message\n  ----    ------           ----  ----          -------\n  Normal  FinalizerInited  39s   finalizer     Finalizer has been inited\n  Normal  Paused           39s   desiredphase  Experiment has been paused\n  Normal  Updated          39s   finalizer     Successfully update finalizer of resource\n  Normal  Updated          39s   records       Successfully update records of resource\n  Normal  Updated          39s   desiredphase  Successfully update desiredPhase of resource\n  Normal  Started          17s   desiredphase  Experiment has started\n  Normal  Updated          17s   desiredphase  Successfully update desiredPhase of resource\n  Normal  Applied          17s   records       Successfully apply chaos for tidb-cluster/basic-tikv-0\n  Normal  Updated          17s   records       Successfully update records of resource\n```",
+      "source_content_hash": "6324a7de7f92ab3f01b050a28e78e153b166ed84e909b1b44d8f1bb51cb8d2a2",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_6648a219"
+      }
+    },
+    {
+      "segment_id": "463ed165",
+      "source_content": "The above output contains two parts:",
+      "source_content_hash": "1d2424760376540100404a0c14b0968bb2ca8e88c09e2bebd6287ec0414bda9b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "上記の出力は2つの部分で構成されています："
+      }
+    },
+    {
+      "segment_id": "536b7b6b",
+      "source_content": "- `Status`\n\n  Based on the running process of the chaos experiment, the `Status` provides four types of status records:\n\n  - `Paused`: indicates the chaos experiment is in the \"Paused\" step.\n  - `Selected`: indicates the chaos experiment had correctly selected the target pods where to inject chaos actions.\n  - `AllInjected`: indicates the faults have been successfully injected to all target pods.\n  - `AllRecoverd`: indicates the injected faults have been successfully restored from all target pods.\n\n  The actual running status of current chaos experiments can be inferred from these four types of status records. For example:\n\n  - When `Paused`、`Selected`、`AllRecoverd` is `True` and `AllInjected` is `False`, it indicates the current chaos experiment is paused.\n  - When `Paused` is `True`, it indicates the current chaos experiment is paused. However, if the `Selected` is `False` at the same time, then it means the current experiment cannot select the target pods where to inject chaos actions.\n\n  :::note\n\n  You can get more information from the combination of the above status records, for example, when `Paused` is `True`, it indicates the experiment is paused, but if the `Selected` is `False` at the same time, then it means the current experiment cannot select the target pods where to inject chaos actions.\n\n  :::\n\n- `Events`\n\n  It contains the records of actions conducted during the whole life cycle of a chaos experiment, which can help to check experiment status and troubleshoot issues.",
+      "source_content_hash": "df68c59dd1da401cdd160e44e3759cd85e3de448be9d2bd39e6b91c1c17e6437",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- `Status`\n\n  カオス実験の実行プロセスに基づき、`Status`には4種類のステータス記録が提供されます：\n\n  - `Paused`: カオス実験が「一時停止中」ステップにあることを示します。\n  - `Selected`: カオス実験が障害を注入するターゲットPodを正しく選択したことを示します。\n  - `AllInjected`: すべてのターゲットPodに障害が正常に注入されたことを示します。\n  - `AllRecoverd`: 注入された障害がすべてのターゲットPodから正常に復元されたことを示します。\n\n  これらの4種類のステータス記録から、現在のカオス実験の実際の実行ステータスを推測できます。例えば：\n\n  - `Paused`、`Selected`、`AllRecoverd`が`True`で`AllInjected`が`False`の場合、現在のカオス実験が一時停止中であることを示します。\n  - `Paused`が`True`の場合、現在のカオス実験が一時停止中であることを示します。ただし、同時に`Selected`が`False`の場合、現在の実験が障害を注入するターゲットPodを選択できないことを意味します。\n\n  :::note\n\n  上記のステータス記録の組み合わせからより多くの情報を得ることができます。例えば、`Paused`が`True`の場合、実験が一時停止中であることを示しますが、同時に`Selected`が`False`の場合、現在の実験が障害を注入するターゲットPodを選択できないことを意味します。\n\n  :::\n\n- `Events`\n\n  カオス実験のライフサイクル全体で実行されたアクションの記録が含まれており、実験ステータスの確認や問題のトラブルシューティングに役立ちます。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/current/inspect-chaos-experiments.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.685787+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "a4bbae5be6b32aa092cb182ff2429e538509d84da41a6468ee6efb221c25f195"
+  }
+}

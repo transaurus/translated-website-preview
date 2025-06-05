@@ -1,0 +1,282 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "versioned_docs/version-2.7.2/configure-development-environment.md",
+  "source_file_content_hash": "fba42d6d34d5d8068bb9b7cb0816802e9abf3219ab63a720f9987ac3e3e9725e",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Configure the Development Environment\n---",
+      "source_content_hash": "7a99471f02d15e99e1b7fe1ba37fe48c8b1c081557cc8c5f822509d852acf814",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "This document describes how to configure a local development environment for Chaos Mesh.",
+      "source_content_hash": "e9962909e04d1ca98c374cc9a24b46660ea8d692c988085da4452641a473c0a6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、Chaos Meshのローカル開発環境を設定する方法について説明します。"
+      }
+    },
+    {
+      "segment_id": "6ef78e84",
+      "source_content": "Most components of Chaos Mesh are **only designed for Linux**, so we suggest that you also configure your development environment to run on Linux. For example, use a virtual machine or WSL 2 and use VSCode Remote as your editor.",
+      "source_content_hash": "eccb488e4fedc541932694ee525da9e03e0ec8dd9cbaeda69d5238638a089e40",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshのほとんどのコンポーネントは**Linux専用に設計されている**ため、開発環境もLinux上で動作するように設定することを推奨します。例えば、仮想マシンやWSL 2を使用し、VSCode Remoteをエディタとして利用します。"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "This document assumes that you are using Linux, without the limitations of specific Linux distributions. If you insist on using Windows/MacOS, you may need some tricks to make it work for you (For example, some make targets may fail depending on the environment).",
+      "source_content_hash": "d079986a8070d8f5570067e8616556a9aff1c92f9f1789f6fb91ccd04453c2de",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、特定のLinuxディストリビューションに依存せず、Linuxを使用していることを前提としています。Windows/MacOSを利用する場合、動作させるためにいくつかの工夫が必要になる場合があります（例えば、環境によってはmakeターゲットが失敗する可能性があります）。"
+      }
+    },
+    {
+      "segment_id": "8a5f6a7b",
+      "source_content": "## Configuration Requirements",
+      "source_content_hash": "9dab88ba6792bfd14f8f0410213486c692bd3dc8300c6d2e98a521def4337dd9",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 設定要件"
+      }
+    },
+    {
+      "segment_id": "180bddb1",
+      "source_content": "Before configuring, it is recommended that you install the development tools listed below, most of them may already be installed in your environment:",
+      "source_content_hash": "cd0253aff4bc851804ca907ed504be5881452bb832bda0ed6493cc43439f9ba1",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "設定前に、以下の開発ツールをインストールすることを推奨します。これらの多くは既に環境にインストールされている可能性があります："
+      }
+    },
+    {
+      "segment_id": "4269e691",
+      "source_content": "- [make](https://www.gnu.org/software/make/)\n- [docker](https://docs.docker.com/install/)\n- [golang](https://go.dev/doc/install), `v1.18` or later versions\n- [gcc](https://gcc.gnu.org/)\n- [helm](https://helm.sh/), `v3.9.0` or later versions\n- [minikube](https://minikube.sigs.k8s.io/docs/start/)",
+      "source_content_hash": "877dd3620368177b5db19e447c8799f9c145f812225225b70fd94da82988faf4",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- [make](https://www.gnu.org/software/make/)\n- [docker](https://docs.docker.com/install/)\n- [golang](https://go.dev/doc/install)、`v1.18`以降のバージョン\n- [gcc](https://gcc.gnu.org/)\n- [helm](https://helm.sh/)、`v3.9.0`以降のバージョン\n- [minikube](https://minikube.sigs.k8s.io/docs/start/)"
+      }
+    },
+    {
+      "segment_id": "2df4f75f",
+      "source_content": "Optional:",
+      "source_content_hash": "a7390ddedd8e895fcd14ba7325b7b4008cd613d4924dfa4bdd75355938ff4d78",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "オプション："
+      }
+    },
+    {
+      "segment_id": "8cf6d045",
+      "source_content": "- [nodejs](https://nodejs.org/en/) and [pnpm](https://pnpm.io/), for developing Chaos Dashboard",
+      "source_content_hash": "b8e0c778ed3f265a285a0ef11869ec2968d1372582d89f57c8d215ae80cd0f1f",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- [nodejs](https://nodejs.org/en/)と[pnpm](https://pnpm.io/)、Chaos Dashboardの開発用"
+      }
+    },
+    {
+      "segment_id": "79b2d0b9",
+      "source_content": "## Compiling Chaos Mesh",
+      "source_content_hash": "c6eda941106767e538f26d9dd9d066ba883ed9dfc558cf1740084aaabd5839fa",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Meshのコンパイル"
+      }
+    },
+    {
+      "segment_id": "d9172fa4",
+      "source_content": "After installing, follow the steps below to compile Chaos Mesh.",
+      "source_content_hash": "e0b4607b865b71f1ab730677f9f5ee7c54ec8a3b50a757bd258c62d1e1f9141e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "インストール後、以下の手順に従ってChaos Meshをコンパイルします。"
+      }
+    },
+    {
+      "segment_id": "5da9e02b",
+      "source_content": "1. Clone the Chaos Mesh repository to your local server:\n\n   ```bash\n   git clone https://github.com/chaos-mesh/chaos-mesh.git\n   cd chaos-mesh\n   ```\n\n2. Make sure that [Docker](https://docs.docker.com/install/) is installed and running.\n\n   :::info\n\n   Chaos Mesh relies on Docker to build container images, this is for consistency with the production environment.\n\n   :::\n\n3. Compile Chaos Mesh:\n\n   ```bash\n   UI=1 make image\n   ```\n\n   :::tip\n\n   `UI=1` means that we will compile the user interface of Chaos Dashboard, if you don't need it, you can omit this env.\n\n   :::\n\n   :::tip\n\n   If you want to specify the tag of the image, you can use `UI=1 make IMAGE_TAG=dev image`.\n\n   :::\n\n   After compiling, you should get the following container images:\n\n   - `ghcr.io/chaos-mesh/chaos-dashboard:latest`\n   - `ghcr.io/chaos-mesh/chaos-mesh:latest`\n   - `ghcr.io/chaos-mesh/chaos-daemon:latest`",
+      "source_content_hash": "aef5d13d2f05624fbbf231bb39f16385d799069e3feeb0e38211fa12e54f2e8c",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. Chaos Meshリポジトリをローカルサーバーにクローンします：\n\n   ```bash\n   git clone https://github.com/chaos-mesh/chaos-mesh.git\n   cd chaos-mesh\n   ```\n\n2. [Docker](https://docs.docker.com/install/)がインストールされ、実行されていることを確認してください。\n\n   :::info\n\n   Chaos MeshはコンテナイメージのビルドにDockerを利用しており、これは本番環境との一貫性を保つためです。\n\n   :::\n\n3. Chaos Meshをコンパイルします：\n\n   ```bash\n   UI=1 make image\n   ```\n\n   :::tip\n\n   `UI=1`はChaos Dashboardのユーザーインターフェースをコンパイルすることを意味します。不要な場合はこの環境変数を省略できます。\n\n   :::\n\n   :::tip\n\n   イメージのタグを指定したい場合は、`UI=1 make IMAGE_TAG=dev image`を使用できます。\n\n   :::\n\n   コンパイル後、以下のコンテナイメージが生成されます：\n\n   - `ghcr.io/chaos-mesh/chaos-dashboard:latest`\n   - `ghcr.io/chaos-mesh/chaos-mesh:latest`\n   - `ghcr.io/chaos-mesh/chaos-daemon:latest`"
+      }
+    },
+    {
+      "segment_id": "3ef18741",
+      "source_content": "## Run Chaos Mesh in local minkube Kubernetes cluster",
+      "source_content_hash": "5517ff9610564ee3ed71e1f76f683c0382c52d64abc08f9efbace4de65927022",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ローカルのminikube KubernetesクラスターでChaos Meshを実行"
+      }
+    },
+    {
+      "segment_id": "e7772088",
+      "source_content": "Now you can run Chaos Mesh in a local Kubernetes cluster after compiling.",
+      "source_content_hash": "4c3989bf58e300a3cd080462b69a266f803494e1e9859231139991ce2b6346d8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "コンパイル後、ローカルのKubernetesクラスターでChaos Meshを実行できます。"
+      }
+    },
+    {
+      "segment_id": "69c1f590",
+      "source_content": "1. Start a local Kubernetes cluster with minkube:\n\n   ```bash\n   minikube start\n   ```\n\n2. Load container images into minikube:\n\n   ```bash\n   minikube image load ghcr.io/chaos-mesh/chaos-dashboard:latest\n   minikube image load ghcr.io/chaos-mesh/chaos-mesh:latest\n   minikube image load ghcr.io/chaos-mesh/chaos-daemon:latest\n   ```\n\n3. Install Chaos Mesh by Helm:\n\n   ```bash\n   helm upgrade --install chaos-mesh-debug ./helm/chaos-mesh -n=chaos-mesh-debug --create-namespace\n   ```",
+      "source_content_hash": "1d0d643f64713751fdc4324ee4a99e09d294740548d33f3c3897b80251d67244",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. minikubeでローカルKubernetesクラスターを起動します：\n\n   ```bash\n   minikube start\n   ```\n\n2. コンテナイメージをminikubeにロードします：\n\n   ```bash\n   minikube image load ghcr.io/chaos-mesh/chaos-dashboard:latest\n   minikube image load ghcr.io/chaos-mesh/chaos-mesh:latest\n   minikube image load ghcr.io/chaos-mesh/chaos-daemon:latest\n   ```\n\n3. Helmを使用してChaos Meshをインストールします：\n\n   ```bash\n   helm upgrade --install chaos-mesh-debug ./helm/chaos-mesh -n=chaos-mesh-debug --create-namespace\n   ```"
+      }
+    },
+    {
+      "segment_id": "e2e299c8",
+      "source_content": ":::tip\n\n`minikube image load` would cost lots of time, so here is a trick to avoid load images again and again during development. Using docker from minikube node instead of host's docker:\n\n```bash\nminikube start --mount --mount-string \"$(pwd):$(pwd)\"\neval $(minikube -p minikube docker-env)\nUI=1 make image\n```\n\n:::",
+      "source_content_hash": "27d51ace607a86387529b10a225f32ae0a3c7841ffdf29feeb01c1bbb68710cc",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::tip\n\n`minikube image load`は多くの時間を要するため、開発中に何度もイメージをロードすることを避けるための工夫があります。ホストのDockerではなく、minikubeノードのDockerを使用します：\n\n```bash\nminikube start --mount --mount-string \"$(pwd):$(pwd)\"\neval $(minikube -p minikube docker-env)\nUI=1 make image\n```\n\n:::"
+      }
+    },
+    {
+      "segment_id": "54bafb10",
+      "source_content": "## Debug Chaos Mesh in local environment",
+      "source_content_hash": "79d5bbd764cdcac61e201cb4d80990ff92100a41a527ab7e49b13539322daae1",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ローカル環境でのChaos Meshのデバッグ"
+      }
+    },
+    {
+      "segment_id": "4be28ed1",
+      "source_content": "We could use [delve](https://github.com/go-delve/delve) with remote debugging to debug the Chaos Mesh in local environment.",
+      "source_content_hash": "2541d7189907c7a1a3dd8b48a8b370cf188f1e5ec8400043f11dd5b76427ddb5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ローカル環境でChaos Meshをデバッグするために、[delve](https://github.com/go-delve/delve)とリモートデバッグを利用できます。"
+      }
+    },
+    {
+      "segment_id": "664ad8b1",
+      "source_content": "1. Compile Chaos Mesh with `DEBUGGER=1`:\n\n   ```bash\n   UI=1 DEBUGGER=1 make image\n   ```\n\n2. Load container images into minikube:\n\n   ```bash\n   minikube image load ghcr.io/chaos-mesh/chaos-mesh:latest\n   minikube image load ghcr.io/chaos-mesh/chaos-daemon:latest\n   minikube image load ghcr.io/chaos-mesh/chaos-dashboard:latest\n   ```\n\n3. Install Chaos Mesh and enable Remote Debugging:\n\n   ```bash\n   helm upgrade --install chaos-mesh-debug ./helm/chaos-mesh -n=chaos-mesh-debug --create-namespace --set chaosDlv.enable=true --set controllerManager.leaderElection.enabled=false\n   ```\n\n   :::note\n\n   To ensure high availability, Chaos Mesh turns on `leader-election` feature by default and will create 3 replicas for `chaos-controller-manager`. We will use `controllerManager.leaderElection.enabled=false` to ensure that Chaos Mesh only creates 1 instance of `chaos-controller-manager` for easier debugging.\n\n   For more details, see [Install Chaos Mesh in different environments](production-installation-using-helm.md#step-4-install-chaos-mesh-in-different-environments).\n\n   :::\n\n4. Setup Port-Forwarding and Configure IDE To Connect the Remote Debugger:\n\n   We could use `kubectl port-forward` to forward the delve debugging server to a local port.\n\n   For example, if we want to debug `chaos-controller-manger`, we could execute the following command:\n\n   ```bash\n   kubectl -n chaos-mesh-debug port-forward chaos-controller-manager-766dc8488d-7n5bq 58000:8000\n   ```\n\n   Then we could access the remote delve debugger server with `127.0.0.1:58000`.\n\n   :::info\n\n   We always use `8000` in the pod for serving the delve debug server, that's a convention. You could find that in helm templates files.\n\n   :::\n\n   Then we could configure our favorite IDE to connect to the remote debugger, below are some examples:\n\n   - For Goland, see [Attach to running Go processes with the debugger#Attach to a process on a remote machine](https://www.jetbrains.com/help/go/attach-to-running-go-processes-with-debugger.html#attach-to-a-process-on-a-remote-machine).\n\n   - For VSCode, see [vscode-go - Debugging#Remote Debugging](https://github.com/golang/vscode-go/blob/master/docs/debugging.md#remote-debugging).",
+      "source_content_hash": "6533bb6d22cbca49b43772dc654c3c24437b6dae218aa1c96ce2d1d88e9d962a",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. `DEBUGGER=1` を指定して Chaos Mesh をコンパイル:\n\n   ```bash\n   UI=1 DEBUGGER=1 make image\n   ```\n\n2. コンテナイメージを minikube にロード:\n\n   ```bash\n   minikube image load ghcr.io/chaos-mesh/chaos-mesh:latest\n   minikube image load ghcr.io/chaos-mesh/chaos-daemon:latest\n   minikube image load ghcr.io/chaos-mesh/chaos-dashboard:latest\n   ```\n\n3. Chaos Mesh をインストールしリモートデバッグを有効化:\n\n   ```bash\n   helm upgrade --install chaos-mesh-debug ./helm/chaos-mesh -n=chaos-mesh-debug --create-namespace --set chaosDlv.enable=true --set controllerManager.leaderElection.enabled=false\n   ```\n\n   :::note\n\n   高可用性を確保するため、Chaos Mesh はデフォルトで `leader-election` 機能を有効にしており、`chaos-controller-manager` のレプリカを3つ作成します。デバッグを容易にするため、`controllerManager.leaderElection.enabled=false` を設定して Chaos Mesh が `chaos-controller-manager` のインスタンスを1つだけ作成するようにします。\n\n   詳細は [異なる環境での Chaos Mesh インストール](production-installation-using-helm.md#step-4-install-chaos-mesh-in-different-environments) を参照してください。\n\n   :::\n\n4. ポートフォワーディングの設定とIDEでのリモートデバッガ接続:\n\n   `kubectl port-forward` を使用して、delve デバッグサーバーをローカルポートに転送できます。\n\n   例えば、`chaos-controller-manger` をデバッグする場合、以下のコマンドを実行します:\n\n   ```bash\n   kubectl -n chaos-mesh-debug port-forward chaos-controller-manager-766dc8488d-7n5bq 58000:8000\n   ```\n\n   これにより、リモートの delve デバッガサーバーに `127.0.0.1:58000` でアクセス可能になります。\n\n   :::info\n\n   pod 内では delve デバッグサーバー用に常に `8000` ポートを使用します。これは規約であり、helm テンプレートファイルで確認できます。\n\n   :::\n\n   IDE を設定してリモートデバッガに接続します。以下は設定例です:\n\n   - Goland の場合: [Attach to running Go processes with the debugger#Attach to a process on a remote machine](https://www.jetbrains.com/help/go/attach-to-running-go-processes-with-debugger.html#attach-to-a-process-on-a-remote-machine) を参照\n\n   - VSCode の場合: [vscode-go - Debugging#Remote Debugging](https://github.com/golang/vscode-go/blob/master/docs/debugging.md#remote-debugging) を参照"
+      }
+    },
+    {
+      "segment_id": "dce16ab4",
+      "source_content": "For more detailed information, see [README.md for container image chaos-dlv](https://github.com/chaos-mesh/chaos-mesh/blob/master/images/chaos-dlv/README.md).",
+      "source_content_hash": "943c13c7920197674c2c63f8e67bc28d336a8db54d17db808f691c59e2960faa",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "詳細については [chaos-dlv コンテナイメージの README.md](https://github.com/chaos-mesh/chaos-mesh/blob/master/images/chaos-dlv/README.md) を参照してください。"
+      }
+    },
+    {
+      "segment_id": "7312e69e",
+      "source_content": "## What's Next",
+      "source_content_hash": "7027d20df47e677159d4e3c8dbba8ebb639330853069eab74d83748ee5e5c49a",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 次のステップ"
+      }
+    },
+    {
+      "segment_id": "2dbfc5f7",
+      "source_content": "After finishing the above preparation, you can try to [Add a New Chaos Experiment Type](add-new-chaos-experiment-type.md).",
+      "source_content_hash": "a83410a689b171aa2c26f15c726ac5ae86ba72a4d372a945da38729a7906c93a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "上記の準備が完了したら、[新しい Chaos 実験タイプの追加](add-new-chaos-experiment-type.md) を試すことができます。"
+      }
+    },
+    {
+      "segment_id": "3f77c6a0",
+      "source_content": "## FAQ",
+      "source_content_hash": "b07ed55203f0d88ebed77a69ea750333f4f62ec38193b32272aa2987376f7b86",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## FAQ"
+      }
+    },
+    {
+      "segment_id": "657bde08",
+      "source_content": "### Run make fail with `error obtaining VCS status: exit status 128` in MacOS",
+      "source_content_hash": "02abe05e1e27e1703c705179bdaf8617d6d2dfa7b5b7f12602d2550f4abc339c",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### MacOS で `make` 実行時に `error obtaining VCS status: exit status 128` が発生する"
+      }
+    },
+    {
+      "segment_id": "827eb9a3",
+      "source_content": "The reason is related to https://github.blog/2022-04-12-git-security-vulnerability-announced/. It's recommended you to read it first.",
+      "source_content_hash": "3367e138bbac70b3adc7fb05175f58fad3256c68dbe748f9b61a74708f444851",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この原因は https://github.blog/2022-04-12-git-security-vulnerability-announced/ に関連しています。まずこの記事を読むことを推奨します。"
+      }
+    },
+    {
+      "segment_id": "62d066b0",
+      "source_content": "Chaos Mesh will start the container (`dev-env` or `build-env`) with the current user (when you call `make`). You can find the appropriate `--user` flag in [get_env_shell.py#L81C10-L81C10](https://github.com/chaos-mesh/chaos-mesh/blob/813b650c02e0b065ae5c4707725c346929ab1847/build/get_env_shell.py#L81C10-L81C10). So when Git is looking for a top-level `.git` directory, it will stop if its directory traversal changes ownership from the current user.",
+      "source_content_hash": "45d65f82a2fefa2e10bcecdc05acd1372ab6450759ef0a0af94870fb351828c4",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Mesh は現在のユーザー（`make` を実行したユーザー）でコンテナ（`dev-env` または `build-env`）を起動します。[get_env_shell.py#L81C10-L81C10](https://github.com/chaos-mesh/chaos-mesh/blob/813b650c02e0b065ae5c4707725c346929ab1847/build/get_env_shell.py#L81C10-L81C10) で適切な `--user` フラグを確認できます。Git がトップレベルの `.git` ディレクトリを探す際、ディレクトリ走査中に現在のユーザーから所有権が変更されると停止します。"
+      }
+    },
+    {
+      "segment_id": "89cf7bac",
+      "source_content": "A temporary solution for now is to comment out the line of `--user`.",
+      "source_content_hash": "368b14fd9b0d2b2b41f567b9ce77f59608335205ad87a9e04f7e27ac22f57394",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "現在の暫定対策として、`--user` の行をコメントアウトすることができます。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/version-2.7.2/configure-development-environment.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.694388+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "fba42d6d34d5d8068bb9b7cb0816802e9abf3219ab63a720f9987ac3e3e9725e"
+  }
+}

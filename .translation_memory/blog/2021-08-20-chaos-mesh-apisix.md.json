@@ -1,0 +1,382 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2021-08-20-chaos-mesh-apisix.md",
+  "source_file_content_hash": "3e38174fd8f09264e24a8d2c6bd020900ff9ad1476b3ad2c6f31b2aba6dddd21",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /How-Chaos-Mesh-Helps-Apache-APISIX-Improve-System-Stability\ntitle: 'How Chaos Mesh Helps Apache APISIX Improve System Stability'\nauthors: shuyangwu\nimage: /img/blog/chaos-mesh-apisix.jpeg\ntags: [Chaos Mesh, Chaos Engineering]\n---",
+      "source_content_hash": "57bb552bb74e13258040b289a21920d6850d3312ce08aee5ee0cdd8519b944d3",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "![Chaos Mesh helps Apache APISIX improve system stability](/img/blog/chaos-mesh-apisix.jpeg)",
+      "source_content_hash": "8bc1b2c8294aeffb90ee8e9712137bcf8dc3d6b8f28d999ad10fe41521f5e20c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos MeshがApache APISIXのシステム安定性向上を支援](/img/blog/chaos-mesh-apisix.jpeg)"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "[Apache APISIX](https://github.com/apache/apisix) is a cloud-native, high-performance, scaling microservices API gateway. It is one of the Apache Software Foundation's top-level projects and serves hundreds of companies around the world, processing their mission-critical traffic, including finance, the Internet, manufacturing, retail, and operators. Our customers include NASA, the European Union's digital factory, China Mobile, and Tencent.",
+      "source_content_hash": "674b4c140a88498909ad55156e83f4f5aa10aa8ad211a730ca641ba3d6574bb8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Apache APISIX](https://github.com/apache/apisix)は、クラウドネイティブで高性能なスケーリング可能なマイクロサービスAPIゲートウェイです。Apache Software Foundationのトップレベルプロジェクトの一つであり、金融、インターネット、製造、小売、通信事業者など、世界中の数百社の企業において重要なトラフィックを処理しています。NASA、欧州連合のデジタルファクトリー、中国移動、Tencentなどが顧客として名を連ねています。"
+      }
+    },
+    {
+      "segment_id": "3e6699f4",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3e6699f4"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "As our community grows, Apache APISIX's features more frequently interact with external components, making our system more complex and increasing the possibility of errors. To identify potential system failures and build confidence in the production environment, we introduced the concept of Chaos Engineering.",
+      "source_content_hash": "6acfc1b1d4847cc86aa29642479a9d6a75ea80659a9b48c2f6f2d26f9f60f2b9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "コミュニティの成長に伴い、Apache APISIXの機能は外部コンポーネントとの相互作用がより頻繁になり、システムがより複雑化し、エラーの可能性も高まっています。潜在的なシステム障害を特定し、本番環境への信頼性を構築するため、私たちはカオスエンジニアリングの概念を導入しました。"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "![Apache APISIX architecture](/img/blog/apache-apisix-architecture.jpg)",
+      "source_content_hash": "21cd5c48c5a1eca507145a0b554534c1fc45cf78e14fd090eed5a8e41a5537b6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Apache APISIXアーキテクチャ](/img/blog/apache-apisix-architecture.jpg)"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "In this post, we'll share how we use [Chaos Mesh](https://chaos-mesh.org/) to improve our system stability.",
+      "source_content_hash": "e1a1161ffa8bf52444943bae24411dac46ec82b72f78b2414e035333772cfa76",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この記事では、[Chaos Mesh](https://chaos-mesh.org/)を使用してシステムの安定性を向上させた方法を共有します。"
+      }
+    },
+    {
+      "segment_id": "418617bd",
+      "source_content": "## Our pain points",
+      "source_content_hash": "e326bebe692af62c058e8624cf59ad73d1307a2f744e68c87f7942c2bed1904a",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 私たちの課題"
+      }
+    },
+    {
+      "segment_id": "2fdadb08",
+      "source_content": "Apache APISIX processes tens of billions of requests a day. At that volume level, our users have noticed a couple of issues:",
+      "source_content_hash": "b68efbd832a041a65ed09f4ad74a8e09343581c65de62c319f1f13965ab04733",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Apache APISIXは1日に数百億のリクエストを処理しています。そのような規模において、ユーザーからいくつかの問題が報告されました："
+      }
+    },
+    {
+      "segment_id": "44d89370",
+      "source_content": "- **Scenario #1:** In Apache APISIX's configuration center, when unexpectedly high network latency occurs between etcd and Apache APISIX, can Apache APISIX still filter and forward traffic normally?\n- **Scenario #2:** When a node in the etcd cluster fails and the cluster can still run normally, an error is reported for the node's interaction with the Apache APISIX admin API.",
+      "source_content_hash": "64c46e642bca0bc5c1b992415e94d1c58741d1ae1384ffc4013ce365729c2d41",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- **シナリオ #1:** Apache APISIXの設定センターにおいて、etcdとApache APISIX間のネットワーク遅延が予期せず高くなった場合、Apache APISIXは依然としてトラフィックを正常にフィルタリングおよび転送できるか？\n- **シナリオ #2:** etcdクラスター内のノードが故障し、クラスターが正常に動作を続けている場合でも、そのノードとApache APISIX管理APIとの相互作用でエラーが報告される。"
+      }
+    },
+    {
+      "segment_id": "d9172fa4",
+      "source_content": "Although Apache APISIX has covered many scenarios through unit, end-to-end (E2E), and fuzz tests in continuous integration (CI), it has not covered the interaction scenario with external components. If the system behaves abnormally, for example, if the network jitters, a hard disk fails, or a process is killed, can Apache APISIX give appropriate error messages? Can it keep running or restore itself to normal operation?",
+      "source_content_hash": "33feabbdd94541e3208460744953a3afecb35c3218576ed99901fd64e3054e0b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Apache APISIXは、継続的インテグレーション（CI）においてユニットテスト、エンドツーエンド（E2E）テスト、ファジーテストを通じて多くのシナリオをカバーしていますが、外部コンポーネントとの相互作用シナリオはカバーされていません。システムが異常動作した場合、例えばネットワークの不安定、ハードディスクの故障、プロセスの強制終了などが発生した場合、Apache APISIXは適切なエラーメッセージを表示できるか？正常に動作を続けたり、正常な状態に復旧したりできるか？"
+      }
+    },
+    {
+      "segment_id": "d06306f7",
+      "source_content": "## Why we chose Chaos Mesh",
+      "source_content_hash": "8ea611e98a9661163c5d63bac501bc6da2d854657840095b3533c5c5ae90ed28",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Meshを選んだ理由"
+      }
+    },
+    {
+      "segment_id": "73ab96a3",
+      "source_content": "To test these user scenarios and to discover similar problems before our product goes into production, our community decided to use Chaos Mesh for chaos testing.",
+      "source_content_hash": "dace72c23e2810772b8da155479a307fb457db058ad3fe66238b2e4971e128da",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これらのユーザーシナリオをテストし、製品が本番環境に投入される前に同様の問題を発見するため、私たちのコミュニティはChaos Meshを使用してカオステストを行うことを決定しました。"
+      }
+    },
+    {
+      "segment_id": "7499a4e7",
+      "source_content": "Chaos Mesh is a cloud-native Chaos Engineering platform that features all-around fault injection methods for complex systems on Kubernetes, covering faults in Pod, the network, file system, and even the kernel. It helps users find weaknesses in the system and ensures that the system can resist out-of-control situations in the production environment.",
+      "source_content_hash": "a711b6ac186483e34286bbcb98d0c3be46754c8f86534bc45f151f7637c0ea48",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは、クラウドネイティブなカオスエンジニアリングプラットフォームで、Kubernetes上での複雑なシステムに対する包括的な障害注入方法を特徴としています。Pod、ネットワーク、ファイルシステム、さらにはカーネルに至るまでの障害をカバーし、ユーザーがシステムの弱点を見つけ、本番環境での制御不能な状況に耐えられることを保証します。"
+      }
+    },
+    {
+      "segment_id": "517051a7",
+      "source_content": "Like Apache APISIX, Chaos Mesh has an active open source community. We know that an active community can ensure stable software use and rapid iteration. This makes Chaos Mesh more attractive.",
+      "source_content_hash": "8d511f6d6631a8d4e59d6215d3ca8beed80005c75e203f496e14d246d3f5cee7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Apache APISIXと同様に、Chaos Meshも活発なオープンソースコミュニティを持っています。活発なコミュニティは、ソフトウェアの安定した使用と迅速な反復を保証します。これがChaos Meshをさらに魅力的にしています。"
+      }
+    },
+    {
+      "segment_id": "80d9e13c",
+      "source_content": "## How we use Chaos Mesh in APISIX",
+      "source_content_hash": "c11e6b66ff9a37e213130a3bd3cf38d2c147153b7d41968c7ac8c8607cbe1980",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## APISIXでのChaos Meshの使用方法"
+      }
+    },
+    {
+      "segment_id": "33331f27",
+      "source_content": "Chaos Engineering has grown beyond simple fault injection and now forms a complete methodology. To create a chaos experiment, we determined what the normal operation or \"steady state\" of our application should be. We then introduced potential problems to see how the system responded. If the problems knocked the application out of its steady state, we fixed them.",
+      "source_content_hash": "df2634439c8dc42a85bbbdf5f9c4255636dc624676e67b9d46d0e742ec9b05ff",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "カオスエンジニアリングは単純な障害注入を超えて成長し、現在では完全な方法論を形成しています。カオス実験を作成するために、私たちはアプリケーションの正常な動作状態または「安定状態」を決定しました。その後、潜在的な問題を導入し、システムがどのように反応するかを観察しました。問題がアプリケーションを安定状態から外した場合、それらを修正しました。"
+      }
+    },
+    {
+      "segment_id": "50746522",
+      "source_content": "Now, we'll take the two scenarios we mentioned to show you how we use Chaos Mesh in Apache APISIX.",
+      "source_content_hash": "dbfed7c15cb640ab641bcf395fac89b09147ecf4e6f76c38a79ef924e3f6990a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ここでは、前述した2つのシナリオを取り上げ、Apache APISIXでChaos Meshをどのように使用しているかを説明します。"
+      }
+    },
+    {
+      "segment_id": "54268405",
+      "source_content": "### Scenario #1",
+      "source_content_hash": "3e06562296a79c6fd6d2e75c96da1aae96caf35744070916e6840b8fe15f5e62",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### シナリオ #1"
+      }
+    },
+    {
+      "segment_id": "8af76f3d",
+      "source_content": "We deployed a Chaos Engineering experiment using the following steps:",
+      "source_content_hash": "d81115080c16f7445f4728d67fffdddbeb8f6b7ab0d2c35f04f85bafa3b3bc6b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下の手順でカオスエンジニアリング実験を展開しました："
+      }
+    },
+    {
+      "segment_id": "cef3cb03",
+      "source_content": "1. We found metrics to measure whether Apache APISIX is running normally. In the test, the most important method is to use Grafana to monitor the Apache APISIX's running metrics. We extracted data from Prometheus in CI for comparison. Here, we used the routing and forwarding requests per second (RPS) and etcd connectivity as evaluation metrics. We analyzed the log. For Apache APISIX, we checked Nginx's error log to determine whether there was an error and whether the error was in line with our expectations.\n\n2. We performed a test in the control group. We found that both `create route` and `access route` were successful, and we could connect to etcd. We recorded the RPS.\n\n3. We used network chaos to add a five second network latency and then retested. This time, `set route` failed, `get route` succeeded, etcd could be connected to, and RPS had no significant change compared to the previous experiment. The experiment met our expectations.",
+      "source_content_hash": "ec9caf056c525177b53807a3c46c61d21904695ef0f0a01648db55ede31f74bf",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. Apache APISIXが正常に動作しているかを測定するためのメトリクスを特定しました。テストにおいて最も重要な方法は、Grafanaを使用してApache APISIXの実行メトリクスを監視することです。CIではPrometheusからデータを抽出して比較を行いました。ここでは、評価指標としてルーティングおよび転送リクエスト数（RPS）とetcd接続性を使用しました。ログを分析し、Apache APISIXについてはNginxのエラーログを確認して、エラーが発生しているかどうか、またそのエラーが予期したものかどうかを判断しました。\n\n2. 対照群でテストを実施しました。`create route`と`access route`の両方が成功し、etcdに接続できることを確認しました。RPSを記録しました。\n\n3. ネットワークカオスを使用して5秒のネットワーク遅延を追加し、再度テストを行いました。今回は`set route`が失敗し、`get route`は成功、etcdには接続可能で、RPSは前回の実験と比べて大きな変化はありませんでした。この実験結果は我々の予想通りでした。"
+      }
+    },
+    {
+      "segment_id": "b36c6338",
+      "source_content": "![High network latency occurs between etcd and Apache APISIX](/img/blog/high-network-latency-between-etcd-and-apache-apisix.jpg)",
+      "source_content_hash": "79f26b504998b296ab4de177c3ab0aa4cc681ebe5d7ecb878d8f53ab75540924",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![etcdとApache APISIX間の高いネットワーク遅延発生](/img/blog/high-network-latency-between-etcd-and-apache-apisix.jpg)"
+      }
+    },
+    {
+      "segment_id": "2c1b51df",
+      "source_content": "### Scenario #2",
+      "source_content_hash": "8ca92affc652ca3d28493685b9f7370f57d243b03fa196511495c0a8bc29a63b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### シナリオ #2"
+      }
+    },
+    {
+      "segment_id": "e536ea0d",
+      "source_content": "After we conducted the same experiment as above in the control group, we introduced pod-kill chaos and reproduced the expected error. When we randomly deleted a small number of etcd nodes in the cluster, sometimes APISIX could connect to etcd and sometimes not, and the log printed a large number of connection rejection errors.",
+      "source_content_hash": "8bae49bb8d694463c27b197e78f5227140b463be115fe5fc870f309b43526a2c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "上記と同じ実験を対照群で実施した後、pod-killカオスを導入して予期したエラーを再現しました。etcdクラスタ内の少数のノードをランダムに削除した場合、APISIXがetcdに接続できる場合とできない場合があり、ログには大量の接続拒否エラーが記録されました。"
+      }
+    },
+    {
+      "segment_id": "40158b4b",
+      "source_content": "When we deleted the first or third node in the etcd endpoint list, the `set route` returned a result normally. However, when we deleted the second node in the list, the `set route` returned the error \"connection refused.\"",
+      "source_content_hash": "5b5a03ca5251bbe284c387d3b47e0325e15918fe6031d75f15445ae1bed7de2d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "etcdエンドポイントリストの1番目または3番目のノードを削除した場合、`set route`は正常に結果を返しました。しかし、リストの2番目のノードを削除した場合、`set route`は「connection refused」エラーを返しました。"
+      }
+    },
+    {
+      "segment_id": "6ea4c715",
+      "source_content": "Our troubleshooting revealed that the etcd Lua API used by Apache APISIX selected the endpoint sequentially, not randomly. Therefore, when we created an etcd client, we bound to only one etcd endpoint. This led to continuous failure.",
+      "source_content_hash": "1e4546f5809a9eec3ca513cfa0b183a3c2a9c433b8ff68f5ebedcf43928d57ff",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "調査の結果、Apache APISIXが使用するetcd Lua APIはエンドポイントをランダムではなく順番に選択していることが判明しました。そのため、etcdクライアントを作成すると、単一のetcdエンドポイントにバインドされてしまい、継続的な失敗が発生していました。"
+      }
+    },
+    {
+      "segment_id": "79ad944d",
+      "source_content": "After we fixed this problem, we added a health check to the etcd Lua API to ensure that a large number of requests would not be sent to the disconnected etcd node. To avoid flooding the log with errors, we added a fallback mechanism when the etcd cluster was completely disconnected.",
+      "source_content_hash": "261f0aa01a1ee63a905b04b440562dac1f62f335dc9d3b2ace3441a557ba96ed",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この問題を修正した後、etcd Lua APIにヘルスチェックを追加し、切断されたetcdノードに大量のリクエストが送信されないようにしました。また、ログがエラーで溢れないように、etcdクラスタが完全に切断された場合のフォールバックメカニズムも追加しました。"
+      }
+    },
+    {
+      "segment_id": "531437ca",
+      "source_content": "![Error Reported from etcd Node Interaction](/img/blog/error-reported-from-etcd-node-interaction.jpg)",
+      "source_content_hash": "07e4f7ad1c090f866279dca8ddb99b043a101d19f9a1cf5f6001429716cdb3a5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![etcdノード相互作用からのエラー報告](/img/blog/error-reported-from-etcd-node-interaction.jpg)"
+      }
+    },
+    {
+      "segment_id": "bd92edfc",
+      "source_content": "## Our future plans",
+      "source_content_hash": "c89b7d8f123e307490efca1f7e75ae341277b66c635fb896c680236d68a5ef35",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 今後の計画"
+      }
+    },
+    {
+      "segment_id": "ee8401db",
+      "source_content": "### Run a chaos test in E2E simulation scenarios",
+      "source_content_hash": "69447b998a65c729575c5ec6a1bab5330a6346318d44969ceb9e31573451c4cc",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### E2Eシミュレーションシナリオでのカオステストの実施"
+      }
+    },
+    {
+      "segment_id": "147e8550",
+      "source_content": "In Apache APISIX, we manually identify system weaknesses for testing and repair. As in the open source community, we test in CI, so we don't need to worry about the impact of Chaos Engineering's failure radius on the production environment. But the test cannot cover complicated and comprehensive application scenarios in the production environment.",
+      "source_content_hash": "f35aebd68e6e6dc88dabec9b68005556f744ea0764c65918edc658093d97b527",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Apache APISIXでは、システムの弱点を手動で特定してテストと修正を行っています。オープンソースコミュニティと同様に、CIでテストを実施しているため、Chaos Engineeringの失敗範囲が本番環境に与える影響を心配する必要はありません。しかし、このテストでは本番環境の複雑で包括的なアプリケーションシナリオを網羅できません。"
+      }
+    },
+    {
+      "segment_id": "883231d4",
+      "source_content": "To cover more scenarios, the community plans to use the existing E2E test to simulate more complete scenarios and conduct chaos tests that are more random and cover a larger range.",
+      "source_content_hash": "8f12f4c909b9d58b2df25dc3162599be6184873ada5842f029966bac3123f5a9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "より多くのシナリオをカバーするため、コミュニティでは既存のE2Eテストを使用してより完全なシナリオをシミュレートし、よりランダムで広範囲をカバーするカオステストを実施する計画です。"
+      }
+    },
+    {
+      "segment_id": "b051b70c",
+      "source_content": "### Add chaos tests to more Apache APISIX projects",
+      "source_content_hash": "c84bb53f6db65d5b715cb13b4221301b1dc94951f83d35a824fd065c4d057dfa",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 他のApache APISIXプロジェクトへのカオステストの追加"
+      }
+    },
+    {
+      "segment_id": "d0dd855b",
+      "source_content": "In addition to finding more vulnerabilities for Apache APISIX, the community plans to add chaos tests to more projects such as Apache APISIX Dashboard and Apache APISIX Ingress Controller.",
+      "source_content_hash": "95f4b5ad6b084afce0905e93cc64400290b5e9efdbbf755af909abf272c39275",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Apache APISIXのさらなる脆弱性発見に加えて、コミュニティではApache APISIX DashboardやApache APISIX Ingress Controllerなどの他のプロジェクトにもカオステストを追加する予定です。"
+      }
+    },
+    {
+      "segment_id": "2fd0be2a",
+      "source_content": "### Add features to Chaos Mesh",
+      "source_content_hash": "d674f0ae1949bdd9c556443e8d46c7f6ec74250a09c87394edb6380e84784a84",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### Chaos Meshへの機能追加"
+      }
+    },
+    {
+      "segment_id": "6270d577",
+      "source_content": "When we deployed Chaos Mesh, some features were temporarily unsupported. For example, we couldn't select a service as a network latency target or specify container port injection as network chaos. In the future, the Apache APISIX community will assist Chaos Mesh to add related features.",
+      "source_content_hash": "f456c0f9c7ab6e1ecaff2bc1926a4e582e5a076561ba3dc7ddc2031cdac11b9c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshをデプロイした際、一部の機能が一時的にサポートされていませんでした。例えば、サービスをネットワーク遅延のターゲットとして選択したり、コンテナポートを指定してネットワークカオスを注入したりすることができませんでした。今後、Apache APISIXコミュニティはChaos Meshに関連機能を追加するための支援を行います。"
+      }
+    },
+    {
+      "segment_id": "a1fa5396",
+      "source_content": "You're welcome to contribute to the [Apache APISIX project](https://github.com/apache/apisix) on GitHub. If you are interested in Chaos Mesh and would like to improve it, join our [Slack channel](https://slack.cncf.io/) (#project-chaos-mesh) or submit your pull requests or issues to our [GitHub repository](https://github.com/chaos-mesh/chaos-mesh).",
+      "source_content_hash": "4f867acf76782b742f7d9c284f9ebcd072a073f5f3725bfe5045883a824feabd",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "GitHubの[Apache APISIXプロジェクト](https://github.com/apache/apisix)へのコントリビューションを歓迎します。Chaos Meshに興味があり、改善したい方は、[Slackチャンネル](https://slack.cncf.io/)（#project-chaos-mesh）に参加するか、[GitHubリポジトリ](https://github.com/chaos-mesh/chaos-mesh)にプルリクエストやイシューを提出してください。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2021-08-20-chaos-mesh-apisix.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.687773+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "3e38174fd8f09264e24a8d2c6bd020900ff9ad1476b3ad2c6f31b2aba6dddd21"
+  }
+}

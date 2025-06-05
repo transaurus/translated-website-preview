@@ -1,0 +1,302 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "docs/quick-start.md",
+  "source_file_content_hash": "dc48941dfbabe3d8651baf22bcb4ff9d2319f6f0971d0738f885826ffee4d7c0",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Quick Start\n---",
+      "source_content_hash": "c0e03691d5be0ad7ef96302f826913174dd9dc10d7ce026be8aa35db518b8c44",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "7335511f",
+      "source_content": "import Tabs from '@theme/Tabs'",
+      "source_content_hash": "2fabe77d766c4770ef075914408ef8503fc4c7532530c72113ad5730f84a60e7",
+      "node_type": "mdxjsEsm",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_7335511f"
+      }
+    },
+    {
+      "segment_id": "10c4cb47",
+      "source_content": "import TabItem from '@theme/TabItem'",
+      "source_content_hash": "b6dec1f52d757c10f395c3b5f0de435aba916cdd5c1cc763756fe0703355bfa3",
+      "node_type": "mdxjsEsm",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_10c4cb47"
+      }
+    },
+    {
+      "segment_id": "623f74e7",
+      "source_content": "import PickVersion from '@site/src/components/PickVersion'",
+      "source_content_hash": "ca7269780bfa6037f17f284ffc268b62f4da5d348125e9f85064a4fe1f2214ef",
+      "node_type": "mdxjsEsm",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_623f74e7"
+      }
+    },
+    {
+      "segment_id": "b608d7f0",
+      "source_content": "import VerifyInstallation from './common/\\_verify-installation.md'",
+      "source_content_hash": "3c86e852bc2036b9490fb7547723d440cc096b89eff8c4f05ea4f33f75f05b60",
+      "node_type": "mdxjsEsm",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_b608d7f0"
+      }
+    },
+    {
+      "segment_id": "1c302051",
+      "source_content": "import QuickRun from './common/\\_quick-run.md'",
+      "source_content_hash": "4cb6d0f068aa48b54d7a66bfc31448ba6bc9a5f8a90793a946cd894fa1e5dfa5",
+      "node_type": "mdxjsEsm",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_1c302051"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "This document describes how to start Chaos Mesh quickly in a test or local environment.",
+      "source_content_hash": "9226c304cf8a9eeaf594094b054bffba8c4840dff287a013402a5231deef1107",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、テスト環境やローカル環境でChaos Meshを迅速に開始する方法について説明します。"
+      }
+    },
+    {
+      "segment_id": "a7378c68",
+      "source_content": ":::caution\n\n**In this document, Chaos Mesh is installed via a script for quick trial only.**\n\nIf you need to install Chaos Mesh in the production environment or other strict non-test scenarios, it is recommended to use [Helm](https://helm.sh/). For more details, refer to [Installation using Helm](production-installation-using-helm.md).\n\n:::",
+      "source_content_hash": "82547a63c04f84317cf02826f85aa9532f8626227d3e3595319fe4b3ce3f269a",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::caution\n\n**このドキュメントでは、Chaos Meshはクイックトライアルのためスクリプト経由でインストールされます。**\n\n本番環境やその他の厳格な非テストシナリオでChaos Meshをインストールする必要がある場合は、[Helm](https://helm.sh/)を使用することを推奨します。詳細については、[Helmを使用したインストール](production-installation-using-helm.md)を参照してください。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "ed7dde9c",
+      "source_content": "## Environment preparation",
+      "source_content_hash": "e5f5bb1c4a07acdb4d72895ce64eb75416847741ef4095e5a8d4b201a92302a4",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 環境の準備"
+      }
+    },
+    {
+      "segment_id": "a76548f8",
+      "source_content": "Please ensure that the Kubernetes cluster is deployed in the environment before the trial. If the Kubernetes cluster has not been deployed, you can refer to the links below to complete the deployment:",
+      "source_content_hash": "1bd84b390f27fd53cf7b215776ab3db2c9d6546c77e16e1397ec99e0ed649d27",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "トライアル前に、環境にKubernetesクラスターがデプロイされていることを確認してください。Kubernetesクラスターがまだデプロイされていない場合は、以下のリンクを参照してデプロイを完了してください："
+      }
+    },
+    {
+      "segment_id": "77bf3ec9",
+      "source_content": "- [Kubernetes](https://kubernetes.io/docs/setup/)\n- [minikube](https://minikube.sigs.k8s.io/docs/start/)\n- [kind](https://kind.sigs.k8s.io/docs/user/quick-start/)\n- [K3s](https://rancher.com/docs/k3s/latest/en/quick-start/)\n- [Microk8s](https://microk8s.io/)",
+      "source_content_hash": "828065951a495c148422fa521152c7aadb299dc8e78f6186231bfc11dcec3d39",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- [Kubernetes](https://kubernetes.io/docs/setup/)\n- [minikube](https://minikube.sigs.k8s.io/docs/start/)\n- [kind](https://kind.sigs.k8s.io/docs/user/quick-start/)\n- [K3s](https://rancher.com/docs/k3s/latest/en/quick-start/)\n- [Microk8s](https://microk8s.io/)"
+      }
+    },
+    {
+      "segment_id": "f422383e",
+      "source_content": "## Quick installation",
+      "source_content_hash": "ca4312ff790afaec31a0fe346bb31ce20071c32ef902492b3242f4595b0f8f16",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## クイックインストール"
+      }
+    },
+    {
+      "segment_id": "97ae4a01",
+      "source_content": "To install Chaos Mesh in a test environment, run the following script:",
+      "source_content_hash": "da3d074f9677d6be1447a1f5c234040e71c8460d437595bb3d99a7e4a4aea99e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "テスト環境でChaos Meshをインストールするには、以下のスクリプトを実行してください："
+      }
+    },
+    {
+      "segment_id": "28e10980",
+      "source_content": "<!-- prettier-ignore -->",
+      "source_content_hash": "a94eeea12154992988ea88567eed85506a35d1f83e439a912e23fafd65191f47",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_28e10980"
+      }
+    },
+    {
+      "segment_id": "1641af73",
+      "source_content": "<Tabs defaultValue=\"k8s\" values={[\n  {label: 'K8s', value: 'k8s'},\n  {label: 'kind', value: 'kind'},\n  {label: 'K3s', value: 'k3s'},\n  {label: 'MicroK8s', value: 'microk8s'}\n]}>\n  <TabItem value=\"k8s\">\n    <PickVersion>\n    {`curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash`}\n    </PickVersion>\n  </TabItem>\n  <TabItem value=\"kind\">\n    <PickVersion>{`curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --local kind`}</PickVersion>\n\n    If you want to specify a `kind` version, add the `--kind-version xx` parameter at the end of the script, for example:\n\n    <PickVersion>\n    {`curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --local kind --kind-version v0.20.0`}\n    </PickVersion>\n\n  </TabItem>\n  <TabItem value=\"k3s\">\n    <PickVersion>\n    {`curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --k3s`}\n    </PickVersion>\n  </TabItem>\n  <TabItem value=\"microk8s\">\n    <PickVersion>\n    {`curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --microk8s`}\n    </PickVersion>\n  </TabItem>\n</Tabs>",
+      "source_content_hash": "a31240841302552e4c581fc59c94a2267947f295458c1b56ccd0427912f1ce73",
+      "node_type": "mdxJsxFlowElement",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_1641af73"
+      }
+    },
+    {
+      "segment_id": "eab056be",
+      "source_content": "After running, Chaos Mesh will automatically install the appropriate version of CustomResourceDefinitions and the required components.",
+      "source_content_hash": "a75493b5fca3be279060f69bf535a40307e44eac5d662dffa8985f153b7977db",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "実行後、Chaos Meshは適切なバージョンのCustomResourceDefinitionsと必要なコンポーネントを自動的にインストールします。"
+      }
+    },
+    {
+      "segment_id": "f01228d3",
+      "source_content": "For more installation details, refer to the source code of the [`install.sh`](https://github.com/chaos-mesh/chaos-mesh/blob/master/install.sh).",
+      "source_content_hash": "0fb34d07f57fc65db37c19611d09e7ec714acbe7f9d780f67bb0bb4fcea11ace",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "インストールの詳細については、[`install.sh`](https://github.com/chaos-mesh/chaos-mesh/blob/master/install.sh)のソースコードを参照してください。"
+      }
+    },
+    {
+      "segment_id": "93028a4e",
+      "source_content": "## Verify the installation",
+      "source_content_hash": "0d2ed30d9f4336dd5ab339cd313dd26e5461d2a21711f677bc0840bc5fa6dbbe",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## インストールの確認"
+      }
+    },
+    {
+      "segment_id": "5f852894",
+      "source_content": "<VerifyInstallation />",
+      "source_content_hash": "f4281d3be47e560c31b96d45cf57751dc4aa12be8104a8eb2cc4ef27046bead4",
+      "node_type": "mdxJsxFlowElement",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_5f852894"
+      }
+    },
+    {
+      "segment_id": "b936dd6a",
+      "source_content": "## Run Chaos experiments",
+      "source_content_hash": "0eb74e2b0136974b1afaddf125d2258ca783f01c81654608726279a87f3b096a",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos実験の実行"
+      }
+    },
+    {
+      "segment_id": "688f86d6",
+      "source_content": "<QuickRun />",
+      "source_content_hash": "c8366f6b814a147c7134b91ca99b14da6c72fa93b10d995f922b9148b63cd13f",
+      "node_type": "mdxJsxFlowElement",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_688f86d6"
+      }
+    },
+    {
+      "segment_id": "0a103a02",
+      "source_content": "## Uninstall Chaos Mesh",
+      "source_content_hash": "ab80d8b7494f870b8fc95c1724720f1abc9e343d7de90d1758433f83418c2bb6",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Meshのアンインストール"
+      }
+    },
+    {
+      "segment_id": "8126f763",
+      "source_content": "To uninstall Chaos Mesh, execute the following command:",
+      "source_content_hash": "5f34dc8c1d90d6968703a678bcd3e0b49211ebb9cc10fd684eac3df252a3378f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshをアンインストールするには、以下のコマンドを実行してください："
+      }
+    },
+    {
+      "segment_id": "897e0025",
+      "source_content": "<PickVersion>\n{`curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --template | kubectl delete -f -`}\n</PickVersion>",
+      "source_content_hash": "2195cc2c39d6c9727be14dc1db90159566fe50de9ee32e5cf091f8fda2c4ac99",
+      "node_type": "mdxJsxFlowElement",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_897e0025"
+      }
+    },
+    {
+      "segment_id": "51867d16",
+      "source_content": "You can also delete the `chaos-mesh` namespace to directly uninstall Chaos Mesh:",
+      "source_content_hash": "dbe2860d9c2714a5b356c1bbde0c045bad3433ce6059a68df01a310da1e68113",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "また、`chaos-mesh`ネームスペースを削除することで直接Chaos Meshをアンインストールすることもできます："
+      }
+    },
+    {
+      "segment_id": "59f28e14",
+      "source_content": "```sh\nkubectl delete ns chaos-mesh\n```",
+      "source_content_hash": "a8b21828d0291a7daff067d83ee2183b78a33d8c62c2148940c967ea6e9b60c4",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_59f28e14"
+      }
+    },
+    {
+      "segment_id": "e06c002e",
+      "source_content": "## FAQ",
+      "source_content_hash": "b07ed55203f0d88ebed77a69ea750333f4f62ec38193b32272aa2987376f7b86",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## よくある質問"
+      }
+    },
+    {
+      "segment_id": "99d0dd9b",
+      "source_content": "### Why the `local` directory appears in the root directory after installation?",
+      "source_content_hash": "94397d2d6fa044e779a36ae0e0bbd6ecaf1cea195c1db7a030eb461d4a0d1f6b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### インストール後にルートディレクトリに`local`ディレクトリが出現するのはなぜですか？"
+      }
+    },
+    {
+      "segment_id": "d79a4831",
+      "source_content": "If you don't install `kind` in the existing environment, and you use the `--local kind` parameter when executing the installation command, the `install.sh` script will automatically install the `kind` in the `local` directory under the root directory.",
+      "source_content_hash": "af2ac7a5e06bd5aabd37bc2fbc824eb35446d89629033a5c731c2f0e1a1c0354",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "既存の環境に`kind`がインストールされておらず、インストールコマンドを実行する際に`--local kind`パラメータを使用した場合、`install.sh`スクリプトはルートディレクトリの`local`ディレクトリに`kind`を自動的にインストールします。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/current/quick-start.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.675600+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "dc48941dfbabe3d8651baf22bcb4ff9d2319f6f0971d0738f885826ffee4d7c0"
+  }
+}

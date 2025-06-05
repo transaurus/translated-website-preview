@@ -1,0 +1,432 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2021-08-26-securing-online-gaming-combine-chaos-engineering-with-devops-practices.md",
+  "source_file_content_hash": "bb3f0e8649708fd660395305068c9445056312069426a695b97cab785d59359d",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /Securing-Online-Gaming-Combine-Chaos-Engineering-with-DevOps-Practices\ntitle: 'Securing Online Gaming: Combine Chaos Engineering with DevOps Practices'\nauthors: zhaojunwu\nimage: /img/blog/chaos-mesh-tencent-ieg.jpeg\ntags: [Chaos Mesh, Chaos Engineering, Use Cases]\n---",
+      "source_content_hash": "2149a013bc8b0a2cee3c40b690811ff280706fb0b02918d6bd713c619637472a",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "![Securing Online Gaming: Combine Chaos Engineering with DevOps Practices](/img/blog/chaos-mesh-tencent-ieg.jpeg)",
+      "source_content_hash": "ab3daa453590cb8348dab18ef0d6642238d1e599dc934f63d09886ed09c10795",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![オンラインゲームのセキュリティ確保：カオスエンジニアリングとDevOpsプラクティスの融合](/img/blog/chaos-mesh-tencent-ieg.jpeg)"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "Interactive Entertainment Group (IEG) is a division of Tencent Holdings that focuses on the development of online video games and other digital content such as live broadcasts. It is well-known for being the publisher of some of the most popular video games.",
+      "source_content_hash": "820864661dbe624f18894d2cde43897f77b5573e260f99650b171f899c75506e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Interactive Entertainment Group（IEG）は、Tencent Holdingsの一部門であり、オンラインゲームやライブ配信などのデジタルコンテンツの開発に注力しています。最も人気のあるビデオゲームのパブリッシャーとしてよく知られています。"
+      }
+    },
+    {
+      "segment_id": "3e6699f4",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3e6699f4"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "In this article, I will explain why and how we introduce chaos engineering into our DevOps process.",
+      "source_content_hash": "84a9bbc16b0769f190358d002702fd8badd049f66bc5aaaac7f9fbb622a67c21",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この記事では、なぜそしてどのようにして私たちがDevOpsプロセスにカオスエンジニアリングを導入したのかを説明します。"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "For each day, we handle over 10,000,000 total visits, and, during peak hours, we process over 1,000,000 queries per second (QPS). To guarantee players a fun and engaging experience, we launch various daily or seasonal game events. Sometimes, that means we must update the event code over 500 times per day. As our user base grows, the total amount of data quickly multiplies. Currently, the figure stands at 200 terabytes. We have to manage the massive user queries and rapid release iterations, and we managed it well.",
+      "source_content_hash": "9247e2b9be813c94744d686378a83efbd49a57eac635e9c0b651cd8e584cbe0c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "私たちは毎日、合計1000万以上の訪問を処理し、ピーク時には1秒あたり100万以上のクエリ（QPS）を処理しています。プレイヤーに楽しく魅力的な体験を提供するために、さまざまな日次または季節ごとのゲームイベントを開催しています。時には、1日に500回以上イベントコードを更新する必要があります。ユーザーベースが拡大するにつれ、データの総量も急速に増加しています。現在、その量は200テラバイトに達しています。私たちは、膨大なユーザークエリと迅速なリリースイテレーションを管理し、それをうまくこなしています。"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "A cloud-native DevOps solution frees our events operator from the growing number of online events. We developed a pipeline that takes care of everything they need, from writing code to launching events in production environments: once new event codes are detected, the operation platform automatically builds images from them and deploys the image to Tencent Kubernetes Engine (TKE). You might be wondering how long this entire automated process takes: only 5 minutes.",
+      "source_content_hash": "613712fd0d4a264b8b08565b5800364ee4f8642dca5d120f4e8b66102cb33db6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "クラウドネイティブのDevOpsソリューションにより、イベントオペレーターは増え続けるオンラインイベントから解放されました。私たちは、コードの記述から本番環境でのイベントの立ち上げまで、彼らが必要とするすべてを処理するパイプラインを開発しました。新しいイベントコードが検出されると、オペレーションプラットフォームは自動的にそれらからイメージをビルドし、Tencent Kubernetes Engine（TKE）にデプロイします。この自動化されたプロセス全体にかかる時間は、わずか5分です。"
+      }
+    },
+    {
+      "segment_id": "f5f6d2ce",
+      "source_content": "Currently, almost all IEG operation services run in TKE. Elastic scaling promises faster capacity expansion and reduction of cloud services thanks to cloud-native technology.",
+      "source_content_hash": "80d1c38bb41525ef759e4f6173ee08fb6d60c74fcb2c69b2e37c148d97453c83",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "現在、IEGのほぼすべてのオペレーションサービスはTKEで実行されています。クラウドネイティブ技術のおかげで、エラスティックスケーリングにより、クラウドサービスの迅速な拡張と縮小が可能になりました。"
+      }
+    },
+    {
+      "segment_id": "2fdadb08",
+      "source_content": "In addition, we expect the iterations to be easier. A best practice is to break down the large, hard-to-maintain service into many “smaller” services that we can maintain independently. “Small” services have less code and simpler logic, with lower handover and training costs. We as developers continue to practice this kind of microservices architecture as part of DevOps initiatives. Yet similar issues persist. As the number of services increases, so does the complexity of making calls between them. **Worse, if one “small” service fails, it could set off a chain reaction that brings all the services down—a microservice dependency hell.**",
+      "source_content_hash": "208ab73bd44200ddae314cad88edcb2d29a36979a1537a5b02f57d07bde140c7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "さらに、私たちはイテレーションをより簡単にすることを期待しています。ベストプラクティスは、大きくて保守が難しいサービスを、独立して保守できる多くの「小さな」サービスに分割することです。「小さな」サービスはコード量が少なく、ロジックが単純で、引き継ぎやトレーニングのコストが低くなります。私たち開発者は、DevOpsイニシアチブの一環として、この種のマイクロサービスアーキテクチャを実践し続けています。しかし、同様の問題が残っています。サービスの数が増えるにつれ、それらの間の呼び出しの複雑さも増します。**さらに悪いことに、1つの「小さな」サービスが失敗すると、すべてのサービスをダウンさせる連鎖反応を引き起こす可能性があります—マイクロサービスの依存地獄です。**"
+      }
+    },
+    {
+      "segment_id": "f2c2bdd0",
+      "source_content": "The thing is, fault tolerance varies by service. Some support downgrading, while others don’t. Not to mention that some services are unable to provide timely alerts or lack an effective debugging tool. As a result, debugging services has become a tricky and increasingly pressing issue in our day-to-day work.",
+      "source_content_hash": "e08dd29fd3987f82ec7710e95987b86119b5357e6230cfd6ee434f0761a0e7ec",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "問題は、サービスのフォールトトレランスが異なることです。ダウングレードをサポートするものもあれば、そうでないものもあります。タイムリーなアラートを提供できないサービスや、効果的なデバッグツールがないサービスもあります。その結果、サービスのデバッグは、私たちの日常業務においてますます厄介で緊急の課題となっています。"
+      }
+    },
+    {
+      "segment_id": "a76548f8",
+      "source_content": "But we can’t just let it be. What if the unstable performance constantly chases our players away? What if there is a catastrophic failure?",
+      "source_content_hash": "8d5bddc6636a3a5831226e1ef94281b060a5ad15d9ac15b16e238b98acac5433",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "しかし、それを放置することはできません。不安定なパフォーマンスが常にプレイヤーを遠ざけるとしたらどうでしょうか？壊滅的な障害が発生したらどうなるでしょうか？"
+      }
+    },
+    {
+      "segment_id": "f2f30ae8",
+      "source_content": "## Let there be faults",
+      "source_content_hash": "182d55105603efff7734a0ceea99d197cf803c6b30cd8d1c30d89316e33b6607",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 障害を起こさせよう"
+      }
+    },
+    {
+      "segment_id": "dfe931a2",
+      "source_content": "Netflix introduced the idea of chaos engineering. This approach tests the resilience of the system against all kinds of edgy cases by injecting faults in a non-production environment to achieve ideal system reliability. According to one Gartner article, by 2023, 40% of organizations will use chaos engineering to meet their top DevOps objectives, reducing unplanned downtime by 20%.",
+      "source_content_hash": "6805a9a5bc43807d80eb8f9802d64bef889793a26822ca90f1027404f7e84118",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Netflixはカオスエンジニアリングのアイデアを導入しました。このアプローチは、非本番環境で障害を注入することで、システムのレジリエンスをあらゆるエッジケースに対してテストし、理想的なシステム信頼性を達成します。Gartnerの記事によると、2023年までに、組織の40％がDevOpsの主要な目標を達成するためにカオスエンジニアリングを使用し、計画外のダウンタイムを20％削減するとされています。"
+      }
+    },
+    {
+      "segment_id": "4daf5cdd",
+      "source_content": "This is exactly how we avoid the worst-case scenario. Fault injection, in my opinion, is now a must-do in every technical team. In our early test cases, developers would bring down a node before launching a service to see if the primary node automatically switched to the secondary node and if disaster recovery worked.",
+      "source_content_hash": "fd7ff065e06df9729cdc707103acc2d58978b3d6ccced5aac9357398173b698d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これが、私たちが最悪のシナリオを回避する方法です。私の意見では、障害注入は現在、すべての技術チームが必ず行うべきことです。初期のテストケースでは、開発者はサービスを起動する前にノードをダウンさせ、プライマリノードがセカンダリノードに自動的に切り替わるかどうか、ディザスタリカバリが機能するかどうかを確認していました。"
+      }
+    },
+    {
+      "segment_id": "bdc231b1",
+      "source_content": "**But chaos engineering is more than fault injection.** It is a field that constantly drives new techniques, professional testing tools, and solid theories. That’s why we continue to explore it.",
+      "source_content_hash": "9d5bcedfb0a59ffb11a65819e5e6e0750d45d08ab037777d200171412ebe34a6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**しかし、カオスエンジニアリングは障害注入以上のものです。** これは、新しい技術、専門的なテストツール、そして確固たる理論を常に推進する分野です。それが私たちが探求を続ける理由です。"
+      }
+    },
+    {
+      "segment_id": "97ae4a01",
+      "source_content": "IEG officially launched its chaos engineering project over a year ago. We wanted to do this right the first time. The key is to select a chaos engineering tool that supports running experiments in the Kubernetes environment. **After a careful comparison, we believe [Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh) is our best option** because:",
+      "source_content_hash": "3df7a1c38f877679c5de71a9be01271863ff734b3cdc0d220e65a5636ea47228",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "IEGは1年以上前に正式にカオスエンジニアリングプロジェクトを開始しました。私たちは最初から正しくやりたいと考えていました。鍵は、Kubernetes環境で実験を実行することをサポートするカオスエンジニアリングツールを選択することです。**慎重に比較した結果、[Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh)が最適な選択肢であると確信しました**。その理由は次のとおりです："
+      }
+    },
+    {
+      "segment_id": "33808f76",
+      "source_content": "- It is a Cloud Native Computing Foundation (CNCF) Sandbox project with a friendly and productive community.\n- It does not intrude on existing applications.\n- It provides a web UI and a variety of fault injection types, as shown in the image below.",
+      "source_content_hash": "6187125e69cf5090cb8ddebf451e2a2b228f499d7ab33958cb447712c4cae28b",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- Cloud Native Computing Foundation（CNCF）のサンドボックスプロジェクトであり、友好的で生産的なコミュニティを有しています。\n- 既存のアプリケーションに侵入しません。\n- Web UIと多様な障害注入タイプを提供します。以下の画像でその様子をご覧いただけます。"
+      }
+    },
+    {
+      "segment_id": "1042b50d",
+      "source_content": "![A comparison of chaos engineering tools](/img/blog/comparison-of-chaos-engineering-tools.png)",
+      "source_content_hash": "d5fac5e81fa5b7139efd03c2b1b05814459b73ff5f7faf7468ecbe302ff1df32",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![カオスエンジニアリングツールの比較](/img/blog/comparison-of-chaos-engineering-tools.png)"
+      }
+    },
+    {
+      "segment_id": "2a3daf97",
+      "source_content": "> Note: This comparison is outdated and is intended simply to compare fault injection features supported by Chaos Mesh with other well-known chaos engineering platforms. It is not intended to favor or position one project over another. Any corrections are welcome.",
+      "source_content_hash": "9ffeb30f54dc75557d18158a8c42257d5cfc8b89e848de368c9d29a59d555aba",
+      "node_type": "blockquote",
+      "translatable": true,
+      "translations": {
+        "ja": "> 注: この比較は古いものであり、Chaos Meshがサポートする障害注入機能を他の有名なカオスエンジニアリングプラットフォームと比較する目的で掲載しています。特定のプロジェクトを優遇または位置づける意図はありません。修正点があれば歓迎します。"
+      }
+    },
+    {
+      "segment_id": "f44c1398",
+      "source_content": "## Build a chaos testing platform",
+      "source_content_hash": "b1363e7f118d830fdd588b81c86eb13a6d44dbeab23dafbba1b1436d825a3802",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## カオステストプラットフォームの構築"
+      }
+    },
+    {
+      "segment_id": "29528c8d",
+      "source_content": "Our chaos engineering team embedded Chaos Mesh into our continuous integration and continuous delivery pipelines. As shown in the diagram below, Chaos Mesh now plays an important role in our operation platform. We use Chaos Mesh's dashboard API to create, run, and delete chaos experiments and monitor them on our own platform. We can simulate basic system-level faults in Pods, container, network, and IO.",
+      "source_content_hash": "671332854a57e5aad3219e53273f7c21336d593c927a043f8a5909e6ed93deb9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "当社のカオスエンジニアリングチームは、Chaos Meshを継続的インテグレーションおよび継続的デリバリーパイプラインに組み込みました。以下の図に示すように、Chaos Meshは現在、当社の運用プラットフォームで重要な役割を果たしています。Chaos MeshのダッシュボードAPIを使用して、カオス実験の作成、実行、削除を行い、自社プラットフォーム上で監視しています。Pod、コンテナ、ネットワーク、IOにおける基本的なシステムレベルの障害をシミュレートできます。"
+      }
+    },
+    {
+      "segment_id": "c504c207",
+      "source_content": "![Chaos Mesh embedded in IEG's operation platform](/img/blog/chaos-mesh-embedded-in-IEG's-operation-platform.png)",
+      "source_content_hash": "f82ced53fdb7ec899decee0e833461f6c924679202480c9685fc687c567852fe",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![IEGの運用プラットフォームに組み込まれたChaos Mesh](/img/blog/chaos-mesh-embedded-in-IEG's-operation-platform.png)"
+      }
+    },
+    {
+      "segment_id": "98d26038",
+      "source_content": "In IEG, **chaos engineering is generally summarized as a closed loop with several key phases**:",
+      "source_content_hash": "617daa3302dc0b84b05ee71b068797d8f81efbb3b1ff916d0d8b9782d24f6e22",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "IEGでは、**カオスエンジニアリングは一般的に、いくつかの重要なフェーズを含む閉ループとして要約されます**:"
+      }
+    },
+    {
+      "segment_id": "c94a9c0e",
+      "source_content": "- Improve overall system resilience.\n\n  Build a chaos testing platform that we can modify as our needs change.\n\n- Design a testing plan.\n\n  The testing plan must specify the target, scope, fault to be injected, monitoring metrics, etc. Make sure the testing is well-controlled.\n\n- Execute chaos experiments and review the results.\n\n  Compare the system’s performance before and after the chaos experiment.\n\n- Resolve any issues that may arise.\n\n  Fix found issues and upgrade the system for the follow-up experiment.\n\n- Repeat chaos experiments and verify performance.\n\n  Repeat chaos experiments to see if the system’s performance meets expectations. If it does, design another testing plan.",
+      "source_content_hash": "6fd3205ef6472ee232ac65637345252953c998aec828b937da29a9dbb5ef9df0",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- システム全体のレジリエンスを向上させる。\n\n  必要に応じて変更可能なカオステストプラットフォームを構築する。\n\n- テスト計画を設計する。\n\n  テスト計画には、ターゲット、範囲、注入する障害、監視メトリクスなどを明記する必要があります。テストが適切に制御されていることを確認します。\n\n- カオス実験を実行し、結果をレビューする。\n\n  カオス実験前後のシステムパフォーマンスを比較します。\n\n- 発生した問題を解決する。\n\n  見つかった問題を修正し、次の実験に向けてシステムをアップグレードします。\n\n- カオス実験を繰り返し、パフォーマンスを検証する。\n\n  カオス実験を繰り返し、システムのパフォーマンスが期待通りかどうかを確認します。期待通りであれば、別のテスト計画を設計します。"
+      }
+    },
+    {
+      "segment_id": "f01228d3",
+      "source_content": "![Five phases of chaos engineering in IEG](/img/blog/five-phases-of-chaos-engineering-in-IEG.png)",
+      "source_content_hash": "8cfadf9275db11e37b8c76598fcae7bfae8ec1af005c4ad417491c999c04406b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![IEGにおけるカオスエンジニアリングの5つのフェーズ](/img/blog/five-phases-of-chaos-engineering-in-IEG.png)"
+      }
+    },
+    {
+      "segment_id": "afa378f7",
+      "source_content": "We frequently **test the performance of services under high CPU usage**, for example. We begin by orchestrating and scheduling experiments. Following that, we run experiments and monitor the performance of related services. Multiple monitoring metrics, such as QPS, latency, response success, are immediately visible through the operation platform. The platform then generates reports for us to review, so we can check whether these experiments met our expectations.",
+      "source_content_hash": "851be0680ec52fc232dbed306e9fc57eef1306ae194d773b1325edcf4c86197c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "例えば、**高CPU使用率下でのサービスのパフォーマンスを頻繁にテスト**しています。まず、実験をオーケストレーションし、スケジュールします。その後、実験を実行し、関連サービスのパフォーマンスを監視します。QPS、レイテンシ、レスポンス成功率などの複数の監視メトリクスが、運用プラットフォームを通じて即座に可視化されます。プラットフォームはレビュー用のレポートを生成するため、これらの実験が期待通りだったかどうかを確認できます。"
+      }
+    },
+    {
+      "segment_id": "58ed925f",
+      "source_content": "## Use cases",
+      "source_content_hash": "80073773d3db37eb4441c70ad481d9e48783ebbbd2082b75749bb5b90c980361",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ユースケース"
+      }
+    },
+    {
+      "segment_id": "463ed165",
+      "source_content": "The following are a few examples of how we use chaos engineering in our DevOps workflow.",
+      "source_content_hash": "aa0743344c55bb4bd37db88fe26d49b89ff6c4666498dd26b099b5c61e8650a3",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下に、DevOpsワークフローでカオスエンジニアリングを活用する方法のいくつかの例を紹介します。"
+      }
+    },
+    {
+      "segment_id": "66819c78",
+      "source_content": "### Finer granularity of fault injection",
+      "source_content_hash": "4a27d5a275345240120d91e113a3ea5abe5c98d596c1e5e117a1a0c466b77b07",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### より細かい粒度の障害注入"
+      }
+    },
+    {
+      "segment_id": "fbc2db85",
+      "source_content": "There is no need to shut down the entire system to see if our games are still available to players. Sometimes we only want to inject faults, say, network latency, into a single game account, and observe how it responds. We are now able to achieve this finer granularity by hijacking traffic and running experiments at the gateway.",
+      "source_content_hash": "3407456c01f30e49bd9fd1778f73a81a9eb88a563d33637c75103b34bbbc893d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ゲームがプレイヤーに利用可能かどうかを確認するために、システム全体をシャットダウンする必要はありません。時には、単一のゲームアカウントにネットワーク遅延などの障害を注入し、その応答を観察したい場合があります。ゲートウェイでトラフィックをハイジャックし、実験を実行することで、このような細かい粒度を実現できるようになりました。"
+      }
+    },
+    {
+      "segment_id": "759d12dd",
+      "source_content": "### Red teaming",
+      "source_content_hash": "66d37a118edc9786d49631494088501d4969455718e5b1e45fe856807149d55c",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### レッドチーミング"
+      }
+    },
+    {
+      "segment_id": "74dd7937",
+      "source_content": "Understandably, our team members grew bored of regular chaos experiments. After all, it’s something like telling your left hand to fight against your right hand. Here at IEG, **we integrate a testing practice called red teaming into chaos engineering to ensure that our system resiliency improves in an organic way.** Red teaming is similar to penetration testing, but more targeted. It requires a group of testers to emulate real-world attacks from an outsider’s perspective. If I were in charge of IT operations, I would simulate faults to specific services, and check to see whether my developer colleges were doing a good job. If I found any potential faults, well, be prepared for some “hard talk.” On the other hand, developers would actively perform chaos experiments and make sure no risk was left behind to avoid being blamed.",
+      "source_content_hash": "46490aaf30b429bb69cd48cc2122e85fb4c47d63ada370f8c646dd4b0f2c0647",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "当然ながら、チームメンバーは定期的なカオス実験に飽きてしまいました。結局のところ、それは左手と右手を戦わせるようなものです。IEGでは、**システムのレジリエンスを有機的に向上させるために、レッドチーミングと呼ばれるテストプラクティスをカオスエンジニアリングに統合しています。** レッドチーミングはペネトレーションテストに似ていますが、よりターゲットを絞ったものです。外部者の視点から実際の攻撃を模倣するために、テスト担当者のグループが必要です。もし私がIT運用を担当しているなら、特定のサービスに障害をシミュレートし、開発者の同僚がうまく対応しているかどうかを確認します。潜在的な障害が見つかった場合、いわゆる「厳しい話」に備えてください。一方、開発者は積極的にカオス実験を行い、非難されないようにリスクを残さないようにします。"
+      }
+    },
+    {
+      "segment_id": "5803caac",
+      "source_content": "![The red teaming process in IEG](/img/blog/red-teaming-process-in-IEG.png)",
+      "source_content_hash": "41593a70a85b981ae9237d6424355f82fb28d5d7680a81cf3b26f703d8582a6c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![IEGにおけるレッドチーミングのプロセス](/img/blog/red-teaming-process-in-IEG.png)"
+      }
+    },
+    {
+      "segment_id": "39db08de",
+      "source_content": "### Dependency analysis",
+      "source_content_hash": "81bfd00da3ba59d3f26722858f763b41aa9a430a987e2d28dbfcb0c7504439a6",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 依存関係分析"
+      }
+    },
+    {
+      "segment_id": "785750ac",
+      "source_content": "It’s important to manage dependencies for microservices. In our case, non-core services cannot be the bottleneck for core services. Fortunately, with chaos engineering, we can run dependency analysis simply by injecting faults into called services and observing how badly the main service is affected. Based on the results, we can optimize the service calling chain in a specific scenario.",
+      "source_content_hash": "455870721a748c040943478b68c3eb87afa8055154f6380197886f0c20ab157a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "マイクロサービスにおける依存関係の管理は重要です。私たちのケースでは、非コアサービスがコアサービスのボトルネックになってはなりません。幸い、カオスエンジニアリングを活用することで、呼び出されるサービスに障害を注入し、メインサービスがどの程度影響を受けるかを観察するだけで依存関係分析を実施できます。結果に基づいて、特定のシナリオにおけるサービス呼び出しチェーンを最適化できます。"
+      }
+    },
+    {
+      "segment_id": "b10963d7",
+      "source_content": "### Automated fault detection and diagnosis",
+      "source_content_hash": "0ca2ded8711c18acd6be95c39d424d7da33f37190aaacebf1dc9ef550f02ad49",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 自動化された障害検出と診断"
+      }
+    },
+    {
+      "segment_id": "2822251a",
+      "source_content": "We are also exploring AI bots to help us detect and diagnose faults. As services become more complex, the likelihood of failure increases. **Our goal is to train a fault detection model through large-scale chaos experiments in production or other controlled environments.**",
+      "source_content_hash": "2291f063960199fb1697cd7567e0b99d5662de9a86cea2478f0d0913f70be503",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "また、AIボットを活用した障害検出と診断の仕組みも検討中です。サービスが複雑化するほど、障害発生の可能性も高まります。**私たちの目標は、本番環境やその他の制御された環境で大規模なカオス実験を実施し、障害検出モデルをトレーニングすることです。**"
+      }
+    },
+    {
+      "segment_id": "99d0dd9b",
+      "source_content": "## Chaos engineering empowers DevOps practices",
+      "source_content_hash": "d52e4b394868df24595b548bdd0040e642ff5189aaa970de16e02dde60ba6002",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## カオスエンジニアリングがDevOpsプラクティスを強化"
+      }
+    },
+    {
+      "segment_id": "d79a4831",
+      "source_content": "Currently, on average, more than 50 people run chaos experiments each week, running more than 150 tests, and detecting more than 100 problems in total.",
+      "source_content_hash": "c4990ad9581190342750e115573e5cbc820d6613003ad3204062554b900cf44e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "現在、週平均50人以上がカオス実験を実施し、150回以上のテストを行い、合計100件以上の問題を検出しています。"
+      }
+    },
+    {
+      "segment_id": "2838eb68",
+      "source_content": "Gone are the days when performing fault injection requires a handwritten script, which can be a tough thing to do for those who are unfamiliar with it. **The benefits of combining chaos engineering with DevOps practices are obvious: within a few minutes, you can orchestrate various fault types by simply dragging and dropping, execute them with a single click, and monitor the results in real-time—all in one platform.**",
+      "source_content_hash": "9d83df9d90b2e16ec3d197d097d0f97bf4807269f529b0fd4d40d3bc839ab976",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "手書きのスクリプトで障害注入を行う時代は終わりました。これは慣れていない人にとって難しい作業でした。**カオスエンジニアリングとDevOpsプラクティスを組み合わせる利点は明らかです：数分でさまざまな障害タイプをドラッグ＆ドロップでオーケストレーションし、ワンクリックで実行し、結果をリアルタイムで監視できます——すべてが1つのプラットフォームで完結します。**"
+      }
+    },
+    {
+      "segment_id": "4be28ed1",
+      "source_content": "![Chaos engineering with DevOps ensures efficient fault injection](/img/blog/chaos-engineering-with-devops.png)",
+      "source_content_hash": "c392631ebd1fb9ba75228c400e3114c408647c483b3220d9dfbf233a99f17e0c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![DevOpsと連携したカオスエンジニアリングで効率的な障害注入を実現](/img/blog/chaos-engineering-with-devops.png)"
+      }
+    },
+    {
+      "segment_id": "0e80209e",
+      "source_content": "Thanks to full-featured chaos engineering tools and streamlined DevOps processes, we estimate that the efficiency of fault injection and chaos-based optimization at IEG has been improved at least by 10 times in the last six months. If you were unsure about implementing chaos engineering in your business, I hope our experience can be of some help.",
+      "source_content_hash": "050605be6ba5728ba58aec9f963f62a465c741f917d0fa5a5760278828f9eb7e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "機能豊富なカオスエンジニアリングツールと合理化されたDevOpsプロセスにより、IEGでは過去6ヶ月間で障害注入とカオスベースの最適化の効率が少なくとも10倍向上したと推定しています。ビジネスへのカオスエンジニアリング導入に不安がある場合、私たちの経験が少しでも参考になれば幸いです。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2021-08-26-securing-online-gaming-combine-chaos-engineering-with-devops-practices.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.650156+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "bb3f0e8649708fd660395305068c9445056312069426a695b97cab785d59359d"
+  }
+}

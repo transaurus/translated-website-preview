@@ -1,0 +1,32 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "docs/simulate-file-chaos-in-physical-nodes.md",
+  "source_file_content_hash": "c82d3cc90310bfe73fe9707c5089cbd2bd7450fbc22663ccb76c6db89fcf3d1c",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Simulate File Faults\n---",
+      "source_content_hash": "2cdcfa19ce53ce1435340b3382130684cefe6670c3a28b196796679195b2d96e",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "f85bbfb4",
+      "source_content": "### TODO",
+      "source_content_hash": "17c2f050e678b4325e5765bf2b60bd3741d6db51f8c6ebc5746afa705f152cae",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### TODO"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/current/simulate-file-chaos-in-physical-nodes.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.616754+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "c82d3cc90310bfe73fe9707c5089cbd2bd7450fbc22663ccb76c6db89fcf3d1c"
+  }
+}

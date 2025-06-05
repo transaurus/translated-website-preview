@@ -1,0 +1,588 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2020-04-20-simulating-clock-skew-in-k8s-without-affecting-other-containers-on-node.md",
+  "source_file_content_hash": "67b495f7584e52e1fa2eb4d79ca65d7ee8b0364ccd43472763583a5eb13699f1",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /simulating-clock-skew-in-k8s-without-affecting-other-containers-on-node\ntitle: Simulating Clock Skew in K8s Without Affecting Other Containers on the Node\nauthors: cwen\nimage: /img/blog/clock-sync-chaos-engineering-k8s.jpg\ntags: [Chaos Mesh, Chaos Engineering, Kubernetes, Distributed System]\n---",
+      "source_content_hash": "1e65ba31ac91d8ac3d7ae52d4335c0ca5ea401d8222a06fa788511658d372c88",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "![Clock synchronization in distributed system](/img/blog/clock-sync-chaos-engineering-k8s.jpg)",
+      "source_content_hash": "ef9e78aaefe64d7a4cf51a9c637661526a4da376de538fb01f7a10e1c983bd51",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![分散システムにおけるクロック同期](/img/blog/clock-sync-chaos-engineering-k8s.jpg)"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "[Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh), an easy-to-use, open-source, cloud-native chaos engineering platform for Kubernetes (K8s), has a new feature, TimeChaos, which simulates the [clock skew](https://en.wikipedia.org/wiki/Clock_skew#On_a_network) phenomenon. Usually, when we modify clocks in a container, we want a [minimized blast radius](https://learning.oreilly.com/library/view/chaos-engineering/9781491988459/ch07.html), and we don't want the change to affect the other containers on the node. In reality, however, implementing this can be harder than you think. How does Chaos Mesh solve this problem?",
+      "source_content_hash": "92a214b739df680b48f9c08f7a5de3a8b95a81c93bea11ceeaf08d0d0eeba28f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh)は、Kubernetes（K8s）向けの使いやすいオープンソースのクラウドネイティブなカオスエンジニアリングプラットフォームです。新機能のTimeChaosは、[クロックスキュー](https://en.wikipedia.org/wiki/Clock_skew#On_a_network)現象をシミュレートします。通常、コンテナ内のクロックを変更する際には、[影響範囲を最小限](https://learning.oreilly.com/library/view/chaos-engineering/9781491988459/ch07.html)に抑え、ノード上の他のコンテナに影響を与えたくありません。しかし、実際にこれを実装するのは想像以上に難しい場合があります。Chaos Meshはこの問題をどのように解決しているのでしょうか？"
+      }
+    },
+    {
+      "segment_id": "3e6699f4",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3e6699f4"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "In this post, I'll describe how we hacked through different approaches of clock skew and how TimeChaos in Chaos Mesh enables time to swing freely in containers.",
+      "source_content_hash": "d06e91bb2870dd7d55cdab0f0654269190e3aebbd77e77e76618ad999836a41d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この記事では、クロックスキューのさまざまなアプローチを試行錯誤した経緯と、Chaos MeshのTimeChaosがコンテナ内で時間を自由に操作できる仕組みについて説明します。"
+      }
+    },
+    {
+      "segment_id": "3daf1b88",
+      "source_content": "## Simulating clock skew without affecting other containers on the node",
+      "source_content_hash": "1886d4059e1eda0d1806aa4495a336fb25155f9f181ac45968f471503c342c03",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ノード上の他のコンテナに影響を与えずにクロックスキューをシミュレート"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "Clock skew refers to the time difference between clocks on nodes within a network. It might cause reliability problems in a distributed system, and it's a concern for designers and developers of complex distributed systems. For example, in a distributed SQL database, it's vital to maintain a synchronized local clock across nodes to achieve a consistent global snapshot and ensure the ACID properties for transactions.",
+      "source_content_hash": "6825a0062e248878b23b1681c6822910f2656efe2bcbf27c49c3d5e3044f7e81",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "クロックスキューとは、ネットワーク内のノード間のクロックの時間差を指します。分散システムにおいて信頼性の問題を引き起こす可能性があり、複雑な分散システムの設計者や開発者にとって懸念事項です。例えば、分散SQLデータベースでは、一貫性のあるグローバルスナップショットを実現し、トランザクションのACID特性を保証するために、ノード間で同期されたローカルクロックを維持することが重要です。"
+      }
+    },
+    {
+      "segment_id": "f5f6d2ce",
+      "source_content": "Currently, there are well-recognized [solutions to synchronize clocks](https://pingcap.com/blog/Time-in-Distributed-Systems/), but without proper testing, you can never be sure that your implementation is solid.",
+      "source_content_hash": "9ba484306ef1be3964ef6f1876d8fa1a9a8a6f5d4069771f41102f12c9b598e0",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "現在、[クロック同期のための確立された解決策](https://pingcap.com/blog/Time-in-Distributed-Systems/)がありますが、適切なテストなしでは、実装が堅牢であることを確認することはできません。"
+      }
+    },
+    {
+      "segment_id": "2fdadb08",
+      "source_content": "Then how can we test global snapshot consistency in a distributed system? The answer is obvious: we can simulate clock skew to test whether distributed systems can keep a consistent global snapshot under abnormal clock conditions. Some testing tools support simulating clock skew in containers, but they have an impact on physical nodes.",
+      "source_content_hash": "e372573cd5cbf4c8a1518ac31ee706e93bfd444341027e785b63b70ba497cb5d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "では、分散システムでグローバルスナップショットの一貫性をどのようにテストすればよいでしょうか？答えは明らかです：異常なクロック条件下で分散システムが一貫性のあるグローバルスナップショットを維持できるかどうかをテストするために、クロックスキューをシミュレートできます。一部のテストツールはコンテナ内でクロックスキューをシミュレートできますが、物理ノードに影響を与えます。"
+      }
+    },
+    {
+      "segment_id": "f2c2bdd0",
+      "source_content": "[TimeChaos](https://github.com/chaos-mesh/chaos-mesh/wiki/Time-Chaos) is a tool that **simulates clock skew in containers to test how it impacts your application without affecting the whole node**. This way, we can precisely identify the potential consequences of clock skew and take measures accordingly.",
+      "source_content_hash": "647f401f6dc06553874741e42fc1c8ae0ece42ca6eb81733663981652cd6724c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[TimeChaos](https://github.com/chaos-mesh/chaos-mesh/wiki/Time-Chaos)は、**ノード全体に影響を与えずにコンテナ内でクロックスキューをシミュレートし、アプリケーションへの影響をテストする**ツールです。これにより、クロックスキューが引き起こす潜在的な影響を正確に特定し、適切な対策を講じることができます。"
+      }
+    },
+    {
+      "segment_id": "fa430ad4",
+      "source_content": "## Various approaches for simulating clock skew we've explored",
+      "source_content_hash": "6328ad4c3bfebe4cfde021a2c07bc797af67188a9117c926c938d69c76d63868",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 試行したクロックスキューシミュレーションのさまざまなアプローチ"
+      }
+    },
+    {
+      "segment_id": "4b1d2d7d",
+      "source_content": "Reviewing the existing choices, we know clearly that they cannot be applied to Chaos Mesh, which runs on Kubernetes. Two common ways of simulating clock skew--changing the node clock directly and using the Jepsen framework--change the time for all processes on the node. These are not acceptable solutions for us. In a Kubernetes container, if we inject a clock skew error that affects the entire node, other containers on the same node will be disturbed. Such a clumsy approach is not tolerable.",
+      "source_content_hash": "d2baca3f90cf7fcf7474f1de0ded7b09a7be9ddfa23913d3c4f87e440329e187",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "既存の選択肢を振り返ると、Kubernetes上で動作するChaos Meshには適用できないことが明らかです。クロックスキューをシミュレートする一般的な2つの方法（ノードクロックを直接変更する方法とJepsenフレームワークを使用する方法）は、ノード上のすべてのプロセスの時間を変更します。これらは私たちにとって許容できる解決策ではありません。Kubernetesコンテナで、ノード全体に影響を与えるクロックスキューエラーを注入すると、同じノード上の他のコンテナが干渉されます。このような粗雑なアプローチは許容できません。"
+      }
+    },
+    {
+      "segment_id": "dfe931a2",
+      "source_content": "Then how are we supposed to tackle this problem? Well, the first thing that comes into our mind is finding solutions in the kernel using [Berkeley Packet Filter](https://en.wikipedia.org/wiki/Berkeley_Packet_Filter) (BPF).",
+      "source_content_hash": "99e5e8630402c9c8fbb1f1755fef32db67e0d5bc4c5abff7e8fc8f1ae91490a9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "では、この問題にどう対処すればよいでしょうか？まず思い浮かぶのは、カーネル内で[Berkeley Packet Filter](https://en.wikipedia.org/wiki/Berkeley_Packet_Filter)（BPF）を使用して解決策を見つけることです。"
+      }
+    },
+    {
+      "segment_id": "0037ff70",
+      "source_content": "### `LD_PRELOAD`",
+      "source_content_hash": "27587c84591961f2ab4c390bb4d6e744709ad174fdbc2e6281cac28dce09ad4e",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `LD_PRELOAD`"
+      }
+    },
+    {
+      "segment_id": "bdc231b1",
+      "source_content": "`LD_PRELOAD` is a Linux environment variable that lets you define which dynamic link library is loaded before the program execution.",
+      "source_content_hash": "e2a1bf0ff911b35f7e533f81a3a6faad042760d03db124cc0ba233218ba690c5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`LD_PRELOAD`は、プログラム実行前にどの動的リンクライブラリをロードするかを定義できるLinux環境変数です。"
+      }
+    },
+    {
+      "segment_id": "97ae4a01",
+      "source_content": "This variable has two advantages:",
+      "source_content_hash": "97c47017d61a4948827aee6982f485995347b0ea8582dfbd3d2f9e0e2dc941ae",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この変数には2つの利点があります："
+      }
+    },
+    {
+      "segment_id": "33808f76",
+      "source_content": "- We can call our own functions without being aware of the source code.\n- We can inject code into other programs to achieve specific purposes.",
+      "source_content_hash": "5ce645fc7d6a44a674a6b1318aade89fda0c2027d35b4dcad5623def19b4a4c4",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- ソースコードを意識せずに独自の関数を呼び出せる。\n- 特定の目的を達成するために他のプログラムにコードを注入できる。"
+      }
+    },
+    {
+      "segment_id": "50746522",
+      "source_content": "For some languages that use applications to call the time function in glibc, such as Rust and C, using `LD_PRELOAD` is enough to simulate clock skew. But things are trickier for Golang. Because languages such as Golang directly parse virtual Dynamic Shared Object ([vDSO](http://man7.org/linux/man-pages/man7/vdso.7.html)), a mechanism to speed up system calls. To obtain the time function address, we can't simply use `LD_PRELOAD` to intercept the glic interface. Therefore, `LD_PRELOAD` is not our solution.",
+      "source_content_hash": "1cd74d61f2d80ca075f76e5e0a00f298fd111ea96fa556d300f2036b8f355df5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "RustやCなど、glibcの時間関数を呼び出すアプリケーションを使用する言語では、`LD_PRELOAD`を使用するだけでクロックスキューをシミュレートできます。しかし、Golangの場合はより複雑です。Golangなどの言語は、システムコールを高速化するメカニズムである仮想Dynamic Shared Object（[vDSO](http://man7.org/linux/man-pages/man7/vdso.7.html)）を直接解析するため、単純に`LD_PRELOAD`を使用してglicインターフェースをインターセプトすることはできません。したがって、`LD_PRELOAD`は私たちの解決策ではありません。"
+      }
+    },
+    {
+      "segment_id": "54268405",
+      "source_content": "### Use BPF to modify the return value of `clock_gettime` system call",
+      "source_content_hash": "9d6d678e8feb4086b7d9dfc3549e8376e2b5fee5e9e3ec85eb29316f9a4cc467",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### BPFを使用して`clock_gettime`システムコールの戻り値を変更"
+      }
+    },
+    {
+      "segment_id": "8af76f3d",
+      "source_content": "We also tried to filter the task [process identification number](http://www.linfo.org/pid.html) (PID) with BPF. This way, we could simulate clock skew on a specified process and modify the return value of the `clock_gettime` system call.",
+      "source_content_hash": "c009e08632b71c23eda796ddf7fb2bded52463e9b9bef83963764d1a649d4adc",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "また、BPFを使用してタスクの[プロセス識別番号](http://www.linfo.org/pid.html)（PID）をフィルタリングする方法も試しました。これにより、特定のプロセスに対してクロックスキューをシミュレートし、`clock_gettime`システムコールの戻り値を変更することが可能になります。"
+      }
+    },
+    {
+      "segment_id": "a9d49f92",
+      "source_content": "This seemed like a good idea, but we also encountered a problem: in most cases, vDSO speeds up `clock_gettime`, but `clock_gettime` doesn't make a system call. This selection didn't work, either. Oops.",
+      "source_content_hash": "34c2cba44b68621a3624d66b1e53292970835b0e411707fc7d907a579ea1ca2e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これは良いアイデアのように思えましたが、問題にも直面しました。ほとんどの場合、vDSOは`clock_gettime`を高速化しますが、`clock_gettime`はシステムコールを行いません。この選択肢も機能しませんでした。残念です。"
+      }
+    },
+    {
+      "segment_id": "a44047a5",
+      "source_content": "Thankfully, we determined that if the system kernel version is 4.18 or later, and if we use the [HPET](https://www.kernel.org/doc/html/latest/timers/hpet.html) clock, `clock_gettime()` gets time by making normal system calls instead of vDSO. We implemented [a version of clock skew](https://github.com/chaos-mesh/bpfki) using this approach, and it works fine for Rust and C. As for Golang, the program can get the time right, but if we perform `sleep` during the clock skew injection, the sleep operation is very likely to be blocked. Even after the injection is canceled, the system cannot recover. Thus, we have to give up this approach, too.",
+      "source_content_hash": "3eef47e3620b7a4916b172d3d60c4505456e2493d294713c88c1ce8595a5b1e0",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "幸いなことに、システムカーネルのバージョンが4.18以降で、[HPET](https://www.kernel.org/doc/html/latest/timers/hpet.html)クロックを使用している場合、`clock_gettime()`はvDSOではなく通常のシステムコールによって時間を取得することがわかりました。このアプローチを使用して[クロックスキューのバージョン](https://github.com/chaos-mesh/bpfki)を実装し、RustとCでは問題なく動作しました。しかし、Golangの場合、プログラムは正しく時間を取得できますが、クロックスキューの注入中に`sleep`を実行すると、sleep操作がブロックされる可能性が非常に高くなります。注入がキャンセルされた後でも、システムは回復できません。そのため、このアプローチも断念せざるを得ませんでした。"
+      }
+    },
+    {
+      "segment_id": "cb5b269c",
+      "source_content": "## TimeChaos, our final hack",
+      "source_content_hash": "f43fcf074235987af387350ab0476336829fae2b8c17b20601c7f171fb3a0e82",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## TimeChaos、私たちの最終的な解決策"
+      }
+    },
+    {
+      "segment_id": "b36c6338",
+      "source_content": "From the previous section, we know that programs usually get the system time by calling `clock_gettime`. In our case, `clock_gettime` uses vDSO to speed up the calling process, so we cannot use `LD_PRELOAD` to hack the `clock_gettime` system calls.",
+      "source_content_hash": "60ef2a8d98558155c1ca6d5a0e2cb89c0902f472905325f1d21bd4b16dc01e9c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "前のセクションから、プログラムは通常`clock_gettime`を呼び出してシステム時間を取得することがわかります。私たちのケースでは、`clock_gettime`はvDSOを使用して呼び出しプロセスを高速化するため、`LD_PRELOAD`を使用して`clock_gettime`システムコールをハックすることはできません。"
+      }
+    },
+    {
+      "segment_id": "b9aaa519",
+      "source_content": "We figured out the cause; then what's the solution? Start from vDSO. If we can redirect the address that stores the `clock_gettime` return value in vDSO to an address we define, we can solve the problem.",
+      "source_content_hash": "a0b9369e4c404ed7f1c51d3caf04ef9981a2c28a00823ee976824ce3ad5bc5ed",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "原因がわかったところで、解決策は何でしょうか？ vDSOから始めます。vDSOに保存されている`clock_gettime`の戻り値のアドレスを、私たちが定義したアドレスにリダイレクトできれば、問題を解決できます。"
+      }
+    },
+    {
+      "segment_id": "e536ea0d",
+      "source_content": "Easier said than done. To achieve this goal, we must tackle the following problems:",
+      "source_content_hash": "1c0c037162b14e5740c355c97f2e08df0038e7e22f1fc89e52917518c22fb652",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "言うは易く行うは難し。この目標を達成するためには、以下の問題に取り組む必要があります："
+      }
+    },
+    {
+      "segment_id": "a0e887c2",
+      "source_content": "- Know the user-mode address used by vDSO\n- Know vDSO's kernel-mode address, if we want to modify the `clock_gettime` function in vDSO by any address in the kernel mode\n- Know how to modify vDSO data",
+      "source_content_hash": "6cb9406ef79ec1dfb11921dcf0c1072f806853429da92af6ca9732aeae16790f",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- vDSOが使用するユーザーモードのアドレスを知る\n- vDSOのカーネルモードのアドレスを知る（カーネルモードの任意のアドレスでvDSOの`clock_gettime`関数を変更したい場合）\n- vDSOデータを変更する方法を知る"
+      }
+    },
+    {
+      "segment_id": "79ad944d",
+      "source_content": "First, we need to peek inside vDSO. We can see the vDSO memory address in `/proc/pid/maps`.",
+      "source_content_hash": "4c284c85fbcf60b7ea38598b254f35dacab6a8c2bdc99b0078e4317c5634babe",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "まず、vDSOの中を覗く必要があります。`/proc/pid/maps`でvDSOのメモリアドレスを確認できます。"
+      }
+    },
+    {
+      "segment_id": "5d4925eb",
+      "source_content": "```\n$ cat /proc/pid/maps\n...\n7ffe53143000-7ffe53145000 r-xp 00000000 00:00 0                     [vdso]\n```",
+      "source_content_hash": "874a23799d47555edc4e4952dfda782b251621d28223d9bcae525ac2161c11b9",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {}
+    },
+    {
+      "segment_id": "147e8550",
+      "source_content": "The last line is vDSO information. The privilege of this memory space is `r-xp`: readable and executable, but not writable. That means the user mode cannot modify this memory. We can use [ptrace](http://man7.org/linux/man-pages/man2/ptrace.2.html) to avoid this restriction.",
+      "source_content_hash": "85b6452edfbd50434df6c3fed76f50773ca9f8450269e92470966bf3dd26b3ef",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "最後の行がvDSOの情報です。このメモリ空間の権限は`r-xp`：読み取り可能で実行可能ですが、書き込み不可です。つまり、ユーザーモードではこのメモリを変更できません。[ptrace](http://man7.org/linux/man-pages/man2/ptrace.2.html)を使用してこの制限を回避できます。"
+      }
+    },
+    {
+      "segment_id": "883231d4",
+      "source_content": "Next, we use `gdb dump memory` to export the vDSO and use `objdump` to see what's inside. Here is what we get:",
+      "source_content_hash": "a0d5ea448625a0b47159326168f7702ade0bf5cd2639bf05f2dfa88765c1c136",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "次に、`gdb dump memory`を使用してvDSOをエクスポートし、`objdump`を使用して中身を確認します。以下が得られた結果です："
+      }
+    },
+    {
+      "segment_id": "468b36ba",
+      "source_content": "```\n(gdb) dump memory vdso.so 0x00007ffe53143000 0x00007ffe53145000\n$ objdump -T vdso.so\nvdso.so:    file format elf64-x86-64\nDYNAMIC SYMBOL TABLE:\nffffffffff700600  w  DF .text   0000000000000545  LINUX_2.6  clock_gettime\n```",
+      "source_content_hash": "9b0542a9f5dcacd4102d11f4e7ef8215ad7b88d1e40e8d7dd382e684d9584edf",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {}
+    },
+    {
+      "segment_id": "a1fa5396",
+      "source_content": "We can see that the whole vDSO is like a `.so` file, so we can use an executable and linkable format (ELF) file to format it. With this information, a basic workflow for implementing TimeChaos starts to take shape:",
+      "source_content_hash": "8683c89d44146d3b30d4322b94b5c071a164b30b7a65fff96fc77444dbc5c02f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "vDSO全体が`.so`ファイルのように見えることがわかります。したがって、実行可能およびリンク可能形式（ELF）ファイルを使用してフォーマットできます。この情報をもとに、TimeChaosを実装するための基本的なワークフローが形になり始めます："
+      }
+    },
+    {
+      "segment_id": "ec619944",
+      "source_content": "![TimeChaos workflow](/img/blog/timechaos-workflow.jpg)",
+      "source_content_hash": "54f67ea4a3675e31692f6945847b71e51d4c91dd86a091057c41159fe9b06e43",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![TimeChaosのワークフロー](/img/blog/timechaos-workflow.jpg)"
+      }
+    },
+    {
+      "segment_id": "2547a6bb",
+      "source_content": "The chart above is the process of **TimeChaos**, an implementation of clock skew in Chaos Mesh.",
+      "source_content_hash": "da321368c22c08f3cec78bd4cf9d34b3a5985c691b4119c4a77232b004e9fcc7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "上の図は、Chaos Meshにおけるクロックスキューの実装である**TimeChaos**のプロセスです。"
+      }
+    },
+    {
+      "segment_id": "4d429946",
+      "source_content": "1. Use ptrace to attach the specified PID process to stop the current process.\n2. Use ptrace to create a new mapping in the virtual address space of the calling process and use [`process_vm_writev`](https://linux.die.net/man/2/process_vm_writev) to write the `fake_clock_gettime` function we defined into the memory space.\n3. Use `process_vm_writev` to write the specified parameters into `fake_clock_gettime`. These parameters are the time we would like to inject, such as two hours backward or two days forward.\n4. Use ptrace to modify the `clock_gettime` function in vDSO and redirect to the `fake_clock_gettime` function.\n5. Use ptrace to detach the PID process.",
+      "source_content_hash": "e1a58d04e664e98f567f2a7f981c96e37cf93dcbe544818a4bcd73ef7414a8cd",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. ptraceを使用して指定されたPIDプロセスにアタッチし、現在のプロセスを停止します。\n2. ptraceを使用して、呼び出しプロセスの仮想アドレス空間に新しいマッピングを作成し、[`process_vm_writev`](https://linux.die.net/man/2/process_vm_writev)を使用して定義した`fake_clock_gettime`関数をメモリ空間に書き込みます。\n3. `process_vm_writev`を使用して、指定されたパラメータを`fake_clock_gettime`に書き込みます。これらのパラメータは、注入したい時間（例えば2時間遅れや2日進みなど）です。\n4. ptraceを使用してvDSOの`clock_gettime`関数を変更し、`fake_clock_gettime`関数にリダイレクトします。\n5. ptraceを使用してPIDプロセスをデタッチします。"
+      }
+    },
+    {
+      "segment_id": "a311e967",
+      "source_content": "If you are interested in the details, see the [Chaos Mesh GitHub repository](https://github.com/chaos-mesh/chaos-mesh/blob/release-1.0/pkg/time/time_linux.go).",
+      "source_content_hash": "39ba3e1a83eccb0d682778ddfbd59b3850c02f59f14139450e7b8c8dc1ac0a12",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "詳細に興味がある方は、[Chaos Mesh GitHubリポジトリ](https://github.com/chaos-mesh/chaos-mesh/blob/release-1.0/pkg/time/time_linux.go)をご覧ください。"
+      }
+    },
+    {
+      "segment_id": "f8edb6d2",
+      "source_content": "## Simulating clock skew on a distributed SQL database",
+      "source_content_hash": "712e282642a55b5329616d00a044f84c47b67509e44e935c0a2f81d845d61a10",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 分散型SQLデータベースでの時刻ずれシミュレーション"
+      }
+    },
+    {
+      "segment_id": "1862c5fe",
+      "source_content": "Statistics speak volumes. Here we're going to try TimeChaos on [TiDB](https://docs.pingcap.com/tidb/stable/overview/), an open source, [NewSQL](https://en.wikipedia.org/wiki/NewSQL), distributed SQL database that supports [Hybrid Transactional/Analytical Processing](https://en.wikipedia.org/wiki/Hybrid_transactional/analytical_processing) (HTAP) workloads, to see if the chaos testing can really work.",
+      "source_content_hash": "e4a4458966106707d9a2cebf7ae90678d232967ec5007f84f1678a93c122c11c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "統計は雄弁です。ここでは、オープンソースの[NewSQL](https://en.wikipedia.org/wiki/NewSQL)分散型SQLデータベースであり、[Hybrid Transactional/Analytical Processing](https://en.wikipedia.org/wiki/Hybrid_transactional/analytical_processing)（HTAP）ワークロードをサポートする[TiDB](https://docs.pingcap.com/tidb/stable/overview/)に対してTimeChaosを試し、カオステストが実際に機能するかどうかを確認します。"
+      }
+    },
+    {
+      "segment_id": "6ca4479f",
+      "source_content": "TiDB uses a centralized service Timestamp Oracle (TSO) to obtain the globally consistent version number, and to ensure that the transaction version number increases monotonically. The TSO service is managed by the Placement Driver (PD) component. Therefore, we choose a random PD node and inject TimeChaos regularly, each with a 10-millisecond-backward clock skew. Let's see if TiDB can meet the challenge.",
+      "source_content_hash": "33a935d8c2fc13b33b166c1f5248aef60f694334a94ff6672a9958738ea706e8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "TiDBは、グローバルに一貫したバージョン番号を取得し、トランザクションのバージョン番号が単調増加することを保証するために、集中型サービスTimestamp Oracle（TSO）を使用しています。TSOサービスはPlacement Driver（PD）コンポーネントによって管理されています。したがって、ランダムに選択したPDノードに対して定期的にTimeChaosを注入し、各注入で10ミリ秒の時刻を遡らせます。TiDBがこの課題に対処できるかどうかを見てみましょう。"
+      }
+    },
+    {
+      "segment_id": "a2c0166e",
+      "source_content": "To better perform the testing, we use [bank](https://github.com/cwen0/bank) as the workload, which simulates the financial transfers in a banking system. It's often used to verify the correctness of database transactions.",
+      "source_content_hash": "2dd22bb6db4de6241888890fb7374805f5f1df36fd8670ad6be50f0ccb0f613b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "テストをより効果的に行うために、銀行システムでの金融取引をシミュレートする[bank](https://github.com/cwen0/bank)をワークロードとして使用します。これはデータベーストランザクションの正確性を検証するためによく使用されます。"
+      }
+    },
+    {
+      "segment_id": "c1eaf30b",
+      "source_content": "This is our test configuration:",
+      "source_content_hash": "9d15b8ffd84f41e443eb809c98ae8deb63290fd6c2356d3e188d789fe07ac7b2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これが私たちのテスト設定です："
+      }
+    },
+    {
+      "segment_id": "c4c0fc07",
+      "source_content": "```\napiVersion: chaos-mesh.org/v1alpha1\nkind: TimeChaos\nmetadata:\n  name: time-skew-example\n  namespace: tidb-demo\nspec:\n  mode: one\n  selector:\n    labelSelectors:\n      \"app.kubernetes.io/component\": \"pd\"\n  timeOffset:\n    sec: -600\n  clockIds:\n    - CLOCK_REALTIME\n  duration: \"10s\"\n  scheduler:\n    cron: \"@every 1m\"\n```",
+      "source_content_hash": "5079b53d5fca10572de5c80ecf0b4a4aade47b53149d8ce0af15172cb6e97d7f",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_c4c0fc07"
+      }
+    },
+    {
+      "segment_id": "6fc234cf",
+      "source_content": "During this test, Chaos Mesh injects TimeChaos into a chosen PD Pod every 1 millisecond for 10 seconds. Within the duration, the time acquired by PD will have a 600 second offset from the actual time. For further details, see [Chaos Mesh Wiki](https://github.com/chaos-mesh/chaos-mesh/wiki/Time-Chaos).",
+      "source_content_hash": "ca61309c674fcdca2dd2c863c4bbcefb6d7c824b4a0044800d7f4d6b7aab660b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このテスト中、Chaos Meshは選択したPD Podに対して1ミリ秒ごとに10秒間TimeChaosを注入します。この期間中、PDが取得する時刻は実際の時刻から600秒のオフセットを持ちます。詳細については、[Chaos Mesh Wiki](https://github.com/chaos-mesh/chaos-mesh/wiki/Time-Chaos)をご覧ください。"
+      }
+    },
+    {
+      "segment_id": "c364340c",
+      "source_content": "Let's create a TimeChaos experiment using the `kubectl apply` command:",
+      "source_content_hash": "b23a61412e5414d2eda8ef12d538a06ca67e4cefcab417beddeb5d64e8b8a20b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`kubectl apply`コマンドを使用してTimeChaos実験を作成しましょう："
+      }
+    },
+    {
+      "segment_id": "b474abd5",
+      "source_content": "```\nkubectl apply -f pd-time.yaml\n```",
+      "source_content_hash": "01720470a02e4a7e40ab365811d081bc73398c0f25d7e850a996cfdae131f38b",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_b474abd5"
+      }
+    },
+    {
+      "segment_id": "383fbdd2",
+      "source_content": "Now, we can retrieve the PD log by the following command:",
+      "source_content_hash": "940c1c320ad7fec8e4ce8e49331c84e1120cce2c14e0121ea918faf47e0394a5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "次のコマンドでPDログを取得できます："
+      }
+    },
+    {
+      "segment_id": "8d1b00fd",
+      "source_content": "```\nkubectl logs -n tidb-demo tidb-app-pd-0 | grep \"system time jump backward\"\n```",
+      "source_content_hash": "0094ba03c982d8542d265c5e68e64179ccc4e342462c47558d42852a6e8266fa",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_8d1b00fd"
+      }
+    },
+    {
+      "segment_id": "534ac82e",
+      "source_content": "Here's the log:",
+      "source_content_hash": "9cdbbdbb99de6d68d9b772c0639dabd4b179cca5f256e299f41358b4ff17f218",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ログは以下の通りです："
+      }
+    },
+    {
+      "segment_id": "01a167f4",
+      "source_content": "```\n[2020/03/24 09:06:23.164 +00:00] [ERROR] [systime_mon.go:32] [\"system time jump backward\"] [last=1585041383060109693]\n[2020/03/24 09:16:32.260 +00:00] [ERROR] [systime_mon.go:32] [\"system time jump backward\"] [last=1585041992160476622]\n[2020/03/24 09:20:32.059 +00:00] [ERROR] [systime_mon.go:32] [\"system time jump backward\"] [last=1585042231960027622]\n[2020/03/24 09:23:32.059 +00:00] [ERROR] [systime_mon.go:32] [\"system time jump backward\"] [last=1585042411960079655]\n[2020/03/24 09:25:32.059 +00:00] [ERROR] [systime_mon.go:32] [\"system time jump backward\"] [last=1585042531963640321]\n[2020/03/24 09:28:32.060 +00:00] [ERROR] [systime_mon.go:32] [\"system time jump backward\"] [last=1585042711960148191]\n[2020/03/24 09:33:32.063 +00:00] [ERROR] [systime_mon.go:32] [\"system time jump backward\"] [last=1585043011960517655]\n[2020/03/24 09:34:32.060 +00:00] [ERROR] [systime_mon.go:32] [\"system time jump backward\"] [last=1585043071959942937]\n[2020/03/24 09:35:32.059 +00:00] [ERROR] [systime_mon.go:32] [\"system time jump backward\"] [last=1585043131978582964]\n[2020/03/24 09:36:32.059 +00:00] [ERROR] [systime_mon.go:32] [\"system time jump backward\"] [last=1585043191960687755]\n[2020/03/24 09:38:32.060 +00:00] [ERROR] [systime_mon.go:32] [\"system time jump backward\"] [last=1585043311959970737]\n[2020/03/24 09:41:32.060 +00:00] [ERROR] [systime_mon.go:32] [\"system time jump backward\"] [last=1585043491959970502]\n[2020/03/24 09:45:32.061 +00:00] [ERROR] [systime_mon.go:32] [\"system time jump backward\"] [last=1585043731961304629]\n...\n```",
+      "source_content_hash": "5bc3457dcd42e309d79b4e29d943e31f916a6f395dd2879537581d0bbd7b0297",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_01a167f4"
+      }
+    },
+    {
+      "segment_id": "dce16ab4",
+      "source_content": "From the log above, we see that every now and then, PD detects that the system time rolls back. This means:",
+      "source_content_hash": "efdcef2b01fcf44d0c41b4d6dd1b58906e80c24e8ecf3cb8106986396a0de2be",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "上記のログから、PDが定期的にシステム時刻が巻き戻されたことを検出していることがわかります。これは次のことを意味します："
+      }
+    },
+    {
+      "segment_id": "0c315794",
+      "source_content": "- TimeChaos successfully simulates clock skew.\n- PD can deal with the clock skew situation.",
+      "source_content_hash": "7f458f6a7b8f275600876772ad6163be07f7cc1db636256bfe6b58055b9355f8",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- TimeChaosが時刻ずれを正常にシミュレートしている。\n- PDが時刻ずれの状況に対処できる。"
+      }
+    },
+    {
+      "segment_id": "0ddaa835",
+      "source_content": "That's encouraging. But does TimeChaos affect services other than PD? We can check it out in the Chaos Dashboard:",
+      "source_content_hash": "eb00c083182c55316ef3e37cdc0df001f3d5d54cc3036ee6ef154069c8363c95",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これは励みになります。しかし、TimeChaosはPD以外のサービスに影響を与えていないでしょうか？Chaos Dashboardで確認できます："
+      }
+    },
+    {
+      "segment_id": "fd7ed056",
+      "source_content": "![Chaos Dashboard](/img/blog/chaos-dashboard.jpg)",
+      "source_content_hash": "7346ec275227b0754cf3307b9feedfb0e94815f6dc0dd189f0867374a7444402",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos Dashboard](/img/blog/chaos-dashboard.jpg)"
+      }
+    },
+    {
+      "segment_id": "b08ad0b4",
+      "source_content": "It's clear that in the monitor, TimeChaos was injected every 1 millisecond and the whole duration lasted 10 seconds. What's more, TiDB was not affected by that injection. The bank program ran normally, and performance was not affected.",
+      "source_content_hash": "0e0cea480a561aa6be668c67fe42946a42feebf9ac8b5b1fdacfa79c2d052286",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "モニターでは、TimeChaosが1ミリ秒ごとに注入され、全体の期間が10秒間続いたことが明確です。さらに、TiDBはその注入の影響を受けていません。bankプログラムは正常に動作し、パフォーマンスにも影響はありませんでした。"
+      }
+    },
+    {
+      "segment_id": "89b740fe",
+      "source_content": "## Try out Chaos Mesh",
+      "source_content_hash": "f1591c3198621f88835face0e4a274959ee4ab896f17046ccca6cdfaa86c8a02",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Meshを試す"
+      }
+    },
+    {
+      "segment_id": "99840f13",
+      "source_content": "As a cloud-native chaos engineering platform, Chaos Mesh features all-around [fault injection methods for complex systems on Kubernetes](https://pingcap.com/blog/chaos-mesh-your-chaos-engineering-solution-for-system-resiliency-on-kubernetes/), covering faults in Pods, the network, the file system, and even the kernel.",
+      "source_content_hash": "5863a70f9023174e03980eb1e79cca66006f12adc8a9577bdae38c94edad3fec",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "クラウドネイティブなカオスエンジニアリングプラットフォームとして、Chaos MeshはKubernetes上の複雑なシステムに対する包括的な[障害注入方法](https://pingcap.com/blog/chaos-mesh-your-chaos-engineering-solution-for-system-resiliency-on-kubernetes/)を特徴としており、Pod、ネットワーク、ファイルシステム、さらにはカーネルに至るまでの障害をカバーしています。"
+      }
+    },
+    {
+      "segment_id": "85ea22dd",
+      "source_content": "Wanna have some hands-on experience in chaos engineering? Welcome to [Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh). This [10-minute tutorial](https://pingcap.com/blog/run-first-chaos-experiment-in-ten-minutes/) will help you quickly get started with chaos engineering and run your first chaos experiment with Chaos Mesh.",
+      "source_content_hash": "6cbd716570eb13dd69b085fd7d66de77527f6a8db01ae01c2a0062ad2b550c79",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "カオスエンジニアリングを実際に体験してみたいですか？[Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh)へようこそ。この[10分チュートリアル](https://pingcap.com/blog/run-first-chaos-experiment-in-ten-minutes/)で、カオスエンジニアリングを迅速に始め、Chaos Meshを使用して最初のカオス実験を実行できます。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2020-04-20-simulating-clock-skew-in-k8s-without-affecting-other-containers-on-node.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.678384+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "67b495f7584e52e1fa2eb4d79ca65d7ee8b0364ccd43472763583a5eb13699f1"
+  }
+}

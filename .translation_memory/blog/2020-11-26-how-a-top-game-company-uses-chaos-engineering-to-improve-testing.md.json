@@ -1,0 +1,262 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2020-11-26-how-a-top-game-company-uses-chaos-engineering-to-improve-testing.md",
+  "source_file_content_hash": "5239865940ffac4849d73cee430c28a67d7178c03fc4adf570165a7051f1a26e",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /how-a-top-game-company-uses-chaos-engineering-to-improve-testing\ntitle: 'How a Top Game Company Uses Chaos Engineering to Improve Testing'\nauthors: huizhang\nimage: /img/blog/fuxi-case-banner.jpg\ntags: [Chaos Mesh, Chaos Engineering]\n---",
+      "source_content_hash": "2fd6050077c08d47a48c241d85de198be8e56cddd5bd4bf9501324967f30af7c",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "![How-a-Top-Game-Company-Uses-Chaos-Engineering-to-Improve-Testing](/img/blog/fuxi-case-banner.jpg)",
+      "source_content_hash": "daa43fee10de3d0f9f4e65cfb2cc30fc0c234ec84a27eda4539e3ee8c997fe83",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![How-a-Top-Game-Company-Uses-Chaos-Engineering-to-Improve-Testing](/img/blog/fuxi-case-banner.jpg)"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "NetEase Fuxi AI Lab is China’s first professional game AI research institution. Researchers use our Kubernetes-based Danlu platform for algorithm development, training and tuning, and online publishing. Thanks to the integration with Kubernetes, our platform is much more efficient. However, due to Kubernetes- and microservices-related issues, we are constantly testing and improving our platform to make it more stable.",
+      "source_content_hash": "04a118609cbf243c7293b33807edfb90863d543f00bc10372eb91a8ccf1b6c59",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "NetEase Fuxi AI Labは中国初の専門的なゲームAI研究機関です。研究者はKubernetesベースのDanluプラットフォームを利用して、アルゴリズム開発、トレーニングとチューニング、オンライン公開を行っています。Kubernetesとの統合により、当社のプラットフォームは大幅に効率化されました。しかし、Kubernetesやマイクロサービス関連の問題により、プラットフォームの安定性を向上させるため、継続的なテストと改善を行っています。"
+      }
+    },
+    {
+      "segment_id": "3e6699f4",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3e6699f4"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "In this article, I’ll discuss one of our most valuable testing tools, [Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh). Chaos Mesh is an open-source Chaos Engineering tool that provides a wide range of fault injections and excellent fault monitoring through its Dashboard.",
+      "source_content_hash": "2cab2d2b5b842145478e8f8780085cef0f77f0d8141ad74dcbce2e8e8fb50fa7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "本記事では、当社が最も価値あるテストツールの1つである[Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh)について説明します。Chaos Meshはオープンソースのカオスエンジニアリングツールで、幅広い障害注入と優れた障害監視をDashboardを通じて提供します。"
+      }
+    },
+    {
+      "segment_id": "3daf1b88",
+      "source_content": "## Why Chaos Mesh",
+      "source_content_hash": "c28945bd4aa111ba84c6ca8923a2f3349779782cc4abc0f61a9a6020826b563e",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Meshを選んだ理由"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "We started our search for a Chaos Engineering tool in 2018. We were looking for a tool with:",
+      "source_content_hash": "080f44bf65b36d2101ecb4006051345ef049ef2abbdf33cf1a1cb9fa800378c9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "2018年にカオスエンジニアリングツールの探求を開始しました。私たちが求めたツールの要件は以下の通りです："
+      }
+    },
+    {
+      "segment_id": "0787cf7f",
+      "source_content": "- Cloud-native support. Kubernetes is practically the de facto standard for service orchestration and scheduling, and the application runtime has been fully standardized. For applications that run entirely on K8s, cloud-native support is a must for any tools that go with them.\n\n- Sufficient fault injection types. For stateful services, network failure simulation is particularly important. The platform must be able to simulate failures at different levels, such as Pods, network, and I/O.\n\n- Good observability. Knowing when a fault is injected and when it can be recovered is vital for us to tell whether there is an abnormality in the application.\n\n- Active community support. We want to use an open-source project that is thoroughly tested and consistently maintained. That’s why we value sustained and timely community support.\n\n- No intrusion on existing applications, with no domain knowledge required.\n\n- Actual use cases for us to evaluate and build upon.",
+      "source_content_hash": "1fc73f1e4ea427cc67a927c0b212000e208267b0f25674adc8864dad21420ef5",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- クラウドネイティブ対応。Kubernetesは事実上のサービスオーケストレーションとスケジューリングの標準であり、アプリケーションランタイムは完全に標準化されています。K8s上で完全に動作するアプリケーションにとって、クラウドネイティブ対応は必須です。\n\n- 十分な障害注入タイプ。ステートフルサービスにとって、ネットワーク障害シミュレーションは特に重要です。プラットフォームはPod、ネットワーク、I/Oなど異なるレベルでの障害をシミュレートできる必要があります。\n\n- 優れた可観測性。障害が注入されたタイミングと回復可能なタイミングを把握することは、アプリケーションの異常を検知する上で極めて重要です。\n\n- 活発なコミュニティサポート。十分にテストされ、継続的にメンテナンスされているオープンソースプロジェクトを利用したいと考えています。そのため、持続的かつ迅速なコミュニティサポートを重視しています。\n\n- 既存アプリケーションへの侵入なし。ドメイン知識を必要としません。\n\n- 評価と構築の基盤となる実際のユースケース。"
+      }
+    },
+    {
+      "segment_id": "4daf5cdd",
+      "source_content": "In 2019, when Chaos Mesh, a Chaos Engineering platform for Kubernetes was open-sourced, we found the tool we were looking for. It was still in its early stage; however, we were immediately struck with the richness of fault types it supported. This was a big advantage over other chaos engineering tools, because, to a certain degree, it determines the number of issues that we can locate in the system. We instantly realized that Chaos Mesh met our expectations in almost every way.",
+      "source_content_hash": "0df69baf6d56bdf78dca83435362262ae09de0467242d05306e30aaf383cfdd5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "2019年、Kubernetes向けカオスエンジニアリングプラットフォームであるChaos Meshがオープンソース化された時、私たちは探し求めていたツールを見つけました。当時はまだ初期段階でしたが、サポートする障害タイプの豊富さにすぐに魅了されました。これは他のカオスエンジニアリングツールに対する大きな優位性であり、ある程度までシステムで発見可能な問題の数を決定づけます。Chaos Meshがほぼ全ての面で私たちの期待に応えるものであることを即座に理解しました。"
+      }
+    },
+    {
+      "segment_id": "bdc231b1",
+      "source_content": "![Chaos Mesh architecture](/img/blog/chaos-mesh-architecture.png)",
+      "source_content_hash": "c248a1de052f385739f685c0e62a791f3d904cc2bf42994b0956b78ceebd9556",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos Mesh architecture](/img/blog/chaos-mesh-architecture.png)"
+      }
+    },
+    {
+      "segment_id": "3b7478ea",
+      "source_content": "## Our journey with Chaos Mesh",
+      "source_content_hash": "b7c0c92d27beb04218ef430b4bf5dd7a08ab15fa568b472b90be918ca6621367",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Meshとの歩み"
+      }
+    },
+    {
+      "segment_id": "c3a738de",
+      "source_content": "Chaos Mesh has helped us find several important bugs. For example, it detected a brain-split issue in [rabbitMQ](https://www.rabbitmq.com/), the open-source message-queueing software for Danlu. According to [Wikipedia](https://en.wikipedia.org/wiki/Split-brain), “a split-brain condition indicates data or availability inconsistencies originating from the maintenance of two separate data sets with overlap in scope.” When a rabbitMQ cluster has a brain split error, there will be data write conflicts or errors, which cause more serious problems such as data inconsistencies in the messaging service. As shown in our architecture below, when brain split happens, consumers do not function normally and keep reporting server exceptions.",
+      "source_content_hash": "02f7fd3b94e122152854ffdf6afea41e92c32f30a452ce1ca0a57f9e93a55eb5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshはいくつかの重要なバグの発見に貢献しました。例えば、Danlu向けオープンソースメッセージキューソフトウェアである[rabbitMQ](https://www.rabbitmq.com/)のブレインスプリット問題を検出しました。[Wikipedia](https://en.wikipedia.org/wiki/Split-brain)によると、「ブレインスプリット状態は、スコープが重複する2つの別々のデータセットを維持することに起因するデータまたは可用性の不整合を示します」。rabbitMQクラスタでブレインスプリットエラーが発生すると、データ書き込みの競合やエラーが発生し、メッセージングサービスのデータ不整合などより深刻な問題を引き起こします。以下のアーキテクチャで示すように、ブレインスプリットが発生すると、コンシューマーが正常に機能せず、サーバー例外を報告し続けます。"
+      }
+    },
+    {
+      "segment_id": "3cfe6286",
+      "source_content": "![Architecture of a RabbitMQ cluster](/img/blog/architecture-of-a-rabbitmq-cluster.png)",
+      "source_content_hash": "01d1604cd8a7581534d27808083369574237752723e97f5d85e67ae18f90bdea",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Architecture of a RabbitMQ cluster](/img/blog/architecture-of-a-rabbitmq-cluster.png)"
+      }
+    },
+    {
+      "segment_id": "1042b50d",
+      "source_content": "With Chaos Mesh, we could stably reproduce this issue by injecting `pod-kill` faults into our container instances cloud.",
+      "source_content_hash": "3dd3c345128d29badbb82460e55b28cb07739f14f5f187c45e1b7bbc3a3e46f0",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshを使用することで、コンテナインスタンスクラウドに`pod-kill`障害を注入することで、この問題を安定的に再現することができました。"
+      }
+    },
+    {
+      "segment_id": "aa1e7006",
+      "source_content": "Chaos Mesh also found several other issues including a startup failure, a join failure for crashed broker clusters, a heartbeat timeout, and a connection channel shutdown. Over time, our development team fixed these issues and greatly improved the stability of the Danlu platform.",
+      "source_content_hash": "dceff83a41ca1832204c8428eec477f8be720f19c29a4e2be673c5a5c6f6961b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshはまた、起動失敗、クラッシュしたブローカークラスタの参加失敗、ハートビートタイムアウト、接続チャネルのシャットダウンなど、いくつかの他の問題も発見しました。時間の経過とともに、開発チームはこれらの問題を修正し、Danluプラットフォームの安定性を大幅に向上させました。"
+      }
+    },
+    {
+      "segment_id": "f44c1398",
+      "source_content": "## A fast-growing project",
+      "source_content_hash": "64f29ef1f8aeb259cbbe0065417e58c5ba839fefe46984dbccad342164e4769d",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 急速に成長するプロジェクト"
+      }
+    },
+    {
+      "segment_id": "29528c8d",
+      "source_content": "Chaos Mesh is constantly updated and improved. When we first adopted it, it hadn’t even reached a stable version. It didn’t have a debugging or log collection tool, and the Dashboard component only applied to TiDB. The only way we could use Chaos Mesh to test other applications was to execute the YAML configuration file via `kubectl apply`.",
+      "source_content_hash": "95f265ae40afbe35798d126427cf7c3a3502913cd865618f30df117a0703d1b7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは常に更新され改善されています。私たちが最初に採用した時、安定版にすら達していませんでした。デバッグやログ収集ツールはなく、DashboardコンポーネントはTiDBにしか適用できませんでした。他のアプリケーションをテストする唯一の方法は、YAML設定ファイルを`kubectl apply`で実行することでした。"
+      }
+    },
+    {
+      "segment_id": "c504c207",
+      "source_content": "[Chaos Mesh 1.0](https://chaos-mesh.org/blog/chaos-mesh-1.0-chaos-engineering-on-kubernetes-made-easier) fixed or improved most of these limitations. It offers more fine-grained and powerful chaos support, a generally-available Chaos Dashboard, enhanced observability, and more accurate chaos scope control. These are all driven by an open, collaborative, and vibrant community.",
+      "source_content_hash": "d4335675fbc7ca4324747732f94f18833b37f8cb214cfb874d0f4650851949e0",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Chaos Mesh 1.0](https://chaos-mesh.org/blog/chaos-mesh-1.0-chaos-engineering-on-kubernetes-made-easier) では、これらの制限事項のほとんどが修正または改善されました。より細かく強力なカオスサポート、一般提供が開始されたChaos Dashboard、強化された可観測性、より正確なカオススコープ制御を提供しています。これらはすべて、オープンで協力的で活気あるコミュニティによって推進されています。"
+      }
+    },
+    {
+      "segment_id": "98d26038",
+      "source_content": "![Chaos Dashboard is now generally available](/img/blog/chaos-dashboard.gif)",
+      "source_content_hash": "dea4468946a22d325152a85a16d3d76af759d277d7f54231c208f061a953834a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos Dashboardが一般提供開始](/img/blog/chaos-dashboard.gif)"
+      }
+    },
+    {
+      "segment_id": "af52d59d",
+      "source_content": "## Looking forward",
+      "source_content_hash": "35d7da05f99d4b83edb28c57b26cd9a83f3ce70127f27f65fab1ab766940e74d",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 今後の展望"
+      }
+    },
+    {
+      "segment_id": "4d52a261",
+      "source_content": "It’s amazing to see how much Chaos Mesh has grown and how much traction it’s gaining. We’re also happy with what we have achieved with it.",
+      "source_content_hash": "2d03ed4c5d5c72609379dc57b5678a2df04cbde634610216c2ef09bf759150f2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshがどれほど成長し、どれほどの注目を集めているかは驚くべきものです。私たちも、Chaos Meshで達成した成果に満足しています。"
+      }
+    },
+    {
+      "segment_id": "23dfb152",
+      "source_content": "However, Chaos Engineering is a big area to work on. In the future, we’d like to see the following features:",
+      "source_content_hash": "91c0eeee6bb146513bb2aa8428e15878b0466d8556e0c2a3fb810c7a1754c098",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "しかし、カオスエンジニアリングは取り組むべき大きな領域です。将来的には、以下の機能が実現されることを期待しています："
+      }
+    },
+    {
+      "segment_id": "3df4f066",
+      "source_content": "- Atomic fault injection\n\n- Unattended fault inject that combines customized fault types with standardized methods to validate experimental objects\n\n- Standard test cases for general components such as MySQL, Redis, and Kafka",
+      "source_content_hash": "e7d7b466ef107a8d39087a657c27b0d79f185be8af343e38bd17cc3fb4b9a9d1",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- アトミックな障害注入\n- カスタマイズされた障害タイプと実験対象を検証する標準化された方法を組み合わせた無人障害注入\n- MySQL、Redis、Kafkaなどの一般的なコンポーネント向けの標準テストケース"
+      }
+    },
+    {
+      "segment_id": "0bb95128",
+      "source_content": "We’ve discussed these features with those who maintain Chaos Mesh, and they said these features are on the Chaos Mesh 2.0 roadmap.",
+      "source_content_hash": "111c33f67b7acb714a8d2f8062e17d02f70b6b5a39a5bb0c08b6b727190ea732",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これらの機能についてChaos Meshのメンテナーと議論したところ、これらはChaos Mesh 2.0のロードマップに含まれているとのことでした。"
+      }
+    },
+    {
+      "segment_id": "657c2b20",
+      "source_content": "If you are interested, join the Chaos Mesh community via [Slack](https://slack.cncf.io/) (#project-chaos-mesh) or [GitHub](https://github.com/chaos-mesh/chaos-mesh).",
+      "source_content_hash": "43f1c676f70a312e9fc434772acecea90d7d6c1a322ea9da2d0e98370d452b24",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "興味があれば、[Slack](https://slack.cncf.io/) (#project-chaos-mesh) または [GitHub](https://github.com/chaos-mesh/chaos-mesh) を通じてChaos Meshコミュニティに参加してください。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2020-11-26-how-a-top-game-company-uses-chaos-engineering-to-improve-testing.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.645961+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "5239865940ffac4849d73cee430c28a67d7178c03fc4adf570165a7051f1a26e"
+  }
+}

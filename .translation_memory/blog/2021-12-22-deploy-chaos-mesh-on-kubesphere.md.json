@@ -1,0 +1,262 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2021-12-22-deploy-chaos-mesh-on-kubesphere.md",
+  "source_file_content_hash": "7fcb0fb0f3d40390fb8ed77437b3e80b49af165bf50bfce5805ccf3f4fdc25a7",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /deploy-chaos-mesh-on-kubesphere\ntitle: 'Deploy Chaos Mesh on KubeSphere'\nauthors: cwen\nimage: /img/blog/chaos-mesh-kubesphere-banner.png\ntags: [Chaos Mesh, Chaos Engineering, Community]\n---",
+      "source_content_hash": "2261e0dcf48cb96afc8ede54b8098ff43f13a9c150d74d2cb022df43997e3072",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "![Deploy Chaos Mesh on KubeSphere](/img/blog/chaos-mesh-kubesphere-banner.png)",
+      "source_content_hash": "88e7e7348910148ab3c8e2020649e954ef2acde7ea2d03865b1c643b642ce395",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![KubeSphereにChaos Meshをデプロイ](/img/blog/chaos-mesh-kubesphere-banner.png)"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "[Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh) is a cloud-native Chaos Engineering platform that orchestrates chaos in Kubernetes environments. With Chaos Mesh, you can test your system's resilience and robustness on Kubernetes by injecting various types of faults into Pods, network, file system, and even the kernel.",
+      "source_content_hash": "bac4017055292398bb68feef21cfd0699f4e0352e147d94a84e2273c46614bb5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh)は、Kubernetes環境でカオスをオーケストレーションするクラウドネイティブなカオスエンジニアリングプラットフォームです。Chaos Meshを使用すると、Pod、ネットワーク、ファイルシステム、さらにはカーネルにさまざまな種類の障害を注入することで、Kubernetes上でのシステムの耐障害性と堅牢性をテストできます。"
+      }
+    },
+    {
+      "segment_id": "3e6699f4",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3e6699f4"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "![Chaos Mesh architecture](/img/blog/chaos-mesh-architecture-2.0.png)",
+      "source_content_hash": "ff3d63e1258e38517711d25385044633f2d0965658f8c72190b750dcd528edb3",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos Meshアーキテクチャ](/img/blog/chaos-mesh-architecture-2.0.png)"
+      }
+    },
+    {
+      "segment_id": "3daf1b88",
+      "source_content": "## What’s KubeSphere",
+      "source_content_hash": "82b21dc697b490b1be8c04c3de1a906f6f1e74b3272eb80991767ebeacd6fa2b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## KubeSphereとは"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "[KubeSphere](https://kubesphere.io/) is a distributed operating system for cloud-native application management, using Kubernetes as its kernel. It provides a plug-and-play architecture, allowing third-party applications to be seamlessly integrated into its ecosystem.",
+      "source_content_hash": "baad4b1b85223e1be2b867e6110219f3ebcb51e990f8bdbb4330da1d1172e0b2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[KubeSphere](https://kubesphere.io/)は、Kubernetesをカーネルとして使用するクラウドネイティブアプリケーション管理のための分散型オペレーティングシステムです。プラグアンドプレイアーキテクチャを提供し、サードパーティアプリケーションをそのエコシステムにシームレスに統合できます。"
+      }
+    },
+    {
+      "segment_id": "f5f6d2ce",
+      "source_content": "KubeSphere 3.2.0 adds the feature of dynamically loading community-developed Helm charts into the [KubeSphere App Store](https://kubesphere.io/docs/pluggable-components/app-store/). Thanks to this new feature, Chaos Mesh is now available on KubeSphere. In this tutorial, you will learn how to deploy Chaos Mesh on KubeSphere to conduct chaos experiments.",
+      "source_content_hash": "fb5e18f7937fefa0d353dfa13c1ed89431e248bc3ce349398dc6787f674e6383",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "KubeSphere 3.2.0では、コミュニティで開発されたHelmチャートを[KubeSphere App Store](https://kubesphere.io/docs/pluggable-components/app-store/)に動的にロードする機能が追加されました。この新機能により、Chaos MeshがKubeSphereで利用可能になりました。このチュートリアルでは、KubeSphereにChaos Meshをデプロイしてカオス実験を行う方法を学びます。"
+      }
+    },
+    {
+      "segment_id": "40f9552a",
+      "source_content": "## Enable App Store on KubeSphere",
+      "source_content_hash": "11bdcfef4d84a8bd0eb9c0a83f3cb30f8d6f0adb0e76335f1d004d83a007c95d",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## KubeSphereでApp Storeを有効にする"
+      }
+    },
+    {
+      "segment_id": "44d89370",
+      "source_content": "1. Make sure you have installed and enabled the [KubeSphere App Store](https://kubesphere.io/docs/pluggable-components/app-store/).\n\n2. You need to create a workspace, a project, and a user account (project-regular) for this tutorial. The account needs to be a platform regular user and to be invited as the project operator with the operator role. For more information, see [Create Workspaces, Projects, Users and Roles](https://kubesphere.io/docs/quick-start/create-workspace-and-project/).",
+      "source_content_hash": "bbf05767df74c0888fc40215a10600f3a3781aca5223e17c306404bffeb36a70",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. [KubeSphere App Store](https://kubesphere.io/docs/pluggable-components/app-store/)がインストールされ、有効になっていることを確認してください。\n\n2. このチュートリアルでは、ワークスペース、プロジェクト、およびユーザーアカウント（project-regular）を作成する必要があります。アカウントはプラットフォームの通常ユーザーであり、オペレーターロールでプロジェクトオペレーターとして招待される必要があります。詳細については、[ワークスペース、プロジェクト、ユーザー、ロールの作成](https://kubesphere.io/docs/quick-start/create-workspace-and-project/)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "f2f30ae8",
+      "source_content": "## Chaos experiments with Chaos Mesh",
+      "source_content_hash": "8c40a8b991ab68f3ba4508e424ab484a020fbc2164a88f32394b91fd4a1c0001",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Meshを使ったカオス実験"
+      }
+    },
+    {
+      "segment_id": "48847fd4",
+      "source_content": "### Step 1: Deploy Chaos Mesh",
+      "source_content_hash": "f12870542e1c39dcaf43e8ca7d2d041f4aaa9d911524a2de087c4eb62e06f626",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ステップ1: Chaos Meshをデプロイ"
+      }
+    },
+    {
+      "segment_id": "cd471e4e",
+      "source_content": "1. Login KubeSphere as `project-regular`, search for **chaos-mesh** in the **App Store**, and click on the search result to enter the app.\n\n   ![Chaos Mesh app](/img/blog/chaos-mesh-app.png)\n\n2. In the **App Information** page, click **Install** on the upper right corner.\n\n   ![Install Chaos Mesh](/img/blog/install-chaos-mesh.png)\n\n3. In the **App Settings** page, set the application **Name,** **Location** (as your Namespace), and **App Version**, and then click **Next** on the upper right corner.\n\n   ![Chaos Mesh basic information](/img/blog/chaos-mesh-basic-info.png)\n\n4. Configure the `values.yaml` file as needed, or click **Install** to use the default configuration.\n\n   ![Chaos Mesh configurations](/img/blog/chaos-mesh-config.png)\n\n5. Wait for the deployment to be finished. Upon completion, Chaos Mesh will be shown as **Running** in KubeSphere.\n\n   ![Chaos Mesh deployed](/img/blog/chaos-mesh-deployed.png)",
+      "source_content_hash": "1b5c04fbf79d9b308edf6b45a255802b084c00dda44bef90ef1ce89b3a17865a",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. `project-regular`としてKubeSphereにログインし、**App Store**で**chaos-mesh**を検索し、検索結果をクリックしてアプリに入ります。\n\n   ![Chaos Meshアプリ](/img/blog/chaos-mesh-app.png)\n\n2. **アプリ情報**ページで、右上の**インストール**をクリックします。\n\n   ![Chaos Meshをインストール](/img/blog/install-chaos-mesh.png)\n\n3. **アプリ設定**ページで、アプリケーションの**名前**、**場所**（Namespaceとして）、および**アプリバージョン**を設定し、右上の**次へ**をクリックします。\n\n   ![Chaos Mesh基本情報](/img/blog/chaos-mesh-basic-info.png)\n\n4. `values.yaml`ファイルを必要に応じて設定するか、**インストール**をクリックしてデフォルト設定を使用します。\n\n   ![Chaos Mesh設定](/img/blog/chaos-mesh-config.png)\n\n5. デプロイが完了するのを待ちます。完了すると、Chaos MeshはKubeSphereで**実行中**と表示されます。\n\n   ![Chaos Meshデプロイ完了](/img/blog/chaos-mesh-deployed.png)"
+      }
+    },
+    {
+      "segment_id": "c6cc90a0",
+      "source_content": "### Step 2: Visit Chaos Dashboard",
+      "source_content_hash": "68e8bb4b05e8130710aa8119e2c6c57ae2b3acb0572036692b3d5ef218ee3eb7",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ステップ2: Chaos Dashboardにアクセス"
+      }
+    },
+    {
+      "segment_id": "c94a9c0e",
+      "source_content": "1. In the **Resource Status** page, copy the **NodePort **of `chaos-dashboard`.\n\n   ![Chaos Mesh NodePort](/img/blog/chaos-mesh-nodeport.png)\n\n2. Access the Chaos Dashboard by entering `${NodeIP}:${NODEPORT}` in your browser. Refer to [Manage User Permissions](https://chaos-mesh.org/docs/manage-user-permissions/) to generate a Token and log into Chaos Dashboard.\n\n   ![Login to Chaos Dashboard](/img/blog/login-to-dashboard.png)",
+      "source_content_hash": "4f6c480fd369776f0b66ef36e6a132ee4938a6a9ad53db5194f2ae786dc63380",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. **リソースステータス**ページで、`chaos-dashboard`の**NodePort**をコピーします。\n\n   ![Chaos Mesh NodePort](/img/blog/chaos-mesh-nodeport.png)\n\n2. ブラウザで`${NodeIP}:${NODEPORT}`を入力してChaos Dashboardにアクセスします。[ユーザー権限の管理](https://chaos-mesh.org/docs/manage-user-permissions/)を参照してTokenを生成し、Chaos Dashboardにログインします。\n\n   ![Chaos Dashboardにログイン](/img/blog/login-to-dashboard.png)"
+      }
+    },
+    {
+      "segment_id": "9e95fc4a",
+      "source_content": "### Step 3: Create a chaos experiment",
+      "source_content_hash": "62d814335d8d219eb80b1ea7051a08b0791cafc66b3567eb06c69a7789f7c7c0",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ステップ3: カオス実験を作成"
+      }
+    },
+    {
+      "segment_id": "5dae11e3",
+      "source_content": "Before creating a chaos experiment, you should identify and deploy your experiment target, for example, to test how an application works under network latency. Here, we use a demo application `web-show` as the target application to be tested, and the test goal is to observe the system network latency. You can deploy a demo application `web-show` with the following command: `web-show`.",
+      "source_content_hash": "46c70f7bec07cc10829344796a1ba10ecb2d7c94d551bfbed9e5052bfd8ebc91",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "カオス実験を作成する前に、実験対象を特定してデプロイする必要があります。たとえば、ネットワーク遅延下でアプリケーションがどのように動作するかをテストします。ここでは、テスト対象アプリケーションとしてデモアプリケーション`web-show`を使用し、テスト目標はシステムのネットワーク遅延を観察することです。以下のコマンドでデモアプリケーション`web-show`をデプロイできます: `web-show`。"
+      }
+    },
+    {
+      "segment_id": "1d510af2",
+      "source_content": "```bash\ncurl -sSL https://mirrors.chaos-mesh.org/latest/web-show/deploy.sh | bash\n```",
+      "source_content_hash": "81649bfe7b3ac6ebc49714ea596190492cd6ce36ef93b998f0e7ab389a6ebf38",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_1d510af2"
+      }
+    },
+    {
+      "segment_id": "ac426fbd",
+      "source_content": "> Note: The network latency of the Pod can be observed directly from the web-show application pad to the kube-system pod.",
+      "source_content_hash": "e50be3094f8390cafe12210d6a4dc8e35f9685804506df3a28c5d606737d816e",
+      "node_type": "blockquote",
+      "translatable": true,
+      "translations": {
+        "ja": "> 注: Podのネットワーク遅延は、web-showアプリケーションのパッドからkube-systemのPodまで直接観察できます。"
+      }
+    },
+    {
+      "segment_id": "69c1f590",
+      "source_content": "1. From your web browser, visit `${NodeIP}:8081` to access the **Web Show** application.\n\n   ![Chaos Mesh web show app](/img/blog/web-show-app.png)\n\n2. Log in to Chaos Dashboard to create a chaos experiment. To observe the effect of network latency on the application, we set the **Target **as \"Network Attack\" to simulate a network delay scenario.\n\n   ![Chaos Dashboard](/img/blog/chaos-dashboard-networkchaos.png)\n\n   The **Scope** of the experiment is set to `app: web-show`.\n\n   ![Chaos Experiment scope](/img/blog/chaos-experiment-scope.png)\n\n3. Start the chaos experiment by submitting it.\n\n   ![Submit Chaos Experiment](/img/blog/start-chaos-experiment.png)",
+      "source_content_hash": "92a82a66eb1e45a5eb38549bd7409bdc9957e0b16800b1d3ebb8f387bc041f46",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. ウェブブラウザから`${NodeIP}:8081`にアクセスし、**Web Show**アプリケーションを開きます。\n\n   ![Chaos Mesh web show app](/img/blog/web-show-app.png)\n\n2. Chaos Dashboardにログインしてカオス実験を作成します。アプリケーションへのネットワーク遅延の影響を観察するため、**Target**を「Network Attack」に設定し、ネットワーク遅延シナリオをシミュレートします。\n\n   ![Chaos Dashboard](/img/blog/chaos-dashboard-networkchaos.png)\n\n   実験の**Scope**は`app: web-show`に設定します。\n\n   ![Chaos Experiment scope](/img/blog/chaos-experiment-scope.png)\n\n3. カオス実験を送信して開始します。\n\n   ![Submit Chaos Experiment](/img/blog/start-chaos-experiment.png)"
+      }
+    },
+    {
+      "segment_id": "74dd7937",
+      "source_content": "Now, you should be able to visit **Web Show** to observe experiment results:",
+      "source_content_hash": "1de86b5f8defa2dd4a88c79bec750a4648480f816e90fe8369818de9ed1cfb3f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これで、**Web Show**にアクセスして実験結果を観察できるようになります:"
+      }
+    },
+    {
+      "segment_id": "5803caac",
+      "source_content": "![Chaos Experiment result](/img/blog/experiment-result.png)",
+      "source_content_hash": "0b0cf476ddfb541f3404ea7a973454478c510b1b90d266be1824cda1da7b83c9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos Experiment result](/img/blog/experiment-result.png)"
+      }
+    },
+    {
+      "segment_id": "39db08de",
+      "source_content": "## To summarize",
+      "source_content_hash": "19f0434a0755cbc2a136737478411a452d321d9736649aad4fb9b2f833e678cb",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## まとめ"
+      }
+    },
+    {
+      "segment_id": "785750ac",
+      "source_content": "KubeSphere makes cloud-native application deployments and maintenance easy. Thanks to the App Store, users can easily deploy Chaos Mesh on KubeSphere with just a few clicks, enabling you to quickly start your own chaos experiments.",
+      "source_content_hash": "49ca43d8e565aab513e36f994f22d94ac7932c070ebdb6db30881599d3484b43",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "KubeSphereはクラウドネイティブアプリケーションのデプロイとメンテナンスを容易にします。App Storeのおかげで、ユーザーは数回クリックするだけでKubeSphere上にChaos Meshを簡単にデプロイでき、独自のカオス実験をすぐに開始できます。"
+      }
+    },
+    {
+      "segment_id": "82e90254",
+      "source_content": "To learn more about Chaos Mesh, refer to the [Chaos Mesh docs](https://chaos-mesh.org/docs/) or join the community Slack ([CNCF](https://slack.cncf.io/)/#project-chaos-mesh).",
+      "source_content_hash": "b56d8461128ab4808c1bf80a3073a8c7a59c81d916629edb97ffd6d40ae93470",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshについてさらに学ぶには、[Chaos Meshドキュメント](https://chaos-mesh.org/docs/)を参照するか、コミュニティSlack（[CNCF](https://slack.cncf.io/)/#project-chaos-mesh）に参加してください。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2021-12-22-deploy-chaos-mesh-on-kubesphere.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.645740+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "7fcb0fb0f3d40390fb8ed77437b3e80b49af165bf50bfce5805ccf3f4fdc25a7"
+  }
+}

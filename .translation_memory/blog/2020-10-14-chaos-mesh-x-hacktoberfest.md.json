@@ -1,0 +1,182 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2020-10-14-chaos-mesh-x-hacktoberfest.md",
+  "source_file_content_hash": "f42366e1816cf29fd7da2d05c57c7017b70518a811548865e41a0ce3d6fff405",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /chaos-mesh-x-hacktoberfest-2020\ntitle: Chaos Mesh X Hacktoberfest 2020 - An Invitation to Open Source\nauthors: chaos-mesh\nimage: /img/blog/chaos-mesh-x-hacktoberfest.jpg\ntags: [Chaos Mesh, Chaos Engineering, Open Source]\n---",
+      "source_content_hash": "67166442c22787e0b9e92bc2d4c42c42ce2da0e715fd097009c5aae3b190c996",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "![Chaos-Mesh-X-Hacktoberfest-An-Invitation-to-Open-Source](/img/blog/chaos-mesh-x-hacktoberfest.jpg)",
+      "source_content_hash": "aa1658fcf9226a4cf8c88a667fddd2c8ed036a8ac8793f0ad99b50d37cfc5fcf",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos-Mesh-X-Hacktoberfest-An-Invitation-to-Open-Source](/img/blog/chaos-mesh-x-hacktoberfest.jpg)"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "[Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh) is proud to be in [Hacktoberfest 2020](https://hacktoberfest.digitalocean.com/)!",
+      "source_content_hash": "b44a81d712e7c70ec676d9b55c2c07c9444ae2bd1cf4a3e40fe1c1cace0e3e4f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh)は、[Hacktoberfest 2020](https://hacktoberfest.digitalocean.com/)に参加できることを誇りに思っています！"
+      }
+    },
+    {
+      "segment_id": "180bddb1",
+      "source_content": "Hosted by DigitalOcean, Intel and DEV, Hacktoberfest is an open source celebration open to everyone in our global community. This month-long (Oct 1 - Oct 31) event encourages everyone to help drive the growth of open source and make positive contributions to an ever-growing community, whether you’re an experienced developer or open-source newbie learning to code. As long as you submit 4 PRs before Oct 31, you are eligible to claim a limit edition T-shirt (70000 in total on a first-come-first-served basis)!",
+      "source_content_hash": "66ed69296f558f0deae6936cc793368b42e6a86a3473c58c68e1f6b2d47cb69d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "DigitalOcean、Intel、DEVが主催するHacktoberfestは、グローバルコミュニティの誰もが参加できるオープンソースの祭典です。この1ヶ月間（10月1日～10月31日）のイベントでは、経験豊富な開発者でも、コーディングを学び始めたオープンソース初心者でも、オープンソースの成長を促進し、拡大し続けるコミュニティに積極的に貢献することが推奨されています。10月31日までに4つのPRを提出すれば、限定版Tシャツ（先着順で合計70000枚）を獲得する資格が得られます！"
+      }
+    },
+    {
+      "segment_id": "28a64196",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_28a64196"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "![Hacktoberfest T-shirt](/img/blog/hacktoberfest-shirt.png)",
+      "source_content_hash": "3e64d4449c11f268479087baca98bf4448940dce3faf88082239f0ea04cd5bf3",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Hacktoberfest T-shirt](/img/blog/hacktoberfest-shirt.png)"
+      }
+    },
+    {
+      "segment_id": "aee0e40d",
+      "source_content": "## Open source is the spirit",
+      "source_content_hash": "9f64004504ce6d079f2cdb5da3abc00052f5dfe7b0ae8c9da168406db45e07a1",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## オープンソースは精神です"
+      }
+    },
+    {
+      "segment_id": "f5f6d2ce",
+      "source_content": "Chaos Mesh has always been a dedicated and firm advocate of open source from day 1. Within only 10 months since it was open-sourced on December 31st, 2019, Chaos Mesh has received around 2.5k GitHub stars, with 59 contributors from multiple organizations. And it was accepted as a [CNCF sandbox project](https://www.cncf.io/sandbox-projects/) in July 2020. The amazing growth of the project as well as the community could not have been possible without our shared commitment to the open-source community and spirit.",
+      "source_content_hash": "3abdf1412cd3f5b15202a65725f7b7cbd4beb895b73e3ded2d824af978db885e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは、最初の日からオープンソースの献身的で確固たる支持者でした。2019年12月31日にオープンソース化されてからわずか10ヶ月で、Chaos Meshは約2.5kのGitHubスターを獲得し、複数の組織から59人のコントリビューターが参加しました。そして2020年7月には[CNCFサンドボックスプロジェクト](https://www.cncf.io/sandbox-projects/)として承認されました。このプロジェクトとコミュニティの驚異的な成長は、オープンソースコミュニティとその精神に対する私たちの共通の取り組みなしには不可能でした。"
+      }
+    },
+    {
+      "segment_id": "2fdadb08",
+      "source_content": "We hereby invite you to be part of us, starting from our handpicked issues with proper mentoring and assistance along your journey, which we hope you will find rewarding, inspiring, and most of all, fun.",
+      "source_content_hash": "8c3818f8c97350a89629d0bb86f5e25c120679e8668f202b1ab22e69d57e58bd",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ここに、私たちの一部となることをあなたに招待します。適切なメンタリングとサポートを提供する手選りした課題から始め、あなたにとって報いがあり、刺激的で、何よりも楽しい旅になることを願っています。"
+      }
+    },
+    {
+      "segment_id": "ed7dde9c",
+      "source_content": "## How can you participate",
+      "source_content_hash": "a86e9d6750c5b5a23a79e686ca6548028d4d2f6e00da92eabf37b9dde310ee96",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 参加方法"
+      }
+    },
+    {
+      "segment_id": "a76548f8",
+      "source_content": "So we are all set up for you in Hacktoberfest - labeled [suitable issues](https://github.com/chaos-mesh/chaos-mesh/issues?q=is%3Aissue+is%3Aopen+label%3AHacktoberfest) with “Hacktoberfest”, and updated the [Contributing Guide](https://github.com/chaos-mesh/chaos-mesh/blob/master/CONTRIBUTING.md).",
+      "source_content_hash": "f620fa5008942468009d9ef697266cc690d13add07008fb5e02f059d4516a8a1",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Hacktoberfestに向けて、私たちはあなたのためにすべてを準備しました - 「Hacktoberfest」とラベル付けされた[適切な課題](https://github.com/chaos-mesh/chaos-mesh/issues?q=is%3Aissue+is%3Aopen+label%3AHacktoberfest)と、[コントリビューションガイド](https://github.com/chaos-mesh/chaos-mesh/blob/master/CONTRIBUTING.md)を更新しました。"
+      }
+    },
+    {
+      "segment_id": "4b1d2d7d",
+      "source_content": "How can you participate? It could not be easier with the following steps:",
+      "source_content_hash": "4e237ba5fcbc5f3f1eabc3d2018b59954acf1eb8a538aaad1d24ee52a98f8930",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "どのように参加できますか？以下の手順で簡単に参加できます："
+      }
+    },
+    {
+      "segment_id": "c6dea11f",
+      "source_content": "1. Sign up for [Hacktoberfest](https://hacktoberfest.digitalocean.com/login) using your GitHub account between Oct 1 and Oct 31.\n2. Pick up an issue. Note that the issues are still being updated, but you don’t have to be limited to issues with the Hacktoberfest label, which only serve as a starting point.\n3. Start coding and submit your PRs. Again the PR does not need to be corresponding to the labeled issue.\n4. Our maintainers review your PRs. Once you successfully merged, or have gained approval for 4 or more of them, the PRs will be automatically counted on the Hacktoberfest end, and you will be eligible to claim your SWAG.\n\n   ![PR count](/img/blog/PR-count.png)",
+      "source_content_hash": "7a17b606e760e7d241775be8566686a88ca7138ef6ba4fa0d5219aae231ab96d",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 10月1日から10月31日までの間にGitHubアカウントを使用して[Hacktoberfest](https://hacktoberfest.digitalocean.com/login)に登録します。\n2. 課題を選びます。課題はまだ更新中ですが、Hacktoberfestラベルの付いた課題に限定する必要はありません。これらはあくまで出発点として提供されています。\n3. コーディングを開始し、PRを提出します。繰り返しますが、PRはラベル付きの課題に対応している必要はありません。\n4. 私たちのメンテナーがPRをレビューします。4つ以上のPRがマージまたは承認されると、Hacktoberfest側で自動的にカウントされ、SWAGを請求する資格が得られます。\n\n   ![PR count](/img/blog/PR-count.png)"
+      }
+    },
+    {
+      "segment_id": "135468ee",
+      "source_content": "**Note:** If your PRs are merged or approved but you haven’t seen the number reflected on Hacktoberfest, comment under your PR.",
+      "source_content_hash": "1e5dd6b76610ae874fd5bda6cb4722153852433f51d554acb3af788ec376e9be",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**注:** PRがマージまたは承認されたにもかかわらず、Hacktoberfestで数が反映されていない場合は、PRの下にコメントしてください。"
+      }
+    },
+    {
+      "segment_id": "782c902a",
+      "source_content": "## Strive for quality, learning, and no spammy",
+      "source_content_hash": "5d7ae8c9b835568a3640434aa70510796c737eeb2c9a54155f42a62f3dc05107",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 品質、学習、そしてスパムのないことを目指して"
+      }
+    },
+    {
+      "segment_id": "50746522",
+      "source_content": "In the spirit of open source and Hacktoberfest, we welcome all contributions and honor only valid PRs. However, we would not encourage or tolerate spammy contributions, which would not only cause waste to our maintainer’s time but also hurt the feelings and the integrity of the entire open source community. Spammy PRs will be labeled as \"invalid\" or \"spam\", and will be closed as invalid.",
+      "source_content_hash": "9818b21a168755c8af25c0dd9688a7d6e0f048029e2f10a942d9e5205a066ecb",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "オープンソースとHacktoberfestの精神に則り、私たちはすべての貢献を歓迎し、有効なPRのみを尊重します。しかし、スパム的な貢献は推奨せず、容認しません。これらはメンテナーの時間を浪費するだけでなく、オープンソースコミュニティ全体の感情と誠実さを傷つけることになります。スパム的なPRは「無効」または「スパム」としてラベル付けされ、無効としてクローズされます。"
+      }
+    },
+    {
+      "segment_id": "95e9ba12",
+      "source_content": "Happy hacking! But don’t hack alone. Join #project-chaos-mesh in the [CNCF Slack](https://slack.cncf.io/) to share your experience, provide your feedback on your experience, or let us help with any problem you have.",
+      "source_content_hash": "20b3287b6ec60c345855f5acc4fc8d02a14da55f3a42d8cc1c5925e36f055c06",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ハッピーハッキング！しかし、一人でハックしないでください。[CNCF Slack](https://slack.cncf.io/)の#project-chaos-meshに参加して、あなたの経験を共有し、体験についてのフィードバックを提供するか、あなたが抱える問題を私たちに解決させてください。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2020-10-14-chaos-mesh-x-hacktoberfest.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.691411+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "f42366e1816cf29fd7da2d05c57c7017b70518a811548865e41a0ce3d6fff405"
+  }
+}

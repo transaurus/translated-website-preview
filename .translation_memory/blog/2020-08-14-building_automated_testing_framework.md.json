@@ -1,0 +1,542 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2020-08-14-building_automated_testing_framework.md",
+  "source_file_content_hash": "ac279c13eb412a354e072a4c7f0f02b27e2a62b0be933c70f03e278ca889d88b",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /building_automated_testing_framework\ntitle: Building an Automated Testing Framework Based on Chaos Mesh and Argo\nauthors: chaos-mesh\nimage: /img/blog/automated_testing_framework.png\ntags: [Chaos Mesh, Chaos Engineering, Test Automation]\n---",
+      "source_content_hash": "92d3b105888feffc7ef3fae8515eb6b5465ba1341c726ecd3975273e2484cba6",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "![TiPocket - Automated Testing Framework](/img/blog/automated_testing_framework.png)",
+      "source_content_hash": "b84d9ce45f9f3f80034c29010a554e7ea244d57f69991b82074ea5647b1559ff",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![TiPocket - 自動テストフレームワーク](/img/blog/automated_testing_framework.png)"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "[Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh) is an open-source chaos engineering platform for Kubernetes. Although it provides rich capabilities to simulate abnormal system conditions, it still only solves a fraction of the Chaos Engineering puzzle. Besides fault injection, a full chaos engineering application consists of hypothesizing around defined steady states, running experiments in production, validating the system via test cases, and automating the testing.",
+      "source_content_hash": "f49102e5ae8632866e9feae7d9c0decc41c8cbefc6a578a679197abc556503ca",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh)は、Kubernetes向けのオープンソースのカオスエンジニアリングプラットフォームです。異常なシステム状態をシミュレートする豊富な機能を提供していますが、それでもカオスエンジニアリングのパズルの一部しか解決していません。障害注入に加えて、完全なカオスエンジニアリングアプリケーションは、定義された安定状態に関する仮説の構築、本番環境での実験の実行、テストケースによるシステムの検証、そしてテストの自動化で構成されます。"
+      }
+    },
+    {
+      "segment_id": "180bddb1",
+      "source_content": "This article describes how we use [TiPocket](https://github.com/pingcap/tipocket), an automated testing framework to build a full Chaos Engineering testing loop for TiDB, our distributed database.",
+      "source_content_hash": "05755cdaaffd3663869c63a5bac7bb864995103a27e94214229b6e4f185bbc42",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この記事では、分散データベースTiDBのための完全なカオスエンジニアリングテストループを構築するために、自動テストフレームワーク[TiPocket](https://github.com/pingcap/tipocket)をどのように使用しているかを説明します。"
+      }
+    },
+    {
+      "segment_id": "28a64196",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_28a64196"
+      }
+    },
+    {
+      "segment_id": "3daf1b88",
+      "source_content": "## Why do we need TiPocket?",
+      "source_content_hash": "5e88dacf1c8236b95dcd83c2e4d82a1c1bcc71779af408827e4fe776283280ff",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## TiPocketが必要な理由"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "Before we can put a distributed system like [TiDB](https://github.com/pingcap/tidb) into production, we have to ensure that it is robust enough for day-to-day use. For this reason, several years ago we introduced Chaos Engineering into our testing framework. In our testing framework, we:",
+      "source_content_hash": "ca7070bde69044fe9f21a3ef86ce0784610b8d8d1c4812fdde2e1dfd0660088a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[TiDB](https://github.com/pingcap/tidb)のような分散システムを本番環境に導入する前に、日常使用に十分な堅牢性を確保する必要があります。このため、数年前からテストフレームワークにカオスエンジニアリングを導入しました。テストフレームワークでは、以下のことを行います："
+      }
+    },
+    {
+      "segment_id": "0787cf7f",
+      "source_content": "1. Observe the normal metrics and develop our testing hypothesis.\n2. Inject a list of failures into TiDB.\n3. Run various test cases to verify TiDB in fault scenarios.\n4. Monitor and collect test results for analysis and diagnosis.",
+      "source_content_hash": "a0733c83b573b9fb838b92cc58d6cc5c22e81a03734cc0b9444818317d3b325a",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 通常のメトリクスを観察し、テスト仮説を構築します。\n2. TiDBに一連の障害を注入します。\n3. 障害シナリオでTiDBを検証するための様々なテストケースを実行します。\n4. テスト結果を監視・収集し、分析と診断を行います。"
+      }
+    },
+    {
+      "segment_id": "ccc88b4c",
+      "source_content": "This sounds like a solid process, and we’ve used it for years. However, as TiDB evolves, the testing scale multiplies. We have multiple fault scenarios, against which dozens of test cases run in the Kubernetes testing cluster. Even with Chaos Mesh helping to inject failures, the remaining work can still be demanding—not to mention the challenge of automating the pipeline to make the testing scalable and efficient.",
+      "source_content_hash": "c974b9589c5bc340f16605f11ac9c7e1a1df9cc6babf30d74f3b86686401d48c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これは堅実なプロセスに聞こえ、私たちは何年もこれを使用してきました。しかし、TiDBが進化するにつれて、テストの規模は倍増します。Kubernetesテストクラスターで実行される数十のテストケースに対して、複数の障害シナリオがあります。Chaos Meshが障害注入を支援しているとしても、残りの作業は依然として要求が高く、テストをスケーラブルかつ効率的にするためのパイプラインの自動化という課題もあります。"
+      }
+    },
+    {
+      "segment_id": "d9172fa4",
+      "source_content": "This is why we built TiPocket, a fully-automated testing framework based on Kubernetes and Chaos Mesh. Currently, we mainly use it to test TiDB clusters. However, because of TiPocket’s Kubernetes-friendly design and extensible interface, you can use Kubernetes’ create and delete logic to easily support other applications.",
+      "source_content_hash": "fbf05568fb71be13cc81515deda91676014c38a9ac3e793373488cfc5a8f30a0",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これが、KubernetesとChaos Meshに基づいた完全に自動化されたテストフレームワークであるTiPocketを構築した理由です。現在、主にTiDBクラスターのテストに使用しています。しかし、TiPocketのKubernetesフレンドリーな設計と拡張可能なインターフェースにより、Kubernetesの作成および削除ロジックを使用して他のアプリケーションを簡単にサポートできます。"
+      }
+    },
+    {
+      "segment_id": "d06306f7",
+      "source_content": "## How does it work",
+      "source_content_hash": "a475fc18fc36f0929a0814a24ccd7b46c365963f982dd286fb6718e9cb64f5f1",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 動作原理"
+      }
+    },
+    {
+      "segment_id": "73ab96a3",
+      "source_content": "Based on the above requirements, we need an automatic workflow that:",
+      "source_content_hash": "1d8a3fec575753a55b5816a3fbc18d625e886fad959f8e70778fc68a53de16de",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "上記の要件に基づいて、以下の自動ワークフローが必要です："
+      }
+    },
+    {
+      "segment_id": "f2c8a42b",
+      "source_content": "- [Injects chaos](#injecting-chaos---chaos-mesh)\n- [Verifies the impact of that chaos](#verifying-chaos-impacts-test-cases)\n- [Automates the chaos pipeline](#automating-the-chaos-pipeline---argo)\n- [Visualizes the results](#visualizing-the-results-loki)",
+      "source_content_hash": "be65d65e56779a5b2e36614c233360de59c2548666130c69dc592395fa900512",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- [カオスの注入](#injecting-chaos---chaos-mesh)\n- [カオスの影響の検証](#verifying-chaos-impacts-test-cases)\n- [カオスパイプラインの自動化](#automating-the-chaos-pipeline---argo)\n- [結果の可視化](#visualizing-the-results-loki)"
+      }
+    },
+    {
+      "segment_id": "62a6890b",
+      "source_content": "### Injecting chaos - Chaos Mesh",
+      "source_content_hash": "02c13979a373bcfaf651f9dadaa011f059634b690507658213cdb7e91c97268d",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### カオスの注入 - Chaos Mesh"
+      }
+    },
+    {
+      "segment_id": "3cfe6286",
+      "source_content": "Fault injection is the core chaos testing. In a distributed database, faults can happen anytime, anywhere—from node crashes, network partitions, and file system failures, to kernel panics. This is where Chaos Mesh comes in.",
+      "source_content_hash": "fe79aed89ccfb9b28dabdf2aab254f1629ef57ad51c4d8b4f5928e539ec7a576",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "障害注入はカオステストの中核です。分散データベースでは、障害はいつでも、どこでも発生する可能性があります—ノードクラッシュ、ネットワーク分断、ファイルシステム障害、カーネルパニックなどです。ここでChaos Meshが役立ちます。"
+      }
+    },
+    {
+      "segment_id": "1042b50d",
+      "source_content": "Currently, TiPocket supports the following types of fault injection:",
+      "source_content_hash": "2c70ea8aacbfbab2645b593f16e425aae3824d80ba602bf6c6046b3599ebb36c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "現在、TiPocketは以下のタイプの障害注入をサポートしています："
+      }
+    },
+    {
+      "segment_id": "4c077b92",
+      "source_content": "- **Network**: Simulates network partitions, random packet loss, disorder, duplication, or delay of links.\n- **Time skew**: Simulates clock skew of the container to be tested.\n- **Kill**: Kills the specified pod, either randomly in a cluster or within a component (TiDB, TiKV, or Placement Driver (PD)).\n- **I/O**: Injects I/O delays in TiDB’s storage engine, TiKV, to identify I/O related issues.",
+      "source_content_hash": "70fcfcb0a0ff016d3e4a7bdbefe9ef91405e1af867280f41975ac282fac5aa6a",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- **ネットワーク**: ネットワーク分断、ランダムなパケット損失、リンクの順序不同、重複、または遅延をシミュレートします。\n- **時間のずれ**: テスト対象コンテナのクロックスキューをシミュレートします。\n- **強制終了**: 指定されたpodを強制終了します。クラスター内でランダムに、またはコンポーネント（TiDB、TiKV、またはPlacement Driver（PD））内で行います。\n- **I/O**: TiDBのストレージエンジンであるTiKVにI/O遅延を注入し、I/O関連の問題を特定します。"
+      }
+    },
+    {
+      "segment_id": "a44047a5",
+      "source_content": "With fault injection handled, we need to think about verification. How do we make sure TiDB can survive these faults?",
+      "source_content_hash": "0945e2f1088906937d59527916399fa61c24080579acbfd3d08005758cdd4717",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "障害注入が処理されたら、検証について考える必要があります。TiDBがこれらの障害を乗り越えられることをどのように確認しますか？"
+      }
+    },
+    {
+      "segment_id": "cb5b269c",
+      "source_content": "## Verifying chaos impacts: test cases",
+      "source_content_hash": "904be6b08673743d2d7007ff21255e8f7e4e304f352b5b34c0571b062703e1f8",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## カオスの影響の検証: テストケース"
+      }
+    },
+    {
+      "segment_id": "b36c6338",
+      "source_content": "To validate how TiDB withstands chaos, we implemented dozens of test cases in TiPocket, combined with a variety of inspection tools. To give you an overview of how TiPocket verifies TiDB in the event of failures, consider the following test cases. These cases focus on SQL execution, transaction consistency, and transaction isolation.",
+      "source_content_hash": "1f6bdbddf62ca8d1653dd8078bbf7b27be73a3544c265bee2de85c034f56374e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "TiDBがカオスに耐える方法を検証するために、TiPocketに数十のテストケースを実装し、様々な検査ツールと組み合わせました。障害発生時にTiPocketがどのようにTiDBを検証するかの概要を理解するために、以下のテストケースを考えてみてください。これらのケースは、SQL実行、トランザクションの一貫性、およびトランザクション分離に焦点を当てています。"
+      }
+    },
+    {
+      "segment_id": "2c1b51df",
+      "source_content": "### Fuzz testing: SQLsmith",
+      "source_content_hash": "0570e844b9912194903e5ac9505925ffdabaee6cd2e256544ae4bc372929025f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ファジーテスト: SQLsmith"
+      }
+    },
+    {
+      "segment_id": "e536ea0d",
+      "source_content": "[SQLsmith](https://github.com/pingcap/tipocket/tree/master/pkg/go-sqlsmith) is a tool that generates random SQL queries. TiPocket creates a TiDB cluster and a MySQL instance.. The random SQL generated by SQLsmith is executed on TiDB and MySQL, and various faults are injected into the TiDB cluster to test. In the end, execution results are compared. If we detect inconsistencies, there are potential issues with our system.",
+      "source_content_hash": "d13d8cce3daa4995537368a1d74b83f0d0540091b7c580b04b66fe8a2173e481",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[SQLsmith](https://github.com/pingcap/tipocket/tree/master/pkg/go-sqlsmith)は、ランダムなSQLクエリを生成するツールです。TiPocketはTiDBクラスターとMySQLインスタンスを作成します。SQLsmithによって生成されたランダムなSQLはTiDBとMySQLで実行され、TiDBクラスターにさまざまな障害が注入されてテストされます。最終的に実行結果が比較されます。もし不一致が検出された場合、システムに潜在的な問題がある可能性があります。"
+      }
+    },
+    {
+      "segment_id": "ab5fc5b5",
+      "source_content": "### Transaction consistency testing: Bank and Porcupine",
+      "source_content_hash": "92958e71368e5d8d800557ed749746392ebd4c817e6af7db49372986e9387324",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### トランザクション一貫性テスト: BankとPorcupine"
+      }
+    },
+    {
+      "segment_id": "6ea4c715",
+      "source_content": "[Bank](https://github.com/pingcap/tipocket/tree/master/cmd/bank) is a classical test case that simulates the transfer process in a banking system. Under snapshot isolation, all transfers must ensure that the total amount of all accounts must be consistent at every moment, even in the face of system failures. If there are inconsistencies in the total amount, there are potential issues with our system.",
+      "source_content_hash": "5e8d336a4b1def427290ed7478e3af07022ae0520fcb5902317643cee3f1c1cb",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Bank](https://github.com/pingcap/tipocket/tree/master/cmd/bank)は、銀行システムの送金プロセスをシミュレートする古典的なテストケースです。スナップショット分離の下では、すべての送金はシステム障害が発生した場合でも、すべての口座の合計金額が常に一貫していることを保証しなければなりません。合計金額に不整合がある場合、システムに潜在的な問題がある可能性があります。"
+      }
+    },
+    {
+      "segment_id": "79ad944d",
+      "source_content": "[Porcupine](https://github.com/anishathalye/porcupine) is a linearizability checker in Go built to test the correctness of distributed systems. It takes a sequential specification as executable Go code, along with a concurrent history, and it determines whether the history is linearizable with respect to the sequential specification. In TiPocket, we use the [Porcupine](https://github.com/pingcap/tipocket/tree/master/pkg/check/porcupine) checker in multiple test cases to check whether TiDB meets the linearizability constraint.",
+      "source_content_hash": "4f7c7f288d4727717195b19aa7b0d775450341710fcac2e14585a1144efe4a1c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Porcupine](https://github.com/anishathalye/porcupine)は、分散システムの正確性をテストするために構築されたGo言語の線形化可能性チェッカーです。これは、実行可能なGoコードとしての順次仕様と並行履歴を受け取り、その履歴が順次仕様に対して線形化可能かどうかを判断します。TiPocketでは、[Porcupine](https://github.com/pingcap/tipocket/tree/master/pkg/check/porcupine)チェッカーを複数のテストケースで使用し、TiDBが線形化可能性の制約を満たしているかどうかを確認します。"
+      }
+    },
+    {
+      "segment_id": "8c6d7ee7",
+      "source_content": "### Transaction Isolation testing: Elle",
+      "source_content_hash": "e1ddaf8a7654b7382276a00524ab71571312914133c5ceda338293190e0bc830",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### トランザクション分離レベルテスト: Elle"
+      }
+    },
+    {
+      "segment_id": "06e24cc0",
+      "source_content": "[Elle](https://github.com/jepsen-io/elle) is an inspection tool that verifies a database’s transaction isolation level. TiPocket integrates [go-elle](https://github.com/pingcap/tipocket/tree/master/pkg/elle), the Go implementation of the Elle inspection tool, to verify TiDB’s isolation level.",
+      "source_content_hash": "3c9bcb7bf478ba8db66c2a751448b7efd0c893dd59e22c880219e79cb80511f5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Elle](https://github.com/jepsen-io/elle)は、データベースのトランザクション分離レベルを検証する検査ツールです。TiPocketは[go-elle](https://github.com/pingcap/tipocket/tree/master/pkg/elle)（Elle検査ツールのGo実装）を統合し、TiDBの分離レベルを検証します。"
+      }
+    },
+    {
+      "segment_id": "7f71ff2a",
+      "source_content": "These are just a few of the test cases TiPocket uses to verify TiDB’s accuracy and stability. For more test cases and verification methods, see our [source code](https://github.com/pingcap/tipocket).",
+      "source_content_hash": "2f37de3f80d68ba2a31684204cabd7f257252c68bf8cc253a226d75ef81ab88d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これらは、TiPocketがTiDBの正確性と安定性を検証するために使用するテストケースの一部に過ぎません。より多くのテストケースと検証方法については、[ソースコード](https://github.com/pingcap/tipocket)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "047c2395",
+      "source_content": "## Automating the chaos pipeline - Argo",
+      "source_content_hash": "6a9bc20925f96e16fb76fbb05dc7a997d9f8689829bfc0f023f5fda061d558c6",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## カオステストパイプラインの自動化 - Argo"
+      }
+    },
+    {
+      "segment_id": "883231d4",
+      "source_content": "Now that we have Chaos Mesh to inject faults, a TiDB cluster to test, and ways to validate TiDB, how can we automate the chaos testing pipeline? Two options come to mind: we could implement the scheduling functionality in TiPocket, or hand over the job to existing open-source tools. To make TiPocket more dedicated to the testing part of our workflow, we chose the open-source tools approach. This, plus our all-in-K8s design, lead us directly to [Argo](https://github.com/argoproj/argo).",
+      "source_content_hash": "7616df091988ddb0f70196dc629b81cbaaedb71ca2b9fa2cbec1ed0e99e18ad8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshで障害を注入し、テスト用のTiDBクラスターとTiDBを検証する方法が用意できた今、どのようにしてカオステストパイプラインを自動化できるでしょうか？2つの選択肢が考えられます。TiPocket内でスケジューリング機能を実装するか、既存のオープンソースツールに仕事を任せるかです。TiPocketをワークフローのテスト部分に専念させるため、私たちはオープンソースツールのアプローチを選択しました。これに加えて、すべてをK8s上で設計するという方針から、私たちは直接[Argo](https://github.com/argoproj/argo)を選びました。"
+      }
+    },
+    {
+      "segment_id": "6cc549f2",
+      "source_content": "Argo is a workflow engine designed for Kubernetes. It has been an open source product for a long time, and has received widespread attention and application.",
+      "source_content_hash": "fd630f66c46184c210a59759cbbe6efb7802f805a818024e54be909d20c4be5a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ArgoはKubernetes向けに設計されたワークフローエンジンです。長い間オープンソース製品として存在し、広範な注目と応用を受けています。"
+      }
+    },
+    {
+      "segment_id": "d0dd855b",
+      "source_content": "Argo has abstracted several custom resource definitions (CRDs) for workflows. The most important ones include Workflow Template, Workflow, and Cron Workflow. Here is how Argo fits in TiPocket:",
+      "source_content_hash": "8e3c9510bc06eed19fe2af9e78e6935979ea4317d5774d75a5d54b860f2732a7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Argoはワークフローのためにいくつかのカスタムリソース定義（CRD）を抽象化しています。最も重要なものには、Workflow Template、Workflow、およびCron Workflowが含まれます。以下に、ArgoがTiPocketにどのように適合するかを示します："
+      }
+    },
+    {
+      "segment_id": "ca1573da",
+      "source_content": "- **Workflow Template** is a template defined in advance for each test task. Parameters can be passed in when the test is running.\n- **Workflow** schedules multiple workflow templates in different orders, which form the tasks to be executed. Argo also lets you add conditions, loops, and directed acyclic graphs (DAGs) in the pipeline.\n- **Cron Workflow** lets you schedule a workflow like a cron job. It is perfectly suitable for scenarios where you want to run test tasks for a long time.",
+      "source_content_hash": "55a49f19c8052012cbf7e2b1222a23599803d5450f100613f89e400d254711f0",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- **Workflow Template**は、各テストタスクのために事前に定義されたテンプレートです。テスト実行時にパラメータを渡すことができます。\n- **Workflow**は、異なる順序で複数のワークフローテンプレートをスケジュールし、実行されるタスクを形成します。Argoでは、パイプラインに条件、ループ、有向非巡回グラフ（DAG）を追加することもできます。\n- **Cron Workflow**は、cronジョブのようにワークフローをスケジュールできます。長時間にわたってテストタスクを実行したいシナリオに最適です。"
+      }
+    },
+    {
+      "segment_id": "a1fa5396",
+      "source_content": "The sample workflow for our predefined bank test is shown below:",
+      "source_content_hash": "1776bcec86fe73b7cefa336b4eb05357020a6ef64cee045357d030631b31cd99",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "私たちが事前定義したbankテストのサンプルワークフローを以下に示します："
+      }
+    },
+    {
+      "segment_id": "8c3563d3",
+      "source_content": "```yml\nspec:\n  entrypoint: call-tipocket-bank\n  arguments:\n    parameters:\n      - name: ns\n        value: tipocket-bank\n            - name: nemesis\n        value: random_kill,kill_pd_leader_5min,partition_one,subcritical_skews,big_skews,shuffle-leader-scheduler,shuffle-region-scheduler,random-merge-scheduler\n  templates:\n    - name: call-tipocket-bank\n      steps:\n        - - name: call-wait-cluster\n            templateRef:\n              name: wait-cluster\n              template: wait-cluster\n        - - name: call-tipocket-bank\n            templateRef:\n              name: tipocket-bank\n              template: tipocket-bank\n```",
+      "source_content_hash": "b247e907d566186773ee0811795803bf85d6ef0a2c4796764ee4d5ee5d88da1f",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_8c3563d3"
+      }
+    },
+    {
+      "segment_id": "f0984c2a",
+      "source_content": "In this example, we use the workflow template and nemesis parameters to define the specific failure to inject. You can reuse the template to define multiple workflows that suit different test cases. This allows you to add more customized failure injections in the flow.",
+      "source_content_hash": "402cc5dcfe86c3e04f0a33d7bc5d11b8f5dd61baa38bcb3c66ee5694dfc5353e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この例では、ワークフローテンプレートとnemesisパラメータを使用して、注入する特定の障害を定義しています。このテンプレートを再利用して、さまざまなテストケースに適した複数のワークフローを定義できます。これにより、フローにさらにカスタマイズされた障害注入を追加できます。"
+      }
+    },
+    {
+      "segment_id": "a81544fd",
+      "source_content": "Besides [TiPocket’s](https://github.com/pingcap/tipocket/tree/master/argo/workflow) sample workflows and templates, the design also allows you to add your own failure injection flows. Handling complicated logics using codable workflows makes Argo developer-friendly and an ideal choice for our scenarios.",
+      "source_content_hash": "056e0110a229b4575df3c7be1e6b6f65d627462698566dcc564ac5f7e20e59c9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[TiPocketの](https://github.com/pingcap/tipocket/tree/master/argo/workflow)サンプルワークフローとテンプレートに加えて、この設計では独自の障害注入フローを追加することもできます。コード化可能なワークフローを使用して複雑なロジックを処理することで、Argoは開発者に優しく、私たちのシナリオに理想的な選択肢となります。"
+      }
+    },
+    {
+      "segment_id": "0801d969",
+      "source_content": "Now, our chaos experiment is running automatically. But if our results do not meet our expectations? How do we locate the problem? TiDB saves a variety of monitoring information, which makes log collecting essential for enabling observability in TiPocket.",
+      "source_content_hash": "9956f4119fc0b9f24a56a46a63a9e916a90f8c133c8b972d452f057262bcaea7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これで、カオス実験は自動的に実行されています。しかし、結果が期待通りでない場合、どのように問題を特定すればよいでしょうか？TiDBはさまざまな監視情報を保存しており、TiPocketで可観測性を実現するためにはログ収集が不可欠です。"
+      }
+    },
+    {
+      "segment_id": "ab39e8a7",
+      "source_content": "## Visualizing the results: Loki",
+      "source_content_hash": "1f7129d237c20d6c6be0a4a0fa3eff6ce4d366febbe1d1e17390a847dfc386da",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 結果の可視化: Loki"
+      }
+    },
+    {
+      "segment_id": "d21af28f",
+      "source_content": "In cloud-native systems, observability is very important. Generally speaking, you can achieve observability through **metrics**, **logging**, and **tracing**. TiPocket’s main test cases evaluate TiDB clusters, so metrics and logs are our default sources for locating issues.",
+      "source_content_hash": "2e93936d6c2b5e40f4d2a15c98c21b55935b16e01c0cc976d9943a846c530696",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "クラウドネイティブシステムにおいて、可観測性は非常に重要です。一般的に、**メトリクス**、**ロギング**、**トレーシング**を通じて可観測性を実現できます。TiPocketの主なテストケースはTiDBクラスターを評価するため、メトリクスとログが問題特定のデフォルトソースとなります。"
+      }
+    },
+    {
+      "segment_id": "44aaa880",
+      "source_content": "On Kubernetes, Prometheus is the de-facto standard for metrics. However, there is no common way for log collection. Solutions such as [Elasticsearch](https://en.wikipedia.org/wiki/Elasticsearch), [Fluent Bit](https://fluentbit.io/), and [Kibana](https://www.elastic.co/kibana) perform well, but they may cause system resource contention and high maintenance costs. We decided to use [Loki](https://github.com/grafana/loki), the Prometheus-like log aggregation system from [Grafana](https://grafana.com/).",
+      "source_content_hash": "d5e5dab9d06c8d0a6a6f7ef68f4d98dd8977bbe51b58557f813be62eef048c7d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Kubernetes上では、Prometheusがメトリクスのデファクトスタンダードです。しかし、ログ収集に関しては共通の方法がありません。[Elasticsearch](https://en.wikipedia.org/wiki/Elasticsearch)、[Fluent Bit](https://fluentbit.io/)、[Kibana](https://www.elastic.co/kibana)などのソリューションは優れていますが、システムリソースの競合や高いメンテナンスコストを引き起こす可能性があります。私たちは[Grafana](https://grafana.com/)の[Loki](https://github.com/grafana/loki)を使用することにしました。これはPrometheusのようなログ集約システムです。"
+      }
+    },
+    {
+      "segment_id": "396efb28",
+      "source_content": "Prometheus processes TiDB’s monitoring information. Prometheus and Loki have a similar labeling system, so we can easily combine Prometheus' monitoring indicators with the corresponding pod logs and use a similar query language. Grafana also supports the Loki dashboard, which means we can use Grafana to display monitoring indicators and logs at the same time. Grafana is the built-in monitoring component in TiDB, which Loki can reuse.",
+      "source_content_hash": "9e2f01769e01f56c0f608a3b791936175ee8eb1dfa1d6afabe5a2b472b86a7db",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "PrometheusはTiDBの監視情報を処理します。PrometheusとLokiは類似したラベルシステムを持っているため、Prometheusの監視指標と対応するPodログを簡単に組み合わせることができ、同様のクエリ言語を使用できます。GrafanaはLokiダッシュボードもサポートしており、Grafanaを使用して監視指標とログを同時に表示できます。GrafanaはTiDBの組み込み監視コンポーネントであり、Lokiはこれを再利用できます。"
+      }
+    },
+    {
+      "segment_id": "cbd60296",
+      "source_content": "## Putting them all together - TiPocket",
+      "source_content_hash": "3fb1f08dfaed7151002944ecef6a5c32f59406a120e6fa9517d23e82ab287002",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## すべてを統合 - TiPocket"
+      }
+    },
+    {
+      "segment_id": "f38d1cb0",
+      "source_content": "Now, everything is ready. Here is a simplified diagram of TiPocket:",
+      "source_content_hash": "14cc83983e57c6671c4f832ee7b9d2c826544885759346452e0d6379029d8fee",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これですべての準備が整いました。以下はTiPocketの簡略化された図です:"
+      }
+    },
+    {
+      "segment_id": "5f82a1e9",
+      "source_content": "![TiPocket Architecture](/img/blog/tipocket-architecture.png)",
+      "source_content_hash": "6383fd0c860199fff1d797ec36d691850b1e6d9afefe9a15e5f401526f13c0eb",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![TiPocket Architecture](/img/blog/tipocket-architecture.png)"
+      }
+    },
+    {
+      "segment_id": "6fc234cf",
+      "source_content": "As you can see, the Argo workflow manages all chaos experiments and test cases. Generally, a complete test cycle involves the following steps:",
+      "source_content_hash": "b8ffa7808dad623d6949d4cdeb4a3d68c40293678e212ebc3ef4dbf86b28d043",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ご覧の通り、Argoワークフローがすべてのカオス実験とテストケースを管理します。一般的に、完全なテストサイクルには以下のステップが含まれます:"
+      }
+    },
+    {
+      "segment_id": "d9b1e67e",
+      "source_content": "1. Argo creates a Cron Workflow, which defines the cluster to be tested, the faults to inject, the test case, and the duration of the task. If necessary, the Cron Workflow also lets you view case logs in real-time.",
+      "source_content_hash": "8e8adf5fd601de049e08fb472ab51923e8d1628a6955ab32f94fb149f302632b",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. ArgoがCron Workflowを作成し、テスト対象のクラスター、注入する障害、テストケース、タスクの期間を定義します。必要に応じて、Cron Workflowはリアルタイムでケースログを確認することも可能です。"
+      }
+    },
+    {
+      "segment_id": "f45239ba",
+      "source_content": "![Argo Workflow](/img/blog/argo-workflow.png)",
+      "source_content_hash": "2204d3a11674775cb28cd727b26ef4f400eaccf715e95e56b316ae296bdb3f0e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Argo Workflow](/img/blog/argo-workflow.png)"
+      }
+    },
+    {
+      "segment_id": "d30a9380",
+      "source_content": "1. At a specified time, a separate TiPocket thread is started in the workflow, and the Cron Workflow is triggered. TiPocket sends TiDB-Operator the definition of the cluster to test. In turn, TiDB-Operator creates a target TiDB cluster. Meanwhile, Loki collects the related logs.\n2. Chaos Mesh injects faults in the cluster.\n3. Using the test cases mentioned above, the user validates the health of the system. Any test case failure leads to workflow failure in Argo, which triggers Alertmanager to send the result to the specified Slack channel. If the test cases complete normally, the cluster is cleared, and Argo stands by until the next test.",
+      "source_content_hash": "0f3f35d7072773f3e48b41b1cd33fa04f0f759d2bb5e4f120c2d2f266f415729",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 指定された時間に、ワークフロー内で別個のTiPocketスレッドが起動され、Cron Workflowがトリガーされます。TiPocketはTiDB-Operatorにテスト対象クラスターの定義を送信します。TiDB-OperatorはターゲットTiDBクラスターを作成します。同時に、Lokiが関連ログを収集します。\n2. Chaos Meshがクラスターに障害を注入します。\n3. 前述のテストケースを使用して、ユーザーがシステムの健全性を検証します。テストケースの失敗はArgoのワークフロー失敗を引き起こし、Alertmanagerが指定されたSlackチャンネルに結果を送信します。テストケースが正常に完了すると、クラスターがクリアされ、Argoは次のテストまで待機状態になります。"
+      }
+    },
+    {
+      "segment_id": "14bc6b75",
+      "source_content": "![Alert in Slack](/img/blog/alert_message.png)",
+      "source_content_hash": "c56ac6477b26bac36335e631011d73360759c7959e54cba4458bdb62b5e6fd82",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Alert in Slack](/img/blog/alert_message.png)"
+      }
+    },
+    {
+      "segment_id": "e478ec2c",
+      "source_content": "This is the complete TiPocket workflow. .",
+      "source_content_hash": "9f2f07eb7ca85e8482bd667b6deec0e58131b01f7bd62c612d7edcf7d462cf23",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これがTiPocketの完全なワークフローです。"
+      }
+    },
+    {
+      "segment_id": "9c2ab4c8",
+      "source_content": "## Join us",
+      "source_content_hash": "3fc5e0480bf8946efd0385c226e89244e129396b947320026f0f26193ff71cf0",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 参加してください"
+      }
+    },
+    {
+      "segment_id": "a9c2a503",
+      "source_content": "[Chaos Mesh](https://github.com/pingcap/chaos-mesh) and [TiPocket](https://github.com/pingcap/tipocket) are both in active iterations. We have donated Chaos Mesh to [CNCF](https://github.com/cncf/toc/pull/367), and we look forward to more community members joining us in building a complete Chaos Engineering ecosystem. If this sounds interesting to you, check out our [website](https://chaos-mesh.org/), or join #project-chaos-mesh in the [CNCF Slack](hthttps://slack.cncf.io/).",
+      "source_content_hash": "8fd919585c57af1f47a38c7c11dbe648528380abef2341f1bdda35659b6b763b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Chaos Mesh](https://github.com/pingcap/chaos-mesh)と[TiPocket](https://github.com/pingcap/tipocket)はともに活発に開発が進められています。私たちはChaos Meshを[CNCF](https://github.com/cncf/toc/pull/367)に寄贈し、より多くのコミュニティメンバーが参加して完全なカオスエンジニアリングエコシステムを構築することを期待しています。興味があれば、[ウェブサイト](https://chaos-mesh.org/)をチェックするか、[CNCF Slack](https://slack.cncf.io/)の#project-chaos-meshに参加してください。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2020-08-14-building_automated_testing_framework.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.680905+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "ac279c13eb412a354e072a4c7f0f02b27e2a62b0be933c70f03e278ca889d88b"
+  }
+}

@@ -1,0 +1,302 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "docs/simulate-pod-chaos-on-kubernetes.md",
+  "source_file_content_hash": "5f930ac9d5f3ddf87af596ae12284399179a3f3e4c416e42b2f9231afb09e320",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Simulate Pod Faults\n---",
+      "source_content_hash": "98979e26cee036f4e84ee10c7f50ac7a5a22fbbf1a6ba6c7a06f4eec7d8ff457",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "This document describes how to use Chaos Mesh to inject faults into Kubernetes Pod to simulate Pod or container faults. Chaos Dashboard and YAML files are provided to create PodChaos experiments.",
+      "source_content_hash": "76a5b52d052f487ebc7bb389fbd2837c9fe38a781a24a409e0a3fbb88024188b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、Chaos Meshを使用してKubernetes Podに障害を注入し、Podやコンテナの障害をシミュレートする方法について説明します。Chaos DashboardとYAMLファイルを使用してPodChaos実験を作成する手順を提供します。"
+      }
+    },
+    {
+      "segment_id": "a703643c",
+      "source_content": "## PodChaos introduction",
+      "source_content_hash": "23bebef0dc0e356f286d53bc1169baf8c30e3be26b8b96954a22d1c2eb159d9b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## PodChaosの概要"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "PodChaos is a fault type in Chaos Mesh. By creating a PodChaos experiment, you can simulate fault scenarios of the specified Pods or containers. Currently, PodChaos supports the following fault types:",
+      "source_content_hash": "f351068f28aa9cd169b88bcc67efd82a728f44d0837fed2aeb04da5c78406c54",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "PodChaosはChaos Meshの障害タイプの1つです。PodChaos実験を作成することで、指定したPodやコンテナの障害シナリオをシミュレートできます。現在、PodChaosは以下の障害タイプをサポートしています："
+      }
+    },
+    {
+      "segment_id": "be33979e",
+      "source_content": "- **Pod Failure**: injects fault into a specified Pod to make the Pod unavailable for a period of time.\n- **Pod Kill**: kills a specified Pod.To ensure that the Pod can be successfully restarted, you need to configure ReplicaSet or similar mechanisms.\n- **Container Kill**: kills the specified container in the target Pod.",
+      "source_content_hash": "bb1eaf313e6a0e0f722af721a18c0ee74599788b29b4b5219ea46865297f0950",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- **Pod Failure**: 指定したPodに障害を注入し、一定期間Podを利用不可状態にします。\n- **Pod Kill**: 指定したPodを強制終了します。Podが正常に再起動できるようにするためには、ReplicaSetまたは類似のメカニズムを設定する必要があります。\n- **Container Kill**: 対象Pod内の指定したコンテナを強制終了します。"
+      }
+    },
+    {
+      "segment_id": "e14c9928",
+      "source_content": "## Usage restrictions",
+      "source_content_hash": "e218170501d44297ecab5210072b608fd8933d3efbe09ae706d70c6f6d8a7925",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 使用上の制限"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "Chaos Mesh can inject PodChaos into any Pod, no matter whether the Pod is bound to Deployment, StatefulSet, DaemonSet, or other controllers. However, when you inject PodChaos into an independent Pod, some different situations might occur. For example, when you inject \"pod-kill\" chaos into an independent Pod, Chaos Mesh cannot guarantee that the application recovers from its failure.",
+      "source_content_hash": "b534874f16c34f9ac9534afe646ba630500cfb082b5be67a2f3d293915336b5b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは、Deployment、StatefulSet、DaemonSetなどのコントローラーにバインドされているかどうかに関係なく、任意のPodにPodChaosを注入できます。ただし、独立したPodにPodChaosを注入する場合、異なる状況が発生する可能性があります。例えば、独立したPodに「pod-kill」カオスを注入する場合、Chaos Meshはアプリケーションが障害から回復することを保証できません。"
+      }
+    },
+    {
+      "segment_id": "aee0e40d",
+      "source_content": "## Notes",
+      "source_content_hash": "63e13e87b378d1e85f838ead267db9020c1457b1118a37e0af9fb5f976144f4b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 注意事項"
+      }
+    },
+    {
+      "segment_id": "f5f6d2ce",
+      "source_content": "Before creating PodChaos experiments, ensure the following:",
+      "source_content_hash": "f32fc2e3b39bde74e5ed1e990b4a4b304212558dcca73f8b5c172816a1beef9a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "PodChaos実験を作成する前に、以下の点を確認してください："
+      }
+    },
+    {
+      "segment_id": "1b8c1887",
+      "source_content": "- There is no Control Manager of Chaos Mesh running on the target Pod.\n- If the fault type is Pod Kill, replicaSet or a similar mechanism is configured to ensure that Pod can restart automatically.",
+      "source_content_hash": "d0fabf7c0e589ed68811a1b28fff2461911069974a4dc2859e17e783a234137d",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 対象PodでChaos MeshのControl Managerが実行されていないこと。\n- 障害タイプがPod Killの場合、Podが自動的に再起動できるようにreplicaSetまたは類似のメカニズムが設定されていること。"
+      }
+    },
+    {
+      "segment_id": "79b2d0b9",
+      "source_content": "## Create Experiments Using Chaos Dashboard",
+      "source_content_hash": "1addd907211591d0f08a87b46a59a8ccfacdc71483179d8d39ca740638265d27",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Dashboardを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "d2808037",
+      "source_content": ":::note\n\nBefore create experiments using Chaos Dashboard, ensure the following:\n\n- Chaos Dashboard is installed.\n- If Chaos Dashboard is already installed, you can run `kubectl port-forward` to access Dashboard: `bash kubectl port-forward -n chaos-mesh svc/chaos-dashboard 2333:2333`. Then you can enter [`http://localhost:2333`](http://localhost:2333) to access Chaos Dashboard.\n\n:::",
+      "source_content_hash": "c600874ea03d8725f1a791364a9d0b61064581bcaeb716c278111e279c5be462",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\nChaos Dashboardを使用して実験を作成する前に、以下の点を確認してください：\n\n- Chaos Dashboardがインストールされていること。\n- Chaos Dashboardが既にインストールされている場合、`kubectl port-forward`を実行してDashboardにアクセスできます：`bash kubectl port-forward -n chaos-mesh svc/chaos-dashboard 2333:2333`。その後、[`http://localhost:2333`](http://localhost:2333)にアクセスしてChaos Dashboardを利用できます。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "5d66c9dc",
+      "source_content": "1. Open Chaos Dashboard, and click **NEW EXPERIMENT** on the page to create a new experiment.\n\n   ![Create a New Experiment](./img/create-new-exp.png)\n\n2. In the **Choose a Target** area, choose **POD FAULT** and select a specific behavior, such as **POD FAILURE**.\n\n3. Fill out the experiment information, and specify the experiment scope and the scheduled experiment duration.\n\n4. Submit the experiment information.",
+      "source_content_hash": "0215a8954f6e232a816ffeb19925bd7310d667a40ac8715cd186b425da75756d",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. Chaos Dashboardを開き、ページ上の**NEW EXPERIMENT**をクリックして新しい実験を作成します。\n\n   ![新しい実験の作成](./img/create-new-exp.png)\n\n2. **Choose a Target**エリアで、**POD FAULT**を選択し、**POD FAILURE**などの具体的な動作を選択します。\n\n3. 実験情報を入力し、実験範囲と予定された実験期間を指定します。\n\n4. 実験情報を送信します。"
+      }
+    },
+    {
+      "segment_id": "f44c1398",
+      "source_content": "## Create experiments using YAML configuration files",
+      "source_content_hash": "22c3d57fce4a57b4e955eb3a222770cf5113d491ceba820b9d0ec8e464ae336f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## YAML設定ファイルを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "6f930b2f",
+      "source_content": "### pod-failure example",
+      "source_content_hash": "870f8a358170fe19b0fd46409df8c7b6813bf43e2e3b207ed551054c98b97b2e",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### pod-failureの例"
+      }
+    },
+    {
+      "segment_id": "ddd2c7ae",
+      "source_content": "1. Write the experiment configuration to the `pod-failure.yaml` file:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: PodChaos\n   metadata:\n     name: pod-failure-example\n     namespace: chaos-mesh\n   spec:\n     action: pod-failure\n     mode: one\n     duration: '30s'\n     selector:\n       labelSelectors:\n         'app.kubernetes.io/component': 'tikv'\n   ```\n\n   Based on this example, Chaos Mesh injects `pod-failure` into the specified Pod and makes the Pod unavailable for 30 seconds.\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f ./pod-failure.yaml\n   ```",
+      "source_content_hash": "fcddbe004995e73f912d6307d49ca5286361b51f947c5f3b6f0ecaf488005204",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 実験設定を`pod-failure.yaml`ファイルに記述します：\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: PodChaos\n   metadata:\n     name: pod-failure-example\n     namespace: chaos-mesh\n   spec:\n     action: pod-failure\n     mode: one\n     duration: '30s'\n     selector:\n       labelSelectors:\n         'app.kubernetes.io/component': 'tikv'\n   ```\n\n   この例に基づくと、Chaos Meshは指定したPodに`pod-failure`を注入し、30秒間Podを利用不可状態にします。\n\n2. 設定ファイルの準備ができたら、`kubectl`を使用して実験を作成します：\n\n   ```bash\n   kubectl apply -f ./pod-failure.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "b051b70c",
+      "source_content": "### pod-kill example",
+      "source_content_hash": "cb8d3f3d0c2b9ed5a805baa6fa57eb59902b7a6e7e35ccac6c0ee88afcd34cc8",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### pod-killの例"
+      }
+    },
+    {
+      "segment_id": "6384b3d4",
+      "source_content": "1. Write the experiment configuration to the `pod-kill.yaml` file:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: PodChaos\n   metadata:\n     name: pod-kill-example\n     namespace: chaos-mesh\n   spec:\n     action: pod-kill\n     mode: one\n     selector:\n       namespaces:\n         - tidb-cluster-demo\n       labelSelectors:\n         'app.kubernetes.io/component': 'tikv'\n   ```\n\n   Based on this example, Chaos Mesh injects `pod-kill` into the specified Pod and kills the Pod once.\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f ./pod-kill.yaml\n   ```",
+      "source_content_hash": "0090de523dec5706682799073075324ddaacb264ca1d2c86b495e1fdd616b95e",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 実験設定を`pod-kill.yaml`ファイルに記述します：\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: PodChaos\n   metadata:\n     name: pod-kill-example\n     namespace: chaos-mesh\n   spec:\n     action: pod-kill\n     mode: one\n     selector:\n       namespaces:\n         - tidb-cluster-demo\n       labelSelectors:\n         'app.kubernetes.io/component': 'tikv'\n   ```\n\n   この例に基づくと、Chaos Meshは指定したPodに`pod-kill`を注入し、Podを1回強制終了します。\n\n2. 設定ファイルの準備ができたら、`kubectl`を使用して実験を作成します：\n\n   ```bash\n   kubectl apply -f ./pod-kill.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "71169a2d",
+      "source_content": "### container-kill example",
+      "source_content_hash": "d529a1c05219b63d7157b89a6a2d46eaa884ac073b4bf3b95e89cca34221576f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### container-killの例"
+      }
+    },
+    {
+      "segment_id": "cd1d0fe2",
+      "source_content": "1. Write the experiment configuration to the `container-kill.yaml` file:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: PodChaos\n   metadata:\n     name: container-kill-example\n     namespace: chaos-mesh\n   spec:\n     action: container-kill\n     mode: one\n     containerNames: ['prometheus']\n     selector:\n       labelSelectors:\n         'app.kubernetes.io/component': 'monitor'\n   ```\n\n   Based on this example, Chaos Mesh injects `container-kill` into the specified container and kills the container once.\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f ./container-kill.yaml\n   ```",
+      "source_content_hash": "9a075bedcf06c702abc337cff683dff3c7f4ad9dccab6a96ef8ed5d3e28172f2",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 実験設定を`container-kill.yaml`ファイルに記述します:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: PodChaos\n   metadata:\n     name: container-kill-example\n     namespace: chaos-mesh\n   spec:\n     action: container-kill\n     mode: one\n     containerNames: ['prometheus']\n     selector:\n       labelSelectors:\n         'app.kubernetes.io/component': 'monitor'\n   ```\n\n   この例に基づくと、Chaos Meshは指定されたコンテナに`container-kill`を注入し、コンテナを1回強制終了します。\n\n2. 設定ファイルの準備ができたら、`kubectl`を使用して実験を作成します:\n\n   ```bash\n   kubectl apply -f ./container-kill.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "c35e5786",
+      "source_content": "### Field description",
+      "source_content_hash": "65096914168d6220ba2cc9e38088ff322d829e39af74e98d0df5f5b3cb7a27de",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### フィールド説明"
+      }
+    },
+    {
+      "segment_id": "9c9e2b64",
+      "source_content": "The following table describes the fields in the YAML configuration file.",
+      "source_content_hash": "dcc0128d98377092a6dcf30036cce08513c25e48724ea66784e2d8f2568719f7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下の表はYAML設定ファイルのフィールドについて説明しています。"
+      }
+    },
+    {
+      "segment_id": "e0a862e3",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| action | string | Specifies the fault type to inject. The supported types include `pod-failure`, `pod-kill`, and `container-kill`. | None | Yes | `pod-kill` |\n| mode | string | Specifies the mode of the experiment. The mode options include `one` (selecting a random Pod), `all` (selecting all eligible Pods), `fixed` (selecting a specified number of eligible Pods), `fixed-percent` (selecting a specified percentage of Pods from the eligible Pods), and `random-max-percent` (selecting the maximum percentage of Pods from the eligible Pods). | None | Yes | `one` |\n| value | string | Provides parameters for the `mode` configuration, depending on `mode`.For example, when `mode` is set to `fixed-percent`, `value` specifies the percentage of Pods. | None | No | 1 |\n| selector | struct | Specifies the target Pod. For details, refer to [Define the experiment scope](./define-chaos-experiment-scope.md). | None | Yes |  |\n| containerNames | []string | When you configure `action` to `container-kill`, this configuration is mandatory to specify the target container name for injecting faults. | None | No | ['prometheus'] |\n| gracePeriod | int64 | When you configure `action` to `pod-kill`, this configuration is mandatory to specify the duration before deleting Pod. | 0 | No | 0 |\n| duration | string | Specifies the duration of the experiment. | None | Yes | 30s |",
+      "source_content_hash": "717f04cb45bd390d7f705c33b9643f5a48dd79bb70012122ebae7916db6072c1",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_e0a862e3"
+      }
+    },
+    {
+      "segment_id": "af843cee",
+      "source_content": "## Some Notes for \"Pod Failure\" Chaos Experiment",
+      "source_content_hash": "7d99081b189c6e2e5114b30e6878cf96c3948728b12592b97287dd5f84741cdd",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 「Pod Failure」カオス実験に関する注意点"
+      }
+    },
+    {
+      "segment_id": "681ef526",
+      "source_content": "TLDR; There are several suggestions for using \"Pod Failure\" chaos experiment:",
+      "source_content_hash": "5525aae636f89f941643cb111fbf5b98dc29ee02a02a1436182f3d2f867034ae",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "要約すると、「Pod Failure」カオス実験を使用する際の推奨事項は以下の通りです:"
+      }
+    },
+    {
+      "segment_id": "739843fe",
+      "source_content": "- Change to an available \"pause image\" if you are operating an air-gapped Kubernetes cluster.\n- Setup `livenessProbe` and `readinessProbe` for containers.",
+      "source_content_hash": "28ac01eff4e587a767f779559f325da848fe52bc4621db350e70088608f11020",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- エアギャップ環境のKubernetesクラスターを操作する場合は、利用可能な「pause image」に変更してください。\n- コンテナに`livenessProbe`と`readinessProbe`を設定してください。"
+      }
+    },
+    {
+      "segment_id": "719d3997",
+      "source_content": "Pod Failure Chaos Experiment would change the `image` of each container in the target Pod to the \"pause image\", which is a special image that does not perform any operations. We use `gcr.io/google-containers/pause:latest` as the default image as \"pause image\", and you could change it to any other image in helm values `controllerManager.podChaos.podFailure.pauseImage`.",
+      "source_content_hash": "69ad991e5a903f7d68314a49478ccdf8d90700c68b91eaaf55d67a3a40b0f7a7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Pod Failureカオス実験は、ターゲットPod内の各コンテナの`image`を「pause image」（何も操作を行わない特殊なイメージ）に変更します。デフォルトでは「pause image」として`gcr.io/google-containers/pause:latest`を使用していますが、helmの値`controllerManager.podChaos.podFailure.pauseImage`で任意の他のイメージに変更可能です。"
+      }
+    },
+    {
+      "segment_id": "42d9ca67",
+      "source_content": "Downloading `pause image` would consume time, and that duration would be counted in the experiment duration. So you might find that the \"actual effected duration\" might be shorter than the configured duration. That's another reason why recommend to setup available \"pause image\".",
+      "source_content_hash": "7fbe1567f7ed8933d062cda13d596c5952491f43917c66c580ab180c9ff6c504",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`pause image`のダウンロードには時間がかかり、その時間は実験期間に含まれます。そのため、「実際の影響期間」が設定した期間より短くなる場合があります。これが利用可能な「pause image」を設定することを推奨するもう一つの理由です。"
+      }
+    },
+    {
+      "segment_id": "619c3209",
+      "source_content": "Another ambiguous point is that \"pause image\" could work \"properly well\" with unconfigured `command` in the container. So if the container is configured without `command`, `livenessProbe` and `readinessProbe`, the container would be inspected as `Running` and `Ready`, although it had been changed to the \"pause image\", and actually does not provide functionalities as normal or not-available. So setup `livenessProbe` and `readinessProbe` for containers is recommended.",
+      "source_content_hash": "89d6ecf6a28b0b121d2d51e7009f57a064023ab0b37b7954cfaf3156fb1eb0d8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "もう一つの注意点として、「pause image」はコンテナに`command`が設定されていない場合でも「一応正常に」動作します。そのため、コンテナに`command`、`livenessProbe`、`readinessProbe`が設定されていない場合、コンテナは`Running`かつ`Ready`と判定されますが、実際には「pause image」に変更されており、通常の機能を提供していない（または利用不可の）状態になります。そのため、コンテナに`livenessProbe`と`readinessProbe`を設定することを強く推奨します。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/current/simulate-pod-chaos-on-kubernetes.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.663198+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "5f930ac9d5f3ddf87af596ae12284399179a3f3e4c416e42b2f9231afb09e320"
+  }
+}

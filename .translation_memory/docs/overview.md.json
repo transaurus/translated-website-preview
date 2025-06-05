@@ -1,0 +1,152 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "docs/overview.md",
+  "source_file_content_hash": "a54a3451544dbc546e2765b5a06f95bd64595cb71e7e9c03d92f88a0035f0755",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /\ntitle: Chaos Mesh Overview\n---",
+      "source_content_hash": "d2cdd05d094b60111d842f18473034600ddd93d1a64ee1fc3701e6af0248fc29",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "bb42506b",
+      "source_content": "This document describes the concepts, use cases, core strengths, and the architecture of Chaos Mesh.",
+      "source_content_hash": "9abcc745b3c5d493ccd3b99302c97abbd2d3b9510c99cacf71f6b271105291e7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、Chaos Meshのコンセプト、ユースケース、コア強み、およびアーキテクチャについて説明します。"
+      }
+    },
+    {
+      "segment_id": "cc3c868d",
+      "source_content": "## Chaos Mesh Overview",
+      "source_content_hash": "fef8f385242fe2b56776ed0d1e5a4f2bc6e089d33e7415f48d4906bad2277450",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Meshの概要"
+      }
+    },
+    {
+      "segment_id": "7e5c5a39",
+      "source_content": "Chaos Mesh is an open source cloud-native Chaos Engineering platform. It offers various types of fault simulation and has an enormous capability to orchestrate fault scenarios.",
+      "source_content_hash": "ce2bf3dbbc4f4a5f14fe2f924e2bb0db8158a2bd347757df9e2b08cbdc6de0c4",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは、オープンソースのクラウドネイティブなカオスエンジニアリングプラットフォームです。さまざまな種類の障害シミュレーションを提供し、障害シナリオをオーケストレーションする強力な能力を備えています。"
+      }
+    },
+    {
+      "segment_id": "8d66f911",
+      "source_content": "Using Chaos Mesh, you can conveniently simulate various abnormalities that might occur in reality during the development, testing, and production environments and find potential problems in the system. To lower the threshold for a Chaos Engineering project, Chaos Mesh provides you with a visualization operation. You can easily design your Chaos scenarios on the Web UI and monitor the status of Chaos experiments.",
+      "source_content_hash": "87aed1a27b530c01f6fb32d42f734efc77e8538c65113f02996c9ac93fb3d12d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshを使用すると、開発、テスト、本番環境で実際に発生する可能性のあるさまざまな異常を簡単にシミュレートし、システム内の潜在的な問題を発見できます。カオスエンジニアリングプロジェクトの参入障壁を下げるため、Chaos Meshは視覚的な操作を提供します。Web UI上で簡単にカオスシナリオを設計し、カオス実験の状態を監視できます。"
+      }
+    },
+    {
+      "segment_id": "70153c6e",
+      "source_content": "## Core strengths",
+      "source_content_hash": "3e386dc687a051caa8b0e91827ca7dfd712641a09895b6dcd1245046f2284efa",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## コア強み"
+      }
+    },
+    {
+      "segment_id": "86b54d44",
+      "source_content": "As the industry's leading Chaos testing platform, Chaos Mesh has the following core strengths:",
+      "source_content_hash": "df648910a95c7a42d074cae35cad80a2eae6eba5fe26650501b4e17275a314a2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "業界をリードするカオステストプラットフォームとして、Chaos Meshには以下のコア強みがあります："
+      }
+    },
+    {
+      "segment_id": "11c829ab",
+      "source_content": "- Stable core capabilities: Chaos Mesh originated from the core testing platform of [TiDB](https://github.com/pingcap/tidb), and inherited a lot of TiDB's existing test experience from its initial release.\n- Fully authenticated: Chaos Mesh is used in numerous companies and organizations, such as Tencent and Meituan; It is also used in the testing systems of many well-known distributed systems, such as Apache APISIX and RabbitMQ.\n- An easy-to-use system: Chaos Mesh makes full use of automation with graphical operations and Kubernetes-based usage.\n- Cloud Native: Chaos Mesh supports Kubernetes environment with its powerful automation ability.\n- Various fault simulation scenarios: Chaos Mesh covers most of the scenarios of basic fault simulation in the distributed testing system.\n- Flexible experiment orchestration capabilities: You can design your own Chaos experiment scenarios on the platform, including multiple mixing experiments and application status checks.\n- High security: Chaos Mesh is designed with multiple layers of security control and provides high security.\n- An active community: Chaos Mesh is an incubating project hosted by CNCF. It has a growing number of [contributors](https://github.com/chaos-mesh/chaos-mesh/graphs/contributors) and [adopters](https://github.com/chaos-mesh/chaos-mesh/blob/master/ADOPTERS.md) all over the world.\n- Easily scalable: It's easy to add new fault test types and functions to Chaos Mesh.",
+      "source_content_hash": "340b5050a1c40bee40feda101d643ba8561d7ab95090e1358dd908a4f946abf4",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 安定したコア機能：Chaos Meshは[TiDB](https://github.com/pingcap/tidb)のコアテストプラットフォームから派生し、初期リリース時からTiDBの既存のテスト経験を多く継承しています。\n- 完全に検証済み：Chaos MeshはTencentやMeituanなど多くの企業や組織で使用されており、Apache APISIXやRabbitMQなど有名な分散システムのテストシステムでも採用されています。\n- 使いやすいシステム：Chaos Meshは自動化を最大限に活用し、グラフィカル操作とKubernetesベースの使用法を提供します。\n- クラウドネイティブ：Chaos MeshはKubernetes環境をサポートし、強力な自動化能力を備えています。\n- 多様な障害シミュレーションシナリオ：Chaos Meshは分散テストシステムにおける基本的な障害シミュレーションのほとんどのシナリオをカバーしています。\n- 柔軟な実験オーケストレーション能力：プラットフォーム上で独自のカオス実験シナリオを設計可能で、複数の混合実験やアプリケーション状態チェックを含みます。\n- 高いセキュリティ：Chaos Meshは多層のセキュリティ制御を設計し、高い安全性を提供します。\n- 活発なコミュニティ：Chaos MeshはCNCFがホストするインキュベーションプロジェクトで、世界中で[コントリビューター](https://github.com/chaos-mesh/chaos-mesh/graphs/contributors)と[採用企業](https://github.com/chaos-mesh/chaos-mesh/blob/master/ADOPTERS.md)が増加しています。\n- 容易な拡張性：Chaos Meshに新しい障害テストタイプや機能を簡単に追加できます。"
+      }
+    },
+    {
+      "segment_id": "3c36424c",
+      "source_content": "## Architecture overview",
+      "source_content_hash": "b9f8269b35a6731706d4853e65a3cf28d2d8f03dd180f10647f60e92d86c6b0f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## アーキテクチャ概要"
+      }
+    },
+    {
+      "segment_id": "26524352",
+      "source_content": "Chaos Mesh is built on Kubernetes CRD (Custom Resource Definition). To manage different Chaos experiments, Chaos Mesh defines multiple CRD types based on different fault types and implements separate Controllers for different CRD objects. Chaos Mesh primarily contains three components:",
+      "source_content_hash": "b9fe6bf345e7d26967d661e4c32315e0eec5b1cdac4ff7979c837c313b83bea8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos MeshはKubernetes CRD（Custom Resource Definition）上に構築されています。さまざまなカオス実験を管理するため、Chaos Meshは異なる障害タイプに基づいて複数のCRDタイプを定義し、異なるCRDオブジェクトに対して個別のコントローラーを実装しています。Chaos Meshは主に3つのコンポーネントで構成されます："
+      }
+    },
+    {
+      "segment_id": "86b525ab",
+      "source_content": "- **Chaos Dashboard**: The visualization component of Chaos Mesh. Chaos Dashboard offers a set of user-friendly web interfaces through which users can manipulate and observe Chaos experiments. At the same time, Chaos Dashboard also provides an RBAC permission management mechanism.\n- **Chaos Controller Manager**: The core logical component of Chaos Mesh. Chaos Controller Manager is primarily responsible for the scheduling and management of Chaos experiments. This component contains several CRD Controllers, such as Workflow Controller, Scheduler Controller, and Controllers of various fault types.\n- **Chaos Daemon**: The main executive component. Chaos Daemon runs in the [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) mode and has the Privileged permission by default (which can be disabled). This component mainly interferes with specific network devices, file systems, kernels by hacking into the target Pod Namespace.",
+      "source_content_hash": "8bea5406a0e01c33cc4609574cb117199c3015b91f937926947773268a580d28",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- **Chaos Dashboard**：Chaos Meshの可視化コンポーネント。Chaos DashboardはユーザーフレンドリーなWebインターフェースを提供し、ユーザーがカオス実験を操作・観察できます。同時に、RBAC権限管理メカニズムも提供します。\n- **Chaos Controller Manager**：Chaos Meshのコア論理コンポーネント。Chaos Controller Managerは主にカオス実験のスケジューリングと管理を担当します。このコンポーネントには、Workflow Controller、Scheduler Controller、各種障害タイプのコントローラーなどが含まれます。\n- **Chaos Daemon**：主要な実行コンポーネント。Chaos Daemonは[DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/)モードで実行され、デフォルトでPrivileged権限を持ちます（無効化可能）。このコンポーネントは主に、ターゲットPodのNamespaceに侵入して特定のネットワークデバイス、ファイルシステム、カーネルに干渉します。"
+      }
+    },
+    {
+      "segment_id": "517051a7",
+      "source_content": "![Architecture](img/architecture.png)",
+      "source_content_hash": "3564e4518f4e2c0e56daeff4ef4fbf89ee88a6901ea57271993089ee4f8a80a9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![アーキテクチャ](img/architecture.png)"
+      }
+    },
+    {
+      "segment_id": "135468ee",
+      "source_content": "As shown in the above image, the overall architecture of Chaos Mesh can be divided into three parts from top to bottom:",
+      "source_content_hash": "11db8665a2ce137033c7e2cead80d0d1210f8997a5ae59364ec9da3d14d4be04",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "上記の画像に示すように、Chaos Meshの全体アーキテクチャは上から下まで3つの部分に分けられます："
+      }
+    },
+    {
+      "segment_id": "e7bc8c38",
+      "source_content": "- User input and observation: User input reaches the Kubernetes API Server starting with a user operation (User). Users do not directly interact with the Chaos Controller Manager. All user operations are eventually reflected as a Chaos resource change (such as the change of NetworkChaos resource).\n- Monitor resource changes, schedule Workflow, and carry out Chaos experiments: The Chaos Controller Manager only accepts events from the Kubernetes API Server. These events describe the changes of a certain Chaos resource, such as a new Workflow object or the creation of a Chaos object.\n- Injection of a specific node fault: The Chaos Daemon component is primarily responsible for accepting commands from the Chaos Controller Manager component, hacking into the target Pod's Namespace, and performing specific fault injections. For example, setting TC network rules, starting the stress-ng process to preempt CPU or memory resource.",
+      "source_content_hash": "c945ef0b9400e138724154cda5afe47a4d46de7ec28416b7f4f39131054edf4a",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- ユーザー入力と観察：ユーザー操作（User）から始まり、ユーザー入力はKubernetes API Serverに到達します。ユーザーはChaos Controller Managerと直接やり取りせず、すべてのユーザー操作は最終的にChaosリソースの変更（NetworkChaosリソースの変更など）として反映されます。\n- リソース変更の監視、Workflowのスケジューリング、カオス実験の実行：Chaos Controller ManagerはKubernetes API Serverからのイベントのみを受け取ります。これらのイベントは、新しいWorkflowオブジェクトやChaosオブジェクトの作成など、特定のChaosリソースの変更を記述します。\n- 特定のノード障害の注入：Chaos Daemonコンポーネントは主にChaos Controller Managerコンポーネントからのコマンドを受け取り、ターゲットPodのNamespaceに侵入して特定の障害注入を実行します。例えば、TCネットワークルールの設定、stress-ngプロセスの起動によるCPUやメモリリソースの奪取などです。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/current/overview.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.697222+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "a54a3451544dbc546e2765b5a06f95bd64595cb71e7e9c03d92f88a0035f0755"
+  }
+}

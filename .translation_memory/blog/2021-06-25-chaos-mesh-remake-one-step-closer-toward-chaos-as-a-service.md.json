@@ -1,0 +1,722 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2021-06-25-chaos-mesh-remake-one-step-closer-toward-chaos-as-a-service.md",
+  "source_file_content_hash": "101243859ce7313922cf17f70ebaa31efba6da73b22848bd8930045371fb9d13",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /chaos-mesh-remake-one-step-closer-towards-chaos-as-a-service\ntitle: 'Chaos Mesh Remake: One Step Closer toward Chaos as a Service'\nauthors:\n  - xiangwang\n  - changyu\nimage: /img/blog/chaos-engineering-tools-as-a-service.jpeg\ntags: [Chaos Mesh, Chaos Engineering]\n---",
+      "source_content_hash": "9d9c78e7f0a629f0ed017a97809b32ee4107daceabffb1b8d0ddb6291f7d6abb",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "![Chaos engineering tools](/img/blog/chaos-engineering-tools-as-a-service.jpeg)",
+      "source_content_hash": "36de00beebf76fa7acce1241f39d35fce671993c5c8cb209ec998bc825569aa9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![カオスエンジニアリングツール](/img/blog/chaos-engineering-tools-as-a-service.jpeg)"
+      }
+    },
+    {
+      "segment_id": "180bddb1",
+      "source_content": "[Chaos Mesh](https://chaos-mesh.org/) is a cloud-native Chaos Engineering platform that orchestrates chaos in Kubernetes environments. With Chaos Mesh, you can test your system's resilience and robustness on Kubernetes by injecting all types of faults into Pods, network, file system, and even the kernel.",
+      "source_content_hash": "29a00496bd6c7573c2745b72a71344af565a489a271fa07c64b4be128b4616c5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Chaos Mesh](https://chaos-mesh.org/)は、Kubernetes環境でカオスをオーケストレーションするクラウドネイティブなカオスエンジニアリングプラットフォームです。Chaos Meshを使用すると、Pod、ネットワーク、ファイルシステム、さらにはカーネルにさまざまな種類の障害を注入することで、Kubernetes上でシステムの回復力と堅牢性をテストできます。"
+      }
+    },
+    {
+      "segment_id": "28a64196",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_28a64196"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "Since it was open-sourced and accepted by the Cloud Native Computing Foundation (CNCF) as a sandbox project, Chaos Mesh has attracted contributors worldwide and helped users test their systems. Yet it still has a lot of room for improvement:",
+      "source_content_hash": "e92adba30f9d73b8079c85fcb966b55bcfb136b99e748d3ac4d1d71154182a12",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "オープンソース化され、Cloud Native Computing Foundation（CNCF）のサンドボックスプロジェクトとして受け入れられて以来、Chaos Meshは世界中のコントリビューターを惹きつけ、ユーザーがシステムをテストするのを支援してきました。しかし、まだ改善の余地が多くあります："
+      }
+    },
+    {
+      "segment_id": "034de896",
+      "source_content": "- It needs to improve usability. Some features are complicated to use. For example, when you apply a chaos experiment, you often have to manually check whether the experiment has started.\n- It is mostly for Kubernetes environments. Because Chaos Mesh can't manage multiple Kubernetes clusters, you need to deploy Chaos Mesh for each Kubernetes cluster. Though [chaosd](https://github.com/chaos-mesh/chaosd) supports running chaos experiments on physical machines, the features are quite limited, and command line usage is not user friendly.\n- It doesn't allow plugins. To apply a customized chaos experiment, you have to alter the source code. Moreover, Chaos Mesh only supports Golang.",
+      "source_content_hash": "0a7a59f63d4dcb986b93826f18ef9425df8107d9d5d1bb5ca907baee362c3cd5",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- ユーザビリティの向上が必要です。一部の機能は使用が複雑です。たとえば、カオス実験を適用する際、実験が開始されたかどうかを手動で確認する必要があることがよくあります。\n- 主にKubernetes環境向けです。Chaos Meshは複数のKubernetesクラスターを管理できないため、各KubernetesクラスターごとにChaos Meshをデプロイする必要があります。[chaosd](https://github.com/chaos-mesh/chaosd)は物理マシン上でカオス実験を実行することをサポートしていますが、機能はかなり限定されており、コマンドラインの使用はユーザーフレンドリーではありません。\n- プラグインを許可していません。カスタマイズされたカオス実験を適用するには、ソースコードを変更する必要があります。さらに、Chaos MeshはGolangのみをサポートしています。"
+      }
+    },
+    {
+      "segment_id": "2fdadb08",
+      "source_content": "Admittedly, Chaos Mesh is a first-rate Chaos Engineering platform, but is still a long way from offering Chaos as a Service (CaaS). Therefore, at [TiDB Hackathon 2020](https://pingcap.com/community-activity/tidb-hackathon-2020/), **we made changes to Chaos Mesh's architecture, moving it one step closer toward CaaS**.",
+      "source_content_hash": "a7811e46353b1738d71090f256d30e5df478d7f405afee10189038929a0830d3",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "確かに、Chaos Meshは一流のカオスエンジニアリングプラットフォームですが、Chaos as a Service（CaaS）を提供するにはまだ長い道のりがあります。そのため、[TiDB Hackathon 2020](https://pingcap.com/community-activity/tidb-hackathon-2020/)では、**Chaos Meshのアーキテクチャを変更し、CaaSに一歩近づけました**。"
+      }
+    },
+    {
+      "segment_id": "f2c2bdd0",
+      "source_content": "In this article, I'll talk about what CaaS is, how we achieve it with Chaos Mesh, and our plans and lessons learned. I hope you find our experience helpful in building your own Chaos Engineering system.",
+      "source_content_hash": "608b53b161c4c2b380dacdf571c54d828d3a2daf0ad7e2c39f354784aca783c3",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この記事では、CaaSとは何か、Chaos Meshでそれをどのように実現したか、そして私たちの計画と学んだことについて話します。この経験が、あなた自身のカオスエンジニアリングシステムを構築するのに役立つことを願っています。"
+      }
+    },
+    {
+      "segment_id": "fa430ad4",
+      "source_content": "## What is Chaos as a Service?",
+      "source_content_hash": "c9a6520efe0a765f468691c0b222b0eb2bf0226cf72417a9e0ad739ee84392c8",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos as a Service（CaaS）とは何か？"
+      }
+    },
+    {
+      "segment_id": "4b1d2d7d",
+      "source_content": "As Matt Fornaciari, co-founder of Gremlin, [puts it](https://jaxenter.com/chaos-engineering-service-144113.html), CaaS \"means you will get an intuitive UI, customer support, out-of-the-box integrations, and everything else you need to get experimenting in a matter of minutes.\"",
+      "source_content_hash": "f992a616fd3f18f8012902091fd7509cad248b9bc59372dd6e67dae6122fd998",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Gremlinの共同創設者であるMatt Fornaciariが[述べているように](https://jaxenter.com/chaos-engineering-service-144113.html)、CaaSとは「直感的なUI、カスタマーサポート、すぐに使える統合、そして数分で実験を開始するために必要なすべてを提供する」ことを意味します。"
+      }
+    },
+    {
+      "segment_id": "dfe931a2",
+      "source_content": "From our perspective, CaaS should offer:",
+      "source_content_hash": "d980f1bbd1414a648b56e43a2395c9b3e88fb8c584ad69786db3a3e5bd7ba5e4",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "私たちの視点では、CaaSは以下を提供するべきです："
+      }
+    },
+    {
+      "segment_id": "cd471e4e",
+      "source_content": "- A unified console for management, where you can edit the configuration and create chaos experiments.\n- Visualized metrics for you to see the experiment status.\n- Operations to pause or archive experiments.\n- Simple interaction. You can easily drag and drop the objects to orchestrate your experiments.",
+      "source_content_hash": "e032df977f6239df0f0aeaae9155e3f6fcb6a1b66a92d55250d6e94a739d0a2a",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 管理のための統一されたコンソール。設定を編集し、カオス実験を作成できます。\n- 実験ステータスを確認するための可視化されたメトリクス。\n- 実験を一時停止またはアーカイブする操作。\n- 簡単なインタラクション。オブジェクトをドラッグアンドドロップして実験をオーケストレーションできます。"
+      }
+    },
+    {
+      "segment_id": "135468ee",
+      "source_content": "Some companies already adapted Chaos Mesh to meet their own needs, such as [NetEase Fuxi AI Lab](https://pingcap.com/blog/how-a-top-game-company-uses-chaos-engineering-to-improve-testing) and FreeWheel, making it a mock-up for CaaS.",
+      "source_content_hash": "b1b4adf97f39325118c8c1a7ac80e6c9c442da7339f8b3e689f3a97afa3582fe",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[NetEase Fuxi AI Lab](https://pingcap.com/blog/how-a-top-game-company-uses-chaos-engineering-to-improve-testing)やFreeWheelなどの企業は、すでにChaos Meshを自社のニーズに合わせて適応させ、CaaSのモデルケースとしています。"
+      }
+    },
+    {
+      "segment_id": "782c902a",
+      "source_content": "## Developing Chaos Mesh towards CaaS",
+      "source_content_hash": "ba535c90652589c122ce0d5700609bb0bafbd4b4772b46c9cb9b932513395f70",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## CaaSに向けたChaos Meshの開発"
+      }
+    },
+    {
+      "segment_id": "50746522",
+      "source_content": "Based on our understanding of CaaS, we refined the architecture of Chaos Mesh during Hackathon, including improved support for different systems and better observability. You can check out our code in [wuntun/chaos-mesh](https://github.com/wuntun/chaos-mesh/tree/caas) and [wuntun/chaosd](https://github.com/wuntun/chaosd/tree/caas).",
+      "source_content_hash": "7475247ead77ec348e1b8c3ce41e183eb2f93d81ca9d16f28c3542a3234529c9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "CaaSの理解に基づいて、Hackathon期間中にChaos Meshのアーキテクチャを洗練させ、さまざまなシステムのサポートの改善と観測性の向上を図りました。私たちのコードは[wuntun/chaos-mesh](https://github.com/wuntun/chaos-mesh/tree/caas)と[wuntun/chaosd](https://github.com/wuntun/chaosd/tree/caas)で確認できます。"
+      }
+    },
+    {
+      "segment_id": "54268405",
+      "source_content": "### Refactor Chaos Dashboard",
+      "source_content_hash": "f07fdfd82cb23571c08d39a6e039229ba41f3b925cf453891030442c596e06aa",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### Chaos Dashboardのリファクタリング"
+      }
+    },
+    {
+      "segment_id": "8af76f3d",
+      "source_content": "The current Chaos Mesh architecture is suited for individual Kubernetes clusters. Chaos Dashboard, the web UI, is bound to a specified Kubernetes environment:",
+      "source_content_hash": "344b859c30e06a36c2a4e51dfdc318ffcd042234420b4ff58dd0be9cd897e741",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "現在のChaos Meshのアーキテクチャは、個々のKubernetesクラスターに適しています。ウェブUIであるChaos Dashboardは、指定されたKubernetes環境にバインドされています："
+      }
+    },
+    {
+      "segment_id": "a9d49f92",
+      "source_content": "![Chaos Mesh architecture](/img/blog/chaos-mesh-remake-architecture.jpeg)",
+      "source_content_hash": "e209a9e3ee0ed97ed235c6d8381dcdee9dc88995f471427bd9b3b9bc4461f31a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos Meshアーキテクチャ](/img/blog/chaos-mesh-remake-architecture.jpeg)"
+      }
+    },
+    {
+      "segment_id": "a44047a5",
+      "source_content": "During this refactor, **to allow Chaos Dashboard to manage multiple Kubernetes clusters, we separate Chaos Dashboard from the main architecture**. Now, if you deploy Chaos Dashboard outside of the Kubernetes cluster, you can add the cluster to Chaos Dashboard via the web UI. If you deploy Chaos Dashboard inside the cluster, it automatically obtains the cluster information through environment variables.",
+      "source_content_hash": "12724a80e4bb9ea1e6c02d2e0a457661e620d7990967b49efb903846b5fe19f7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このリファクタリングでは、**Chaos Dashboardが複数のKubernetesクラスターを管理できるように、Chaos Dashboardをメインアーキテクチャから分離しました**。これにより、Kubernetesクラスターの外にChaos Dashboardをデプロイした場合、ウェブUIを通じてクラスターを追加できます。クラスター内にデプロイした場合、環境変数を通じて自動的にクラスター情報を取得します。"
+      }
+    },
+    {
+      "segment_id": "f7ef78f9",
+      "source_content": "You can register Chaos Mesh (technically, the Kubernetes configuration) in Chaos Dashboard or ask `chaos-controller-manager` to report to Chaos Dashboard via configuration. Chaos Dashboard and `chaos-controller-manager` interact via CustomResourceDefinitions (CRDs). When `chaos-controller-manager` finds a Chaos Mesh CRD event, it invokes `chaos-daemon` to carry out the related chaos experiment. Therefore, Chaos Dashboard can manage experiments by operating on CRDs.",
+      "source_content_hash": "57767ad5d0070c578826aba050aa7f28ff42476ddaaf37c94f3571fa41d549b8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos DashboardにChaos Mesh（技術的にはKubernetes設定）を登録するか、`chaos-controller-manager`に設定を通じてChaos Dashboardに報告させることができます。Chaos Dashboardと`chaos-controller-manager`はCustomResourceDefinitions（CRD）を介して連携します。`chaos-controller-manager`がChaos MeshのCRDイベントを検知すると、`chaos-daemon`を呼び出して関連するカオス実験を実行します。したがって、Chaos DashboardはCRDを操作することで実験を管理できます。"
+      }
+    },
+    {
+      "segment_id": "60410af6",
+      "source_content": "### Refactor chaosd",
+      "source_content_hash": "271a9b37579f70e5e8f4c4e8be81c97cea5de1a38b7358bc07d9fe700c4b8b76",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### chaosdのリファクタリング"
+      }
+    },
+    {
+      "segment_id": "b9aaa519",
+      "source_content": "chaosd is a toolkit for running chaos experiments on physical machines. Previously, it was only a command line tool and had limited features.",
+      "source_content_hash": "748b619be7d1b90cb4c0458a13ea943e897a940195c9f5eb0ee56c2048ff3c01",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "chaosdは物理マシン上でカオス実験を実行するためのツールキットです。以前はコマンドラインツールとしてのみ機能し、機能も限られていました。"
+      }
+    },
+    {
+      "segment_id": "e536ea0d",
+      "source_content": "![chaosd, a Chaos Engineering command line tool](/img/blog/chaosd-chaos-engineering-command-line-tool.jpeg)",
+      "source_content_hash": "0c478497af7deadd08e41da839d928a0a661fe5e72f41a18cd50fe5730b59540",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![chaosd、カオスエンジニアリング用コマンドラインツール](/img/blog/chaosd-chaos-engineering-command-line-tool.jpeg)"
+      }
+    },
+    {
+      "segment_id": "40158b4b",
+      "source_content": "During the refactoring, **we enabled chaosd to support the RESTful API and enhanced its services so that it can configure chaos experiments by parsing CRD-format JSON or YAML files**.",
+      "source_content_hash": "2355c58040d2cc98a751821ee7922d6ff1c2aafaa0f0b3778918bdf93956f458",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "リファクタリングでは、**chaosdがRESTful APIをサポートし、CRD形式のJSONまたはYAMLファイルを解析してカオス実験を設定できるようにサービスを強化しました**。"
+      }
+    },
+    {
+      "segment_id": "6ea4c715",
+      "source_content": "Now, chaosd can register itself to Chaos Dashboard via configuration and send regular heartbeats to Chaos Dashboard. With the heartbeat signals, Chaos Dashboard can manage the chaosd node status. You can also add chaosd nodes to Chaos Dashboard via the web UI.",
+      "source_content_hash": "37cc4cb1284937d4b8ad50a4ce209976932c070e9bee22eb5d4298911c01d080",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "現在、chaosdは設定を通じてChaos Dashboardに自己登録し、定期的にハートビートを送信できます。ハートビート信号により、Chaos Dashboardはchaosdノードの状態を管理できます。Web UIからもchaosdノードをChaos Dashboardに追加できます。"
+      }
+    },
+    {
+      "segment_id": "79ad944d",
+      "source_content": "Moreover, **chaosd can now schedule chaos experiments at specified time and manage experiment lifecycles, which unifies the user experience on Kubernetes and on physical machines**.",
+      "source_content_hash": "e9de25ec71b9b8c38b081dd35a2fd2e8c2e8d4f2cc9be667221e0998864307ee",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "さらに、**chaosdは指定された時間にカオス実験をスケジュールし、実験ライフサイクルを管理できるようになりました。これにより、Kubernetesと物理マシンでのユーザーエクスペリエンスが統一されます**。"
+      }
+    },
+    {
+      "segment_id": "531437ca",
+      "source_content": "With new Chaos Dashboard and chaosd, the optimized architecture of Chaos Mesh is as follows:",
+      "source_content_hash": "e861ffb0375dffff49defad3dda0fba7224affc5760f83f4e1771707e5230ea2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "新しいChaos Dashboardとchaosdにより、最適化されたChaos Meshのアーキテクチャは以下の通りです："
+      }
+    },
+    {
+      "segment_id": "06e24cc0",
+      "source_content": "![Chaos Mesh's optimized architecture](/img/blog/chaos-mesh-optimized-architecture.jpeg)",
+      "source_content_hash": "fb980a518868ce3d6b903fd78a843635748a416af320bbec1086a9d60e830989",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos Meshの最適化されたアーキテクチャ](/img/blog/chaos-mesh-optimized-architecture.jpeg)"
+      }
+    },
+    {
+      "segment_id": "ee8401db",
+      "source_content": "### Improve observability",
+      "source_content_hash": "111043e9333b18c04750c9e9a72fd4f3bf70ca9259d806a232aaa92af717b063",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 可観測性の向上"
+      }
+    },
+    {
+      "segment_id": "147e8550",
+      "source_content": "Another improvement is observability, namely how to tell if an experiment is carried out successfully.",
+      "source_content_hash": "e6b41f6db327b74a09b5755faabdff5700b2b2549d060bd4d7ddea5e867c780b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "もう一つの改善点は可観測性、つまり実験が正常に実行されたかどうかを判断する方法です。"
+      }
+    },
+    {
+      "segment_id": "883231d4",
+      "source_content": "Before the improvement, you had to manually check the experiment metrics. If you injected [StressChaos](https://chaos-mesh-website-archived.netlify.app/docs/1.2.4/chaos_experiments/stresschaos) into a Pod, you had to enter the Pod to see if there was a `stress-ng` process and then use `top` commands to check CPU and memory utilization. These metrics told you whether your StressChaos experiment was created successfully.",
+      "source_content_hash": "e85bde9faf21632cde82c4c132a7731ff699dc5aeea1a2d8861c2d3eec85903c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "改善前は、実験メトリクスを手動で確認する必要がありました。例えば、Podに[StressChaos](https://chaos-mesh-website-archived.netlify.app/docs/1.2.4/chaos_experiments/stresschaos)を注入した場合、Pod内に入って`stress-ng`プロセスが存在するか確認し、`top`コマンドでCPUとメモリ使用率を確認する必要がありました。これらのメトリクスからStressChaos実験が正常に作成されたか判断していました。"
+      }
+    },
+    {
+      "segment_id": "6cc549f2",
+      "source_content": "To streamline the process, we now integrate `node_exporter` into `chaos-daemon` and chaosd to collect node metrics. We also deploy `kube-state-metrics` in the Kubernetes cluster, combined with cadvisor, to collect Kubernetes metrics. The collected metrics are saved and visualized by Prometheus and Grafana, which provide a simple method for you to check the experiment status.",
+      "source_content_hash": "4a58d95912d0a99752c18af5d8f8d1af1a14a56c4f37a8cf5591a43be25db3a4",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このプロセスを合理化するため、`node_exporter`を`chaos-daemon`とchaosdに統合してノードメトリクスを収集するようにしました。また、Kubernetesクラスター内に`kube-state-metrics`をデプロイし、cadvisorと組み合わせてKubernetesメトリクスを収集します。収集されたメトリクスはPrometheusとGrafanaによって保存・可視化され、実験ステータスを簡単に確認できる方法を提供します。"
+      }
+    },
+    {
+      "segment_id": "98355e36",
+      "source_content": "#### Further improvements needed",
+      "source_content_hash": "129a3dd12121af4cef31e912c6f2c2ac3c91136c8fd2ad9c666021d24691b5fa",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "#### さらなる改善が必要な点"
+      }
+    },
+    {
+      "segment_id": "7736989b",
+      "source_content": "Overall, metrics aim to help you:",
+      "source_content_hash": "61c36cc12e590844b0f73d5f0adda214c75de6b3b88d41b83a9ba6b655a7369a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "全体的に、メトリクスの目的は以下を支援することです："
+      }
+    },
+    {
+      "segment_id": "c0ea80dd",
+      "source_content": "- Confirm that chaos is injected.\n- Observe the chaos impact on the service and make periodic analysis.\n- Respond to exceptional chaos events.",
+      "source_content_hash": "1d56bf839c13f14dbbf075214651b2e1c7a5cb3b9888d45359ad351fe09d20cc",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- カオスが注入されたことを確認する。\n- サービスへのカオスの影響を観察し、定期的に分析する。\n- 異常なカオスイベントに対応する。"
+      }
+    },
+    {
+      "segment_id": "ec619944",
+      "source_content": "To achieve these goals, the system needs to monitor the experiment data metrics, the ordinary metrics, and the experiment events. Chaos Mesh still needs to improve:",
+      "source_content_hash": "25c545b5412ba1822126404fb037a84b30fccca4ffdc6fa375d8651f00522a19",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これらの目標を達成するため、システムは実験データメトリクス、通常のメトリクス、および実験イベントを監視する必要があります。Chaos Meshにはまだ改善の余地があります："
+      }
+    },
+    {
+      "segment_id": "887c863e",
+      "source_content": "- Experiment data metrics, such as the exact latency duration of the injected network latency and the specific load of the simulated workload.\n- Experiment events; that is, the Kubernetes events of creating, deleting, and running experiments.",
+      "source_content_hash": "eea898d88c5940f108ed11f53f561b444a08035b23ae01c989ff8da78a3839a2",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 実験データメトリクス：注入されたネットワーク遅延の正確な持続時間や、シミュレートされたワークロードの具体的な負荷など。\n- 実験イベント：実験の作成、削除、実行に関するKubernetesイベント。"
+      }
+    },
+    {
+      "segment_id": "5803caac",
+      "source_content": "Here is a good example of metrics from [Litmus](https://github.com/litmuschaos/chaos-exporter#example-metrics).",
+      "source_content_hash": "c30a7cbea68c46fda738da7f0e98fcf76876035a32dee5c1946d71b26df10518",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Litmus](https://github.com/litmuschaos/chaos-exporter#example-metrics)のメトリクス例は良い参考になります。"
+      }
+    },
+    {
+      "segment_id": "39db08de",
+      "source_content": "## Other proposals for Chaos Mesh",
+      "source_content_hash": "6c0c2d577f32304c44cfa68a7e6e42853ec1901e04f8ad8e5f61169d0fc4541b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Meshへのその他の提案"
+      }
+    },
+    {
+      "segment_id": "785750ac",
+      "source_content": "Because of the limited time at Hackathon, we didn't finish all our plans. Here are some of our proposals for the Chaos Mesh community to consider in the future.",
+      "source_content_hash": "dd10d5eb3f46deec38a7c707af287e707db74efc8cc6d0e14bb182741384dc6f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Hackathonの時間制限により、すべての計画を完了できませんでした。以下は、Chaos Meshコミュニティが将来検討するための提案の一部です。"
+      }
+    },
+    {
+      "segment_id": "b10963d7",
+      "source_content": "### Orchestration",
+      "source_content_hash": "612c6dfefe4a30fd0a6948a87e68b23879f1e8dd7118f3d3d12c5cdb8d400074",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### オーケストレーション"
+      }
+    },
+    {
+      "segment_id": "2822251a",
+      "source_content": "A closed loop of Chaos Engineering includes four steps: exploring chaos, discovering deficiencies in the system, analyzing root causes, and sending feedback for improvement.",
+      "source_content_hash": "26ea7a367a9350862225a0f6604ff1abb624af608ad8acb066445cb56ac2d6c3",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "カオスエンジニアリングの閉ループには、4つのステップが含まれます：カオスの探索、システムの欠陥の発見、根本原因の分析、改善のためのフィードバック送信。"
+      }
+    },
+    {
+      "segment_id": "25212439",
+      "source_content": "![A closed loop of Chaos Engineering](/img/blog/closed-loop-of-chaos-engineering.jpeg)",
+      "source_content_hash": "6ccb59d6057892ec7785306e3feb43123c6af0f35f97dd3447ea7261025eb166",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![カオスエンジニアリングの閉ループ](/img/blog/closed-loop-of-chaos-engineering.jpeg)"
+      }
+    },
+    {
+      "segment_id": "d79a4831",
+      "source_content": "However, **most of the current open source Chaos Engineering tools only focus on exploration and do not provide pragmatic feedback.** Based on the improved observability component, we can monitor chaos experiments in real time and compare and analyze the experiment results.",
+      "source_content_hash": "99b3e7aff807afb92075e3895e739392ff42b8f50fe362b33f54dbd26556696e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "しかし、**現在のオープンソースのカオスエンジニアリングツールのほとんどは探索にのみ焦点を当てており、実用的なフィードバックを提供していません。** 改善された可観測性コンポーネントを基に、カオス実験をリアルタイムで監視し、実験結果を比較・分析することが可能です。"
+      }
+    },
+    {
+      "segment_id": "2838eb68",
+      "source_content": "With these results, we will be able to realize a closed loop by adding another important component: orchestration. The Chaos Mesh community already proposed a [Workflow](https://github.com/chaos-mesh/rfcs/pull/10/files) feature, which enables you to easily orchestrate and call back chaos experiments or conveniently integrate Chaos Mesh with other systems. You can run chaos experiments in the CI/CD phase or after a canary release.",
+      "source_content_hash": "250d95ab782b5192b1e20f1f94c875260a3840ba76ac27884b973436605d2e60",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これらの結果を活用することで、オーケストレーションという重要なコンポーネントを追加することで閉ループを実現できます。Chaos Meshコミュニティは既に[Workflow](https://github.com/chaos-mesh/rfcs/pull/10/files)機能を提案しており、これによりカオス実験のオーケストレーションやコールバックを容易に行ったり、Chaos Meshを他のシステムと簡単に統合したりできます。CI/CDフェーズやカナリアリリース後にカオス実験を実行することも可能です。"
+      }
+    },
+    {
+      "segment_id": "4be28ed1",
+      "source_content": "**Combining observability and orchestration makes a closed feedback loop for Chaos Engineering.** If you were to launch a 100 ms network latency test on a Pod, you could observe the latency change using the observability component and check if the Pod service is still available using PromQL or other DSL based on orchestration. If the service was unavailable, you may conclude that the service is unavailable when the latency is >= 100 ms.",
+      "source_content_hash": "76b71d35e366f3cce8eeca9a110edabb78f59e878e2383fdf0b8450f73d870ee",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**可観測性とオーケストレーションを組み合わせることで、カオスエンジニアリングの閉じたフィードバックループが実現します。** 例えば、Podに対して100ミリ秒のネットワーク遅延テストを実施する場合、可観測性コンポーネントで遅延の変化を観察し、オーケストレーションに基づいてPromQLやその他のDSLを使用してPodサービスが依然として利用可能かどうかを確認できます。サービスが利用不能であれば、遅延が>=100ミリ秒の場合にサービスが利用不能になるという結論を導き出すことができます。"
+      }
+    },
+    {
+      "segment_id": "0e80209e",
+      "source_content": "But 100 ms is not the threshold of your service; you need to know what is the largest latency your service can handle. By orchestrating the value of the chaos experiment, you'll know what is the threshold value you must ensure to meet your service-level objectives. Also, you'll find out the service performance under different network conditions and whether they meet your expectations.",
+      "source_content_hash": "d3f53b21172353e9f385fa4ec1f83fb7b3c1d29fb25a7fb430e647d456df2248",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "しかし、100ミリ秒はサービスの閾値ではありません。サービスが処理できる最大の遅延時間を知る必要があります。カオス実験の値をオーケストレーションすることで、サービスレベル目標を満たすために確保しなければならない閾値がわかります。また、さまざまなネットワーク条件下でのサービスパフォーマンスと、それが期待通りかどうかも明らかになります。"
+      }
+    },
+    {
+      "segment_id": "d1f76d04",
+      "source_content": "### Data format",
+      "source_content_hash": "9c59c8ee691c023b60fad772b568715514998337371a7099fdc4705cc23e7f05",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### データ形式"
+      }
+    },
+    {
+      "segment_id": "6693c38c",
+      "source_content": "Chaos Mesh uses CRDs to define its chaos objects. If we can convert CRDs to JSON files, we can achieve communication between components.",
+      "source_content_hash": "48f85d6816139f73c4f6452e299b8a76616568d2b0800b2b49955651e4e75c32",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos MeshはCRDを使用してカオスオブジェクトを定義します。CRDをJSONファイルに変換できれば、コンポーネント間の通信を実現できます。"
+      }
+    },
+    {
+      "segment_id": "e9313fef",
+      "source_content": "In terms of data format, chaosd just consumes and registers CRD data in JSON format. If a chaos tool can consume CRD data and register itself, it can run chaos experiments in different scenarios.",
+      "source_content_hash": "f05049e5d8a8a20c567f012266e395ad0c199ce070365ca0b0b726d0d7d730a8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "データ形式に関して、chaosdはJSON形式のCRDデータを消費して登録するだけです。カオスツールがCRDデータを消費して自身を登録できれば、さまざまなシナリオでカオス実験を実行できます。"
+      }
+    },
+    {
+      "segment_id": "48155948",
+      "source_content": "### Plugins",
+      "source_content_hash": "490ae92b33e6ee05d131e3b68dd3591cedd4e2035973f28487600d7077a1ea53",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### プラグイン"
+      }
+    },
+    {
+      "segment_id": "1958bc43",
+      "source_content": "Chaos Mesh has limited support for plugins. You can only [add a new Chaos](https://chaos-mesh-website-archived.netlify.app/docs/1.2.4/development_guides/develop_a_new_chaos/) by registering a CRD in Kubernetes API. This brings about two problems:",
+      "source_content_hash": "8c2c289756463e0ff13692200fc2d5602530dfe5fd4cd23c4bcc4b42d913f2ec",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshのプラグインサポートは限定的です。[新しいChaosを追加する](https://chaos-mesh-website-archived.netlify.app/docs/1.2.4/development_guides/develop_a_new_chaos/)には、Kubernetes APIにCRDを登録する必要があります。これには2つの問題があります:"
+      }
+    },
+    {
+      "segment_id": "bcc700e8",
+      "source_content": "- You must develop the plugin using Golang, the same language in which Chaos Mesh is written.\n- You must merge the extended code into the Chaos Mesh project. Because Chaos Mesh doesn't have a security mechanism like Berkeley Packet Filter (BPF), merging plugin code may introduce extra risks.",
+      "source_content_hash": "f0df8a2e03c1e5a52d4fa893177a87daabfb901ac4eebb71553c11be85ff69a8",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- Golang（Chaos Meshが記述されている言語）を使用してプラグインを開発する必要があります。\n- 拡張コードをChaos Meshプロジェクトにマージする必要があります。Chaos MeshにはBerkeley Packet Filter（BPF）のようなセキュリティメカニズムがないため、プラグインコードのマージは追加のリスクをもたらす可能性があります。"
+      }
+    },
+    {
+      "segment_id": "f38d1cb0",
+      "source_content": "To enable full plugin support, we need to explore a new method to add plugins. As Chaos Mesh essentially carries out chaos experiments based on CRD, a chaos experiment only requires generating, listening to, and deleting CRDs. In this regard, we have several ideas worth trying:",
+      "source_content_hash": "a28d3cad1cb49df5c35f711a015f41c838a2ba1009ce169a0bedd3f02e5f49fc",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "完全なプラグインサポートを実現するには、新しいプラグイン追加方法を探る必要があります。Chaos Meshは本質的にCRDに基づいてカオス実験を実行するため、カオス実験にはCRDの生成、監視、削除のみが必要です。この点に関して、試す価値のあるいくつかのアイデアがあります:"
+      }
+    },
+    {
+      "segment_id": "0aa939cf",
+      "source_content": "- Develop a controller or operator to manage CRDs.\n- Handle CRD events uniformly and operate on CRDs via HTTP callback. This method only uses HTTP APIs, with no requirement on Golang. For an example, see [Whitebox Controller](https://github.com/summerwind/whitebox-controller).\n- Use WebAssembly (Wasm). When you need to call chaos experiment logic, just call the Wasm program.\n- Use SQL to query the chaos experiment status. Because Chaos Mesh is based on CRDs, you can use SQL to operate on Kubernetes. Examples include [Presto connector](https://github.com/xuxinkun/kubesql) and [osquery extension](https://github.com/aquasecurity/kube-query).\n- Use SDK-based extensions, such as [Chaos Toolkit](https://docs.chaostoolkit.org/reference/api/experiment/).",
+      "source_content_hash": "fa212e019db3df7602b08cb7beac12315f363809eec3c76e5b563a55a5e5be9f",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- CRDを管理するコントローラーまたはオペレーターを開発する。\n- CRDイベントを一元的に処理し、HTTPコールバック経由でCRDを操作する。この方法ではHTTP APIのみを使用し、Golangは不要です。例として[Whitebox Controller](https://github.com/summerwind/whitebox-controller)を参照。\n- WebAssembly（Wasm）を使用する。カオス実験ロジックを呼び出す必要がある場合、Wasmプログラムを呼び出すだけです。\n- SQLを使用してカオス実験のステータスをクエリする。Chaos MeshはCRDに基づいているため、SQLを使用してKubernetesを操作できます。例として[Presto connector](https://github.com/xuxinkun/kubesql)や[osquery extension](https://github.com/aquasecurity/kube-query)があります。\n- SDKベースの拡張を使用する。例：[Chaos Toolkit](https://docs.chaostoolkit.org/reference/api/experiment/)。"
+      }
+    },
+    {
+      "segment_id": "47cd8dd6",
+      "source_content": "### Integration with other Chaos tools",
+      "source_content_hash": "82e4f55e26e472a2268dd377c88fc6b317afee2783b82bb47be463a0e2ea8909",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 他のカオスツールとの統合"
+      }
+    },
+    {
+      "segment_id": "692c6053",
+      "source_content": "For real-world systems, a single Chaos Engineering tool can hardly exhaust all possible use cases. That's why integrating with other chaos tools can make the Chaos Engineering ecosystem more powerful.",
+      "source_content_hash": "d56a8e34ccd349937092c244afbeea1e93ee63fc740a5638b0d3a8eae5964f4f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "現実のシステムでは、単一のカオスエンジニアリングツールですべての可能なユースケースを網羅することは困難です。そのため、他のカオスツールと統合することで、カオスエンジニアリングのエコシステムをより強力にすることができます。"
+      }
+    },
+    {
+      "segment_id": "383fbdd2",
+      "source_content": "There are numerous Chaos Engineering tools on the market. Litmus's [Kubernetes implementation](https://github.com/litmuschaos/litmus-go/tree/2.14.1/chaoslib/powerfulseal) is based on [PowerfulSeal](https://github.com/powerfulseal/powerfulseal), while its [container implementation](https://github.com/litmuschaos/litmus-go/tree/2.14.1/chaoslib/pumba) is based on [Pumba](https://github.com/alexei-led/pumba). [Kraken](https://github.com/cloud-bulldozer/kraken) focuses on Kubernetes, [AWSSSMChaosRunner](https://github.com/amzn/awsssmchaosrunner) focuses on AWS, and [Toxiproxy](https://github.com/shopify/toxiproxy) targets TCP. There are also merging projects based on [Envoy](https://docs.google.com/presentation/d/1gMlmXqH6ufnb8eNO10WqVjqrPRGAO5-1S1zjcGo1Zr4/edit#slide=id.g58453c664c_2_75) and Istio.",
+      "source_content_hash": "84a785d96ac15dd6ad8b9ab322b8386ec5b101ab4e0366cd0a160b2142fd514a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "市場には数多くのカオスエンジニアリングツールが存在します。Litmusの[Kubernetes実装](https://github.com/litmuschaos/litmus-go/tree/2.14.1/chaoslib/powerfulseal)は[PowerfulSeal](https://github.com/powerfulseal/powerfulseal)を基にしており、その[コンテナ実装](https://github.com/litmuschaos/litmus-go/tree/2.14.1/chaoslib/pumba)は[Pumba](https://github.com/alexei-led/pumba)を基にしています。[Kraken](https://github.com/cloud-bulldozer/kraken)はKubernetesに焦点を当て、[AWSSSMChaosRunner](https://github.com/amzn/awsssmchaosrunner)はAWSに特化し、[Toxiproxy](https://github.com/shopify/toxiproxy)はTCPを対象としています。また、[Envoy](https://docs.google.com/presentation/d/1gMlmXqH6ufnb8eNO10WqVjqrPRGAO5-1S1zjcGo1Zr4/edit#slide=id.g58453c664c_2_75)やIstioを基にした統合プロジェクトも存在します。"
+      }
+    },
+    {
+      "segment_id": "14bc6b75",
+      "source_content": "To manage the various chaos tools, we may need a uniform pattern, such as [Chaos Hub](https://hub.litmuschaos.io/).",
+      "source_content_hash": "b5c2bacecfc74b41600a1813106c5c3816fd378f0e91f9e10f8e9474e9dabe34",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "様々なカオスツールを管理するためには、[Chaos Hub](https://hub.litmuschaos.io/)のような統一されたパターンが必要となるかもしれません。"
+      }
+    },
+    {
+      "segment_id": "5dba1427",
+      "source_content": "## Voices from the community",
+      "source_content_hash": "02b50ffc7e731484964970c96a961beedbb2fb3311edda4cd650c33ce5227a7a",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## コミュニティからの声"
+      }
+    },
+    {
+      "segment_id": "534ac82e",
+      "source_content": "Here, we'd like to share how a leading cyber security company in China as well as a Chaos Mesh user, adapts Chaos Mesh to meet their needs. Their adaptation has three aspects: physical node, container, and application.",
+      "source_content_hash": "5ad5a10c0962d010054efff7fd92038de07057f6e4e4f6e1bedace8e45d32270",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ここでは、中国の主要なサイバーセキュリティ企業であり、Chaos Meshのユーザーでもある組織が、どのようにChaos Meshを自社のニーズに合わせて適応させているかを共有します。彼らの適応は、物理ノード、コンテナ、アプリケーションの3つの側面から行われています。"
+      }
+    },
+    {
+      "segment_id": "0d5321b7",
+      "source_content": "### Physical node",
+      "source_content_hash": "882f87c803638330f07cb0fd4792ab66771569dc829bb9aa6bfc9a5bcb93692c",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 物理ノード"
+      }
+    },
+    {
+      "segment_id": "17ca27eb",
+      "source_content": "- Support executing scripts on physical servers. You can configure the script directory in CRDs and run your scripts using `chaos-daemon`.\n- Simulate reboot, shutdown, and kernel panic using the customized script.\n- Shut down the node's NIC using the customized script.\n- Create frequent context switching using sysbench to simulate the \"noisy neighbor\" effect.\n- Intercept the container's system call using BPF's `seccomp`. This is achieved by passing and filtering PIDs.",
+      "source_content_hash": "79556bef51babcbb6dabb3b829bb2eb8d6c74c1c970e0684224fd2b9dc3ced34",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 物理サーバー上でスクリプトを実行するサポート。CRDでスクリプトディレクトリを設定し、`chaos-daemon`を使用してスクリプトを実行できます。\n- カスタマイズされたスクリプトを使用して、再起動、シャットダウン、カーネルパニックをシミュレート。\n- カスタマイズされたスクリプトを使用してノードのNICをシャットダウン。\n- sysbenchを使用して頻繁なコンテキストスイッチングを作成し、「ノイジーネイバー」効果をシミュレート。\n- BPFの`seccomp`を使用してコンテナのシステムコールをインターセプト。これはPIDの受け渡しとフィルタリングによって実現されます。"
+      }
+    },
+    {
+      "segment_id": "6ab1b234",
+      "source_content": "### Container",
+      "source_content_hash": "9262a7d8f171482844ae133746ce201e183c1243d85fdface312491273f3ba9c",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### コンテナ"
+      }
+    },
+    {
+      "segment_id": "3670cec0",
+      "source_content": "- Randomly change the number of Deployment replicas to test if the application's traffic is abnormal.\n- Embed based on CRD objects: fill Ingress objects in chaos CRDs to simulate the speed limit of the interface.\n- Embed based on CRD objects: fill Cilium network policy objects in chaos CRDs to simulate fluctuating network conditions.",
+      "source_content_hash": "dff67508be376690977a3a8b7b3328218add388eb126dccda2699172f51a5f6b",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- Deploymentのレプリカ数をランダムに変更し、アプリケーションのトラフィックに異常がないかテスト。\n- CRDオブジェクトに基づいて埋め込み：カオスCRDにIngressオブジェクトを埋め込み、インターフェースの速度制限をシミュレート。\n- CRDオブジェクトに基づいて埋め込み：カオスCRDにCiliumネットワークポリシーオブジェクトを埋め込み、変動するネットワーク条件をシミュレート。"
+      }
+    },
+    {
+      "segment_id": "97afbaf0",
+      "source_content": "### Application",
+      "source_content_hash": "5c919a6496f9f7dbd658cb1c7dd591eacfa5ba1e1539a8e3561540c46619692f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### アプリケーション"
+      }
+    },
+    {
+      "segment_id": "6ffcaeb2",
+      "source_content": "- Support running customized jobs. Currently, Chaos Mesh injects chaos using `chaos-daemon`, which doesn't guarantee fairness and affinity of scheduling. To address this issue, we can use `chaos-controller-manager` to directly create jobs for different CRDs.\n- Support running [Newman](https://github.com/postmanlabs/newman) in customized jobs to randomly change HTTP parameters. This is to implement chaos experiments on the HTTP interface, which happens when a user performs exceptional behaviors.",
+      "source_content_hash": "a4c97d56e29c3b8402b4f1bb0a1b8ef4ae38947ad2f9b612edf0f4907c512ee0",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- カスタマイズされたジョブの実行をサポート。現在、Chaos Meshは`chaos-daemon`を使用してカオスを注入しますが、これはスケジューリングの公平性とアフィニティを保証しません。この問題に対処するため、`chaos-controller-manager`を使用して異なるCRDに対して直接ジョブを作成できます。\n- カスタマイズされたジョブで[Newman](https://github.com/postmanlabs/newman)を実行し、HTTPパラメータをランダムに変更するサポート。これは、ユーザーが異常な動作を行ったときに発生するHTTPインターフェースに対するカオス実験を実装するためです。"
+      }
+    },
+    {
+      "segment_id": "7312e69e",
+      "source_content": "## Summary",
+      "source_content_hash": "30ac03ff33731529441be8fbe52a3bd0d4c5ec830e806d54692168ebb7f98ada",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## まとめ"
+      }
+    },
+    {
+      "segment_id": "2dbfc5f7",
+      "source_content": "Traditional fault testing targets specific points in the system that are anticipated to be vulnerable. It is often an assertion: a specific condition produces a specific result.",
+      "source_content_hash": "55264be3086ea6196931b3e5b4e383cffa760db9093b482dba02a04f8306551d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "従来の障害テストは、システム内の脆弱性が予想される特定のポイントを対象とします。これはしばしばアサーションです：特定の条件が特定の結果を生み出します。"
+      }
+    },
+    {
+      "segment_id": "6b40e7a2",
+      "source_content": "**Chaos Engineering is more powerful in that it helps you discover the \"unknown unknowns.\"** By exploring in the broader domain, Chaos Engineering deepens your knowledge of the system being tested and unearths new information.",
+      "source_content_hash": "6e808f022fb8c47262f13468c53924c350c809fc6803658d946399a081fd92fc",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**カオスエンジニアリングは、「未知の未知」を発見するのにさらに強力です。** より広範な領域で探索することで、カオスエンジニアリングはテスト対象のシステムに関する知識を深め、新たな情報を掘り起こします。"
+      }
+    },
+    {
+      "segment_id": "39f476dc",
+      "source_content": "To sum up, these are some of our personal thoughts and practice on Chaos Engineering and Chaos Mesh. Our Hackathon project is not ready for production yet, but we hope to shed some light on CaaS and draft a promising roadmap for Chaos Mesh. If you're interested in building Chaos as a Service, [join our Slack](https://slack.cncf.io/) (#project-chaos-mesh)!",
+      "source_content_hash": "489719f8782ee386bdba9e8187b347b50a65e7dd0284e3aede8ce0d27d898406",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "まとめると、これらはカオスエンジニアリングとChaos Meshに関する私たちの個人的な考えと実践の一部です。私たちのハッカソンプロジェクトはまだ本番環境に適していませんが、CaaSに光を当て、Chaos Meshの有望なロードマップを草案することを願っています。Chaos as a Serviceの構築に興味がある方は、[Slackに参加](https://slack.cncf.io/) (#project-chaos-mesh)してください！"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2021-06-25-chaos-mesh-remake-one-step-closer-toward-chaos-as-a-service.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.685399+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "101243859ce7313922cf17f70ebaa31efba6da73b22848bd8930045371fb9d13"
+  }
+}

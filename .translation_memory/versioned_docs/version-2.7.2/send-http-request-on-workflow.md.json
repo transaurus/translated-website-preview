@@ -1,0 +1,212 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "versioned_docs/version-2.7.2/send-http-request-on-workflow.md",
+  "source_file_content_hash": "a5f2223b92f0683ad3dc9a273db6480fe519a6cc9db2a7c66e2b5f4363d73236",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Send HTTP Requests on Workflow\n---",
+      "source_content_hash": "b5e8e4eca3498d5434e886b4bdf0581593ced4fe09a6b663ad8ed10f959475c3",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "Chaos Mesh Workflow provides a `Task` node to support any workload, similar to Kubernetes `Job`. To make the user experience more convenient, Chaos Dashboard provides a template based on `Task` to create HTTP requests in WebUI.",
+      "source_content_hash": "e40b636f3fe871f10df814bebc51a3c537670c28a92afd7b0981f03f2de88af5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Mesh Workflowは、Kubernetesの`Job`と同様の機能を持つ`Task`ノードを提供し、あらゆるワークロードをサポートします。ユーザーエクスペリエンスを向上させるため、Chaos Dashboardは`Task`ベースのテンプレートを提供し、WebUIでHTTPリクエストを簡単に作成できます。"
+      }
+    },
+    {
+      "segment_id": "6ef78e84",
+      "source_content": "Chaos Mesh Workflow provides a `Task` node to support any workload, which function is similar to the `Job` in Kubernetes. To provide a better user experience, Chaos Dashboard provides a template based on `Task`. With this template, you can easily create HTTP requests in WebUI. This document describes how to create an HTTP request through Chaos Dashboard.",
+      "source_content_hash": "915158dc567e601cdc4b5a0c96433d873fa98598e77f6c8724e3fe1416ee58b6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Mesh Workflowは、Kubernetesの`Job`と同様の機能を持つ`Task`ノードを提供し、あらゆるワークロードをサポートします。より良いユーザーエクスペリエンスを提供するため、Chaos Dashboardは`Task`ベースのテンプレートを提供しています。このテンプレートを使用すると、WebUIで簡単にHTTPリクエストを作成できます。このドキュメントでは、Chaos Dashboardを使用してHTTPリクエストを作成する方法について説明します。"
+      }
+    },
+    {
+      "segment_id": "0d5e1c45",
+      "source_content": ":::note\n\nChaos Mesh does _NOT_ have the workflow node of the type `HTTPRequest`. This feature is based on `Task` node, and you can send HTTP requests more conveniently by using the feature.\n\n:::",
+      "source_content_hash": "a85e2ed7807b92d48d793f4f5cc15cfbd99985b8c6146ea33b542d71c27250cd",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\nChaos Meshには`HTTPRequest`タイプのワークフローノードは存在しません。この機能は`Task`ノードをベースとしており、この機能を使用することでより簡単にHTTPリクエストを送信できます。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "ac44a45c",
+      "source_content": ":::note\n\nThis feature is currently an experimental feature, so it is not recommended to use this feature in the production environment. The configuration and behavior of the feature might change in the future.\n\n:::",
+      "source_content_hash": "c61897c00d6ef28d4299675d391fd835f8c1af11b072b789d14ad2e68b19127a",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\nこの機能は現在実験的な機能であるため、本番環境での使用は推奨されません。この機能の設定や動作は将来変更される可能性があります。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "418617bd",
+      "source_content": "## Create an HTTP request through Chaos Dashboard",
+      "source_content_hash": "ca78334ea756cc886de88e9d129c0791fa65149bd0ca4b9942027d6f2060c8e1",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Dashboardを使用したHTTPリクエストの作成"
+      }
+    },
+    {
+      "segment_id": "2fdadb08",
+      "source_content": "You can create an HTTP request in Chaos Dashboard as the following steps that take sending a message through Slack Webhook as an example.",
+      "source_content_hash": "eccb3419bcda825f6833a78f02e41c36540d1ab61ecf0ef4650025decdb14e6a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下に、Slack Webhookを使用してメッセージを送信する例を挙げながら、Chaos DashboardでHTTPリクエストを作成する手順を説明します。"
+      }
+    },
+    {
+      "segment_id": "ed7dde9c",
+      "source_content": "### Step 1. Create a workflow node with the type `HTTPRequest`",
+      "source_content_hash": "4cbbf8fcbd0b1b27b1193b26fa9c7b0d4d4860de012c16b1f86abe38d4a1dd65",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ステップ1. `HTTPRequest`タイプのワークフローノードを作成"
+      }
+    },
+    {
+      "segment_id": "a76548f8",
+      "source_content": "Select \"HTTP Request\" as the task type:",
+      "source_content_hash": "324877ba56adb1587b680b67dc2a5a0b73df0f8cae0502eae116caa88fb9850f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "タスクタイプとして「HTTP Request」を選択します："
+      }
+    },
+    {
+      "segment_id": "4b1d2d7d",
+      "source_content": "![create-http-request-workflow-node](img/create-http-request-workflow-node.png)",
+      "source_content_hash": "c199496a9669b0d2faac46d98b3940837376862e3f85f717513cf0d0318ab9cb",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![create-http-request-workflow-node](img/create-http-request-workflow-node.png)"
+      }
+    },
+    {
+      "segment_id": "48847fd4",
+      "source_content": "### Step 2. Configure an HTTP request",
+      "source_content_hash": "51e3671c441c73367f5edb1423dcbd7d7fd671ff7a082faf4ba2494e7f91e1bb",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ステップ2. HTTPリクエストの設定"
+      }
+    },
+    {
+      "segment_id": "4daf5cdd",
+      "source_content": "Configure the followings:",
+      "source_content_hash": "9aa86cf3990b844f3546761d0103c1146f2506d680dbe94e78c065707f0d7900",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下の項目を設定します："
+      }
+    },
+    {
+      "segment_id": "fc8eadc3",
+      "source_content": "- node name: `send-slack-message`\n- request URL: `https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX`\n- request method: `POST`\n- request body: `{\"text\": \"Hello, world.\"}` , then check \"For JSON content\".",
+      "source_content_hash": "11119cc70ade8b2242cbc566ca96d8066b4e50ee329e3b5647b9225860b2dfe4",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- ノード名: `send-slack-message`\n- リクエストURL: `https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX`\n- リクエストメソッド: `POST`\n- リクエストボディ: `{\"text\": \"Hello, world.\"}` 、その後「For JSON content」にチェックを入れます。"
+      }
+    },
+    {
+      "segment_id": "33331f27",
+      "source_content": "![configure-http-request-workflow-node](img/configure-http-request-workflow-node.png)",
+      "source_content_hash": "4514c795a07d44fec0656900cc9cc1197116e8752c9bb4f7a87681b77fff4718",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![configure-http-request-workflow-node](img/configure-http-request-workflow-node.png)"
+      }
+    },
+    {
+      "segment_id": "8d04259b",
+      "source_content": "### Step 3. Submit the workflow node",
+      "source_content_hash": "56d6518704f73eedacf31392ef340d64ce4966b97a75952c61bc6b74a52ad215",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ステップ3. ワークフローノードの送信"
+      }
+    },
+    {
+      "segment_id": "95e9ba12",
+      "source_content": "Click the \"Submit\" button to see the task in the preview window:",
+      "source_content_hash": "657f40874af1a83a48cb102a7e3915147cdf7e52cd6af97d03a2d1e9bf5fe31b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "「Submit」ボタンをクリックすると、プレビューウィンドウでタスクを確認できます："
+      }
+    },
+    {
+      "segment_id": "8af76f3d",
+      "source_content": "![http-request-task-node-preview](img/http-request-task-node-preview.png)",
+      "source_content_hash": "e31a3b81287dede46249d2d5a439bce702fc549eb70b3fd2aad69663fc0e9d27",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![http-request-task-node-preview](img/http-request-task-node-preview.png)"
+      }
+    },
+    {
+      "segment_id": "c674e260",
+      "source_content": "## Field description",
+      "source_content_hash": "afef87832591f63e7a3c9579f8a2492cf81afc3e8b0d02296e334646ad82d4f6",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## フィールド説明"
+      }
+    },
+    {
+      "segment_id": "8b0f8d70",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| Name | string | Name of the workflow node |  | Yes | `send-slack-message` |\n| URL | string | URL of an HTTP request |  | Yes | `https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX` |\n| Method | string | Method of an HTTP request |  | Yes | `POST` |\n| Body | string | Body of an HTTP request |  | No | `{\"text\": \"Hello, world.\"}` |\n| Follow 301/302 Location | boolean | The value of this parameter corresponds to the `-L` parameter of `curl`. | `false` | No | `false` |\n| Json Content | boolean | The parameter appends `Content-Type: application/json` to the header of an HTTP request. | `false` | No | `false` |",
+      "source_content_hash": "ddc1345caf709a23203add7e8347ab9c6e74fb68a40a69691b2a06b7755e4a73",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_8b0f8d70"
+      }
+    },
+    {
+      "segment_id": "23dfb152",
+      "source_content": "The value of the `name` field of the generated task node adds the suffix `http-request` to the end of \"name\".",
+      "source_content_hash": "4135d57e669623339259559321356aa03001d29b04080cce7645ee7e2faa0696",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "生成されたタスクノードの`name`フィールドの値には、「name」の末尾に`http-request`という接尾辞が追加されます。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/version-2.7.2/send-http-request-on-workflow.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.694736+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "a5f2223b92f0683ad3dc9a273db6480fe519a6cc9db2a7c66e2b5f4363d73236"
+  }
+}

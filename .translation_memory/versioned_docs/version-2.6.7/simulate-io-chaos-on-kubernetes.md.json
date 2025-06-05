@@ -1,0 +1,352 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "versioned_docs/version-2.6.7/simulate-io-chaos-on-kubernetes.md",
+  "source_file_content_hash": "4fc0d2aad3405bf00291e7fdcd6a11f947f81fdbf82b2a98e0ee58f064763afd",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Simulate File I/O Faults\n---",
+      "source_content_hash": "55fc29982670cde5ec60622add3840c326498bda539d76bebca66d34b99bedca",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "This document describes how to create IOChaos experiments in Chaos Mesh.",
+      "source_content_hash": "c3688e1a1bc6c557b497509bbb4483b845a306f48d05db12a9bdf7ffa2383773",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、Chaos MeshでIOChaos実験を作成する方法について説明します。"
+      }
+    },
+    {
+      "segment_id": "a703643c",
+      "source_content": "## IOChaos introduction",
+      "source_content_hash": "2696bb03044098225063c4776e9655617f333633ee73340054d531ae9594f93b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## IOChaosの概要"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "IOChaos is a type of fault in Chaos Mesh. By creating an IOChaos experiment, you can simulate a scenario of file system fault. Currently, IOChaos supports the following fault types:",
+      "source_content_hash": "297077bec07bfad43033b9b3644020fb72407a418d57ea551c701c6be4643d48",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "IOChaosはChaos Meshの障害タイプの一つです。IOChaos実験を作成することで、ファイルシステム障害のシナリオをシミュレートできます。現在、IOChaosは以下の障害タイプをサポートしています："
+      }
+    },
+    {
+      "segment_id": "be33979e",
+      "source_content": "- `latency`: delays file system calls\n- `fault`: returns an error for filesystem calls\n- `attrOverride`: modifies file properties\n- `mistake`: makes the file read or write a wrong value",
+      "source_content_hash": "961b57f212f1bd8990b70e115c5ee19276c6805a32c3de42ecec26408e295c0c",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- `latency`: ファイルシステムコールを遅延させる\n- `fault`: ファイルシステムコールに対してエラーを返す\n- `attrOverride`: ファイルの属性を変更する\n- `mistake`: ファイルの読み書きで誤った値を返す"
+      }
+    },
+    {
+      "segment_id": "86b54d44",
+      "source_content": "For specific features, refer to [Create experiments using the YAML files](#create-experiments-using-the-yaml-files).",
+      "source_content_hash": "29a09ab5fb4f967d1e5bc4969ff65e2f3b517cba73ad49687b21ad1194ab26f3",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "具体的な機能については、[YAMLファイルを使用した実験の作成](#create-experiments-using-the-yaml-files)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "d350c018",
+      "source_content": "## Notes",
+      "source_content_hash": "63e13e87b378d1e85f838ead267db9020c1457b1118a37e0af9fb5f976144f4b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 注意事項"
+      }
+    },
+    {
+      "segment_id": "3b695c37",
+      "source_content": "1. Before creating an IOChaos experiment, make sure there is no Control Manager of Chaos Mesh running on the target Pod.\n\n2. IOChaos may damage your data. Use IOChaos **with caution** in the production environment.",
+      "source_content_hash": "8833ba459d570ef6452bde3e6bc80b7dbbf2375679bd4787e87667dddbed36dc",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. IOChaos実験を作成する前に、対象のPodでChaos MeshのControl Managerが実行されていないことを確認してください。\n\n2. IOChaosはデータを破損する可能性があります。本番環境では**注意して**使用してください。"
+      }
+    },
+    {
+      "segment_id": "95b38f97",
+      "source_content": "## Create experiments using Chaos Dashboard",
+      "source_content_hash": "0e6c13931d3c46c241532f93bf2c43261695607133973a006c15d6651045ed71",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Dashboardを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "0cc488ed",
+      "source_content": "1. Open Chaos Dashboard, and click **NEW EXPERIMENT** on the page to create a new experiment:\n\n   ![Create a New Experiment](./img/create-new-exp.png)\n\n2. In the **Choose a Target** area, choose **FILE SYSTEM INJECTION** and select a specific fault type, such as **LATENCY**.\n\n   ![ioChaos Experiments](./img/iochaos-exp.png)\n\n3. Fill out the experiment information, and specify the experiment scope and the scheduled experiment duration.\n\n   ![Experiment Information](./img/exp-info.png)\n\n4. Submit the experiment information.",
+      "source_content_hash": "deb8e04187ee2dea935b860088bfb9e22da330d0f752b681d9e3342f4e21c5de",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. Chaos Dashboardを開き、ページ上の**NEW EXPERIMENT**をクリックして新しい実験を作成します：\n\n   ![新しい実験の作成](./img/create-new-exp.png)\n\n2. **Choose a Target**エリアで、**FILE SYSTEM INJECTION**を選択し、**LATENCY**などの特定の障害タイプを選択します。\n\n   ![ioChaos実験](./img/iochaos-exp.png)\n\n3. 実験情報を入力し、実験範囲と予定された実験期間を指定します。\n\n   ![実験情報](./img/exp-info.png)\n\n4. 実験情報を送信します。"
+      }
+    },
+    {
+      "segment_id": "782c902a",
+      "source_content": "## Create experiments using the YAML files",
+      "source_content_hash": "b28651d6feb8cbe0279d0621bb5559ff4dc33f1eb16ffa643cf71d9a907b48f0",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## YAMLファイルを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "8d04259b",
+      "source_content": "### Latency example",
+      "source_content_hash": "038ecf752306fb270946c1cea655bf406ac527cb63ef39acab16a0f6c4992fe1",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 遅延の例"
+      }
+    },
+    {
+      "segment_id": "aa83231c",
+      "source_content": "1. Write the experiment configuration to the `io-latency.yaml` file, as shown below:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: IOChaos\n   metadata:\n     name: io-latency-example\n     namespace: chaos-mesh\n   spec:\n     action: latency\n     mode: one\n     selector:\n       labelSelectors:\n         app: etcd\n     volumePath: /var/run/etcd\n     path: '/var/run/etcd/**/*'\n     delay: '100ms'\n     percent: 50\n     duration: '400s'\n   ```\n\n   In this configuration example, Chaos Mesh injects a delay into the directory `/var/run/etcd` and causes latency of 100 milliseconds to all file system operations (including read, writing, list contents, and so on) in this directory.\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f ./io-latency.yaml\n   ```",
+      "source_content_hash": "5584bf943d272adefe3cfd696296ad9af1b4cac79c5159bc546b419f0032ad87",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 以下のように、実験設定を`io-latency.yaml`ファイルに記述します：\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: IOChaos\n   metadata:\n     name: io-latency-example\n     namespace: chaos-mesh\n   spec:\n     action: latency\n     mode: one\n     selector:\n       labelSelectors:\n         app: etcd\n     volumePath: /var/run/etcd\n     path: '/var/run/etcd/**/*'\n     delay: '100ms'\n     percent: 50\n     duration: '400s'\n   ```\n\n   この設定例では、Chaos Meshは`/var/run/etcd`ディレクトリに遅延を注入し、このディレクトリ内のすべてのファイルシステム操作（読み取り、書き込み、内容のリスト表示など）に100ミリ秒の遅延を発生させます。\n\n2. 設定ファイルの準備ができたら、`kubectl`を使用して実験を作成します：\n\n   ```bash\n   kubectl apply -f ./io-latency.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "d422fb13",
+      "source_content": "### Fault example",
+      "source_content_hash": "9870c4293e263ddbc7435578f82f961c504c6005293379b119aab2565a7d667f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 障害の例"
+      }
+    },
+    {
+      "segment_id": "aa0bd54f",
+      "source_content": "1. Write the experiment configuration to the `io-fault.yaml` file, as shown below:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: IOChaos\n   metadata:\n     name: io-fault-example\n     namespace: chaos-mesh\n   spec:\n     action: fault\n     mode: one\n     selector:\n       labelSelectors:\n         app: etcd\n     volumePath: /var/run/etcd\n     path: /var/run/etcd/**/*\n     errno: 5\n     percent: 50\n     duration: '400s'\n   ```\n\n   In this example, Chaos Mesh injects a file fault into the directory `/var/run/etcd`, which gives a 50% probability of failure in all file system operations under this directory and returns error code 5 (Input/output error).\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f ./io-fault.yaml\n   ```",
+      "source_content_hash": "1a45e59cd8f1d974c3b402494547414016125186d8cc1a1e18dc4ddbc5cbf0b3",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 以下のように、実験設定を`io-fault.yaml`ファイルに記述します：\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: IOChaos\n   metadata:\n     name: io-fault-example\n     namespace: chaos-mesh\n   spec:\n     action: fault\n     mode: one\n     selector:\n       labelSelectors:\n         app: etcd\n     volumePath: /var/run/etcd\n     path: /var/run/etcd/**/*\n     errno: 5\n     percent: 50\n     duration: '400s'\n   ```\n\n   この例では、Chaos Meshは`/var/run/etcd`ディレクトリにファイル障害を注入し、このディレクトリ内のすべてのファイルシステム操作に50%の確率で障害を発生させ、エラーコード5（Input/output error）を返します。\n\n2. 設定ファイルの準備ができたら、`kubectl`を使用して実験を作成します：\n\n   ```bash\n   kubectl apply -f ./io-fault.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "71169a2d",
+      "source_content": "### attrOverride example",
+      "source_content_hash": "5e35ddad24f199f23e4ec0efb57f1bec4b0a46a31a307a6210d832a902b69ee4",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### attrOverrideの例"
+      }
+    },
+    {
+      "segment_id": "cd1d0fe2",
+      "source_content": "1. Write the experiment configuration to the `io-attr.yaml` file:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: IOChaos\n   metadata:\n     name: io-attr-example\n     namespace: chaos-mesh\n   spec:\n     action: attrOverride\n     mode: one\n     selector:\n       labelSelectors:\n         app: etcd\n     volumePath: /var/run/etcd\n     path: /var/run/etcd/**/*\n     attr:\n       perm: 72\n     percent: 10\n     duration: '400s'\n   ```\n\n   In this configuration example, Chaos Mesh injects `/var/run/etcd` directories `attrOverride` fault, giving a 10% probability that all file system operations in this directory will change the target file permissions to 72 (110 in octal), which will allow files to be executed only by the owner and their group and not authorized to perform other actions.\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f ./io-attr.yaml\n   ```",
+      "source_content_hash": "3f2a84edd7602739c48eb31597e5052b85be2602a28a3922c18fb59b4a910ddf",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 実験設定を `io-attr.yaml` ファイルに記述します:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: IOChaos\n   metadata:\n     name: io-attr-example\n     namespace: chaos-mesh\n   spec:\n     action: attrOverride\n     mode: one\n     selector:\n       labelSelectors:\n         app: etcd\n     volumePath: /var/run/etcd\n     path: /var/run/etcd/**/*\n     attr:\n       perm: 72\n     percent: 10\n     duration: '400s'\n   ```\n\n   この設定例では、Chaos Mesh は `/var/run/etcd` ディレクトリに `attrOverride` 障害を注入し、このディレクトリ内のすべてのファイルシステム操作に対して10%の確率でターゲットファイルのパーミッションを72（8進数で110）に変更します。これにより、ファイルは所有者とそのグループのみが実行可能となり、他の操作は許可されません。\n\n2. 設定ファイルの準備ができたら、`kubectl` を使用して実験を作成します:\n\n   ```bash\n   kubectl apply -f ./io-attr.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "c83259bb",
+      "source_content": "### Mistake example",
+      "source_content_hash": "b4d44c58b68ce2ef3594b8a01726e619a4915ec743775645f9965b22902f49fa",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### Mistake の例"
+      }
+    },
+    {
+      "segment_id": "9ceae896",
+      "source_content": "1. Write the experiment configuration to the `io-mistake.yaml` file:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: IOChaos\n   metadata:\n     name: io-mistake-example\n     namespace: chaos-mesh\n   spec:\n     action: mistake\n     mode: one\n     selector:\n       labelSelectors:\n         app: etcd\n     volumePath: /var/run/etcd\n     path: /var/run/etcd/**/*\n     mistake:\n       filling: zero\n       maxOccurrences: 1\n       maxLength: 10\n     methods:\n       - READ\n       - WRITE\n     percent: 10\n     duration: '400s'\n   ```\n\n   In this configuration example, Chaos Mesh injects read and write faults into the directory `/var/run/etcd`, which gives a 10% probability of failure in the read and write operations under this directory. During this process, one random position with a maximum length of 10 bytes will be replaced with 0 bytes.\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f ./io-mistake.yaml\n   ```",
+      "source_content_hash": "f7be9a166e6d133faed52b8948133eb6230088969a06202722f1b3279141c582",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 実験設定を `io-mistake.yaml` ファイルに記述します:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: IOChaos\n   metadata:\n     name: io-mistake-example\n     namespace: chaos-mesh\n   spec:\n     action: mistake\n     mode: one\n     selector:\n       labelSelectors:\n         app: etcd\n     volumePath: /var/run/etcd\n     path: /var/run/etcd/**/*\n     mistake:\n       filling: zero\n       maxOccurrences: 1\n       maxLength: 10\n     methods:\n       - READ\n       - WRITE\n     percent: 10\n     duration: '400s'\n   ```\n\n   この設定例では、Chaos Mesh は `/var/run/etcd` ディレクトリに読み取りおよび書き込み障害を注入し、このディレクトリ内の読み取りおよび書き込み操作に対して10%の確率で障害を発生させます。このプロセスでは、最大10バイトの長さのランダムな位置が0バイトに置き換えられます。\n\n2. 設定ファイルの準備ができたら、`kubectl` を使用して実験を作成します:\n\n   ```bash\n   kubectl apply -f ./io-mistake.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "6ffd1ebe",
+      "source_content": "### Field description",
+      "source_content_hash": "65096914168d6220ba2cc9e38088ff322d829e39af74e98d0df5f5b3cb7a27de",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### フィールド説明"
+      }
+    },
+    {
+      "segment_id": "a49ac2ed",
+      "source_content": "#### General fields",
+      "source_content_hash": "3a1cdfbbea4c0107abf726b7e34a01651b59cb9979e5aaedd64b2c64670e232c",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "#### 一般的なフィールド"
+      }
+    },
+    {
+      "segment_id": "41321865",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| action | string | Indicates the specific type of faults. Only latency, fault, attrOverride, and mistake are supported. |  | Yes | latency |\n| mode | string | Specifies the mode of the experiment. The mode options include `one` (selecting a Pod at random), `all` (selecting all eligible Pods), `fixed` (selecting a specified number of eligible Pods), `fixed-percent` (selecting a specified percentage of the eligible Pods), and `random-max-percent` (selecting the maximum percentage of the eligible Pods). | None | Yes | `one` |\n| selector | struct | Specifies the target Pod. For details, refer to [Define the experiment scope](./define-chaos-experiment-scope.md). | None | Yes |  |\n| value | string | Provides parameters for the `mode` configuration, depending on `mode`. For example, when `mode` is set to `fixed-percent`, `value` specifies the percentage of Pods. |  | No | 1 |\n| volumePath | string | The mount point of volume in the target container. Must be the root directory of the mount. |  | Yes | /var/run/etcd |\n| path | string | The valid range of fault injections, either a wildcard or a single file. | Valid for all files by default | No | /var/run/etcd/\\*_/_ |\n| methods | []string | Type of the file system call that requires injecting fault. For more information about supported types, refer to [Appendix A](#appendix-a: methods-type). | All Types | No | READ |\n| percent | int | Probability of failure per operation, in %. | 100 | No | 100 |\n| containerNames | []string | Specifies the name of the container into which the fault is injected. |  | No |  |\n| duration | string | Specifies the duration of the experiment. |  | Yes | 30s |",
+      "source_content_hash": "939d5587f771f7d272d59eac56a390062057eed628753dcefc6ed8304ff3fe7d",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_41321865"
+      }
+    },
+    {
+      "segment_id": "4b62f7d8",
+      "source_content": "#### Fields related to action",
+      "source_content_hash": "3be742d08045839208d9c9f8a80b08fa269b7232bc8530533baadea9834b630e",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "#### action に関連するフィールド"
+      }
+    },
+    {
+      "segment_id": "4899bc54",
+      "source_content": "The following are specific information about fields corresponding to action:",
+      "source_content_hash": "38a1769e3b0e6b613dde5ca39dfd14d7bf9d21fa3e1c92c102cc758f3e46d10f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下は、action に対応するフィールドの具体的な情報です:"
+      }
+    },
+    {
+      "segment_id": "458ab9ae",
+      "source_content": "- latency\n\n  | Parameter | Type   | Description         | Default value | Required | Example |\n  | --------- | ------ | ------------------- | ------------- | -------- | ------- |\n  | delay     | string | Specific delay time |               | Yes      | 100 ms  |\n\n- fault\n\n  | Parameter | Type | Description           | Default value | Required | Example |\n  | --------- | ---- | --------------------- | ------------- | -------- | ------- |\n  | errno     | int  | returned error number |               | Yes      | 22      |\n\n  For common error numbers, see [Appendix B](#appendix-b-common-error-numbers).\n\n- attrOverride\n\n  | Parameter | Type             | Description                      | Default value | Required | Example    |\n  | --------- | ---------------- | -------------------------------- | ------------- | -------- | ---------- |\n  | attr      | AttrOverrideSpec | Specific property override rules |               | Yes      | As follows |\n\n  AttrOverrideSpec is defined as follows:\n\n  | Parameter | Type | Description | Default value | Required | Example |\n  | --- | --- | --- | --- | --- | --- |\n  | ino | int | ino number |  | No |  |\n  | size | int | File size |  | No |  |\n  | blocks | int | Number of blocks that the file uses |  | No |  |\n  | atime | TimeSpec | Last access time |  | No |  |\n  | mtime | TimeSpec | Last modified time |  | No |  |\n  | ctime | TimeSpec | Last status change time |  | No |  |\n  | kind | string | File type, see [fuser::FileType](https://docs.rs/fuser/0.7.0/fuser/enum.FileType.html) |  | No |  |\n  | perm | int | File permissions in decimal |  | No | 72 (110 in octal) |\n  | nlink | int | Number of hard links |  | No |  |\n  | `uid` | int | User ID of the owner |  | No |  |\n  | gid | int | Group ID of the owner |  | No |  |\n  | rdev | int | Device ID |  | No |  |\n\n  TimeSpec is defined as follows:\n\n  | Parameter | Type | Description              | Default value | Required | Example |\n  | --------- | ---- | ------------------------ | ------------- | -------- | ------- |\n  | sec       | int  | timestamp in seconds     |               | No       |         |\n  | nsec      | int  | Timestamp in nanoseconds |               | No       |         |\n\n  For the specific meaning of parameters, you can refer to [man stat](https://man7.org/linux/man-pages/man2/lstat.2.html).\n\n- mistake\n\n  | Parameter | Type        | Description          | Default value | Required | Example |\n  | --------- | ----------- | -------------------- | ------------- | -------- | ------- |\n  | mistake   | MistakeSpec | Specific error rules |               | Yes      |         |\n\n  MistakeSpec is defined as follows:\n\n  | Parameter | Type | Description | Default value | Required | Example |\n  | --- | --- | --- | --- | --- | --- |\n  | filling | string | The wrong data to be filled. Only zero (fill 0) or random (fill random bytes) are supported. |  | Yes |  |\n  | maxOccurrences | int | Maximum number of errors in each operation. |  | Yes | 1 |\n  | maxLength | int | Maximum length of each error (in bytes). |  | Yes | 1 |",
+      "source_content_hash": "166d4df3517173aac9d21595a976aacbc19c05360f8dadefdfb10408d20d26f7",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- レイテンシ\n\n  | パラメータ | タイプ   | 説明               | デフォルト値 | 必須     | 例       |\n  | ---------- | -------- | ------------------ | ------------ | -------- | -------- |\n  | delay      | string   | 具体的な遅延時間   |              | はい     | 100 ms   |\n\n- フォルト\n\n  | パラメータ | タイプ | 説明                 | デフォルト値 | 必須     | 例       |\n  | ---------- | ------ | -------------------- | ------------ | -------- | -------- |\n  | errno      | int    | 返されるエラー番号   |              | はい     | 22       |\n\n  一般的なエラー番号については、[付録B](#appendix-b-common-error-numbers)を参照してください。\n\n- attrOverride\n\n  | パラメータ | タイプ             | 説明                          | デフォルト値 | 必須     | 例          |\n  | ---------- | ------------------ | ----------------------------- | ------------ | -------- | ----------- |\n  | attr       | AttrOverrideSpec   | 具体的なプロパティ上書きルール |              | はい     | 下記参照    |\n\n  AttrOverrideSpecは以下のように定義されます:\n\n  | パラメータ | タイプ | 説明                     | デフォルト値 | 必須     | 例               |\n  | ---------- | ------ | ------------------------ | ------------ | -------- | ---------------- |\n  | ino        | int    | ino番号                  |              | いいえ   |                  |\n  | size       | int    | ファイルサイズ           |              | いいえ   |                  |\n  | blocks     | int    | ファイルが使用するブロック数 |              | いいえ   |                  |\n  | atime      | TimeSpec | 最終アクセス時間         |              | いいえ   |                  |\n  | mtime      | TimeSpec | 最終更新時間             |              | いいえ   |                  |\n  | ctime      | TimeSpec | 最終ステータス変更時間   |              | いいえ   |                  |\n  | kind       | string | ファイルタイプ、[fuser::FileType](https://docs.rs/fuser/0.7.0/fuser/enum.FileType.html)参照 |              | いいえ   |                  |\n  | perm       | int    | ファイルパーミッション（10進数） |              | いいえ   | 72（8進数で110） |\n  | nlink      | int    | ハードリンク数           |              | いいえ   |                  |\n  | `uid`      | int    | 所有者のユーザーID        |              | いいえ   |                  |\n  | gid        | int    | 所有者のグループID        |              | いいえ   |                  |\n  | rdev       | int    | デバイスID               |              | いいえ   |                  |\n\n  TimeSpecは以下のように定義されます:\n\n  | パラメータ | タイプ | 説明                      | デフォルト値 | 必須     | 例       |\n  | ---------- | ------ | ------------------------- | ------------ | -------- | -------- |\n  | sec        | int    | 秒単位のタイムスタンプ    |              | いいえ   |          |\n  | nsec       | int    | ナノ秒単位のタイムスタンプ |              | いいえ   |          |\n\n  パラメータの具体的な意味については、[man stat](https://man7.org/linux/man-pages/man2/lstat.2.html)を参照してください。\n\n- ミステイク\n\n  | パラメータ | タイプ        | 説明                  | デフォルト値 | 必須     | 例       |\n  | ---------- | ------------- | --------------------- | ------------ | -------- | -------- |\n  | mistake    | MistakeSpec   | 具体的なエラールール   |              | はい     |          |\n\n  MistakeSpecは以下のように定義されます:\n\n  | パラメータ | タイプ | 説明                               | デフォルト値 | 必須     | 例       |\n  | ---------- | ------ | ---------------------------------- | ------------ | -------- | -------- |\n  | filling    | string | 埋め込む誤ったデータ。zero（0で埋める）またはrandom（ランダムなバイトで埋める）のみサポートされます。 |              | はい     |          |\n  | maxOccurrences | int | 各操作での最大エラー発生回数。     |              | はい     | 1        |\n  | maxLength  | int    | 各エラーの最大長（バイト単位）。   |              | はい     | 1        |"
+      }
+    },
+    {
+      "segment_id": "318fb07e",
+      "source_content": "::warning It is suggested that you only use mistake on READ and WRITE file system calls. Using mistake on other file system calls may lead to unexpected consequences, including but not limited to file system damage and program crashes. :::",
+      "source_content_hash": "49598774205ca2e784f28c5cd686551b66f842172af55c8e44896510b43432ff",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": ":::warning ミステイクはREADおよびWRITEファイルシステムコールでのみ使用することを推奨します。他のファイルシステムコールでミステイクを使用すると、ファイルシステムの破損やプログラムのクラッシュなど、予期せぬ結果を招く可能性があります。:::"
+      }
+    },
+    {
+      "segment_id": "68f08256",
+      "source_content": "## Local debugging",
+      "source_content_hash": "abedfa9d762e5b2b5c56723048fd359f88bdcefb74790dee728d57a72e3e8dd9",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ローカルデバッグ"
+      }
+    },
+    {
+      "segment_id": "5d3138c7",
+      "source_content": "If you are not sure about the effect of a certain Chaos, you can use [toda](https://github.com/chaos-mesh/toda) to test the feature locally. Chaos Mesh also uses toda to implement IOChaos.",
+      "source_content_hash": "df77944dc0ead216113cd37147d4b580bb3c9346c9832b6768807c335013f156",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "特定のChaosの効果がわからない場合は、[toda](https://github.com/chaos-mesh/toda)を使用してローカルで機能をテストできます。Chaos MeshもIOChaosの実装にtodaを使用しています。"
+      }
+    },
+    {
+      "segment_id": "cb2e9dbf",
+      "source_content": "## Appendix A: methods type",
+      "source_content_hash": "f5ff4e1196094a913d688b7daa276a96b23a44665dee71df3800c751194a8c47",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 付録A: methodsタイプ"
+      }
+    },
+    {
+      "segment_id": "a8a2e09b",
+      "source_content": "- lookup\n- forget\n- getattr\n- setattr\n- readlink\n- mknod\n- mkdir\n- unlink\n- rmdir\n- symlink\n- rename\n- link\n- open\n- read\n- write\n- flush\n- release\n- fsync\n- opendir\n- readdir\n- releasedir\n- fsyncdir\n- statfs\n- setxattr\n- getxattr\n- listxattr\n- removexatr\n- access\n- create\n- getlk\n- setlk\n- bmap",
+      "source_content_hash": "6f200c01cf7ea86e834794b7190e9c35a8ebaeeb8661903866bc08c4eedab388",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- lookup\n- forget\n- getattr\n- setattr\n- readlink\n- mknod\n- mkdir\n- unlink\n- rmdir\n- symlink\n- rename\n- link\n- open\n- read\n- write\n- flush\n- release\n- fsync\n- opendir\n- readdir\n- releasedir\n- fsyncdir\n- statfs\n- setxattr\n- getxattr\n- listxattr\n- removexatr\n- access\n- create\n- getlk\n- setlk\n- bmap"
+      }
+    },
+    {
+      "segment_id": "858b0a05",
+      "source_content": "For more information, refer to [fuser::Filesystem](https://docs.rs/fuser/0.7.0/fuser/trait.Filesystem.html).",
+      "source_content_hash": "e3d22c95611612b41e3df06d97dc2aa58397b5fb36a942e9260cf333774c2c0d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "詳細については、[fuser::Filesystem](https://docs.rs/fuser/0.7.0/fuser/trait.Filesystem.html)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "18b30a5c",
+      "source_content": "## Appendix B: Common Error Numbers",
+      "source_content_hash": "2d40bf7844d376306f0b76a1eb868332bd4529df7c856547ce65711894e2cddd",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 付録B: 一般的なエラー番号"
+      }
+    },
+    {
+      "segment_id": "3d08375e",
+      "source_content": "- 1: Operation not permitted\n- 2: No such file or directory\n- 5: I/O error\n- 6: No such device or address\n- 12: Out of memory\n- 16: Device or resource busy\n- 17: File exists\n- 20: Not a directory\n- 22: Invalid argument\n- 24: Too many open files\n- 28: No space left on device",
+      "source_content_hash": "1af023c8dc472ff058a7d62e293bd72db2984cbb88c41f217c0764224a9f568a",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 1: 操作が許可されていません\n- 2: ファイルまたはディレクトリが存在しません\n- 5: I/Oエラー\n- 6: デバイスまたはアドレスが存在しません\n- 12: メモリ不足\n- 16: デバイスまたはリソースがビジー状態です\n- 17: ファイルが既に存在します\n- 20: ディレクトリではありません\n- 22: 無効な引数\n- 24: 開いているファイルが多すぎます\n- 28: デバイスに空き領域がありません"
+      }
+    },
+    {
+      "segment_id": "b2ffb658",
+      "source_content": "For more information, refer to [Linux source code](https://raw.githubusercontent.com/torvalds/linux/master/include/uapi/asm-generic/errno-base.h).",
+      "source_content_hash": "2f9988d915410b68e2bb1726b0bb2cc0c57e36c6dd35d9c36e114df4fecee5e8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "詳細については、[Linuxソースコード](https://raw.githubusercontent.com/torvalds/linux/master/include/uapi/asm-generic/errno-base.h)を参照してください。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/version-2.6.7/simulate-io-chaos-on-kubernetes.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.642906+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "4fc0d2aad3405bf00291e7fdcd6a11f947f81fdbf82b2a98e0ee58f064763afd"
+  }
+}

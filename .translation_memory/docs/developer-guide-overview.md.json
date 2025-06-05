@@ -1,0 +1,102 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "docs/developer-guide-overview.md",
+  "source_file_content_hash": "1a25c9ee6f4e04b18b538d456378c4c6b9d15e32ceb4465ac95aa858106ece2a",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Developer Guide Overview\n---",
+      "source_content_hash": "0581a3e94183e79b603bd48d3d2d57538d96ba855f652b59edd010d1ba2fc4ff",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "8218387e",
+      "source_content": ":::caution\n\nThe developer manual section may be out of date. If you find any problems or have any questions, please [create an issue](https://github.com/chaos-mesh/chaos-mesh/issues/new/choose) and let us know. Thank you for your contribution!\n\n:::",
+      "source_content_hash": "925262c953a62f107793944565732398d4b0c4f3d36aa15a8e6b774412402e35",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::caution\n\n開発者向けマニュアルの内容は最新でない可能性があります。問題や質問がある場合は、[issueを作成](https://github.com/chaos-mesh/chaos-mesh/issues/new/choose)してご連絡ください。ご協力ありがとうございます。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "This document describes how to develop Chaos Mesh. Before you start, it is recommended that you read the following documents first:",
+      "source_content_hash": "c625bbc04033fa7f648b28f6610b46c205ae1dd72a8c2b1b3917c0adba92875f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、Chaos Meshの開発方法について説明します。開始前に、以下のドキュメントを先に読むことをお勧めします："
+      }
+    },
+    {
+      "segment_id": "730c423c",
+      "source_content": "- [Chaos Mesh README](https://github.com/chaos-mesh/chaos-mesh/blob/master/README.md)\n- [Chaos Mesh Dashboard README](https://github.com/chaos-mesh/chaos-mesh/blob/master/ui/README.md)",
+      "source_content_hash": "bb162a4f14df97c8f259c81c6ae6a04f2daff60ddcf68518a18c229856ec0f18",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- [Chaos Mesh README](https://github.com/chaos-mesh/chaos-mesh/blob/master/README.md)\n- [Chaos Mesh Dashboard README](https://github.com/chaos-mesh/chaos-mesh/blob/master/ui/README.md)"
+      }
+    },
+    {
+      "segment_id": "86b54d44",
+      "source_content": "Before starting to develop Chaos Mesh, you need to prepare the development environment. Please refer to [Configure the development environment](configure-development-environment.md) for details.",
+      "source_content_hash": "5fc35549b5883c4bfe23cc3b254a552c6727183a4639fa62a45d7575ccb10d56",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshの開発を始める前に、開発環境を準備する必要があります。詳細は[開発環境の設定](configure-development-environment.md)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "39b3772c",
+      "source_content": "Then you can start to develop Chaos Mesh. The following documents will help you:",
+      "source_content_hash": "f1470c3f09ad64df0a7ded5c4804e438dce725ba71694f87360ad8047de0e5a2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "その後、Chaos Meshの開発を開始できます。以下のドキュメントが役立ちます："
+      }
+    },
+    {
+      "segment_id": "3b695c37",
+      "source_content": "- [Add a New Chaos Experiment Type](add-new-chaos-experiment-type.md)\n- [Extend Chaos Daemon Interface](extend-chaos-daemon-interface.md)",
+      "source_content_hash": "2e815cc4d06f7ba280348e6a50c3a7b46db4d75c87e1a30adcd0a27633dc1608",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- [新しいカオス実験タイプの追加](add-new-chaos-experiment-type.md)\n- [Chaos Daemonインターフェースの拡張](extend-chaos-daemon-interface.md)"
+      }
+    },
+    {
+      "segment_id": "2fdadb08",
+      "source_content": "For coding conventions, please refer to the following RFCs:",
+      "source_content_hash": "f1f9c012b3ba58ff4b0d564440498f3c60be3e2a32cb4be81960d14a6357f3bd",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "コーディング規約については、以下のRFCを参照してください："
+      }
+    },
+    {
+      "segment_id": "44d89370",
+      "source_content": "- [Error Handling](https://github.com/chaos-mesh/rfcs/blob/main/text/2021-09-27-refine-error-handling.md)\n- [Logging](https://github.com/chaos-mesh/rfcs/blob/main/text/2021-12-09-logging.md)",
+      "source_content_hash": "6eae9b84ff999cedcb928d0cbdbf04eb521fe99611a5baf0e6a5c3c9e618b9b1",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- [エラーハンドリング](https://github.com/chaos-mesh/rfcs/blob/main/text/2021-09-27-refine-error-handling.md)\n- [ロギング](https://github.com/chaos-mesh/rfcs/blob/main/text/2021-12-09-logging.md)"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/current/developer-guide-overview.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.645563+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "1a25c9ee6f4e04b18b538d456378c4c6b9d15e32ceb4465ac95aa858106ece2a"
+  }
+}

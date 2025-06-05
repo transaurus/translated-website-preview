@@ -1,0 +1,492 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2021-01-08-how-to-simulate-io-faults-at-runtime.md",
+  "source_file_content_hash": "80c42f9c79bb41d54431409e6bc9fe5ddc624a729fc0765b6294d61f88c64a1f",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /how-to-simulate-io-faults-at-runtime\ntitle: 'How to Simulate I/O Faults at Runtime'\nauthors: keaoyang\nimage: /img/blog/how-to-simulate-io-faults-at-runtime.jpg\ntags: [Chaos Mesh, Chaos Engineering, Fault Injection]\n---",
+      "source_content_hash": "1b90ca0d6b28c5f20a420e01fc899e753d569b63f7d191be78a40e4e65c0840b",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "![Chaos Engineering - How to simulate I/O faults at runtime](/img/blog/how-to-simulate-io-faults-at-runtime.jpg)",
+      "source_content_hash": "21a7e5ad75c0a59b70392505527fe014c4b6082dc9160721dba0cfcae6a5a513",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![カオスエンジニアリング - ランタイムでI/O障害をシミュレートする方法](/img/blog/how-to-simulate-io-faults-at-runtime.jpg)"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "In a production environment, filesystem faults might occur due to various incidents such as disk failures and administrator errors. As a Chaos Engineering platform, Chaos Mesh has supported simulating I/O faults in a filesystem ever since its early versions. By simply adding an IOChaos CustomResourceDefinition (CRD), we can watch how the filesystem fails and returns errors.",
+      "source_content_hash": "3b856c410efb56b55ea42e782e4e2913a2b9eaf979d5d9b9c0bbb07bab3a1c87",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "本番環境では、ディスク障害や管理者ミスなど様々な要因によりファイルシステム障害が発生する可能性があります。カオスエンジニアリングプラットフォームであるChaos Meshは、初期バージョンからファイルシステム内のI/O障害をシミュレートする機能をサポートしています。IOChaosカスタムリソース定義（CRD）を追加するだけで、ファイルシステムがどのように失敗しエラーを返すかを観察できます。"
+      }
+    },
+    {
+      "segment_id": "3e6699f4",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3e6699f4"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "However, before Chaos Mesh 1.0, this experiment was not easy and may have consumed a lot of resources. We needed to inject sidecar containers to the Pod through the mutating admission webhooks and rewrite the `ENTRYPOINT` command. Even if no fault was injected, the injected sidecar container caused a substantial amount of overhead.",
+      "source_content_hash": "290f91322744f79710b6e351bf51c2adb172debc23ec3feba6411f46514b2a29",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "しかし、Chaos Mesh 1.0以前では、この実験は容易ではなく、多くのリソースを消費する可能性がありました。ミューテーティングアドミッションウェブフックを通じてPodにサイドカーコンテナを注入し、`ENTRYPOINT`コマンドを書き換える必要がありました。障害が注入されていない場合でも、注入されたサイドカーコンテナはかなりのオーバーヘッドを引き起こしました。"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "Chaos Mesh 1.0 has changed all this. Now, we can use IOChaos to inject faults to a filesystem at runtime. This simplifies the process and greatly reduces system overhead. This blog post introduces how we implement the IOChaos experiment without using a sidecar.",
+      "source_content_hash": "e551f1e922440b5ccc5cf6e303adaa3738993608efb13740d083730e230631f5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Mesh 1.0ではこれが大きく変わりました。現在では、IOChaosを使用してランタイムでファイルシステムに障害を注入できます。これによりプロセスが簡素化され、システムオーバーヘッドが大幅に削減されました。このブログ記事では、サイドカーを使用せずにIOChaos実験を実装する方法を紹介します。"
+      }
+    },
+    {
+      "segment_id": "aee0e40d",
+      "source_content": "## I/O fault injection",
+      "source_content_hash": "6be97b4662c4970a8d5aa97dd85297379dad3df6003dc96659df0ccf1548fae7",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## I/O障害注入"
+      }
+    },
+    {
+      "segment_id": "f5f6d2ce",
+      "source_content": "To simulate I/O faults at runtime, we need to inject faults into a filesystem after the program starts [system calls](https://man7.org/linux/man-pages/man2/syscall.2.html) (such as reads and writes) but before the call requests arrive at the target filesystem. We can do that in one of two ways:",
+      "source_content_hash": "a6428ff1e61e1e336ce1ee44e5bbafd7101b9e7916ede6b6d6b7d45678c261b6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ランタイムでI/O障害をシミュレートするには、プログラムが[システムコール](https://man7.org/linux/man-pages/man2/syscall.2.html)（読み取りや書き込みなど）を開始した後、コールリクエストがターゲットファイルシステムに到達する前に障害を注入する必要があります。これには2つの方法があります："
+      }
+    },
+    {
+      "segment_id": "1b8c1887",
+      "source_content": "- Use Berkeley Packet Filter (BPF); however, it [cannot be used to inject delay](https://github.com/iovisor/bcc/issues/2336).\n- Add a filesystem layer called ChaosFS before the target filesystem. ChaosFS uses the target filesystem as the backend and receives requests from the operating system. The entire call link is **target program syscall** -> **Linux kernel** -> **ChaosFS** -> **target filesystem**. Because ChaosFS is customizable, we can inject delays and errors as we want. Therefore, ChaosFS is our choice.",
+      "source_content_hash": "394f0e7d1fca5c0662d487ae1c1cbaa41b719b791a976155014d227ffdedc796",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- Berkeley Packet Filter（BPF）を使用する方法。ただし、[遅延の注入には使用できません](https://github.com/iovisor/bcc/issues/2336)。\n- ターゲットファイルシステムの前にChaosFSというファイルシステム層を追加する方法。ChaosFSはターゲットファイルシステムをバックエンドとして使用し、オペレーティングシステムからのリクエストを受け取ります。コールリンクは**ターゲットプログラムのシステムコール** -> **Linuxカーネル** -> **ChaosFS** -> **ターゲットファイルシステム**となります。ChaosFSはカスタマイズ可能なため、遅延やエラーを自由に注入できます。したがって、ChaosFSを選択しました。"
+      }
+    },
+    {
+      "segment_id": "ccc88b4c",
+      "source_content": "But ChaosFS has several problems:",
+      "source_content_hash": "334ae1ff85707fab8bbd15119450f3c753e877898ef4eb1886d4470c9f342efa",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "しかし、ChaosFSにはいくつかの問題があります："
+      }
+    },
+    {
+      "segment_id": "1d13125b",
+      "source_content": "- If ChaosFS reads and writes files in the target filesystem, we need to [mount](https://man7.org/linux/man-pages/man2/mount.2.html) ChaosFS to a different path than the target path specified in the Pod configuration. ChaosFS **cannot** be mounted to the path of the target directory.\n- We need to mount ChaosFS **before** the target program starts running. This is because the newly-mounted ChaosFS takes effect only on files that are newly opened by the program in the target filesystem.\n- We need to mount ChaosFS to the target containter's `mnt` namespace. For details, see [mount_namespaces(7) — Linux manual page](https://man7.org/linux/man-pages/man7/mount_namespaces.7.html).",
+      "source_content_hash": "ec66103a38b90bbdf42a81b7d201d35380f5d5130afe2720a2c30061e72c0ceb",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- ChaosFSがターゲットファイルシステム内のファイルを読み書きする場合、Pod設定で指定されたターゲットパスとは異なるパスにChaosFSを[マウント](https://man7.org/linux/man-pages/man2/mount.2.html)する必要があります。ChaosFSはターゲットディレクトリのパスにマウント**できません**。\n- ターゲットプログラムの実行が開始される**前に**ChaosFSをマウントする必要があります。これは、新しくマウントされたChaosFSが、ターゲットファイルシステム内でプログラムによって新しく開かれたファイルにのみ有効になるためです。\n- ChaosFSをターゲットコンテナの`mnt`名前空間にマウントする必要があります。詳細は[mount_namespaces(7) — Linuxマニュアルページ](https://man7.org/linux/man-pages/man7/mount_namespaces.7.html)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "73ab96a3",
+      "source_content": "Before Chaos Mesh 1.0, we used the [mutating admission webhook](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) to implement IOChaos. This technique addressed the three problems lists above and allowed us to:",
+      "source_content_hash": "8fe203e6c3b085ad28ab6edd31595e5d77748cd646177316973546d460d5a520",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Mesh 1.0以前では、[ミューテーティングアドミッションウェブフック](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/)を使用してIOChaosを実装していました。この技術により、上記の3つの問題に対処し、以下のことが可能になりました："
+      }
+    },
+    {
+      "segment_id": "f2c8a42b",
+      "source_content": "- Run scripts in the target container. This action changed the target directory of the ChaosFS's backend filesystem (for example, from `/mnt/a` to `/mnt/a_bak`) so that we could mount ChaosFS to the target path (`/mnt/a`). Modify the command that starts the Pod. For example, we could modify the original command `/app` to `/waitfs.sh /app`.\n- The `waitfs.sh` script kept checking whether the filesystem was successfully mounted. If it was mounted, `/app` was started.\n- Add a new container in the Pod to run ChaosFS. This container needed to share a volume with the target container (for example, `/mnt`), and then we mounted this volume to the target directory (for example, `/mnt/a`). We also properly enabled [mount propagation](https://kubernetes.io/docs/concepts/storage/volumes/#mount-propagation) for this volume's mount to penetrate the share to host and then penetrate slave to the target.",
+      "source_content_hash": "3b30d6ee129e863707cbbc242bde4e909164465d92cbbd98b3dd16a6adf36e3c",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- ターゲットコンテナ内でスクリプトを実行し、ChaosFSのバックエンドファイルシステムのターゲットディレクトリを変更（例：`/mnt/a`から`/mnt/a_bak`へ）して、ChaosFSをターゲットパス（`/mnt/a`）にマウントできるようにしました。Podを起動するコマンドを変更（例：元のコマンド`/app`を`/waitfs.sh /app`に変更）。\n- `waitfs.sh`スクリプトはファイルシステムが正常にマウントされたかどうかを継続的にチェックし、マウントされていれば`/app`を起動しました。\n- Podに新しいコンテナを追加してChaosFSを実行させました。このコンテナはターゲットコンテナとボリューム（例：`/mnt`）を共有し、このボリュームをターゲットディレクトリ（例：`/mnt/a`）にマウントしました。また、このボリュームのマウントに対して[マウント伝播](https://kubernetes.io/docs/concepts/storage/volumes/#mount-propagation)を適切に有効化し、ホストへの共有とターゲットへのスレーブ伝播を可能にしました。"
+      }
+    },
+    {
+      "segment_id": "135468ee",
+      "source_content": "These three approaches allowed us to inject I/O faults while the program was running. However, the injection was far from convenient:",
+      "source_content_hash": "36eb68b5745bb3b986ef3e87922c5f49180c87e9bd88d07be4f3e98277015bf5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これらの3つのアプローチにより、プログラムの実行中にI/O障害を注入することが可能になりました。しかし、注入は決して便利とは言えませんでした："
+      }
+    },
+    {
+      "segment_id": "e7bc8c38",
+      "source_content": "- We could only inject faults into a volume subdirectory, not into the entire volume. The workaround was to replace `mv` (rename) with `mount move` to move the mount point of the target volume.\n- We had to explicitly write commands in the Pod rather than implicitly use the image commands. Otherwise, the `/waitfs.sh` script could not properly start the program after the filesystem was mounted.\n- The corresponding container needed to have a proper configuration for mount propagation. Due to potential privacy and security issues, we **could not** modify the configuration via the mutating admission webhook.\n- The injection configuration was troublesome. Worse still, we had to create a new Pod after the configuration was able to inject faults.\n- We could not withdraw ChaosFS while the program was running. Even if no fault or error was injected, the performance was greatly affected.",
+      "source_content_hash": "c9275225d86f136db05033067c23efc19b256e2dd4d82e39fae8f9da6ed3f657",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- ボリューム全体ではなく、ボリュームのサブディレクトリにのみ障害を注入できました。回避策として、`mv`（名前変更）の代わりに`mount move`を使用してターゲットボリュームのマウントポイントを移動しました。\n- イメージコマンドを暗黙的に使用するのではなく、Pod内で明示的にコマンドを記述する必要がありました。そうしないと、`/waitfs.sh`スクリプトがファイルシステムのマウント後にプログラムを正しく起動できませんでした。\n- 対応するコンテナは、マウント伝播の適切な設定が必要でした。プライバシーとセキュリティの問題が潜在するため、ミューテーティングアドミッションウェブフックを介して設定を変更することは**できませんでした**。\n- 注入設定は面倒でした。さらに悪いことに、設定が障害を注入できるようになった後で新しいPodを作成する必要がありました。\n- プログラムの実行中にChaosFSを撤回できませんでした。障害やエラーが注入されていない場合でも、パフォーマンスが大きく影響を受けました。"
+      }
+    },
+    {
+      "segment_id": "8bddee80",
+      "source_content": "## Inject I/O faults without the mutating admission webhook",
+      "source_content_hash": "d7d5a475f5098bc9006f6ac737ef7fcacabd83d4270a84baab51ba004169789c",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ミューテーティングアドミッションウェブフックなしでI/O障害を注入"
+      }
+    },
+    {
+      "segment_id": "a9d49f92",
+      "source_content": "What about cracking these tough nuts without the mutating admission webhook? Let's get back and think a bit about the reason why we used the mutating admission webhook to add a container in which ChaosFS runs. We do that to mount the filesystem to the target container.",
+      "source_content_hash": "f3a6509af0bdb87efaad5c9d255f53bf1cd390dffcbcf964798c6478ad1c2754",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ミューテーティングアドミッションウェブフックなしでこれらの難題を解決するにはどうすればよいでしょうか？そもそもなぜミューテーティングアドミッションウェブフックを使用してChaosFSを実行するコンテナを追加していたのかを考えてみましょう。それは、ファイルシステムをターゲットコンテナにマウントするためでした。"
+      }
+    },
+    {
+      "segment_id": "a44047a5",
+      "source_content": "In fact, there is another solution. Instead of adding containers to the Pod, we can first use the `setns` Linux system call to modify the namespace of the current process and then use the `mount` call to mount ChaosFS to the target container. Suppose that the filesystem to inject is `/mnt`. The new injection process is as follows:",
+      "source_content_hash": "90e836bd809411bd2933339674a4e4a394b777e6e7ee4dbac5d0913bb4eb519e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "実際には別の解決策があります。Podにコンテナを追加する代わりに、まず`setns` Linuxシステムコールを使用して現在のプロセスの名前空間を変更し、その後`mount`コールを使用してChaosFSをターゲットコンテナにマウントできます。注入対象のファイルシステムが`/mnt`であると仮定すると、新しい注入プロセスは以下のようになります："
+      }
+    },
+    {
+      "segment_id": "b4ef1e56",
+      "source_content": "1. Use `setns` for the current process to enter the mnt namespace of the target container.\n2. Execute `mount --move` to move `/mnt` to `/mnt_bak`.\n3. Mount ChaosFS to `/mnt` and use `/mnt_bak` as the backend.",
+      "source_content_hash": "51ea9bcce819a05336ea1b1eadd999254df8f7a66f2218c83596f9a4cd610ce4",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 現在のプロセスがターゲットコンテナのmnt名前空間に入るように`setns`を使用します。\n2. `mount --move`を実行して`/mnt`を`/mnt_bak`に移動します。\n3. ChaosFSを`/mnt`にマウントし、`/mnt_bak`をバックエンドとして使用します。"
+      }
+    },
+    {
+      "segment_id": "b9aaa519",
+      "source_content": "After the process is finished, the target container will open, read, and write the files in `/mnt` through ChaosFS. In this way, delays or faults are injected much more easily. However, there are still two questions to answer:",
+      "source_content_hash": "0ba815bdbb0d8e10b74d0096ab0b091b5301e227ce02bca98cc484e4eff361f1",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このプロセスが完了すると、ターゲットコンテナはChaosFSを介して`/mnt`内のファイルを開いたり、読み書きしたりします。これにより、遅延や障害がはるかに簡単に注入されます。しかし、まだ2つの疑問が残ります："
+      }
+    },
+    {
+      "segment_id": "e3321a43",
+      "source_content": "- How do you handle the files that are already opened by the target process?\n- How do you recover the process given that we cannot unmount the filesystem when files are opened?",
+      "source_content_hash": "0c159619fe408dcde44a9e49806eee2bb7a6f8bbec3cc902b3ae65fb13375103",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- ターゲットプロセスによって既に開かれているファイルをどのように処理するか？\n- ファイルが開かれている間にファイルシステムをアンマウントできないため、プロセスをどのように回復させるか？"
+      }
+    },
+    {
+      "segment_id": "e912d935",
+      "source_content": "### Dynamically replace file descriptors",
+      "source_content_hash": "a71fb71db1725bac13adfc0f60d14996e90ec6ab43a97977a40d02afe379db83",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 動的にファイルディスクリプタを置換"
+      }
+    },
+    {
+      "segment_id": "8b2a52b1",
+      "source_content": "**ptrace solves both of the two questions above.** We can use ptrace to replace the opened file descriptors (FD) at runtime and replace the current working directory (CWD) and mmap.",
+      "source_content_hash": "36f6cfe3c4c0e305c25816ad5c10ca6a7615e2a9e58a7da00a6f3cec56e719b2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**ptraceは上記の2つの疑問を両方解決します。** ptraceを使用して、実行中の開かれたファイルディスクリプタ（FD）を置換し、現在の作業ディレクトリ（CWD）とmmapを置換できます。"
+      }
+    },
+    {
+      "segment_id": "126950d7",
+      "source_content": "#### Use ptrace to allow a tracee to run a binary program",
+      "source_content_hash": "d734196c2c5eba588562b6d03f3b60b478d1fd76347a14a9066eccfd0775809a",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "#### ptraceを使用してトレーシーにバイナリプログラムを実行させる"
+      }
+    },
+    {
+      "segment_id": "0bb95128",
+      "source_content": "[ptrace](https://man7.org/linux/man-pages/man2/ptrace.2.html) is a powerful tool that makes the target process (tracee) to run any system call or binary program. For a tracee to run the program, ptrace modifies the RIP-pointed address to the target process and adds an `int3` instruction to trigger a breakpoint. When the binary program stops, we need to restore the registers and memory.",
+      "source_content_hash": "a4248c2f04cc102745ba18114bdb589afb7c608ad0dcd9bfece1ead5fb186ef3",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[ptrace](https://man7.org/linux/man-pages/man2/ptrace.2.html)は強力なツールで、ターゲットプロセス（トレーシー）に任意のシステムコールやバイナリプログラムを実行させることができます。トレーシーにプログラムを実行させるために、ptraceはRIPが指すアドレスをターゲットプロセスに変更し、ブレークポイントをトリガーする`int3`命令を追加します。バイナリプログラムが停止したら、レジスタとメモリを復元する必要があります。"
+      }
+    },
+    {
+      "segment_id": "c05cce80",
+      "source_content": "> **Note:**\n>\n> In the [x86_64 architecture](https://en.wikipedia.org/wiki/X86_assembly_language), the RIP register (also called an instruction pointer) always points to the memory address at which the next directive is run. To load the program into the target process memory spaces:",
+      "source_content_hash": "12a3748d34b1d8fd0c2bfff57e5c458ddecc5ecf8f51672a6922682f6dd0769e",
+      "node_type": "blockquote",
+      "translatable": true,
+      "translations": {
+        "ja": "> **注:**\n>\n> [x86_64アーキテクチャ](https://en.wikipedia.org/wiki/X86_assembly_language)では、RIPレジスタ（命令ポインタとも呼ばれる）は常に次に実行されるディレクティブのメモリアドレスを指します。プログラムをターゲットプロセスのメモリ空間にロードするには："
+      }
+    },
+    {
+      "segment_id": "69c1f590",
+      "source_content": "1. Use ptrace to call mmap in the target program to allocate the needed memory.\n2. Write the binary program to the newly allocated memory and make the RIP register point to it.\n3. After the binary program stops, call munmap to clean up the memory section.",
+      "source_content_hash": "309145ce9011a50f7ce9c538be57d5bfeb5c06f41349a5826bd0a0cbb0d5b231",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. ptraceを使用してターゲットプログラムでmmapを呼び出し、必要なメモリを割り当てます。\n2. バイナリプログラムを新しく割り当てられたメモリに書き込み、RIPレジスタをそれに向けます。\n3. バイナリプログラムが停止した後、munmapを呼び出してメモリセクションをクリーンアップします。"
+      }
+    },
+    {
+      "segment_id": "afa378f7",
+      "source_content": "As a best practice, we often replace ptrace `POKE_TEXT` writes with `process_vm_writev` because if there is a huge amount of data to write, `process_vm_writev` performs more efficiently.",
+      "source_content_hash": "f4fae921ec3c804cd739798de2ecf924e7f90806571601413a47b2f252757326",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ベストプラクティスとして、大量のデータを書き込む必要がある場合、ptraceの`POKE_TEXT`書き込みを`process_vm_writev`に置き換えることがよくあります。これは`process_vm_writev`の方が効率的に動作するためです。"
+      }
+    },
+    {
+      "segment_id": "e8e162a9",
+      "source_content": "Using ptrace, we are able to make a process to replace its own FD. Now we only need a method to make that replacement happen. This method is the `dup2` system call.",
+      "source_content_hash": "7dac58e74845b099ded87660453f87799ab58180143c3ee3a46feada9e6ce73b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ptraceを使用することで、プロセスに自身のFDを置換させることができます。あとはその置換を実現する方法が必要です。その方法が`dup2`システムコールです。"
+      }
+    },
+    {
+      "segment_id": "b936dd6a",
+      "source_content": "#### Use `dup2` to replace file descriptor",
+      "source_content_hash": "666ea60e93034d287e63c5e60ae2f6eb4d0c33a948c916188a3daa58afe75e97",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "#### `dup2`を使用してファイルディスクリプタを置換"
+      }
+    },
+    {
+      "segment_id": "a5c5772a",
+      "source_content": "The signature of the `dup2` function is `int dup2(int oldfd, int newfd);`. It is used to create a copy of the old FD (`oldfd`). This copy has an FD number of `newfd`. If `newfd` already corresponds to the FD of an opened file, the FD on the file that's already opened is automatically closed.",
+      "source_content_hash": "717eca96316061e89c25f23b7a78e2b246fd21ca3289b1bb5a8ffb79873f0b5e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`dup2`関数のシグニチャは`int dup2(int oldfd, int newfd);`です。これは古いファイルディスクリプタ（`oldfd`）のコピーを作成するために使用されます。このコピーは`newfd`というファイルディスクリプタ番号を持ちます。もし`newfd`が既に開いているファイルのファイルディスクリプタに対応している場合、そのファイルで既に開かれているファイルディスクリプタは自動的に閉じられます。"
+      }
+    },
+    {
+      "segment_id": "fbc2db85",
+      "source_content": "For example, the current process opens `/var/run/__chaosfs__test__/a` whose FD is `1`. To replace this opened file with `/var/run/test/a`, this process performs the following operations:",
+      "source_content_hash": "75cf20205f69ad7bb084465c44e3315f69cbe27e67c7de497fd9344e62d54ad3",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "例えば、現在のプロセスが`/var/run/__chaosfs__test__/a`を開き、そのファイルディスクリプタが`1`であるとします。この開かれたファイルを`/var/run/test/a`に置き換えるために、このプロセスは以下の操作を実行します："
+      }
+    },
+    {
+      "segment_id": "e032fbc6",
+      "source_content": "1. Uses the `fcntl` system call to get the `OFlags` (the parameter used by the `open` system call, such as `O_WRONLY`) of `/var/run/__chaosfs__test__/a`.\n2. Uses the `Iseek` system call to get the current location of `seek`.\n3. Uses the `open` system call to open `/var/run/test/a` using the same `OFlags`. Assume that the FD is `2`.\n4. Uses `Iseek` to change the `seek` location of the newly opened FD `2`.\n5. Uses `dup2(2, 1)` to replace the FD `1` of `/var/run/__chaosfs__test__/a` with the newly opened FD `2`.\n6. Closes FD `2`.",
+      "source_content_hash": "59264e40c1ae880159e09d87ca3fe03029399f9577b7be410364a2a0c9914d58",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. `fcntl`システムコールを使用して、`/var/run/__chaosfs__test__/a`の`OFlags`（`open`システムコールで使用されるパラメータ、例えば`O_WRONLY`など）を取得します。\n2. `Iseek`システムコールを使用して、現在の`seek`位置を取得します。\n3. `open`システムコールを使用して、同じ`OFlags`で`/var/run/test/a`を開きます。ファイルディスクリプタが`2`であると仮定します。\n4. `Iseek`を使用して、新しく開かれたファイルディスクリプタ`2`の`seek`位置を変更します。\n5. `dup2(2, 1)`を使用して、`/var/run/__chaosfs__test__/a`のファイルディスクリプタ`1`を新しく開かれたファイルディスクリプタ`2`で置き換えます。\n6. ファイルディスクリプタ`2`を閉じます。"
+      }
+    },
+    {
+      "segment_id": "6b77b644",
+      "source_content": "After the process is finished, FD `1` of the current process points to `/var/run/test/a`. So that we can inject faults, any subsequent operations on the target file go through the [Filesystem in Userspace](https://en.wikipedia.org/wiki/Filesystem_in_Userspace) (FUSE). FUSE is a software interface for Unix and Unix-like computer operating systems that lets non-privileged users create their own file systems without editing kernel code.",
+      "source_content_hash": "93d9360074c6fb9eeaa3a3f4533a26cbf6165a322280df9e19a96e52aaa4a97a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このプロセスが完了すると、現在のプロセスのファイルディスクリプタ`1`は`/var/run/test/a`を指すようになります。これにより、障害を注入できるようになり、ターゲットファイルに対する後続の操作はすべて[Filesystem in Userspace](https://en.wikipedia.org/wiki/Filesystem_in_Userspace)（FUSE）を経由します。FUSEは、UnixおよびUnix系オペレーティングシステムのためのソフトウェアインターフェースで、非特権ユーザーがカーネルコードを編集することなく独自のファイルシステムを作成できるようにします。"
+      }
+    },
+    {
+      "segment_id": "5baf88e2",
+      "source_content": "#### Write a program to make the target process replace its own file descriptor",
+      "source_content_hash": "93ad58ea7eb4b4f3964694134467e8129eea5fca238baa2f35f2d5474eed666a",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "#### ターゲットプロセスに自身のファイルディスクリプタを置き換えさせるプログラムを書く"
+      }
+    },
+    {
+      "segment_id": "eb51d107",
+      "source_content": "The combined functionality of ptrace and dup2 makes it possible for the tracer to make the tracee replace the opened FD by itself. Now, we need to write a binary program and make the target process run it:",
+      "source_content_hash": "1a5c87a9eaf491ac66f4e1f5e726e3e038980f5c950c07a523c66f9933fac680",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ptraceとdup2の機能を組み合わせることで、トレーサーがトレイシーに開かれたファイルディスクリプタを自身で置き換えさせることが可能になります。ここで、バイナリプログラムを書き、ターゲットプロセスにそれを実行させる必要があります："
+      }
+    },
+    {
+      "segment_id": "eff16de8",
+      "source_content": "> **Note:**\n>\n> In the implementation above, we assume that:\n>\n> - The threads of the target process are POSIX threads and share the opened files.\n> - When the target process creates threads using the `clone` function, the `CLONE_FILES` parameter is passed.\n>\n> Therefore, Chaos Mesh only replaces the FD of the first thread in the thread group.",
+      "source_content_hash": "ddedd89014db31e6b83a00bba741d471b3e5acc172c5bf0e74fef1e4e0f35b46",
+      "node_type": "blockquote",
+      "translatable": true,
+      "translations": {
+        "ja": "> **注記:**\n>\n> 上記の実装では、以下のことを仮定しています：\n>\n> - ターゲットプロセスのスレッドはPOSIXスレッドであり、開かれたファイルを共有しています。\n> - ターゲットプロセスが`clone`関数を使用してスレッドを作成する際、`CLONE_FILES`パラメータが渡されます。\n>\n> したがって、Chaos Meshはスレッドグループ内の最初のスレッドのファイルディスクリプタのみを置き換えます。"
+      }
+    },
+    {
+      "segment_id": "664ad8b1",
+      "source_content": "1. Write a piece of assembly code according to the two sections above and the usage of syscall directives. [Here](https://github.com/chaos-mesh/toda/blob/1d73871d8ab72b8d1eace55f5222b01957193531/src/replacer/fd_replacer.rs#L133) is an example of the assembly code.\n2. Use an assembler to translate the code into a binary program. We use [dynasm-rs](https://github.com/CensoredUsername/dynasm-rs) as the assembler.\n3. Use ptrace to make the target process run this program. When the program runs, the FD is replaced at runtime.",
+      "source_content_hash": "bcfcf3ef60b6db9394f687bf1676146b488e4038bfdafa8c965026d09d54603f",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 上記の2つのセクションとsyscallディレクティブの使用法に従って、アセンブリコードを書きます。[こちら](https://github.com/chaos-mesh/toda/blob/1d73871d8ab72b8d1eace55f5222b01957193531/src/replacer/fd_replacer.rs#L133)にアセンブリコードの例があります。\n2. アセンブラを使用してコードをバイナリプログラムに変換します。アセンブラとして[dynasm-rs](https://github.com/CensoredUsername/dynasm-rs)を使用します。\n3. ptraceを使用してターゲットプロセスにこのプログラムを実行させます。プログラムが実行されると、ファイルディスクリプタが実行時に置き換えられます。"
+      }
+    },
+    {
+      "segment_id": "8574d51c",
+      "source_content": "### Overall fault injection process",
+      "source_content_hash": "9d9ab86c0e265692d72a9809dac2a8b58f3c9ec8c3f446828b209d136ad400b7",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 全体的な障害注入プロセス"
+      }
+    },
+    {
+      "segment_id": "e9313fef",
+      "source_content": "The following diagram illustrates the overall I/O fault injection process:",
+      "source_content_hash": "22d2c6617fc199001e4048d4e0e979f07e427e7c41f3c3c74edc79f462e5f740",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下の図は、全体的なI/O障害注入プロセスを示しています："
+      }
+    },
+    {
+      "segment_id": "1b4de6df",
+      "source_content": "![Fault injection process](/img/blog/fault-injection-process.jpg)",
+      "source_content_hash": "03d41aa8a6b2d421f0535c0f15ec50061d7d606480de0f3789bf535e140a916c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![障害注入プロセス](/img/blog/fault-injection-process.jpg)"
+      }
+    },
+    {
+      "segment_id": "1958bc43",
+      "source_content": "<div style={{ margin: '1rem 0', fontStyle: 'italic', textAlign: 'center' }}> Fault injection process </div>",
+      "source_content_hash": "085e0ce7436f5b66d3def78fd9b9116e51176885144a5838ec68858dd16beb0d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "<div style={{ margin: '1rem 0', fontStyle: 'italic', textAlign: 'center' }}> 障害注入プロセス </div>"
+      }
+    },
+    {
+      "segment_id": "a8610918",
+      "source_content": "In this diagram, each horizontal line corresponds to a thread that runs in the direction of the arrows. The **Mount/Umount Filesystem** and **Replace FD** tasks are carefully arranged in sequence. Given the process above, this arrangement makes a lot of sense.",
+      "source_content_hash": "422a8a90283ed5a58d599260395980c9d80fcc022bd403234848dc41809ddc2f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この図では、各水平線は矢印の方向に実行されるスレッドに対応しています。**Mount/Umount Filesystem**および**Replace FD**タスクは慎重に順序付けられています。上記のプロセスを考慮すると、この配置は非常に理にかなっています。"
+      }
+    },
+    {
+      "segment_id": "b9b8694c",
+      "source_content": "## What's next",
+      "source_content_hash": "b90b110a9bc5f59f5e449a7d3c27a1c9cadb64466dc9e6c207bf6764ac41a4a2",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 次のステップ"
+      }
+    },
+    {
+      "segment_id": "b6152880",
+      "source_content": "I've discussed how we implement fault injection to simulate I/O faults at runtime (see [chaos-mesh/toda](https://github.com/chaos-mesh/toda)). However, the current implementation is far from perfect:",
+      "source_content_hash": "69ea83c2faa507401158a28af75ab62c595bb7f0e32c8e9199b9a41e4275498f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "実行時にI/O障害をシミュレートするための障害注入の実装方法について説明しました（[chaos-mesh/toda](https://github.com/chaos-mesh/toda)を参照）。しかし、現在の実装はまだ完全ではありません："
+      }
+    },
+    {
+      "segment_id": "40a587f3",
+      "source_content": "- Generation numbers are not supported.\n- ioctl is not supported.\n- Chaos Mesh does not immediately determine whether a filesystem is successfully mounted. It does so only after one second.",
+      "source_content_hash": "a9707de4dcc2971f0920e8b8e1337c26179fb8d3995a46d6b63c8a866342cef1",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 世代番号がサポートされていません。\n- ioctlがサポートされていません。\n- Chaos Meshはファイルシステムが正常にマウントされたかどうかを即座に判断しません。1秒後にのみ判断します。"
+      }
+    },
+    {
+      "segment_id": "53aa2b95",
+      "source_content": "If you are interested in Chaos Mesh and would like to help us improve it, you're welcome to join [our Slack channel](https://slack.cncf.io/) or submit your pull requests or issues to our [GitHub repository](https://github.com/chaos-mesh/chaos-mesh).",
+      "source_content_hash": "714e56c49b8b6eb85a7a57dd7857bfdbb4d077c57eda31bcf9b4233c0890c10f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshに興味があり、改善に協力したい場合は、[Slackチャンネル](https://slack.cncf.io/)に参加するか、[GitHubリポジトリ](https://github.com/chaos-mesh/chaos-mesh)にプルリクエストやイシューを投稿してください。"
+      }
+    },
+    {
+      "segment_id": "9c9e2b64",
+      "source_content": "This is the first post in a series on Chaos Mesh implementation. If you want to see how other types of fault injection are implemented, stay tuned.",
+      "source_content_hash": "92068ad6b311afc3a6edf10359a1cb331ce6fb73257ff4779ca8717f9bf29b76",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これはChaos Meshの実装に関するシリーズの最初の投稿です。他の種類の障害注入の実装方法について知りたい場合は、今後の投稿をお待ちください。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2021-01-08-how-to-simulate-io-faults-at-runtime.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.630370+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "80c42f9c79bb41d54431409e6bc9fe5ddc624a729fc0765b6294d61f88c64a1f"
+  }
+}

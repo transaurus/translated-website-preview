@@ -1,0 +1,222 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2022-06-07-chaos-mesh-qa-kubecon-eu-2022.md",
+  "source_file_content_hash": "8d873fbc05d91600a14642d9e0f2b863ab593bf8bb4dd68ed71e102c4695a69b",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /chaos-mesh-qa-at-kubecon-eu-2022\ntitle: 'Chaos Mesh Q&A at KUBECON EU 2022'\nauthors: chaos-mesh\nimage: /img/blog/chaos-mesh-q&a.jpeg\ntags: [Chaos Mesh, Chaos Engineering, KubeCon, CloudNativeCon]\n---",
+      "source_content_hash": "7b8d364572fa60c7ec79f6f2beb0c20641ebe2488420456ccb5498fb46e6d08c",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "![Chaos Mesh Q&A](/img/blog/chaos-mesh-q&a.jpeg)",
+      "source_content_hash": "2da03a7ef40a4129f9e921f35b7cd5f47e8581b4e8858f2dec7bf29cf129f087",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos Mesh Q&A](/img/blog/chaos-mesh-q&a.jpeg)"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "At KubeCon EU 2022, the [Chaos Mesh](https://chaos-mesh.org/) team hosted two activities \"Make Cloud Native Chaos Engineering Easier - Deep Dive into Chaos Mesh\" and \"office hours session\". We are very grateful and enjoyed it with all of you very much. We shared with each other, got to know each other, and discussed a lot of things in depth.",
+      "source_content_hash": "535b4719b945c0e9fa7cef7cd4232b8dbec426895ba596dfcfd50964b7784fca",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "KubeCon EU 2022において、[Chaos Mesh](https://chaos-mesh.org/)チームは「Make Cloud Native Chaos Engineering Easier - Deep Dive into Chaos Mesh」と「office hours session」の2つのアクティビティを主催しました。私たちは皆さんと共に過ごした時間に心から感謝し、非常に楽しむことができました。お互いに知識を共有し、理解を深め、多くのことを掘り下げて議論しました。"
+      }
+    },
+    {
+      "segment_id": "3e6699f4",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3e6699f4"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "For the presentations, we gave a brief overview of Chaos Mesh, then delved into how Chaos Mesh is implemented and how it is practiced, and shared the team's latest explorations around chaos engineering and plans for Chaos Mesh's development.",
+      "source_content_hash": "2e11cfd301203dd6b9b3b27745f035dd11ea22ef35d3afe7e2b317a59cd6950e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "プレゼンテーションでは、Chaos Meshの概要を簡単に説明した後、Chaos Meshの実装方法と実際の活用事例について詳しく解説し、チームが行っているカオスエンジニアリングに関する最新の探求とChaos Meshの開発計画を共有しました。"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "For Office Hour, we introduced the Chaos Mesh project and its latest progress, and answered online questions from attendees.",
+      "source_content_hash": "a763f2b08aafb152f70e110171e68b6c49cebf1ecc9cad9eec09bf1000776cc7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Office Hourでは、Chaos Meshプロジェクトとその最新の進捗状況を紹介し、参加者からのオンライン質問に回答しました。"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "Many thanks to each of our friends that came out to support us! And for Office Hour, we received some great questions and we decided to have a follow-up Q&A.",
+      "source_content_hash": "5f6afb55c82f518cb81cf806a36dfbfbe6f4b2d72acb30f1856c450990605e68",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "私たちをサポートしてくださった皆様に心から感謝申し上げます！Office Hourでは素晴らしい質問を多数いただき、フォローアップQ&Aを実施することにしました。"
+      }
+    },
+    {
+      "segment_id": "418617bd",
+      "source_content": "## Your questions answered",
+      "source_content_hash": "eb4664926ea39571a82b833b18cef96b045ca7544dc4823b810bb39307960d04",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 質問への回答"
+      }
+    },
+    {
+      "segment_id": "2fdadb08",
+      "source_content": "**Q: Does chaos play well with Windows/Linux hybrid clusters?**",
+      "source_content_hash": "fa594ea3209d791cd12019cf46ec4d208a0dc256cf1c1c8f0ae6a16d1b0bdde1",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**Q: Chaos MeshはWindows/Linuxハイブリッドクラスターで動作しますか？**"
+      }
+    },
+    {
+      "segment_id": "f2c2bdd0",
+      "source_content": "**A:** Chaos Mesh can only work with Linux now, but we have kindly contributors who are trying to port some features to Windows: [github.com/chaos-mesh/chaos-mesh/issues/2956](https://github.com/chaos-mesh/chaos-mesh/issues/2956)",
+      "source_content_hash": "b0336f011f36d666d5e2828eba3328e44d393fd588c60877e90640b4b2b17ca0",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**A:** 現在、Chaos MeshはLinux環境でのみ動作します。ただし、Windowsへの機能移植に取り組んでくださっているコントリビューターの方がいます：[github.com/chaos-mesh/chaos-mesh/issues/2956](https://github.com/chaos-mesh/chaos-mesh/issues/2956)"
+      }
+    },
+    {
+      "segment_id": "a76548f8",
+      "source_content": "**Q: I think Istio and Linkerd also support fault injection. How does Chaos Mesh differ? Chaos Mesh provides much richer chaos injections (like IOChaos, TimeChaos...), but the injection provided by linked or istio, as I know, is focused on the network?**",
+      "source_content_hash": "a002e2c72ae652dc4dda797979fbcc5008548c4baa09a38c1d29c82134a02e84",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**Q: IstioやLinkerdも障害注入をサポートしていますが、Chaos Meshとの違いは何ですか？Chaos MeshはIOChaosやTimeChaosなどより豊富なカオス注入を提供していますが、LinkerdやIstioの注入はネットワーク層に焦点を当てていると認識しています。**"
+      }
+    },
+    {
+      "segment_id": "4b1d2d7d",
+      "source_content": "**A:** Yeah of course! Service Mesh Frameworks have the potential to cause havoc in the RPC/Network layer. More types of chaos, such as stresschaos, pod kill, DNSChaos, and IOChaos, could be injected into Chaos Mesh (just mentioned) In addition to the list, we offer additional types of chaos. JVM, GCP, Azure, and so on...",
+      "source_content_hash": "3bd64c8bdd29a7901d7ce8f72f92ddd4efe33faf566ea4bd85791953bca69719",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**A:** その通りです！サービスメッシュフレームワークはRPC/ネットワーク層での障害発生の可能性があります。Chaos Meshでは、stresschaos、pod kill、DNSChaos、IOChaosなど、より多様なタイプのカオスを注入できます（先ほど言及したものに加えて）。さらに、JVM、GCP、Azureなどへの対応も提供しています..."
+      }
+    },
+    {
+      "segment_id": "dfe931a2",
+      "source_content": "**Q: As part of the chaos mesh can we run any pre-initialization scripts before introducing the chaos experiment?**",
+      "source_content_hash": "797727ec10175a653ecb7c1f21e8430b52645f30d87f1635627ea2b5ecef3f35",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**Q: Chaos Meshの一部として、カオス実験を開始する前に事前初期化スクリプトを実行できますか？**"
+      }
+    },
+    {
+      "segment_id": "4daf5cdd",
+      "source_content": "**A:** Yes! You may organize your customized scripts and various chaotic experiments together with Chaos Mesh's integrated Workflow engine. See [task field in workflow](https://chaos-mesh.org/docs/next/create-chaos-mesh-workflow/#task-field-description) for the document.",
+      "source_content_hash": "2d5571e2cd912f1bc33de18e9b7c3741f45c166bfb5c806111e4405669702267",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**A:** はい可能です！Chaos Meshの統合Workflowエンジンを使用して、カスタムスクリプトと様々なカオス実験をまとめて管理できます。詳細は[ワークフローのtaskフィールド](https://chaos-mesh.org/docs/next/create-chaos-mesh-workflow/#task-field-description)のドキュメントをご覧ください。"
+      }
+    },
+    {
+      "segment_id": "bdc231b1",
+      "source_content": "**Q: Is this similar to the Gremlin Chaos engineering tool?**",
+      "source_content_hash": "1b32baf4f1f18ec8a33606d1408bde16bc98656561c94f835f867a6a5ba28762",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**Q: これはGremlinのカオスエンジニアリングツールと似ていますか？**"
+      }
+    },
+    {
+      "segment_id": "97ae4a01",
+      "source_content": "**A:** Yes, this is a Kubernetes-specific open-source project. It's a Kubernetes plugin that you can utilize. You can get more Infos on https://chaos-mesh.org",
+      "source_content_hash": "b23e167bf215bd835c7693bd4252ff12974f35a6f77370518213cee676a4afa8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**A:** はい、これはKubernetesに特化したオープンソースプロジェクトです。Kubernetesプラグインとして利用可能で、詳細はhttps://chaos-mesh.org でご確認いただけます。"
+      }
+    },
+    {
+      "segment_id": "c3a738de",
+      "source_content": "**Q: How does it inject network latency for network chaos? if we use cilium CNI with no iptables, would this latency injection still work in that case?**",
+      "source_content_hash": "bda71efbd86c2f2085158ebb01080bcd8f0e19a0a80360a5de65133b65e9abc0",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**Q: ネットワークカオスにおいて、ネットワーク遅延はどのように注入されますか？iptablesを使用しないCilium CNI環境でも、この遅延注入は機能しますか？**"
+      }
+    },
+    {
+      "segment_id": "3cfe6286",
+      "source_content": "**A:** Chaos Mesh has a chaos-daemon component. When network chaos is produced, chaos-daemon will enter the target pod's network namespace and set TC and iptables rules on the network device.",
+      "source_content_hash": "59b42daa93032930a24f67457a25deadda2b307442c9c5289502ca6bb111e709",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**A:** Chaos Meshにはchaos-daemonコンポーネントがあります。ネットワークカオスを発生させるとき、chaos-daemonはターゲットPodのネットワーク名前空間に入り、ネットワークデバイスにTCルールとiptablesルールを設定します。"
+      }
+    },
+    {
+      "segment_id": "1042b50d",
+      "source_content": "When using clium CNI without iptables, Chaos Mesh still works.",
+      "source_content_hash": "bd7d192538fab9a90f62b4e50db6d5056370e8abe31502d38fb3628bd4b451ae",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "iptablesを使用しないCilium CNI環境においても、Chaos Meshは正常に動作します。"
+      }
+    },
+    {
+      "segment_id": "35a77014",
+      "source_content": "## Join the Chaos Mesh community",
+      "source_content_hash": "8564db0f343dd92819ace9cd4486095b86c53f848516defb72402a118c439277",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Meshコミュニティに参加しよう"
+      }
+    },
+    {
+      "segment_id": "13d9cd70",
+      "source_content": "If you are interested in Chaos Mesh and would like to help us improve it, you're welcome to join [our Slack channel](https://slack.cncf.io/)(#project-chaos-mesh) or submit your pull requests or issues to our [GitHub repository](https://github.com/chaos-mesh/chaos-mesh).",
+      "source_content_hash": "83ba6b6ce7aade23c7487d2e72288c6450e8c00685d57178b69b11682242e912",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshに興味があり、改善に協力したい方は、ぜひ[Slackチャンネル](https://slack.cncf.io/)(#project-chaos-mesh)に参加するか、[GitHubリポジトリ](https://github.com/chaos-mesh/chaos-mesh)にプルリクエストやイシューを投稿してください。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2022-06-07-chaos-mesh-qa-kubecon-eu-2022.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.683368+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "8d873fbc05d91600a14642d9e0f2b863ab593bf8bb4dd68ed71e102c4695a69b"
+  }
+}

@@ -1,0 +1,252 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2020-10-30-chaos-engineering-breaking-things-intentionally.md",
+  "source_file_content_hash": "c205ed0d32cc3cad0aafa06591625d6e7fb01d6220a62c4e719b5b8ce9862de9",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /chaos-engineering-breaking-things-intentionally\ntitle: Chaos Engineering - Breaking things Intentionally\nauthors: manishdangi\nimage: /img/blog/chaos-engineering2.png\ntags: [Chaos Engineering, Chaos Mesh, Open Source]\n---",
+      "source_content_hash": "97833dc1c83a68be763823b4046fd98147249e497edfbc1b8c1d79763a449f2c",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "![Chaos-Engineering-Breaking-things-Intentionally](/img/blog/chaos-engineering2.png)",
+      "source_content_hash": "ac19a1924b5154cf852db98370419429d7597a2aab7592c2c03d5ccd38593fb4",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos-Engineering-Breaking-things-Intentionally](/img/blog/chaos-engineering2.png)"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "“Necessity is the mother of invention”; similarly, Netflix is not only a platform for online media streaming. Netflix gave birth to Chaos engineering because of their necessity.",
+      "source_content_hash": "2879ea23903b5543b1230f1621a7103bf6c8e66008c387587bc34111c217f23f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "「必要は発明の母」というように、Netflixは単なるオンラインメディアストリーミングプラットフォームではありません。Netflixは自らの必要性からChaos Engineeringを生み出しました。"
+      }
+    },
+    {
+      "segment_id": "3e6699f4",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3e6699f4"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "In 2008, Netflix [experienced a major database corruption](https://about.netflix.com/en/news/completing-the-netflix-cloud-migration). They couldn't deliver DVDs for three days. This encouraged Netflix engineers to think about their monolithic architecture’s migration to a distributed cloud-based architecture.",
+      "source_content_hash": "ad17184749ffe36031949a9e052ea5f06cb7ae97e04186b4d81510a9c045293e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "2008年、Netflixは[大規模なデータベース障害を経験しました](https://about.netflix.com/en/news/completing-the-netflix-cloud-migration)。3日間DVDを配送できなくなりました。この出来事が、Netflixのエンジニアにモノリシックなアーキテクチャから分散型のクラウドベースアーキテクチャへの移行を考えさせるきっかけとなりました。"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "The new distributed architecture of Netflix composed of hundreds of microservices. Migration to distributed architecture solved their single point failure problem, but it gave rise to many other complexities requiring a more reliable and fault-tolerant system. At this point, Netflix engineers came up with an innovative idea to test the system’s fault tolerance without impacting customer service.",
+      "source_content_hash": "94b7a7674922cd4ec78baa4fa41a26e7383d0bc3a9b52e4869a3a0a9c1746cb6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Netflixの新しい分散型アーキテクチャは数百のマイクロサービスで構成されていました。分散型アーキテクチャへの移行は単一障害点の問題を解決しましたが、システムの信頼性と耐障害性をさらに高める必要がある多くの複雑さを生み出しました。この時点で、Netflixのエンジニアは顧客サービスに影響を与えることなくシステムの耐障害性をテストする革新的なアイデアを思いつきました。"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "They created [Chaos Monkey](https://github.com/Netflix/chaosmonkey): a tool that causes random failures at different places with different intervals of time. With the development of Chaos Monkey, a new discipline arises: Chaos Engineering.",
+      "source_content_hash": "8b86f5e0040d9c197a67728873357d90404593e95447c389dad5886ad44c1579",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "彼らは[Chaos Monkey](https://github.com/Netflix/chaosmonkey)を作成しました。これはさまざまな場所でランダムな障害を引き起こすツールです。Chaos Monkeyの開発とともに、新しい分野が生まれました。それがChaos Engineeringです。"
+      }
+    },
+    {
+      "segment_id": "f5f6d2ce",
+      "source_content": "“Chaos Engineering is the discipline of experimenting on a system in order to build confidence in the system’s capability to withstand turbulent conditions in production.” - [Principle of Chaos](https://principlesofchaos.org/)",
+      "source_content_hash": "8d8b6a8399252d570bf592e6abfdd5df1ee33dde635d2d95e14bd95167d8d2ef",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "「Chaos Engineeringとは、システムが生産環境における乱れた状況に耐える能力に対する信頼を構築するために、システム上で実験を行う学問である」 - [Principle of Chaos](https://principlesofchaos.org/)"
+      }
+    },
+    {
+      "segment_id": "2fdadb08",
+      "source_content": "Chaos Engineering is an approach for learning how your system behaves by applying a discipline of empirical exploration. Just as scientists conduct experiments to study physical and social phenomena, Chaos Engineering uses experiments to learn about a particular system - the systems' reliability, stability, and capability to survive in unexpected or unstable conditions.",
+      "source_content_hash": "c3772441ddfd7ffee4f635cca10224e3912078fa1ac2edbf229a4ba1dd731a46",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Engineeringは、経験的な探求の手法を適用してシステムの挙動を学ぶアプローチです。科学者が物理的・社会的現象を研究するために実験を行うのと同じように、Chaos Engineeringは実験を使って特定のシステム（システムの信頼性、安定性、予期せぬまたは不安定な状況での生存能力）について学びます。"
+      }
+    },
+    {
+      "segment_id": "f2c2bdd0",
+      "source_content": "When we have a large-scale distributed system, failures could be caused by a number of factors like application failure, infrastructure failure, dependency failure, network failure, and many more. These failures could not be all covered by traditional methods such as integration testing or unit testing, which makes Chaos Engineering a necessity:",
+      "source_content_hash": "0b4f9761900a2602756e05e5098d45bef902f74452d725ded5ac4e7d6238c987",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "大規模な分散システムでは、アプリケーション障害、インフラ障害、依存関係の障害、ネットワーク障害など、さまざまな要因で障害が発生する可能性があります。これらの障害は、統合テストや単体テストなどの従来の方法ではすべてをカバーできません。そのためChaos Engineeringが必要となります："
+      }
+    },
+    {
+      "segment_id": "b3f5c97c",
+      "source_content": "- To improve resiliency of the system\n- To expose hidden threats and vulnerability of the system\n- To figure out system weaknesses before they cause any failure in production",
+      "source_content_hash": "1dab13f8f8b1b80c1eac04be88e9b922cfb9065035f8d5a4364863567e967097",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- システムの回復力を向上させるため\n- システムの隠れた脅威や脆弱性を明らかにするため\n- 本番環境で障害を引き起こす前にシステムの弱点を特定するため"
+      }
+    },
+    {
+      "segment_id": "dfe931a2",
+      "source_content": "Lots of people think that they are not as big compared to Netflix and other tech giants; nor do they have any databases or systems of that scale.",
+      "source_content_hash": "f394f08588feb3b5dc294f558f07bed8bf20fd5db6c995571e75e3de962d1a81",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "多くの人は、自分たちはNetflixや他のテックジャイアントと比べて規模が小さく、そのような規模のデータベースやシステムを持っていないと考えています。"
+      }
+    },
+    {
+      "segment_id": "4daf5cdd",
+      "source_content": "They are probably right, but over the period, Chaos engineering has evolved so much that it’s no longer limited to digital companies like Netflix. To ensure consistent performance and constant availability of their systems, more and more companies from different industries are implementing chaos experiments.",
+      "source_content_hash": "b4ed5db0f60f2538c25a47b9eb4fd706495f2b1e8144d81b1a819e65858fc131",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "おそらくその通りでしょう。しかし時が経つにつれ、Chaos EngineeringはNetflixのようなデジタル企業に限定されないほど進化しました。システムの一貫したパフォーマンスと常時可用性を確保するために、さまざまな業界の企業がChaos実験を実施しています。"
+      }
+    },
+    {
+      "segment_id": "f422383e",
+      "source_content": "## Chaos-Mesh",
+      "source_content_hash": "d48f30412c394342f460ddc4e29174763c5d68cfefa582ff622fb8b49579952b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Mesh"
+      }
+    },
+    {
+      "segment_id": "26794fc5",
+      "source_content": ":::note\n\n2022-10-24: Because of https://www.oreilly.com/online-learning/leveraging-katacoda-technology.html, and refer to [#356](https://github.com/chaos-mesh/website/pull/356), the interactive tutorial is temporarily unavailable.\n\n:::",
+      "source_content_hash": "309c9fa56a89085317288948daab67d47db5d9ef3cd9382c10b3a8e1c64972fe",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\n2022-10-24: https://www.oreilly.com/online-learning/leveraging-katacoda-technology.html および [#356](https://github.com/chaos-mesh/website/pull/356) により、インタラクティブチュートリアルは一時的に利用できません。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "1042b50d",
+      "source_content": "To test the resiliency and reliability of [TiDB](https://pingcap.com/products/tidb), engineers at [PingCAP](https://pingcap.com/) came up with a fantastic tool for Chaos testing called [Chaos Mesh](https://chaos-mesh.org/), a cloud-native Chaos Engineering platform that orchestrates chaos on Kubernetes environments. Chaos Mesh takes into account the possible faults of a distributed system, covering the pod, the network, system I/O, and the kernel.",
+      "source_content_hash": "5f536af4f490dc9bc24ee7e11741f7681c8a10aaf915ecf51dc5d97d8a3274ed",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[TiDB](https://pingcap.com/products/tidb)の回復力と信頼性をテストするために、[PingCAP](https://pingcap.com/)のエンジニアは[Chaos Mesh](https://chaos-mesh.org/)という素晴らしいChaosテストツールを開発しました。これはKubernetes環境でChaosをオーケストレーションするクラウドネイティブなChaos Engineeringプラットフォームです。Chaos Meshは分散システムの可能性のある障害（Pod、ネットワーク、システムI/O、カーネルなど）を考慮しています。"
+      }
+    },
+    {
+      "segment_id": "aa1e7006",
+      "source_content": "Chaos Mesh provides many fault injection methods:",
+      "source_content_hash": "a9a31ff5f0a110c5bdf0eb59383b27a6baca004ea1ab2d5d33dc0bf57269e6d5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは多くの障害注入方法を提供します："
+      }
+    },
+    {
+      "segment_id": "b93ddfac",
+      "source_content": "- **clock-skew:** Simulates clock skew\n- **container-kill:** Simulates the container being killed\n- **cpu-burn:** Simulates CPU pressure\n- **io-attribution-override:** Simulates file exceptions\n- **io-fault:** Simulates file system I/O errors\n- **io-latency:** Simulates file system I/O latency\n- **kernel-injection:** Simulates kernel failures\n- **memory-burn:** Simulates memory pressure\n- **network-corrupt:** Simulates network packet corruption\n- **network-duplication:** Simulates network packet duplication\n- **network-latency:** Simulate network latency\n- **network-loss:** Simulates network loss\n- **network-partition:** Simulates network partition\n- **pod-failure:** Simulates continuous unavailability of Kubernetes Pods\n- **pod-kill:** Simulates the Kubernetes Pod being killed",
+      "source_content_hash": "2fbf5d780bd56d32fdc41b61a79a0162b0e0d8571568e47f88ac703ae70e7598",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- **clock-skew:** 時刻のずれをシミュレート\n- **container-kill:** コンテナの強制終了をシミュレート\n- **cpu-burn:** CPU負荷をシミュレート\n- **io-attribution-override:** ファイル例外をシミュレート\n- **io-fault:** ファイルシステムI/Oエラーをシミュレート\n- **io-latency:** ファイルシステムI/O遅延をシミュレート\n- **kernel-injection:** カーネル障害をシミュレート\n- **memory-burn:** メモリ負荷をシミュレート\n- **network-corrupt:** ネットワークパケット破損をシミュレート\n- **network-duplication:** ネットワークパケット重複をシミュレート\n- **network-latency:** ネットワーク遅延をシミュレート\n- **network-loss:** ネットワーク損失をシミュレート\n- **network-partition:** ネットワーク分断をシミュレート\n- **pod-failure:** Kubernetes Podの継続的な利用不可をシミュレート\n- **pod-kill:** Kubernetes Podの強制終了をシミュレート"
+      }
+    },
+    {
+      "segment_id": "8b2a52b1",
+      "source_content": "Chaos Mesh mainly focuses on the simplicity of how all chaos tests are done quickly and easily understandable to anyone using it.",
+      "source_content_hash": "465b5ca22f8155c3a89a18e5aef2359958621db2ebabccaed0072380b5d3b4e3",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは主に、すべてのカオステストを迅速かつ簡単に行えるシンプルさに重点を置いており、利用者誰もが理解しやすい設計となっています。"
+      }
+    },
+    {
+      "segment_id": "5dae11e3",
+      "source_content": "The recent [1.0 release](https://chaos-mesh.org/blog/chaos-mesh-1.0-chaos-engineering-on-kubernetes-made-easier/) provides the general availability of Chaos Dashboard, which Chaos simplifies the complexities of chaos experiment. With a few mouse clicks, you can define the Chaos experiment's scope, specify the type of chaos injection, define scheduling rules, and observe the chaos experiment results- all in the dashboard of Chaos Mesh.",
+      "source_content_hash": "1d1f1b35b5ad9ecf53312257ffbce4ac5dadef87d611cb265dc734afc1561e78",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "最近リリースされた[バージョン1.0](https://chaos-mesh.org/blog/chaos-mesh-1.0-chaos-engineering-on-kubernetes-made-easier/)では、Chaos Dashboardが一般提供され、カオス実験の複雑さが簡素化されました。数回のマウスクリックで、カオス実験の範囲を定義し、カオス注入のタイプを指定し、スケジューリングルールを定義し、実験結果を観察することができます。これらすべてがChaos Meshのダッシュボード上で可能です。"
+      }
+    },
+    {
+      "segment_id": "0bb95128",
+      "source_content": "In case you want to try Chaos Mesh in your browser, checkout `Katakoda interactive tutorial`, where you can get your hands on Chaos Mesh without even deploying it. To understand the design principles and how Chaos Mesh works, read [this blog](https://chaos-mesh.org/blog/chaos_mesh_your_chaos_engineering_solution) by the project's maintainer, [Cwen Yin](https://www.linkedin.com/in/cwen-yin-81985318b/).",
+      "source_content_hash": "7e224ad3064091aa88e501e5b0cb0b802405d4cd50564c3e2ac317bc17ddfe8f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ブラウザ上でChaos Meshを試したい場合は、`Katakodaインタラクティブチュートリアル`をチェックしてください。Chaos Meshを実際にデプロイすることなく、手を動かして体験できます。設計原則やChaos Meshの動作原理を理解したい場合は、プロジェクトメンテナーの[Cwen Yin](https://www.linkedin.com/in/cwen-yin-81985318b/)による[このブログ記事](https://chaos-mesh.org/blog/chaos_mesh_your_chaos_engineering_solution)をお読みください。"
+      }
+    },
+    {
+      "segment_id": "3ef18741",
+      "source_content": "## Join the community",
+      "source_content_hash": "13ff40bc8e0d10f37d09e52c8816fafffaaa53292c52909c0f943ad216476375",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## コミュニティに参加しよう"
+      }
+    },
+    {
+      "segment_id": "e7772088",
+      "source_content": "Anyone who wants to explore the area of chaos engineering or Chaos Mesh are welcomed to join the Chaos Mesh community. Being a member of the Chaos Mesh community, I would like to say it is a lovely community where project maintainers love to engage and hear your views and suggestions for the improvement of the project and the community.",
+      "source_content_hash": "def0997e78980f200edb39b578cb0e51a4a137999273edae7f0c4e5768f62709",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "カオスエンジニアリングやChaos Meshに興味がある方は、ぜひChaos Meshコミュニティに参加してください。Chaos Meshコミュニティの一員として、このコミュニティは素晴らしい場所だと自信を持って言えます。プロジェクトのメンテナーは積極的にコミュニケーションを取り、プロジェクトやコミュニティの改善に向けて皆さんの意見や提案に耳を傾けています。"
+      }
+    },
+    {
+      "segment_id": "eab056be",
+      "source_content": "To join and learn more about Chaos Mesh, find the #project-chaos-mesh channel in [CNCF slack workspace](https://slack.cncf.io/).",
+      "source_content_hash": "8329010e22bc8bcc7b90dff66e3deeb9e0877d84ad30882908b7618c80bf1671",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshに参加し、さらに学びたい方は、[CNCF Slackワークスペース](https://slack.cncf.io/)の#project-chaos-meshチャンネルをご利用ください。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2020-10-30-chaos-engineering-breaking-things-intentionally.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.672147+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "c205ed0d32cc3cad0aafa06591625d6e7fb01d6220a62c4e719b5b8ce9862de9"
+  }
+}

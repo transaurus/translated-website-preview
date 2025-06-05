@@ -1,0 +1,592 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "versioned_docs/version-2.7.2/define-chaos-experiment-scope.md",
+  "source_file_content_hash": "ffa8ac604f88576902badc9146a6bd789466e4caafe3f83d7112626cf796802b",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Define the Scope of Chaos Experiments\n---",
+      "source_content_hash": "0436e2945ec21eefbe99ebc625f0a85918c2af62d6f81ccbfd844b18d32660c6",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "This document describes how to define the scope of a single Chaos experiment, which helps you accurately control the fault's explosion radius.",
+      "source_content_hash": "63d01cc01309c03a2c1f4e6956f9da4378b5d6d95471824a4866a3eb43995b0a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、単一のChaos実験のスコープを定義する方法について説明します。これにより、障害の影響範囲を正確に制御することが可能になります。"
+      }
+    },
+    {
+      "segment_id": "a703643c",
+      "source_content": "## An overview of experiment scopes",
+      "source_content_hash": "867077856d756c8def55ef3ad4a4b938906e13cdf8eb61c3d6134bf53a046ef4",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 実験スコープの概要"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "In Chaos Mesh, you can define the scope of a single Chaos experiment by specifying a selector.",
+      "source_content_hash": "ce9d33e4aee31ef27bb1d970a10724807e1aea81ef5b3f014e20c2dfb0d1be43",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshでは、セレクタを指定することで単一のChaos実験のスコープを定義できます。"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "Different types of selectors correspond to different filtering rules. You can specify one or more selectors in a Chaos experiment to define the scope of your experiment. If multiple selectors are specified at the same time, the current experiment target must meet the rules of all specified selectors at the same time.",
+      "source_content_hash": "3d55560e4315a1d87cf4014e7479f16ea43791b1af4ea0556036b163c3f85f35",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "異なるタイプのセレクタは異なるフィルタリングルールに対応します。実験のスコープを定義するために、1つ以上のセレクタをChaos実験で指定できます。複数のセレクタが同時に指定された場合、現在の実験ターゲットはすべての指定されたセレクタのルールを同時に満たす必要があります。"
+      }
+    },
+    {
+      "segment_id": "180bddb1",
+      "source_content": "When you create a Chaos experiment, Chaos Mesh supports the following ways to define the scope of an experiment. You can choose any one of the following ways as needed:",
+      "source_content_hash": "101e2b8455089c32fa55dd7437a9cf17d4cd4a2f4e34dd9d6cad3d8926cae05e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos実験を作成する際、Chaos Meshは以下の方法で実験のスコープを定義することをサポートしています。必要に応じて以下のいずれかの方法を選択できます："
+      }
+    },
+    {
+      "segment_id": "4269e691",
+      "source_content": "- Define the experiment scope in a YAML configuration file\n- Define the experiment scope on the Chaos Dashboard",
+      "source_content_hash": "81f5bdfdc33674284c4ffbd07eedcb24e4f7dadb8582281f12f7a16a3f3fc433",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- YAML設定ファイルで実験スコープを定義する\n- Chaos Dashboardで実験スコープを定義する"
+      }
+    },
+    {
+      "segment_id": "d350c018",
+      "source_content": "## Define the experiment scope in a YAML configuration file",
+      "source_content_hash": "70dbb414e9f4f592a5d2ef84f1b150903a4cb6e3b8f28cf0218a9c00879fca81",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## YAML設定ファイルで実験スコープを定義する"
+      }
+    },
+    {
+      "segment_id": "1acb9a05",
+      "source_content": "This section introduces the meanings of different selector types and their usages, and provides the configuration examples in the YAML file. When defining the experiment scope in the YAML file, you can specify one or more selectors according to your need of scope filtering.",
+      "source_content_hash": "b597471590ba58b12c30b0d3084247193ef630c70e95b14fb4b45f7cc1babb95",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このセクションでは、異なるセレクタタイプの意味と使用方法を紹介し、YAMLファイルでの設定例を提供します。YAMLファイルで実験スコープを定義する際、スコープフィルタリングの必要性に応じて1つ以上のセレクタを指定できます。"
+      }
+    },
+    {
+      "segment_id": "63622bf0",
+      "source_content": "### Namespace selectors",
+      "source_content_hash": "70918cbc39ffa1b09b3b643c1fcf0276ff38862fff17abeb1b36ffb88441ae92",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ネームスペースセレクタ"
+      }
+    },
+    {
+      "segment_id": "8cf6d045",
+      "source_content": "- Specifies the namespace of the experiment's target Pod.\n- Data type: string array type.\n- If this selector is empty or is not specified, Chaos Mesh will set it to the namespace of the current Chaos experiment.",
+      "source_content_hash": "1a4cb7626c7d26a295638a464954fa6703556d2e53603afc0e7ddeff9e76318d",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 実験のターゲットPodのネームスペースを指定します。\n- データタイプ: 文字列配列型。\n- このセレクタが空または指定されていない場合、Chaos Meshは現在のChaos実験のネームスペースに設定します。"
+      }
+    },
+    {
+      "segment_id": "d9172fa4",
+      "source_content": "When creating the experiment using the YAML file, you need to configure selectors. For example:",
+      "source_content_hash": "690091c00fc1506f0cd00244385a451d5b62e673da16605d1bcb5a4ea3eabc3f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "YAMLファイルを使用して実験を作成する際、セレクタを設定する必要があります。例："
+      }
+    },
+    {
+      "segment_id": "b7c3dbd1",
+      "source_content": "```yaml\nspec:\n  selector:\n    namespaces:\n      - 'app-ns'\n```",
+      "source_content_hash": "ae0e6ff7fc6ea4cfc782615b181141c36f7a8ccd9238bd873cde2051ffee1704",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_b7c3dbd1"
+      }
+    },
+    {
+      "segment_id": "3b7478ea",
+      "source_content": "### Label selectors",
+      "source_content_hash": "71a86d70a8a073fac3ccd587c37342118beebb6cab926196a18bd996bd51df46",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ラベルセレクタ"
+      }
+    },
+    {
+      "segment_id": "33808f76",
+      "source_content": "- Specifies the [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) that the experiment's target Pod must have.\n- Data type: key-value pairs.\n- If multiple labels are specified, the experiment target must have all the labels specified by this selector.",
+      "source_content_hash": "ef769ec6e522cd20a7955e0bcbe702912ffcce1534401f054e3919bded897345",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 実験のターゲットPodが持つ必要がある[ラベル](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/)を指定します。\n- データタイプ: キーと値のペア。\n- 複数のラベルが指定されている場合、実験ターゲットはこのセレクタで指定されたすべてのラベルを持っている必要があります。"
+      }
+    },
+    {
+      "segment_id": "1042b50d",
+      "source_content": "When creating the experiment using the YAML file, you need to configure selectors. For example:",
+      "source_content_hash": "690091c00fc1506f0cd00244385a451d5b62e673da16605d1bcb5a4ea3eabc3f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "YAMLファイルを使用して実験を作成する際、セレクタを設定する必要があります。例："
+      }
+    },
+    {
+      "segment_id": "6648a219",
+      "source_content": "```yaml\nspec:\n  selector:\n    labelSelectors:\n      'app.kubernetes.io/component': 'tikv'\n```",
+      "source_content_hash": "3e4c8ec747b7fedbe4dc208efa1856aeaf18620b28df34abe70acaf48bb528f4",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_6648a219"
+      }
+    },
+    {
+      "segment_id": "cb5b269c",
+      "source_content": "### Expression selectors",
+      "source_content_hash": "e240ebdeaabad7efd66226fb4b3bfb3a84ec4890dd028f5f1a3557de46f7ae1a",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 式セレクタ"
+      }
+    },
+    {
+      "segment_id": "157c9741",
+      "source_content": "- Specifies a set of [expressions](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements) that define the label's rules to specify the experiment's target Pod.\n- You can use this selector to set up the experiment's target Pod that does not meet some labels.",
+      "source_content_hash": "55c1be53e2e24a90fc8289e9637613ec34cb504872ee52d8b56d6a392fa0f7d4",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 実験のターゲットPodを指定するためのラベルのルールを定義する[式](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements)のセットを指定します。\n- このセレクタを使用して、特定のラベルを満たさない実験のターゲットPodを設定できます。"
+      }
+    },
+    {
+      "segment_id": "4d52a261",
+      "source_content": "When creating the experiment using the YAML file, you need to configure selectors. For example:",
+      "source_content_hash": "690091c00fc1506f0cd00244385a451d5b62e673da16605d1bcb5a4ea3eabc3f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "YAMLファイルを使用して実験を作成する際、セレクタを設定する必要があります。例："
+      }
+    },
+    {
+      "segment_id": "6d254e09",
+      "source_content": "```yaml\nspec:\n  selector:\n    expressionSelectors:\n      - { key: tier, operator: In, values: [cache] }\n      - { key: environment, operator: NotIn, values: [dev] }\n```",
+      "source_content_hash": "2baff6707133e7c3eb8200db13df9c6490876c9ce93a2119624db84dffcc7007",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_6d254e09"
+      }
+    },
+    {
+      "segment_id": "a5a4323e",
+      "source_content": "### Annotation selectors",
+      "source_content_hash": "786e57a42e120ab44b5386b7898e0681c4208b9728b1d5259341a6c2433d6184",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### アノテーションセレクタ"
+      }
+    },
+    {
+      "segment_id": "a4bd3cfc",
+      "source_content": "- Specifies the [annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) that the experiment's target Pod must have.\n- Data type: key-value pairs.\n- If multiple annotations are specified, the experiment target must have all annotations specified by this selector.",
+      "source_content_hash": "cd9943487d69fe74e7006b6faf131333e098bce0a54dd053bdbdbfaaae362aef",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 実験のターゲットPodが持つ必要がある[アノテーション](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)を指定します。\n- データタイプ: キーと値のペア。\n- 複数のアノテーションが指定されている場合、実験ターゲットはこのセレクタで指定されたすべてのアノテーションを持っている必要があります。"
+      }
+    },
+    {
+      "segment_id": "eab056be",
+      "source_content": "When creating the experiment using the YAML file, you need to configure selectors. For example:",
+      "source_content_hash": "690091c00fc1506f0cd00244385a451d5b62e673da16605d1bcb5a4ea3eabc3f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "YAMLファイルを使用して実験を作成する際、セレクタを設定する必要があります。例："
+      }
+    },
+    {
+      "segment_id": "9f3b4022",
+      "source_content": "```yaml\nspec:\n  selector:\n    annotationSelectors:\n      'example-annotation': 'group-a'\n```",
+      "source_content_hash": "1a4b716b8d120e60ad56348727e7950b067ef7e3aba96fa38748614727cb6238",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_9f3b4022"
+      }
+    },
+    {
+      "segment_id": "8a9b6c26",
+      "source_content": "### Field selectors",
+      "source_content_hash": "1634566a50e8a63d335ecc30e711825688f9a5e94d1da99aa484765675cc75f3",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### フィールドセレクタ"
+      }
+    },
+    {
+      "segment_id": "c142abbb",
+      "source_content": "- Specifies the [fields](https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/) of the experiment's target Pod.\n- Data type: key-value pairs.\n- If multiple fields are specified, the experiment target must have all fields set by this selector.",
+      "source_content_hash": "49b4d89501a09e66d0132e9f9a7e3a08b1464e2594c3dfe198823afcb5ff0522",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 実験のターゲットPodの[フィールド](https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/)を指定します。\n- データタイプ: キーと値のペア。\n- 複数のフィールドが指定されている場合、実験ターゲットはこのセレクタで設定されたすべてのフィールドを持っている必要があります。"
+      }
+    },
+    {
+      "segment_id": "2547a6bb",
+      "source_content": "When creating the experiment using the YAML file, you need to configure selectors. For example:",
+      "source_content_hash": "690091c00fc1506f0cd00244385a451d5b62e673da16605d1bcb5a4ea3eabc3f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "YAMLファイルを使用して実験を作成する際、セレクタを設定する必要があります。例："
+      }
+    },
+    {
+      "segment_id": "7d898a0e",
+      "source_content": "```yaml\nspec:\n  selector:\n    fieldSelectors:\n      'metadata.name': 'my-pod'\n```",
+      "source_content_hash": "d527422eb11f064f50feaadd59d7d15a53470b69411067934754f71ca905d8d5",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_7d898a0e"
+      }
+    },
+    {
+      "segment_id": "b10963d7",
+      "source_content": "### PodPhase selectors",
+      "source_content_hash": "d288939746971e60ca30d1505d8dade7d557b1e3fa67b80dce0716cfb6da60f8",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### Podフェーズセレクタ"
+      }
+    },
+    {
+      "segment_id": "dee20070",
+      "source_content": "- Specifies the phase of the experiment's target Pod.\n- Data type: string array type.\n- Supported phases: `Pending`, `Running`, `Succeeded`, `Failed`, `Unknown`.\n- This option is empty by default, which means that the target Pod's phase is not limited.",
+      "source_content_hash": "12e764b75f9297770bccfeca790ad8f1e28f3898f248c6d750ac713b0eb44d55",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 実験のターゲットPodのフェーズを指定します。\n- データタイプ: 文字列配列型。\n- サポートされているフェーズ: `Pending`、`Running`、`Succeeded`、`Failed`、`Unknown`。\n- このオプションはデフォルトで空であり、ターゲットPodのフェーズは制限されません。"
+      }
+    },
+    {
+      "segment_id": "a2c0166e",
+      "source_content": "When creating the experiment using the YAML file, you need to configure selectors. For example:",
+      "source_content_hash": "690091c00fc1506f0cd00244385a451d5b62e673da16605d1bcb5a4ea3eabc3f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "YAMLファイルを使用して実験を作成する際、セレクタを設定する必要があります。例："
+      }
+    },
+    {
+      "segment_id": "d44e4104",
+      "source_content": "```yaml\nspec:\n  selector:\n    podPhaseSelectors:\n      - 'Running'\n```",
+      "source_content_hash": "30a393a3238a5da1080d3232641848654e18cc68dd2a87abf40437c6d7c6f820",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_d44e4104"
+      }
+    },
+    {
+      "segment_id": "8574d51c",
+      "source_content": "### Node selectors",
+      "source_content_hash": "4c4770161e8100133ec15612cc35b4e7311e0a0fcb2f25b129cd9516976a9061",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ノードセレクター"
+      }
+    },
+    {
+      "segment_id": "0422e2e2",
+      "source_content": "- Specifies the [node label](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/) to which the experiment's target Pod belongs.\n- Data type: key-value pairs.\n- If multiple node labels are specified, the node to which the experiment's target Pod belongs must have all labels specified by this selector.",
+      "source_content_hash": "f4ee5bc7b4bcbd5caeb3176dc949dc78006645f7de5d878baf33754c5c1f95de",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 実験対象のPodが属する[ノードラベル](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/)を指定します。\n- データ型: キーと値のペア。\n- 複数のノードラベルが指定されている場合、実験対象のPodが属するノードはこのセレクターで指定されたすべてのラベルを持っている必要があります。"
+      }
+    },
+    {
+      "segment_id": "1958bc43",
+      "source_content": "When creating the experiment using the YAML file, you need to configure selectors. For example:",
+      "source_content_hash": "690091c00fc1506f0cd00244385a451d5b62e673da16605d1bcb5a4ea3eabc3f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "YAMLファイルを使用して実験を作成する際には、セレクターを設定する必要があります。例:"
+      }
+    },
+    {
+      "segment_id": "1a63b635",
+      "source_content": "```yaml\nspec:\n  selector:\n    nodeSelectors:\n      'node-label': 'label-one'\n```",
+      "source_content_hash": "54eeeac2ab8c82dd9b9b5efc1630fd03f83b1b815abff60be6b489564afebfd8",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_1a63b635"
+      }
+    },
+    {
+      "segment_id": "36d6c3de",
+      "source_content": "### Node list selector",
+      "source_content_hash": "b490c4933233fa6a22d94864ed06ae11bf5895cb8c4ef69228adf38cd261dde1",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ノードリストセレクター"
+      }
+    },
+    {
+      "segment_id": "d9b1e67e",
+      "source_content": "- Specifies the node to which the experiment's target Pod belongs.\n- Data type: string array type.\n- The target Pod can only belong to one node in the configured node list.",
+      "source_content_hash": "ebb91dd309a3228fbe6e2ad1561d60ddcac2155d78a64df4177370016685d6dc",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 実験対象のPodが属するノードを指定します。\n- データ型: 文字列配列型。\n- 対象のPodは、設定されたノードリスト内の1つのノードにのみ属することができます。"
+      }
+    },
+    {
+      "segment_id": "692c6053",
+      "source_content": "When creating the experiment using the YAML file, you need to configure selectors. For example:",
+      "source_content_hash": "690091c00fc1506f0cd00244385a451d5b62e673da16605d1bcb5a4ea3eabc3f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "YAMLファイルを使用して実験を作成する際には、セレクターを設定する必要があります。例:"
+      }
+    },
+    {
+      "segment_id": "601bdf38",
+      "source_content": "```yaml\nspec:\n  selector:\n    nodes:\n      - node1\n      - node2\n```",
+      "source_content_hash": "16dc414ec60adbb6deea02364a9a10fe981b47abad88e90c69804429b53f4731",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_601bdf38"
+      }
+    },
+    {
+      "segment_id": "0d5321b7",
+      "source_content": "### Pod list selector",
+      "source_content_hash": "7a51e85aa3057d60be2b1470c10b2da46645bdfbfdfd0f9c7fbbf4d1d17f45e4",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### Podリストセレクター"
+      }
+    },
+    {
+      "segment_id": "17ca27eb",
+      "source_content": "- Specifies the namespaces and list of the experiment's target `Pods`.\n- Type of data: key-value pairs. The \"keys\" are the namespaces of the target `Pod` and the \"values\" are the target `Pod` list.\n- If you have specified this selector, Chaos Mesh **ignores** other configured selectors.",
+      "source_content_hash": "30a0e967e52a9ec080677d2b559becde249734399333de533871f9bcf38ec984",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 実験対象の`Pod`の名前空間とリストを指定します。\n- データ型: キーと値のペア。キーは対象`Pod`の名前空間、値は対象`Pod`のリストです。\n- このセレクターを指定した場合、Chaos Meshは他の設定されたセレクターを**無視**します。"
+      }
+    },
+    {
+      "segment_id": "17b50e81",
+      "source_content": "When creating the experiment using the YAML file, you need to configure selectors. For example:",
+      "source_content_hash": "690091c00fc1506f0cd00244385a451d5b62e673da16605d1bcb5a4ea3eabc3f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "YAMLファイルを使用して実験を作成する際には、セレクターを設定する必要があります。例:"
+      }
+    },
+    {
+      "segment_id": "3ad9440a",
+      "source_content": "```yaml\nspec:\n  selector:\n    pods:\n      tidb-cluster: # namespace of the target pods\n        - basic-tidb-0\n        - basic-pd-0\n        - basic-tikv-0\n        - basic-tikv-1\n```",
+      "source_content_hash": "30408567d1bfc00e8d4269d5daa838f8c9b2bc141c10a228061887c776d5896c",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3ad9440a"
+      }
+    },
+    {
+      "segment_id": "7312e69e",
+      "source_content": "### Physical machine list selector",
+      "source_content_hash": "f6b141fd489abfd0b3ca37a6050f46f4362bb259e45cbcefb4967d0d4237ad74",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 物理マシンリストセレクター"
+      }
+    },
+    {
+      "segment_id": "25215977",
+      "source_content": "- Specifies the namespaces and list of the experiment's target `PhysicalMachines`.\n- Type of data: key-value pairs. The \"keys\" are the namespaces of the target `PhysicalMachine`, and the \"values\" are the target `PhysicalMachine` list.\n- If you have specified this selector, Chaos Mesh **ignores** other configured selectors.",
+      "source_content_hash": "9c5f9f001f90baf43e481ebca210b9b2e53b0ef1b2cd46b4cd2d66a0090e79a6",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 実験対象の`PhysicalMachines`の名前空間とリストを指定します。\n- データ型: キーと値のペア。キーは対象`PhysicalMachine`の名前空間、値は対象`PhysicalMachine`のリストです。\n- このセレクターを指定した場合、Chaos Meshは他の設定されたセレクターを**無視**します。"
+      }
+    },
+    {
+      "segment_id": "b1fb63b3",
+      "source_content": ":::note\n\n`PhysicalMachine` is a CRD (CustomResourcesDefinition) that represents a physical machine. To create `PhysicalMachine`, Chaos Mesh uses [Chaosctl](chaosctl-tool.md#generate-tls-certificates-for-chaosd).\n\n:::",
+      "source_content_hash": "6efd2afda6435904c75d3e8fa06f26a78e5ef6a7a2c34ac69071fe9a31bdc508",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\n`PhysicalMachine`は物理マシンを表すCRD（CustomResourcesDefinition）です。`PhysicalMachine`を作成するために、Chaos Meshは[Chaosctl](chaosctl-tool.md#generate-tls-certificates-for-chaosd)を使用します。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "89cf7bac",
+      "source_content": "When creating the experiment using the YAML file, you need to configure selectors. For example:",
+      "source_content_hash": "690091c00fc1506f0cd00244385a451d5b62e673da16605d1bcb5a4ea3eabc3f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "YAMLファイルを使用して実験を作成する際には、セレクターを設定する必要があります。例:"
+      }
+    },
+    {
+      "segment_id": "31b98214",
+      "source_content": "```yaml\nspec:\n  selector:\n    physicalMachines:\n      default: # namespace of the target PhysicalMachines\n        - physical-machine-a\n        - physical-machine-b\n```",
+      "source_content_hash": "97d93587235440776ca81c7a1a7b0276700d1617a4b4e8cdd763a3090f5766d3",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_31b98214"
+      }
+    },
+    {
+      "segment_id": "188a0310",
+      "source_content": "## Define the experiment scope on Chaos Dashboard",
+      "source_content_hash": "b4e7059a9caafff74fad60f7fc4ebfad0446e2fb68502d6998a71f5c74210d15",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Dashboardで実験範囲を定義する"
+      }
+    },
+    {
+      "segment_id": "5cf1bce4",
+      "source_content": "If you use Chaos Dashboard to create a Chaos experiment, you can configure the Chaos experiment scope when filling out the experiment information.",
+      "source_content_hash": "c465aaff22c4a40809b179eb4f58189fc5360f58fa393b04651162adf5b49d4b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Dashboardを使用してChaos実験を作成する場合、実験情報を入力する際に実験範囲を設定できます。"
+      }
+    },
+    {
+      "segment_id": "0427bb2b",
+      "source_content": "The following selectors are currently available on Chaos Dashboard. You can specify one or more selectors according to the filtering requirements of the experiment scope:",
+      "source_content_hash": "9e84d40e45f683958444341e9abd0afd82eaf84b0963eaf7638988b755987d3d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "現在、Chaos Dashboardでは以下のセレクターが利用可能です。実験範囲のフィルタリング要件に応じて、1つ以上のセレクターを指定できます:"
+      }
+    },
+    {
+      "segment_id": "cfb24a7b",
+      "source_content": "- Namespace selectors\n- Label selectors\n- Annotation selectors\n- Phase selectors",
+      "source_content_hash": "e79757ff357c423f2f918a7a3fb3ac0991663591f62cda5ca5eac9f5339bd2ad",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 名前空間セレクター\n- ラベルセレクター\n- アノテーションセレクター\n- フェーズセレクター"
+      }
+    },
+    {
+      "segment_id": "c5e0bb3d",
+      "source_content": "While setting selectors, you can also view the actual scope of the experiment target in the Dashboard in real time and can directly modify the target Pod scope filtered by the selectors.",
+      "source_content_hash": "59e69d1de3c8568b940be8e88f9554ba5883d5cc5d285d9db6552878e85607e6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "セレクターを設定する際には、ダッシュボードで実験対象の実際の範囲をリアルタイムで確認でき、セレクターによってフィルタリングされた対象Podの範囲を直接変更することもできます。"
+      }
+    },
+    {
+      "segment_id": "f2c67ca5",
+      "source_content": "![Dashboard Selectors](img/dashboard_selectors_en.png)",
+      "source_content_hash": "6a1592eece6c45784ef9ac1b8d642aecc61b51233da272f3e7488d1ce8147b75",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![ダッシュボードセレクター](img/dashboard_selectors_en.png)"
+      }
+    },
+    {
+      "segment_id": "4d7a4554",
+      "source_content": "## Compatibility matrix",
+      "source_content_hash": "589ccf870229c90d04c3014aa32634d2080d9c4aaea4b70432ef73523dd7a7e7",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 互換性マトリックス"
+      }
+    },
+    {
+      "segment_id": "afa10cea",
+      "source_content": "| Type                           | Support Kubernetes | Support physical machine |\n| :----------------------------- | :----------------- | :----------------------- |\n| Namespace Selectors            | Yes                | Yes                      |\n| Label Selectors                | Yes                | Yes                      |\n| Expression Selectors           | Yes                | Yes                      |\n| Annotation Selectors           | Yes                | Yes                      |\n| Field Selectors                | Yes                | Yes                      |\n| PodPhase Selectors             | Yes                | No                       |\n| Node Selectors                 | Yes                | No                       |\n| Node List Selectors            | Yes                | No                       |\n| Pod List Selectors             | Yes                | No                       |\n| PhysicalMachine List Selectors | No                 | Yes                      |",
+      "source_content_hash": "e149ecf6e61d5f63d611769835b1a99187e85cfe62f5753942a55a3832cf9b46",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_afa10cea"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/version-2.7.2/define-chaos-experiment-scope.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.684575+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "ffa8ac604f88576902badc9146a6bd789466e4caafe3f83d7112626cf796802b"
+  }
+}

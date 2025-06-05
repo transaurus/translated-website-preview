@@ -1,0 +1,492 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2022-01-11-develop-a-daily-reporting-system.md",
+  "source_file_content_hash": "8269ad7df7a6204aac37793cf062f8f79366b1301ed79e17ea3960df32808ecc",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /develop-a-daily-reporting-system\ntitle: 'How to Develop a Daily Reporting System to Track Chaos Testing Results'\nauthors: leili\nimage: /img/blog/chaos-mesh-digitalchina-banner.png\ntags: [Chaos Mesh, Chaos Engineering, Use Cases]\n---",
+      "source_content_hash": "5c15891a69f64173a5fea2980a2a20511d76882d31d152cfee2ead6ecc431168",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "![How to Develop a Daily Reporting System to Track Chaos Testing Results](/img/blog/chaos-mesh-digitalchina-banner.png)",
+      "source_content_hash": "773c2550f067c70883529a41601234c0e1825bf3fe6047cb9aa7a60fdd80efb2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![カオステスト結果を追跡する日次レポートシステムの開発方法](/img/blog/chaos-mesh-digitalchina-banner.png)"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "Chaos Mesh is a cloud-native chaos engineering platform that orchestrates chaos experiments on Kubernetes environments. It allows you to test the resilience of your system by simulating problems such as network faults, file system faults, and Pod faults. After each chaos experiment, you can review the testing results by checking the logs. But this is neither direct nor efficient. Therefore, I decided to develop a daily reporting system that would automatically analyze logs and generate reports. This way, it’s easy to examine the logs and identify the issues.",
+      "source_content_hash": "98a9610216160d19ab846d49601b0373524456fccf4270240f5f672450f22c41",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは、Kubernetes環境でカオス実験をオーケストレーションするクラウドネイティブなカオスエンジニアリングプラットフォームです。ネットワーク障害、ファイルシステム障害、Pod障害などの問題をシミュレートすることで、システムの耐障害性をテストできます。各カオス実験の後、ログを確認することでテスト結果をレビューできますが、これは直接的でも効率的でもありません。そのため、ログを自動的に分析しレポートを生成する日次レポートシステムを開発することにしました。これにより、ログの確認と問題の特定が容易になります。"
+      }
+    },
+    {
+      "segment_id": "3e6699f4",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3e6699f4"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "In this article, I will give you some insights about how to build a daily reporting system, as well as the problems I encountered during the process and how I fixed them.",
+      "source_content_hash": "0a5c612fa0e085170199b85ff7c6d082a3f24707ec7bff4dbe62c4be9bd28bb9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この記事では、日次レポートシステムを構築する方法についての洞察と、その過程で遭遇した問題とその解決方法を紹介します。"
+      }
+    },
+    {
+      "segment_id": "3daf1b88",
+      "source_content": "## Deploy Chaos Mesh on Kubernetes",
+      "source_content_hash": "49ea5b2fc25809c1bcf7fc9ae4cd8149199008725c44ce0d04e4bc9005eb2566",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## KubernetesにChaos Meshをデプロイ"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "Chaos Mesh is designed for Kubernetes, which is one of the important reasons why it can allow users to inject faults into the file system, Pod, or network for specific applications.",
+      "source_content_hash": "11fbda611b1184c65cecdd266983840905b749ae76edf4cef92fdf7d8eba7197",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos MeshはKubernetes向けに設計されており、これが特定のアプリケーションに対してファイルシステム、Pod、またはネットワークに障害を注入できる重要な理由の一つです。"
+      }
+    },
+    {
+      "segment_id": "f5f6d2ce",
+      "source_content": "In earlier documents, Chaos Mesh offered two ways to quickly deploy a virtual Kubernetes cluster on your machine: [kind](https://github.com/kubernetes-sigs/kind) and [minikube](https://minikube.sigs.k8s.io/docs/start/). Generally, it only takes a one-line command to deploy a Kubernetes cluster as well as install Chaos Mesh. But there are some problems:",
+      "source_content_hash": "b4684c11148dd66078f6a7aedb1c609eaa3be7030f6d6d2ea55bd384ade1f2c9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以前のドキュメントでは、Chaos Meshはマシン上に仮想Kubernetesクラスタを迅速にデプロイする2つの方法を提供していました：[kind](https://github.com/kubernetes-sigs/kind)と[minikube](https://minikube.sigs.k8s.io/docs/start/)。一般的に、KubernetesクラスタのデプロイとChaos Meshのインストールには1行のコマンドしかかかりません。しかし、いくつかの問題があります："
+      }
+    },
+    {
+      "segment_id": "1b8c1887",
+      "source_content": "- Starting Kubernetes clusters locally affects network-related fault types.\n- Users on the Chinese mainland might experience an extremely slow process to pull the Docker image or even a timeout.",
+      "source_content_hash": "6ffd58f947c1946ed8b2d28ea165afe0e71679abc3aaa07d72e47ea02738a405",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- ローカルでKubernetesクラスタを起動すると、ネットワーク関連の障害タイプに影響を与えます。\n- 中国本土のユーザーは、Dockerイメージのプルが極端に遅くなったり、タイムアウトしたりする可能性があります。"
+      }
+    },
+    {
+      "segment_id": "ccc88b4c",
+      "source_content": "If you use the provided script to deploy a Kubernetes cluster using kind, all Kubernetes nodes are virtual machines (VM). This adds difficulty when you pull the image offline. To address this issue, you can deploy the Kubernetes cluster on multiple physical machines instead, with each physical machine acting as a worker node. To expedite the image pulling process, you can use the `docker load` command to load the required image in advance. Apart from the two problems above, you can install [kubectl](https://kubernetes.io/docs/reference/kubectl/overview/) and [Helm](https://helm.sh/) by following the documentation.",
+      "source_content_hash": "dcfd20dc40449dcd4e6caed553bfd45b1f804d630f542428ccdf84b6941b5d2b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "提供されたスクリプトを使用してkindでKubernetesクラスタをデプロイすると、すべてのKubernetesノードが仮想マシン（VM）になります。これにより、オフラインでイメージをプルするのが難しくなります。この問題に対処するために、複数の物理マシン上にKubernetesクラスタをデプロイし、各物理マシンをワーカーノードとして動作させることができます。イメージのプルプロセスを迅速化するために、`docker load`コマンドを使用して必要なイメージを事前にロードできます。上記の2つの問題以外は、ドキュメントに従って[kubectl](https://kubernetes.io/docs/reference/kubectl/overview/)と[Helm](https://helm.sh/)をインストールできます。"
+      }
+    },
+    {
+      "segment_id": "d9172fa4",
+      "source_content": "Note: For the latest installation and deployment instructions, refer to [Chaos Mesh Quick Start](https://chaos-mesh.org/docs/quick-start/).",
+      "source_content_hash": "d5c163454d7422059322d7962cf013baf3c788061e2f1314d1609a04f827b559",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "注：最新のインストールおよびデプロイ手順については、[Chaos Meshクイックスタート](https://chaos-mesh.org/docs/quick-start/)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "d06306f7",
+      "source_content": "## Deploy TiDB",
+      "source_content_hash": "8a3feebd337d17f26c5a91a725254e370beb8f4b48f0930610484cbeaab7832f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## TiDBをデプロイ"
+      }
+    },
+    {
+      "segment_id": "73ab96a3",
+      "source_content": "The next step is to deploy TiDB on Kubernetes. I used TiDB Operator to streamline the process. For details, check out [Get started with TiDB Operator in Kubernetes](https://docs.pingcap.com/tidb-in-kubernetes/stable/get-started).",
+      "source_content_hash": "31241e3208263784126459ab36e9de89e03f7f3559e9219fe0b9eb9fff15aabe",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "次のステップは、Kubernetes上にTiDBをデプロイすることです。TiDB Operatorを使用してプロセスを効率化しました。詳細については、[KubernetesでTiDB Operatorを始める](https://docs.pingcap.com/tidb-in-kubernetes/stable/get-started)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "7499a4e7",
+      "source_content": "I’d like to highlight two points in this process:",
+      "source_content_hash": "1642db5744c5c7e2788cb829ab7ef396ae47f5a3780fc8702423a2171bcf38f3",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このプロセスで特に強調したい点が2つあります："
+      }
+    },
+    {
+      "segment_id": "7a2e981c",
+      "source_content": "- First, install Custom Resource Definitions (CRDs) to implement different components of TiDB Operator. Otherwise, you’ll get errors when you try to install TiDB Operator.\n- Use [Longhorn](https://longhorn.io/), a distributed block storage system for Kubernetes, to create local persistent volumes (PV) for your Kubernetes cluster. This way, you don’t have to create PVs in advance: whenever a Pod is pulled, a PV is automatically created and mounted.",
+      "source_content_hash": "3023750059e197511f1ac5796855787fa0ab3ee4ff1a763ee35381cb407e606f",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- まず、TiDB Operatorのさまざまなコンポーネントを実装するためにCustom Resource Definitions（CRDs）をインストールします。そうしないと、TiDB Operatorをインストールしようとしたときにエラーが発生します。\n- [Longhorn](https://longhorn.io/)（Kubernetes向けの分散ブロックストレージシステム）を使用して、Kubernetesクラスタ用のローカル永続ボリューム（PV）を作成します。これにより、事前にPVを作成する必要がなくなります：Podがプルされるたびに、PVが自動的に作成されマウントされます。"
+      }
+    },
+    {
+      "segment_id": "c3a738de",
+      "source_content": "The biggest problem that I encountered was that pulling the image could be extremely slow when deploying the service. If the nodes in your Kubernetes cluster are virtual machines, pull the required images in advance and load them to the Docker of each machine:",
+      "source_content_hash": "a00ece86b86750745c224bec058058e0bf8baed005ef6e630fbebafe6ebe15ea",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "遭遇した最大の問題は、サービスのデプロイ時にイメージのプルが極端に遅くなることでした。Kubernetesクラスタのノードが仮想マシンの場合、必要なイメージを事前にプルし、各マシンのDockerにロードします："
+      }
+    },
+    {
+      "segment_id": "bca33820",
+      "source_content": "```bash\n## Pull required images on a machine with a good network connection\ndocker pull pingcap/tikv:latest\ndocker pull pingcap/tidb:latest\ndocker pull pingcap/pd:latest\n\n## Export images and save them to each machine in the Kubernetes cluster\ndocker save -o tikv.tar pingcap/tikv:latest\ndocker save -o tidb.tar pingcap/tidb:latest\ndocker save -o pd.tar pingcap/pd:latest\n\n## Load images to each machine\ndocker load &lt; tikv.tar\ndocker load &lt; tidb.tar\ndocker load &lt; pd.tar\n```",
+      "source_content_hash": "881af527eef0ede38f75bf09188e9989f470c9f26df924dd272b8fd1e0447720",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_bca33820"
+      }
+    },
+    {
+      "segment_id": "e536ea0d",
+      "source_content": "The above commands allow you to use the TiDB image in the local Docker registry to deploy the latest TiDB cluster, saving you the trouble of pulling the image from the remote repository. The idea also applies to the Chaos Mesh installation as described earlier. If you do not know which images you need to pull, install Chaos Mesh using Helm to trigger the installation process, then use the `kubectl describe` command to verify:",
+      "source_content_hash": "c94d633f531e4cbedcb76349f7c52ee4bfe7db11c1090da0a1792ab9d5582f13",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "上記のコマンドを使用すると、ローカルのDockerレジストリにあるTiDBイメージを使用して最新のTiDBクラスタをデプロイでき、リモートリポジトリからイメージをプルする手間を省けます。この考え方は、前述のChaos Meshのインストールにも適用されます。どのイメージをプルする必要があるかわからない場合は、Helmを使用してChaos Meshをインストールし、インストールプロセスをトリガーした後、`kubectl describe`コマンドを使用して確認します："
+      }
+    },
+    {
+      "segment_id": "3c08ed05",
+      "source_content": "```bash\n## Check pods that are deployed in a specific namespace.\nkubectl describe pods -n tidb-test\n```",
+      "source_content_hash": "66fd4b4c04644bc1b917b70e47b498f3b8200f151a1033982d96b558456f19d1",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3c08ed05"
+      }
+    },
+    {
+      "segment_id": "5dae11e3",
+      "source_content": "The mirror pulling process usually takes the longest time to complete. If the Pod is being scheduled to a node, check it later.",
+      "source_content_hash": "292c34a9a32321b2e47937a23a08faa7169d5ec2634efd4ca9ff902a8bc84417",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "イメージのプルプロセスは通常、完了までに最も時間がかかります。Podがノードにスケジュールされている場合は、後で確認してください。"
+      }
+    },
+    {
+      "segment_id": "a5a4323e",
+      "source_content": "## Run a chaos experiment",
+      "source_content_hash": "3383eb9c3e0d5cfbdd3741b386a0246386ecef5171830e10694b360bb0f4ddf2",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## カオス実験を実行"
+      }
+    },
+    {
+      "segment_id": "657c2b20",
+      "source_content": "To run a chaos experiment, you have to define it first through YAML files and use `kubectl apply` to start it. In this example, I created a chaos experiment using PodChaos to simulate a Pod crashing. For detailed instructions, refer to [Run a Chaos Experiment](https://chaos-mesh.org/docs/run-a-chaos-experiment/).",
+      "source_content_hash": "f7ccf86ea4154b89626f14cff6dfaf824e891a9a6b6512d37918dfed118f18b5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "カオス実験を実行するには、まずYAMLファイルで定義し、`kubectl apply`を使用して開始する必要があります。この例では、PodChaosを使用してPodのクラッシュをシミュレートするカオス実験を作成しました。詳細な手順については、[カオス実験の実行](https://chaos-mesh.org/docs/run-a-chaos-experiment/)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "52388877",
+      "source_content": "## Generate daily report",
+      "source_content_hash": "46a37568ed5da21b1021a459b99eadfe19ee33a452d90242137c1cdbeaf96ba0",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## デイリーレポートの生成"
+      }
+    },
+    {
+      "segment_id": "d422fb13",
+      "source_content": "### Collect logs",
+      "source_content_hash": "ad16d7c37da4f9be35442dfab57ee5eba4a62862ff78a2b073a8e252a922d869",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ログの収集"
+      }
+    },
+    {
+      "segment_id": "f01228d3",
+      "source_content": "Usually, when you run chaos experiments on TiDB clusters, many errors are returned. To collect those error logs, run the `kubectl logs` command:",
+      "source_content_hash": "60c59716688493dac766acc08b6c0013d3db22f3ce8004fc6730b735d759bc1a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "通常、TiDBクラスターでカオス実験を実行すると、多くのエラーが返されます。これらのエラーログを収集するには、`kubectl logs`コマンドを実行します："
+      }
+    },
+    {
+      "segment_id": "c808e01e",
+      "source_content": "```bash\nkubectl logs &lt;podname> -n tidb-test --since=24h >> tidb.log\n```",
+      "source_content_hash": "c7931c7d3ac123f6780f1d10c2716012bcd0a808ae05fb749998dd2e35fdab2a",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_c808e01e"
+      }
+    },
+    {
+      "segment_id": "463ed165",
+      "source_content": "All logs generated in the past 24 hours of the specific Pod in the `tidb-test` namespace will be saved to the `tidb.log` file.",
+      "source_content_hash": "33e11991927611811f973801b435dd035f7a1041acebf1772de80a4c2e9fd039",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "過去24時間に`tidb-test`ネームスペース内の特定のPodで生成されたすべてのログが`tidb.log`ファイルに保存されます。"
+      }
+    },
+    {
+      "segment_id": "66819c78",
+      "source_content": "### Filter errors and warnings",
+      "source_content_hash": "95d9a846b870d903bf18bab2cfd35d99854b6aadd71476e854802e833ce50260",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### エラーと警告のフィルタリング"
+      }
+    },
+    {
+      "segment_id": "fbc2db85",
+      "source_content": "In this step, you have to filter error messages and warning messages from logs. There are two options:",
+      "source_content_hash": "11bb469acb04f1f0b33b09d11259c63fa4e7cd601ae7850a1624c23170eaa0f2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このステップでは、ログからエラーメッセージと警告メッセージをフィルタリングする必要があります。2つのオプションがあります："
+      }
+    },
+    {
+      "segment_id": "e032fbc6",
+      "source_content": "- Use text processing tools, such as awk. This requires a proficient understanding of Linux/Unix commands.\n- Write a script. If you’re not familiar with Linux/Unix commands, this is the better option.",
+      "source_content_hash": "b931241f4ec620e6d35d97d0c1288c8c33a9d24b22e7ef3a0a51257441952f21",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- awkなどのテキスト処理ツールを使用する。これにはLinux/Unixコマンドの精通が必要です。\n- スクリプトを書く。Linux/Unixコマンドに慣れていない場合、こちらがより良い選択肢です。"
+      }
+    },
+    {
+      "segment_id": "90d35b51",
+      "source_content": "### Draw a plot",
+      "source_content_hash": "942bde27dfd2a1dd6ea4538c1954641ee6eee0f88e695479f38610724a118cbe",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### プロットの作成"
+      }
+    },
+    {
+      "segment_id": "86348f98",
+      "source_content": "For plotting, I used [gnuplot](http://www.gnuplot.info/), a Linux command-line graphing utility. In the example below, I imported the pressure measurement results and created a line graph to show how queries per second (QPS) were affected when a specific Pod became unavailable. Since the chaos experiment was executed periodically, the number of QPS exhibited a pattern: it would drop abruptly and then quickly return to normal.",
+      "source_content_hash": "56987e07fe23ccdf58064f706088801e40bc851677e27212af1336be7397177f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "プロット作成には、Linuxコマンドラインのグラフ作成ユーティリティである[gnuplot](http://www.gnuplot.info/)を使用しました。以下の例では、負荷測定結果をインポートし、特定のPodが利用不能になったときに1秒あたりのクエリ数（QPS）がどのように影響を受けたかを示す折れ線グラフを作成しました。カオス実験が定期的に実行されたため、QPSの数値にはパターンが見られました：急激に低下し、その後すぐに正常に戻ります。"
+      }
+    },
+    {
+      "segment_id": "6b77b644",
+      "source_content": "![QPS line graph](/img/blog/qps-line-graph.png)",
+      "source_content_hash": "d1e3424439a1cbfc23fd687db81017be37b2df5c9c874a7763371910765a4d85",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![QPS折れ線グラフ](/img/blog/qps-line-graph.png)"
+      }
+    },
+    {
+      "segment_id": "5baf88e2",
+      "source_content": "### Generate the report in PDF",
+      "source_content_hash": "253a431d2e9918c23c2b635e939af8568c135c0c16c5974fd295aec2b8974faa",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### PDF形式でのレポート生成"
+      }
+    },
+    {
+      "segment_id": "eb51d107",
+      "source_content": "Currently, there is no available API for generating Chaos Mesh reports or analyzing results. I decided to generate the report in PDF format so it would be readable on different browsers. In my case, I used [gopdf](https://github.com/signintech/gopdf), a support library that allows users to create PDF files. It also lets me insert images or draw tables, which meets my needs.",
+      "source_content_hash": "4c7e18742895ceec6052098c79726f8b218789555d8b9e6c66a9e01a89986dc0",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "現在、Chaos Meshのレポート生成や結果分析のための利用可能なAPIはありません。私は、異なるブラウザで読み取り可能なPDF形式でレポートを生成することにしました。この場合、[gopdf](https://github.com/signintech/gopdf)というサポートライブラリを使用しました。これはPDFファイルを作成できるだけでなく、画像の挿入や表の描画も可能で、私のニーズに合致しました。"
+      }
+    },
+    {
+      "segment_id": "1862c5fe",
+      "source_content": "To generate a daily report, I used [crond](https://www.linux.org/docs/man8/cron.html), a command-line utility that executes cron jobs in the background, to execute the commands early each morning. So, when I start work, there is a daily report waiting for me.",
+      "source_content_hash": "e64590844a45e4dc091cf5226b503c3ad1598cab25cbd1e67aa9a0ef6d5d339d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "デイリーレポートを生成するために、[crond](https://www.linux.org/docs/man8/cron.html)というコマンドラインユーティリティを使用して、毎朝早くにコマンドを実行するように設定しました。これにより、仕事を始める時には既にデイリーレポートが準備されています。"
+      }
+    },
+    {
+      "segment_id": "a138e327",
+      "source_content": "## Build a web application for daily reporting",
+      "source_content_hash": "cc5f803aa8d28a77787c8525eceed3748d6547fadd1c298acb2240b2a12a979f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## デイリーレポート用のWebアプリケーション構築"
+      }
+    },
+    {
+      "segment_id": "a2c0166e",
+      "source_content": "But I want to make the report more readable and accessible. Isn’t it nicer if you can check reports on a web application? At first, I wanted to add a backend API and track when the report was generated. It sounds applicable but it may be too much work since all I want is to know which report requires further troubleshooting. The exact information is shown in the file name, for example: `report-2021-07-09-bad.pdf`. Thus, the reporting system’s workload and complexity are greatly reduced.",
+      "source_content_hash": "7912a0ddff74462694283c011a0060b5fe7ced180e6d2365551e3916fa810c0c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "しかし、レポートをもっと読みやすく、アクセスしやすくしたいと考えました。Webアプリケーションでレポートを確認できる方が便利ではありませんか？最初は、バックエンドAPIを追加してレポートが生成された時間を追跡しようと考えました。適用可能ですが、私が求めているのはどのレポートがさらにトラブルシューティングを必要とするかを知ることだけなので、作業が多すぎるかもしれません。正確な情報はファイル名に表示されています。例えば、`report-2021-07-09-bad.pdf`です。これにより、レポートシステムの作業負荷と複雑さが大幅に軽減されます。"
+      }
+    },
+    {
+      "segment_id": "c1eaf30b",
+      "source_content": "Still, it is necessary to improve the backend interfaces as well as enrich the report content. But for now, a daily, workable reporting system is just fine.",
+      "source_content_hash": "c60dd6fdc40eb6d8bb3206ada5e315250b44da9af3a224ee7c4346fed504633a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "それでも、バックエンドインターフェースを改善し、レポート内容を充実させる必要があります。しかし、今のところ、毎日利用可能なレポートシステムで十分です。"
+      }
+    },
+    {
+      "segment_id": "f0984c2a",
+      "source_content": "In my case, I used [Vue.js](https://github.com/vuejs/vue) to scaffold the web application using a UI library [antd](https://www.antdv.com/docs/vue/introduce/). After that, I updated the page content by saving the automatically generated report to the static resources folder `static`. This allows the web application to read the static reports and then render them to the front end page. For details, check out [Use antd in vue-cli 3](https://www.antdv.com/docs/vue/use-with-vue-cli/).",
+      "source_content_hash": "2a41773ac2e4f46afdbb31f43cee1fa3d6bde07eeca0bd8da919682c5d1dbfe6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "私のケースでは、[Vue.js](https://github.com/vuejs/vue)を使用してWebアプリケーションを構築し、UIライブラリ[antd](https://www.antdv.com/docs/vue/introduce/)を使用しました。その後、自動生成されたレポートを静的リソースフォルダ`static`に保存することでページ内容を更新しました。これにより、Webアプリケーションが静的レポートを読み取り、フロントエンドページにレンダリングできるようになります。詳細については、[vue-cli 3でantdを使用する](https://www.antdv.com/docs/vue/use-with-vue-cli/)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "a81544fd",
+      "source_content": "Below is an example of a web application that I developed for daily reporting. The red card indicates that I should take a look at the testing report because exceptions are thrown after running chaos experiments.",
+      "source_content_hash": "b17e2bee1f45704122c55364664728f76289ac7d03f00a8ec4c703ba977e52cf",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下は、私がデイリーレポート用に開発したWebアプリケーションの例です。赤いカードは、カオス実験を実行した後に例外がスローされたため、テストレポートを確認する必要があることを示しています。"
+      }
+    },
+    {
+      "segment_id": "0801d969",
+      "source_content": "![Web application for daily reporting](/img/blog/web-app-for-daily-reporting.png)",
+      "source_content_hash": "246b756f6162fab8ba59266196fcc1c530f979cfd16e7666f6c03372ffcf1f22",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![デイリーレポート用のWebアプリケーション](/img/blog/web-app-for-daily-reporting.png)"
+      }
+    },
+    {
+      "segment_id": "3c19e221",
+      "source_content": "Clicking the red card will open the report, as shown below. I used [pdf.js](https://github.com/mozilla/pdf.js) to view the PDF.",
+      "source_content_hash": "2de6e98823b981ff678b83a52342f363c1bbaa1c49c6f70c900e5b0ee465d4ea",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "赤いカードをクリックすると、以下のようにレポートが開きます。PDFの閲覧には[pdf.js](https://github.com/mozilla/pdf.js)を使用しました。"
+      }
+    },
+    {
+      "segment_id": "d21af28f",
+      "source_content": "![Daily report in PDF](/img/blog/daily-report-pdf.png)",
+      "source_content_hash": "23965e4e55e496989b98dfdd2b5717f86aabf9071026faa6a86b36d36bb9e479",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Daily report in PDF](/img/blog/daily-report-pdf.png)"
+      }
+    },
+    {
+      "segment_id": "f8614e13",
+      "source_content": "## Summary",
+      "source_content_hash": "30ac03ff33731529441be8fbe52a3bd0d4c5ec830e806d54692168ebb7f98ada",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## まとめ"
+      }
+    },
+    {
+      "segment_id": "396efb28",
+      "source_content": "Chaos Mesh enables you to simulate faults that most cloud-native applications might encounter. In this article, I created a PodChaos experiment and observed that QPS in the TiDB cluster was affected when the Pod became unavailable. After analyzing the logs, I can enhance the robustness and high availability of the system. I built a web application to generate daily reports for troubleshooting and debugging. You can also customize the reports to meet your own requirements.",
+      "source_content_hash": "de2ffe9995a900d4aba584395f7a09b31fc2f3d8ad0c04d5aa533fb9f1c9971e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshを使用すると、クラウドネイティブアプリケーションが遭遇する可能性のある障害をシミュレートできます。この記事では、PodChaos実験を作成し、Podが利用不能になった際にTiDBクラスターのQPSがどのように影響を受けるかを観察しました。ログを分析することで、システムの堅牢性と高可用性を向上させることができます。トラブルシューティングやデバッグのための日次レポート生成用のWebアプリケーションも構築しました。独自の要件に合わせてレポートをカスタマイズすることも可能です。"
+      }
+    },
+    {
+      "segment_id": "558df877",
+      "source_content": "Our team is also working on a project to [make TiDB compatible with PostgreSQL](https://github.com/DigitalChinaOpenSource/TiDB-for-PostgreSQL). If you are interested and want to make contributions, you are welcome to pick an issue and get started.",
+      "source_content_hash": "061a30e9c4ae3e057adf5d2c080885bca219c6e1d00f51f48d1c7d30f77e4d7c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "私たちのチームは、[TiDBをPostgreSQLと互換性を持たせるプロジェクト](https://github.com/DigitalChinaOpenSource/TiDB-for-PostgreSQL)にも取り組んでいます。興味があり、貢献したい方は、ぜひイシューを選んで参加してください。"
+      }
+    },
+    {
+      "segment_id": "f38d1cb0",
+      "source_content": "**Originally published at _[The New Stack](https://thenewstack.io/develop-a-daily-reporting-system-for-chaos-mesh-to-improve-system-resilience/)_.**",
+      "source_content_hash": "d401a938a7e8a1c95b8e6be7b4552859e8bd20ced84dabcbc9ab4c01266ed356",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**初出: _[The New Stack](https://thenewstack.io/develop-a-daily-reporting-system-for-chaos-mesh-to-improve-system-resilience/)_**"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2022-01-11-develop-a-daily-reporting-system.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.641329+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "8269ad7df7a6204aac37793cf062f8f79366b1301ed79e17ea3960df32808ecc"
+  }
+}

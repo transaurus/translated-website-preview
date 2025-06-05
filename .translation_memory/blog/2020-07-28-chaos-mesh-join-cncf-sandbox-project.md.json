@@ -1,0 +1,112 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2020-07-28-chaos-mesh-join-cncf-sandbox-project.md",
+  "source_file_content_hash": "632b68d07173080f0a0e7cda781223a7e4eca4fd78cfa5f9484b0ae4391c4058",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /chaos-mesh-join-cncf-sandbox-project\ntitle: Chaos Mesh Joins CNCF as a Sandbox Project\nauthors: chaos-mesh\nimage: /img/blog/chaos-mesh-cncf.png\ntags: [Chaos Mesh, Chaos Engineering, Kubernetes, CNCF, Cloud Native]\n---",
+      "source_content_hash": "7a3de2dc29082588db365179c941be5d8e795a9c84a8d57c452807feb6b48eb1",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "![Chaos Mesh Join CNCF as Sandbox Project](/img/blog/chaos-mesh-cncf.png) We’re thrilled to announce that [Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh) is now officially accepted as a CNCF Sandbox project. As maintainers of Chaos Mesh, we’d like to thank all the contributors and adopters. This would not be possible without your trust, support, and contributions.",
+      "source_content_hash": "24c1fafc9e5491ddfeae195241148da89d403a63211433505a6ab03190e2c3f7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos MeshがCNCF Sandboxプロジェクトに参加](/img/blog/chaos-mesh-cncf.png) [Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh)がCNCF Sandboxプロジェクトとして正式に承認されたことを発表できることを大変嬉しく思います。Chaos Meshのメンテナーとして、すべてのコントリビューターと採用者の皆様に感謝申し上げます。皆様の信頼、サポート、貢献がなければこの成果は得られませんでした。"
+      }
+    },
+    {
+      "segment_id": "8a427a70",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_8a427a70"
+      }
+    },
+    {
+      "segment_id": "180bddb1",
+      "source_content": "Chaos Mesh is a powerful Chaos Engineering platform that orchestrates chaos experiments on Kubernetes environments. By covering comprehensive fault injection methods in Pod, network, file system, and even the kernel, we aim at providing a neutral, universal Chaos Engineering platform that enables cloud-native applications to be as resilient as they should be.",
+      "source_content_hash": "3c5b6a791b9a9eba50a472d3014818ba4fb77a4be5620f7c5d545889262d2bde",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは、Kubernetes環境でカオス実験をオーケストレーションする強力なカオスエンジニアリングプラットフォームです。Pod、ネットワーク、ファイルシステム、さらにはカーネルに至るまでの包括的な障害注入手法を網羅することで、クラウドネイティブアプリケーションが本来あるべきレジリエンスを発揮できるよう、中立的で汎用的なカオスエンジニアリングプラットフォームを提供することを目指しています。"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "![Architecture](/img/blog/chaos-mesh.svg)",
+      "source_content_hash": "584ce95a722509b26e6173a662b0e3a7b8ed11c7e39ba3396ba7da5cbb35e54b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![アーキテクチャ](/img/blog/chaos-mesh.svg)"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "Within only 7 months since it was open-sourced on December 31st, 2019, Chaos Mesh has already received 2000 GitHub stars, with 44 contributors from multiple organizations. As a young project, the adoption in production has been the key recognition and motivation that pushes us forward constantly. Here is a list of our adopters so far:",
+      "source_content_hash": "783e1a8c69501116194f304a85e51ba3864f6f750082399d088387a91b41f1d5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "2019年12月31日にオープンソース化されてからわずか7ヶ月で、Chaos Meshは2000のGitHubスターを獲得し、複数の組織から44名のコントリビューターが参加しています。若いプロジェクトとして、本番環境での採用は私たちを常に前進させる重要な評価とモチベーションとなっています。これまでの採用者の一覧は以下の通りです："
+      }
+    },
+    {
+      "segment_id": "034de896",
+      "source_content": "- [PingCAP](http://www.pingcap.com)\n- [Xpeng Motor](https://en.xiaopeng.com/)\n- [NetEase Fuxi Lab](https://fuxi.163.com/fuxi-introduction)\n- [JuiceFS](http://juicefs.com/en)\n- [Dailymotion](https://www.dailymotion.com/)\n- [Meituan](https://www.meituan.com/en-US/about-us)\n- [Celo](https://celo.org/)",
+      "source_content_hash": "ba347b3cbddb2478da07acadfbc78cb299cd77a0d48845cabb656dc2ef40ec47",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- [PingCAP](http://www.pingcap.com)\n- [Xpeng Motor](https://en.xiaopeng.com/)\n- [NetEase Fuxi Lab](https://fuxi.163.com/fuxi-introduction)\n- [JuiceFS](http://juicefs.com/en)\n- [Dailymotion](https://www.dailymotion.com/)\n- [Meituan](https://www.meituan.com/en-US/about-us)\n- [Celo](https://celo.org/)"
+      }
+    },
+    {
+      "segment_id": "a76548f8",
+      "source_content": "Being a CNCF Sandbox project marks a major step forward for the project. It means that Chaos Mesh has become part of the great vendor-neutral cloud-native community. With the guidance and help from CNCF, Chaos Mesh will strive to develop a community with transparent, meritocracy-based governance for open communication and open collaboration, while driving the project forward, towards our ultimate goal of establishing the Chaos Engineering standards on Cloud. Currently, Chaos Mesh is in active development for 1.0 GA. Going forward, we will be focusing on the following aspects:",
+      "source_content_hash": "a61b3fcc7dcfc2173491d6333ca831504df91d76f445e7d67449241f439d3b5b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "CNCF Sandboxプロジェクトとなることは、このプロジェクトにとって大きな前進です。これはChaos Meshが偉大なベンダーニュートラルなクラウドネイティブコミュニティの一部になったことを意味します。CNCFのガイダンスと支援のもと、Chaos Meshは透明性があり、実力主義に基づいたガバナンスによるオープンなコミュニケーションとコラボレーションのためのコミュニティを構築しつつ、クラウド上のカオスエンジニアリング標準を確立するという究極の目標に向かってプロジェクトを推進していきます。現在、Chaos Meshは1.0 GAに向けて活発に開発が進められています。今後は以下の分野に注力していく予定です："
+      }
+    },
+    {
+      "segment_id": "77bf3ec9",
+      "source_content": "- Lowering the bar of chaos engineering by improving Chaos Dashboard.\n- Extending chaos injection to application layers\n- Completing the full chaos engineering loop with status checking, reporting, and scenario defining, etc.",
+      "source_content_hash": "27d97fd090901e108c1d7cb6170d09fb4002a50245aeb2f1d9b240be98cad13d",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- Chaos Dashboardの改善によるカオスエンジニアリングの参入障壁の低減\n- アプリケーション層へのカオス注入の拡張\n- ステータスチェック、レポート作成、シナリオ定義などによる完全なカオスエンジニアリングループの完成"
+      }
+    },
+    {
+      "segment_id": "4daf5cdd",
+      "source_content": "If you are interested in the project, check out our [website](https://chaos-mesh.org/), join our [Slack](https://slack.cncf.io/) discussions, or attend our [monthly meeting](https://docs.google.com/document/d/1H8IfmhIJiJ1ltg-XLjqR_P_RaMHUGrl1CzvHnKM_9Sc/edit) to know more. Or better yet, become part of us.",
+      "source_content_hash": "fcc500cb6e837334bf279296478b4c801a57d3161fcef308a8fcbf53acfc7aa6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "プロジェクトに興味をお持ちの方は、[ウェブサイト](https://chaos-mesh.org/)をチェックするか、[Slack](https://slack.cncf.io/)でのディスカッションに参加するか、[月例会議](https://docs.google.com/document/d/1H8IfmhIJiJ1ltg-XLjqR_P_RaMHUGrl1CzvHnKM_9Sc/edit)に出席して詳細をご確認ください。さらに良いのは、私たちの一員になることです。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2020-07-28-chaos-mesh-join-cncf-sandbox-project.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.678986+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "632b68d07173080f0a0e7cda781223a7e4eca4fd78cfa5f9484b0ae4391c4058"
+  }
+}

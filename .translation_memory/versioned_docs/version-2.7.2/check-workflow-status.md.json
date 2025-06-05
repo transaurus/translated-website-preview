@@ -1,0 +1,62 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "versioned_docs/version-2.7.2/check-workflow-status.md",
+  "source_file_content_hash": "a47a2c6565314fef3d2c69e5c58d59dd3e56b15f0c2f69b776962a54b50aca56",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Check Workflow Status\n---",
+      "source_content_hash": "ce48ef2c68c0df1ebe43a8f5bab1ef515bb8ad793e9656e7000e70519f961239",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "f85bbfb4",
+      "source_content": "## Check workflow status using Chaos Dashboard",
+      "source_content_hash": "27bb2a11a4fb0a33d0b6814c9f377c020067902aa4377d0bfb031b5966c6b28d",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Dashboardを使用したワークフローステータスの確認"
+      }
+    },
+    {
+      "segment_id": "57e757df",
+      "source_content": "1. List all workflows in Chaos Dashboard.\n\n   ![List Workflow On Dashboard](./img/list-workflow-on-dashboard.png)\n\n2. Select the workflow you want to check and see the details of the workflow.\n\n   ![Workflow Status On Dashboard](./img/workflow-status-on-dashboard.png)",
+      "source_content_hash": "38aaf244b98a7f8a4356b8e35527c5706a294d130182585ea41c162e884a4b68",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. Chaos Dashboardで全てのワークフローを一覧表示します。\n\n   ![List Workflow On Dashboard](./img/list-workflow-on-dashboard.png)\n\n2. 確認したいワークフローを選択し、ワークフローの詳細を表示します。\n\n   ![Workflow Status On Dashboard](./img/workflow-status-on-dashboard.png)"
+      }
+    },
+    {
+      "segment_id": "e14c9928",
+      "source_content": "## Check workflow status using `kubectl` commands",
+      "source_content_hash": "c4e465429c78e907cc6467425ddfa3a8236b35a8fe8ddaca5ced32b07e885a7f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## `kubectl`コマンドを使用したワークフローステータスの確認"
+      }
+    },
+    {
+      "segment_id": "84758135",
+      "source_content": "1. Execute the following command to list the current created workflows in the specified namespace:\n\n   ```shell\n   kubectl -n <namespace> get workflow\n   ```\n\n2. Choose a workflow you want to check and specify the workflow name in the following command. Execute the command to get all workflow nodes of the workflow:\n\n   ```shell\n   kubectl -n <namespace> get workflownode --selector=\"chaos-mesh.org/workflow=<workflow-name>\"\n   ```\n\n   The steps of the workflow are represented by the names of these workflow nodes.\n\n3. Execute the following command to the get detailed status of the specified workflow node:\n\n   ```shell\n   kubectl -n <namespace> describe workflownode <workflow-node-name>\n   ```\n\n   The output includes whether the execution of the current node is completed, the execution status of its parallel or serial node, the corresponding Chaos experiment object of the current node, and so on.",
+      "source_content_hash": "efd7eb0c824ed0d357853398fd5d8e866dd8c92fc511f510f9f6b03931d03e38",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 以下のコマンドを実行して、指定したネームスペース内に作成された現在のワークフローを一覧表示します:\n\n   ```shell\n   kubectl -n <namespace> get workflow\n   ```\n\n2. 確認したいワークフローを選択し、以下のコマンドでワークフロー名を指定します。このコマンドを実行して、ワークフローの全てのワークフローノードを取得します:\n\n   ```shell\n   kubectl -n <namespace> get workflownode --selector=\"chaos-mesh.org/workflow=<workflow-name>\"\n   ```\n\n   ワークフローのステップは、これらのワークフローノードの名前で表されます。\n\n3. 以下のコマンドを実行して、指定したワークフローノードの詳細なステータスを取得します:\n\n   ```shell\n   kubectl -n <namespace> describe workflownode <workflow-node-name>\n   ```\n\n   出力には、現在のノードの実行が完了しているかどうか、その並列または直列ノードの実行ステータス、現在のノードに対応するChaos実験オブジェクトなどが含まれます。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/version-2.7.2/check-workflow-status.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.659649+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "a47a2c6565314fef3d2c69e5c58d59dd3e56b15f0c2f69b776962a54b50aca56"
+  }
+}

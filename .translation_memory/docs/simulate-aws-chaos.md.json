@@ -1,0 +1,242 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "docs/simulate-aws-chaos.md",
+  "source_file_content_hash": "7c2af322d02df4044c71658cc1eb9c3afcecaf55d1e0bdb0d2b28555cf1e92a8",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Simulate AWS Faults\n---",
+      "source_content_hash": "f49a6bafc17e657b36e522182926d800a46b3499b5c38cd751d35e9ecbe5e8ec",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "This document describes how to use Chaos Mesh to simulate AWS faults.",
+      "source_content_hash": "a58a205b4149501f6a0beef015a4a8b6e61c8cb85349bb39b745f62c757fcf49",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、Chaos Meshを使用してAWSの障害をシミュレートする方法について説明します。"
+      }
+    },
+    {
+      "segment_id": "a703643c",
+      "source_content": "## AWSChaos introduction",
+      "source_content_hash": "a29712551d9eb10bf88880afe3c820650d5d3689bc9905f23865a9028fc5940f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## AWSChaosの紹介"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "AWSChaos can help you simulate fault scenarios on the specified AWS instance. Currently, AWSChaos supports the following fault types:",
+      "source_content_hash": "223e24b335324b24f3275e2488d408f6da58170d2ae6e5f2b0307c98c9ab1504",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "AWSChaosは、指定したAWSインスタンス上で障害シナリオをシミュレートするのに役立ちます。現在、AWSChaosは以下の障害タイプをサポートしています："
+      }
+    },
+    {
+      "segment_id": "be33979e",
+      "source_content": "- **EC2 Stop**: stops the specified EC2 instance.\n- **EC2 Restart**: restarts the specified EC2 instance.\n- **Detach Volume**: uninstalls the storage volume from the specified EC2 instance.",
+      "source_content_hash": "e1220e7f1393c554fdf413a1487504beccb5e9c4561d807d5a6319a744ceddb4",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- **EC2 Stop**: 指定したEC2インスタンスを停止します。\n- **EC2 Restart**: 指定したEC2インスタンスを再起動します。\n- **Detach Volume**: 指定したEC2インスタンスからストレージボリュームをアンマウントします。"
+      }
+    },
+    {
+      "segment_id": "e14c9928",
+      "source_content": "## `Secret` file",
+      "source_content_hash": "40818e83e0d5e10acd521ba6bc524c2ec02c01da7c0f26ef764979b4810fd37c",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## `Secret`ファイル"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "To easily connect to the AWS cluster, you can create a Kubernetes `Secret` file to store the authentication information in advance.",
+      "source_content_hash": "5a57b0bbed60a10d10d975e9f27a277ac3983ca1bc73ce7f206c67f216011ed1",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "AWSクラスタに簡単に接続するために、事前に認証情報を保存するKubernetesの`Secret`ファイルを作成できます。"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "A `Secret` file sample is as follows:",
+      "source_content_hash": "7e677e52a973a0ea38f77caebced0840b5d1eca26defda1cb3b5392482832e2f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`Secret`ファイルのサンプルは以下の通りです："
+      }
+    },
+    {
+      "segment_id": "cbbebf8e",
+      "source_content": "```yaml\napiVersion: v1\nkind: Secret\nmetadata:\n  name: cloud-key-secret\n  namespace: chaos-mesh\ntype: Opaque\nstringData:\n  aws_access_key_id: your-aws-access-key-id\n  aws_secret_access_key: your-aws-secret-access-key\n  aws_session_token: your-aws-session-token\n```",
+      "source_content_hash": "e05f66d4604eac2d2043953fae65478a91b05341f7e4d04b879da6e5b06d328a",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_cbbebf8e"
+      }
+    },
+    {
+      "segment_id": "f2c8a42b",
+      "source_content": "- **name** means the Kubernetes Secret object.\n- **namespace** means the namespace of the Kubernetes Secret object.\n- **aws_access_key_id** stores the ID of the access key to the AWS cluster.\n- **aws_secret_access_key** stores the secret access key to the AWS cluster.\n- **aws_session_token** stores the aws session token to the AWS cluster. (required when using [temporary AWS credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html))",
+      "source_content_hash": "15767258a90f3610c058c2f36cce188b6229bb393246b874f6ac8a5c03ec134b",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- **name**はKubernetesのSecretオブジェクトを指します。\n- **namespace**はKubernetesのSecretオブジェクトのネームスペースです。\n- **aws_access_key_id**はAWSクラスタへのアクセスキーIDを保存します。\n- **aws_secret_access_key**はAWSクラスタへのシークレットアクセスキーを保存します。\n- **aws_session_token**はAWSセッショントークンを保存します（[一時的なAWS認証情報](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html)を使用する場合に必要です）。"
+      }
+    },
+    {
+      "segment_id": "782c902a",
+      "source_content": "## Create experiments using Chaos Dashboard",
+      "source_content_hash": "0e6c13931d3c46c241532f93bf2c43261695607133973a006c15d6651045ed71",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Dashboardを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "f331c5ef",
+      "source_content": ":::note\n\nBefore you create an experiment using Chaos Dashboard, make sure the following requirements are met:\n\n1. Chaos Dashboard is installed.\n2. Chaos Dashboard can be accessed via `kubectl port-forward`:\n\n   ```bash\n    kubectl port-forward -n chaos-mesh svc/chaos-dashboard 2333:2333\n   ```\n\n   Then you can access the dashboard via [`http://localhost:2333`](http://localhost:2333) in your browser.\n\n:::",
+      "source_content_hash": "dfababc9e836ee7c534cc837ebc29d7c35173b648acce7b8a984ddb1194acdc4",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\nChaos Dashboardを使用して実験を作成する前に、以下の要件を満たしていることを確認してください：\n\n1. Chaos Dashboardがインストールされていること。\n2. Chaos Dashboardに`kubectl port-forward`でアクセスできること：\n\n   ```bash\n    kubectl port-forward -n chaos-mesh svc/chaos-dashboard 2333:2333\n   ```\n\n   その後、ブラウザで[`http://localhost:2333`](http://localhost:2333)からダッシュボードにアクセスできます。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "36ab8340",
+      "source_content": "1. Open Chaos Dashboard, and click **NEW EXPERIMENT** on the page to create a new experiment:\n\n   ![img](./img/create-new-exp.png)\n\n2. In the **Choose a Target** area, choose **AWS FAULT** and select a specific behavior, such as **STOP EC2**.\n\n3. Fill out the experiment information, and specify the experiment scope and the scheduled experiment duration.\n\n4. Submit the experiment information.",
+      "source_content_hash": "25d9f9bf4a212661698a05e8bdcb3d86d7ea409a1532abc005bb45449b3c71ff",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. Chaos Dashboardを開き、ページ上の**NEW EXPERIMENT**をクリックして新しい実験を作成します：\n\n   ![img](./img/create-new-exp.png)\n\n2. **Choose a Target**エリアで、**AWS FAULT**を選択し、**STOP EC2**などの特定の動作を選択します。\n\n3. 実験情報を入力し、実験のスコープと予定された実験期間を指定します。\n\n4. 実験情報を送信します。"
+      }
+    },
+    {
+      "segment_id": "a5a4323e",
+      "source_content": "## Create experiments using the YAML file",
+      "source_content_hash": "faa2dfd18ffbf305fc181947e20275b109e0d8b3b79c0d1ec685d272ffea7041",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## YAMLファイルを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "3ef18741",
+      "source_content": "### An `ec2-stop` configuration example",
+      "source_content_hash": "2bb49437d55a93796b02a3e3c00e4cfa4a841184c1cd98d065217430140b307e",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `ec2-stop`設定の例"
+      }
+    },
+    {
+      "segment_id": "af6ca965",
+      "source_content": "1. Write the experiment configuration to the `awschaos-ec2-stop.yaml` file, as shown below:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: AWSChaos\n   metadata:\n     name: ec2-stop-example\n     namespace: chaos-mesh\n   spec:\n     action: ec2-stop\n     secretName: 'cloud-key-secret'\n     awsRegion: 'us-east-2'\n     ec2Instance: 'your-ec2-instance-id'\n     duration: '5m'\n   ```\n\n   Based on this configuration example, Chaos Mesh will inject the `ec2-stop` fault into the specified EC2 instance so that the EC2 instance will be unavailable in 5 minutes.\n\n   For more information about stopping EC2 instances, refer to [AWS documentation - Stop and start your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html).\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f awschaos-ec2-stop.yaml\n   ```",
+      "source_content_hash": "d883cb401a032c1225844bdd9f9d62a7d3e6d8622ad3bee1f7256e14b3032033",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 以下のように、実験設定を`awschaos-ec2-stop.yaml`ファイルに記述します：\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: AWSChaos\n   metadata:\n     name: ec2-stop-example\n     namespace: chaos-mesh\n   spec:\n     action: ec2-stop\n     secretName: 'cloud-key-secret'\n     awsRegion: 'us-east-2'\n     ec2Instance: 'your-ec2-instance-id'\n     duration: '5m'\n   ```\n\n   この設定例に基づいて、Chaos Meshは指定したEC2インスタンスに`ec2-stop`障害を注入し、5分間EC2インスタンスを利用不可にします。\n\n   EC2インスタンスの停止に関する詳細は、[AWSドキュメント - Stop and start your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html)を参照してください。\n\n2. 設定ファイルの準備ができたら、`kubectl`を使用して実験を作成します：\n\n   ```bash\n   kubectl apply -f awschaos-ec2-stop.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "b10963d7",
+      "source_content": "### An `ec2-start` configuration example",
+      "source_content_hash": "6930ca4774c61a33c8c278a4f4cddf0ca4a3f2b66e21ed653a3ba4908a39f910",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `ec2-start`設定の例"
+      }
+    },
+    {
+      "segment_id": "dee20070",
+      "source_content": "1. Write the experiment configuration to the `awchaos-ec2-restot.yaml` file:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: AWSChaos\n   metadata:\n     name: ec2-restart-example\n     namespace: chaos-mesh\n   spec:\n     action: ec2-restart\n     secretName: 'cloud-key-secret'\n     awsRegion: 'us-east-2'\n     ec2Instance: 'your-ec2-instance-id'\n   ```\n\n   Based on this configuration example, Chaos Mesh will inject `ec2-restart` fault into the specified EC2 instance so that the EC2 instance will be restarted.\n\n   For more information about restarting the EC2 instance, refer to the [AWS documentation - Reboot your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-reboot.html).\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f awschaos-ec2-restart.yaml\n   ```",
+      "source_content_hash": "c5d693ef0803fca742f9ee47b1109929c58d74f8ae660cda19da3d69183d1633",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 実験設定を `awchaos-ec2-restot.yaml` ファイルに記述します:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: AWSChaos\n   metadata:\n     name: ec2-restart-example\n     namespace: chaos-mesh\n   spec:\n     action: ec2-restart\n     secretName: 'cloud-key-secret'\n     awsRegion: 'us-east-2'\n     ec2Instance: 'your-ec2-instance-id'\n   ```\n\n   この設定例に基づき、Chaos Mesh は指定された EC2 インスタンスに `ec2-restart` 障害を注入し、EC2 インスタンスが再起動されます。\n\n   EC2 インスタンスの再起動に関する詳細は、[AWS ドキュメント - インスタンスの再起動](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-reboot.html)を参照してください。\n\n2. 設定ファイルの準備が整ったら、`kubectl` を使用して実験を作成します:\n\n   ```bash\n   kubectl apply -f awschaos-ec2-restart.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "64d57278",
+      "source_content": "### A `detach-volume` configuration example",
+      "source_content_hash": "25b1751b1e17411b03e5c6d9eb73eaa209b63e7feaab3f7e0c156e877462729f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `detach-volume` 設定例"
+      }
+    },
+    {
+      "segment_id": "0aa939cf",
+      "source_content": "1. Write the experiment configuration to the `awschaos-detach-volume.yaml` file:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: AWSChaos\n   metadata:\n     name: ec2-detach-volume-example\n     namespace: chaos-mesh\n   spec:\n     action: ec2-stop\n     secretName: 'cloud-key-secret'\n     awsRegion: 'us-east-2'\n     ec2Instance: 'your-ec2-instance-id'\n     volumeID: 'your-volume-id'\n     deviceName: '/dev/sdf'\n     duration: '5m'\n   ```\n\n   Based on this configuration example, Chaos Mesh will inject a `detail-volume` fault into the specified EC2 instance so that the EC2 instance is detached from the specified storage volume within 5 minutes.\n\n   For more information about detaching Amazon EBS volumes, refer to the [AWS documentation - Detach an Amazon EBS volume from a Linux instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-detaching-volume.html).\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f awschaos-detach-volume.yaml\n   ```",
+      "source_content_hash": "250b0418db8a8c8fc38527b78d23e745040b07ddf6e6f530dcb2ef20bafa0d2f",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 実験設定を `awschaos-detach-volume.yaml` ファイルに記述します:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: AWSChaos\n   metadata:\n     name: ec2-detach-volume-example\n     namespace: chaos-mesh\n   spec:\n     action: ec2-stop\n     secretName: 'cloud-key-secret'\n     awsRegion: 'us-east-2'\n     ec2Instance: 'your-ec2-instance-id'\n     volumeID: 'your-volume-id'\n     deviceName: '/dev/sdf'\n     duration: '5m'\n   ```\n\n   この設定例に基づき、Chaos Mesh は指定された EC2 インスタンスに `detail-volume` 障害を注入し、5分以内に指定されたストレージボリュームから EC2 インスタンスが切り離されます。\n\n   Amazon EBS ボリュームの切り離しに関する詳細は、[AWS ドキュメント - Linux インスタンスからの Amazon EBS ボリュームの切り離し](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-detaching-volume.html)を参照してください。\n\n2. 設定ファイルの準備が整ったら、`kubectl` を使用して実験を作成します:\n\n   ```bash\n   kubectl apply -f awschaos-detach-volume.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "b77e7669",
+      "source_content": "### Field description",
+      "source_content_hash": "65096914168d6220ba2cc9e38088ff322d829e39af74e98d0df5f5b3cb7a27de",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### フィールド説明"
+      }
+    },
+    {
+      "segment_id": "619c3209",
+      "source_content": "The following table shows the fields in the YAML configuration file.",
+      "source_content_hash": "395fcf169ece18108fecbff8546ec6ba376662a308444a8419d19d241f03a56c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下の表は、YAML 設定ファイルのフィールドを示しています。"
+      }
+    },
+    {
+      "segment_id": "7c8086c4",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| action | string | Indicates the specific type of faults. Only ec2-stop, ec2-restore, and detain-volume are supported. | ec2-stop | Yes | ec2-stop |\n| mode | string | Specifies the mode of the experiment. The mode options include `one` (selecting a random Pod), `all` (selecting all eligible Pods), `fixed` (selecting a specified number of eligible Pods), `fixed-percent` (selecting a specified percentage of Pods from the eligible Pods), and `random-max-percent` (selecting the maximum percentage of Pods from the eligible Pods). | None | Yes | `one` |\n| value | string | Provides parameters for the `mode` configuration, depending on `mode`.For example, when `mode` is set to `fixed-percent`, `value` specifies the percentage of Pods. | None | No | 1 |\n| secretName | string | Specifies the name of the Kubernetes Secret that stores the AWS authentication information. | None | No | cloud-key-secret |\n| awsRegion | string | Specifies the AWS region. | None | Yes | us-east-2 |\n| ec2Instance | string | Specifies the ID of the EC2 instance. | None | Yes | your-ec2-instance-id |\n| volumeID | string | This is a required field when the `action` is `detach-volume`. This field specifies the EBS volume ID. | None | No | your-volume-id |\n| deviceName | string | This is a required field when the `action` is `detach-volume`. This field specifies the machine name. | None | No | /dev/sdf |\n| duration | string | Specifies the duration of the experiment. | None | Yes | 30s |",
+      "source_content_hash": "71ab6d3e17ddbc5aa1d01f0306048884035b2b1ca85646d51d10ee17c5fd48f9",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_7c8086c4"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/current/simulate-aws-chaos.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.667134+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "7c2af322d02df4044c71658cc1eb9c3afcecaf55d1e0bdb0d2b28555cf1e92a8"
+  }
+}

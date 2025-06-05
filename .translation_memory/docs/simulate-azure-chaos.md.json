@@ -1,0 +1,242 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "docs/simulate-azure-chaos.md",
+  "source_file_content_hash": "bc20b7b2206d3371f8f825c98b1f849656a88b94ec6089ec027db6401bd27baf",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Simulate Azure Faults\n---",
+      "source_content_hash": "491e492dd8f4a7be0654d4ede0c816f843cf88fc2a3e1927aaf2caab75115716",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "This document describes how to use Chaos Mesh to simulate Azure faults.",
+      "source_content_hash": "f5a7707061e488b7277d3c0cfdb9de8ca491afebbdf2ee72bda997393cf84403",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、Chaos Meshを使用してAzure障害をシミュレートする方法について説明します。"
+      }
+    },
+    {
+      "segment_id": "a703643c",
+      "source_content": "## AzureChaos introduction",
+      "source_content_hash": "54c958104bec912a7d8caef20adb3ab1c56e5b8dec4a2de8ecfad3b3108c695e",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## AzureChaosの概要"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "AzureChaos can help you simulate fault scenarios on the specified Azure instance. Currently, AzureChaos supports the following fault types:",
+      "source_content_hash": "273c01642a686709178900f2a144fd1d14e842df64d3d5d7cdbcfc5479ee32eb",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "AzureChaosは、指定されたAzureインスタンス上で障害シナリオをシミュレートするのに役立ちます。現在、AzureChaosは以下の障害タイプをサポートしています："
+      }
+    },
+    {
+      "segment_id": "be33979e",
+      "source_content": "- **VM Stop**: stops the specified VM instance.\n- **VM Restart**: restarts the specified VM instance.\n- **Disk Detach**: uninstalls the data disk from the specified VM instance.",
+      "source_content_hash": "07d8847d66fdd1843fce4ab2a64d4c7052f4d929a02773ffd7af6c2debf8ea0f",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- **VM停止**: 指定されたVMインスタンスを停止します。\n- **VM再起動**: 指定されたVMインスタンスを再起動します。\n- **ディスクデタッチ**: 指定されたVMインスタンスからデータディスクを取り外します。"
+      }
+    },
+    {
+      "segment_id": "e14c9928",
+      "source_content": "## `Secret` file",
+      "source_content_hash": "40818e83e0d5e10acd521ba6bc524c2ec02c01da7c0f26ef764979b4810fd37c",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## `Secret`ファイル"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "To easily connect to the Azure cluster, you can create a Kubernetes `Secret` file to store the authentication information in advance.",
+      "source_content_hash": "03cd5ab06eaf9e7575f89a6de4d85789395bafda4e1f52b77a21a1c4febeb8c6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Azureクラスターに簡単に接続するために、認証情報を事前に保存するKubernetes `Secret`ファイルを作成できます。"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "A `Secret` file sample is as follows:",
+      "source_content_hash": "7e677e52a973a0ea38f77caebced0840b5d1eca26defda1cb3b5392482832e2f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`Secret`ファイルのサンプルは以下の通りです："
+      }
+    },
+    {
+      "segment_id": "cbbebf8e",
+      "source_content": "```yaml\napiVersion: v1\nkind: Secret\nmetadata:\n  name: cloud-key-secret\n  namespace: chaos-mesh\ntype: Opaque\nstringData:\n  client_id: your-client-id\n  client_secret: your-client-secret\n  tenant_id: your-tenant-id\n```",
+      "source_content_hash": "7ca7ddfe184bc40222dc0ada44a4b89dcee870452b3ebf1e2fed725a3400ecd3",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_cbbebf8e"
+      }
+    },
+    {
+      "segment_id": "f2c8a42b",
+      "source_content": "- **name** means the Kubernetes Secret object.\n- **namespace** means the namespace of the Kubernetes Secret object.\n- **client_id** stores Application (client) ID of Azure App registrations.\n- **client_secret** stores Application (client) secret value of Azure App registrations.\n- **tenant_id** stores Directory (tenant) ID of Azure App registrations. For `client_id` and `client_secret`, please refer to [Confidential client application](https://docs.microsoft.com/en-us/azure/healthcare-apis/azure-api-for-fhir/register-confidential-azure-ad-client-app).",
+      "source_content_hash": "da7ff786144bd8f64dba32e8e4536c84e15e2d194848699cb2982db35d983fa1",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- **name**はKubernetes Secretオブジェクトを意味します。\n- **namespace**はKubernetes Secretオブジェクトのネームスペースを意味します。\n- **client_id**はAzureアプリ登録のアプリケーション（クライアント）IDを保存します。\n- **client_secret**はAzureアプリ登録のアプリケーション（クライアント）シークレット値を保存します。\n- **tenant_id**はAzureアプリ登録のディレクトリ（テナント）IDを保存します。`client_id`と`client_secret`については、[機密クライアントアプリケーション](https://docs.microsoft.com/en-us/azure/healthcare-apis/azure-api-for-fhir/register-confidential-azure-ad-client-app)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "33a4805e",
+      "source_content": ":::note\n\nMake sure that App registrations in the Secret file has been added as a contributor or owner to the access control (IAM) of the VM instance.\n\n:::",
+      "source_content_hash": "d1e6a2d3ae68859703f8914fb5a50ab6b2eee1b85935f3f9e36ad3472264a94b",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\nSecretファイル内のアプリ登録が、VMインスタンスのアクセス制御（IAM）に共同作成者または所有者として追加されていることを確認してください。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "8bddee80",
+      "source_content": "## Create experiments using Chaos Dashboard",
+      "source_content_hash": "0e6c13931d3c46c241532f93bf2c43261695607133973a006c15d6651045ed71",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Dashboardを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "cef3cb03",
+      "source_content": "1. Open Chaos Dashboard, and click **NEW EXPERIMENT** on the page to create a new experiment:\n\n   ![img](./img/create-new-exp.png)\n\n2. In the **Choose a Target** area, choose **Azure FAULT** and select a specific behavior, such as **VM STOP**.\n\n3. Fill out the experiment information, and specify the experiment scope and the scheduled experiment duration.\n\n4. Submit the experiment information.",
+      "source_content_hash": "85a9f64d4854ac951abd730b510c9ce5d2621d499f27a15dfb396339f13dca90",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. Chaos Dashboardを開き、ページ上の**NEW EXPERIMENT**をクリックして新しい実験を作成します：\n\n   ![img](./img/create-new-exp.png)\n\n2. **Choose a Target**エリアで、**Azure FAULT**を選択し、**VM STOP**などの特定の動作を選択します。\n\n3. 実験情報を入力し、実験範囲と予定された実験期間を指定します。\n\n4. 実験情報を送信します。"
+      }
+    },
+    {
+      "segment_id": "1a316f80",
+      "source_content": "## Create experiments using the YAML file",
+      "source_content_hash": "faa2dfd18ffbf305fc181947e20275b109e0d8b3b79c0d1ec685d272ffea7041",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## YAMLファイルを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "ab5fc5b5",
+      "source_content": "### A `vm-stop` configuration example",
+      "source_content_hash": "f3cec4824f5a6ee58b5a617afcad240345ac173c42ca4aa42b437b683b5c4560",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `vm-stop`設定例"
+      }
+    },
+    {
+      "segment_id": "24c174ca",
+      "source_content": "1. Write the experiment configuration to the `azurechaos-vm-stop.yaml` file, as shown below:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: AzureChaos\n   metadata:\n     name: vm-stop-example\n     namespace: chaos-mesh\n   spec:\n     action: vm-stop\n     secretName: 'cloud-key-secret'\n     subscriptionID: 'your-subscription-id'\n     resourceGroupName: 'your-resource-group-name'\n     vmName: 'your-vm-name'\n     duration: '5m'\n   ```\n\n   Based on this configuration example, Chaos Mesh will inject the `vm-stop` fault into the specified VM instance so that the VM instance will be unavailable in 5 minutes.\n\n   For more information about stopping VM instances, refer to [Azure documentation - Start or stop a VM](https://docs.microsoft.com/en-us/azure/devtest-labs/use-command-line-start-stop-virtual-machines).\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f azurechaos-vm-stop.yaml\n   ```",
+      "source_content_hash": "251b104d28c0a5519218f9ad72822ed1724f36eedb07aa12c143f3a3c7eaaa8e",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 以下のように、実験設定を`azurechaos-vm-stop.yaml`ファイルに記述します：\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: AzureChaos\n   metadata:\n     name: vm-stop-example\n     namespace: chaos-mesh\n   spec:\n     action: vm-stop\n     secretName: 'cloud-key-secret'\n     subscriptionID: 'your-subscription-id'\n     resourceGroupName: 'your-resource-group-name'\n     vmName: 'your-vm-name'\n     duration: '5m'\n   ```\n\n   この設定例に基づき、Chaos Meshは指定されたVMインスタンスに`vm-stop`障害を注入し、VMインスタンスは5分間利用不可になります。\n\n   VMインスタンスの停止に関する詳細は、[Azureドキュメント - VMの開始または停止](https://docs.microsoft.com/en-us/azure/devtest-labs/use-command-line-start-stop-virtual-machines)を参照してください。\n\n2. 設定ファイルの準備ができたら、`kubectl`を使用して実験を作成します：\n\n   ```bash\n   kubectl apply -f azurechaos-vm-stop.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "3a8d2b95",
+      "source_content": "### A `vm-restart` configuration example",
+      "source_content_hash": "77b76998fd838ed17130147e797bb31e018b9f87e7ba201eada75ed3b4244ff9",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `vm-restart`設定例"
+      }
+    },
+    {
+      "segment_id": "49f9f337",
+      "source_content": "1. Write the experiment configuration to the `azurechaos-vm-restart.yaml` file:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: AzureChaos\n   metadata:\n     name: vm-restart-example\n     namespace: chaos-mesh\n   spec:\n     action: vm-restart\n     secretName: 'cloud-key-secret'\n     subscriptionID: 'your-subscription-id'\n     resourceGroupName: 'your-resource-group-name'\n     vmName: 'your-vm-name'\n   ```\n\n   Based on this configuration example, Chaos Mesh will inject `vm-restart` fault into the specified VM instance so that the VM instance will be restarted.\n\n   For more information about restarting the VM instance, refer to the [Azure documentation - Restart a VM](https://docs.microsoft.com/en-us/azure/devtest-labs/devtest-lab-restart-vm).\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f azurechaos-vm-restart.yaml\n   ```",
+      "source_content_hash": "0da140390d05b027a24a8a2ed1d9c832c79514e479e762e7f2e5049f7548fe6e",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 実験設定を `azurechaos-vm-restart.yaml` ファイルに記述します:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: AzureChaos\n   metadata:\n     name: vm-restart-example\n     namespace: chaos-mesh\n   spec:\n     action: vm-restart\n     secretName: 'cloud-key-secret'\n     subscriptionID: 'your-subscription-id'\n     resourceGroupName: 'your-resource-group-name'\n     vmName: 'your-vm-name'\n   ```\n\n   この設定例に基づき、Chaos Mesh は指定された VM インスタンスに `vm-restart` 障害を注入し、VM インスタンスが再起動されます。\n\n   VM インスタンスの再起動に関する詳細は、[Azure ドキュメント - VM の再起動](https://docs.microsoft.com/en-us/azure/devtest-labs/devtest-lab-restart-vm)を参照してください。\n\n2. 設定ファイルの準備ができたら、`kubectl` を使用して実験を作成します:\n\n   ```bash\n   kubectl apply -f azurechaos-vm-restart.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "48155948",
+      "source_content": "### A `detach-volume` configuration example",
+      "source_content_hash": "25b1751b1e17411b03e5c6d9eb73eaa209b63e7feaab3f7e0c156e877462729f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `detach-volume` 設定例"
+      }
+    },
+    {
+      "segment_id": "2ddd26d5",
+      "source_content": "1. Write the experiment configuration to the `azurechaos-disk-detach.yaml` file:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: AzureChaos\n   metadata:\n     name: disk-detach-example\n     namespace: chaos-mesh\n   spec:\n     action: disk-detach\n     secretName: 'cloud-key-secret'\n     subscriptionID: 'your-subscription-id'\n     resourceGroupName: 'your-resource-group-name'\n     vmName: 'your-vm-name'\n     diskName: 'your-disk-name'\n     lun: 'your-disk-lun'\n     duration: '5m'\n   ```\n\n   Based on this configuration example, Chaos Mesh will inject a `disk-detach` fault into the specified VM instance so that the VM instance is detached from the specified data disk within 5 minutes.\n\n   For more information about detaching Azure date disk, refer to the [Azure documentation - Detach a data disk](https://docs.microsoft.com/en-us/azure/devtest-labs/devtest-lab-attach-detach-data-disk#detach-a-data-disk).\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f azurechaos-disk-detach.yaml\n   ```",
+      "source_content_hash": "2fd4d3b85aed638593dd1125f84c7a01c00d3f904fab709a3a818b0a4ce36344",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 実験設定を `azurechaos-disk-detach.yaml` ファイルに記述します:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: AzureChaos\n   metadata:\n     name: disk-detach-example\n     namespace: chaos-mesh\n   spec:\n     action: disk-detach\n     secretName: 'cloud-key-secret'\n     subscriptionID: 'your-subscription-id'\n     resourceGroupName: 'your-resource-group-name'\n     vmName: 'your-vm-name'\n     diskName: 'your-disk-name'\n     lun: 'your-disk-lun'\n     duration: '5m'\n   ```\n\n   この設定例に基づき、Chaos Mesh は指定された VM インスタンスに `disk-detach` 障害を注入し、5分以内に指定されたデータディスクが VM インスタンスからデタッチされます。\n\n   Azure データディスクのデタッチに関する詳細は、[Azure ドキュメント - データディスクのデタッチ](https://docs.microsoft.com/en-us/azure/devtest-labs/devtest-lab-attach-detach-data-disk#detach-a-data-disk)を参照してください。\n\n2. 設定ファイルの準備ができたら、`kubectl` を使用して実験を作成します:\n\n   ```bash\n   kubectl apply -f azurechaos-disk-detach.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "dd4905a4",
+      "source_content": "### Field description",
+      "source_content_hash": "65096914168d6220ba2cc9e38088ff322d829e39af74e98d0df5f5b3cb7a27de",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### フィールド説明"
+      }
+    },
+    {
+      "segment_id": "17b50e81",
+      "source_content": "The following table shows the fields in the YAML configuration file.",
+      "source_content_hash": "395fcf169ece18108fecbff8546ec6ba376662a308444a8419d19d241f03a56c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下の表は、YAML 設定ファイルのフィールドを示しています。"
+      }
+    },
+    {
+      "segment_id": "acafaaec",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| action | string | Indicates the specific type of faults. Only `vm-stop`, `vm-restart`, and `disk-detach` are supported. | `vm-stop` | Yes | `vm-stop` |\n| mode | string | Specifies the mode of the experiment. The mode options include `one` (selecting a random Pod), `all` (selecting all eligible Pods), `fixed` (selecting a specified number of eligible Pods), `fixed-percent` (selecting a specified percentage of Pods from the eligible Pods), and `random-max-percent` (selecting the maximum percentage of Pods from the eligible Pods). | N/A | Yes | `one` |\n| value | string | Provides parameters for the `mode` configuration, depending on `mode`. For example, when `mode` is set to `fixed-percent`, `value` specifies the percentage of Pods. | N/A | No | `1` |\n| secretName | string | Specifies the name of the Kubernetes Secret that stores the Azure authentication information. | N/A | No | `cloud-key-secret` |\n| subscriptionID | string | Specifies the VM instacnce's subscription ID. | N/A | Yes | `your-subscription-id` |\n| resourceGroupName | string | Specifies the Resource group of VM. | N/A | Yes | `your-resource-group-name` |\n| vmName | string | VMName defines the name of Virtual Machine. | N/A | Yes | `your-vm-name` |\n| diskName | string | This is a required field when the `action` is `disk-detach`, specifies the name of data disk. | N/A | No | `DATADISK_0` |\n| lun | string | This is a required field when the `action` is `disk-detach`, specifies the LUN (Logic Unit Number) of data disk. | N/A | No | `0` |\n| duration | string | Specifies the duration of the experiment. | N/A | Yes | `30s` |",
+      "source_content_hash": "fdd72186535a97ce479780ef1b2127d435e84c922859af5c80b6b50801130031",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_acafaaec"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/current/simulate-azure-chaos.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.668941+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "bc20b7b2206d3371f8f825c98b1f849656a88b94ec6089ec027db6401bd27baf"
+  }
+}

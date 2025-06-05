@@ -1,0 +1,362 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "versioned_docs/version-2.6.7/release-cycle.md",
+  "source_file_content_hash": "9d92e7a604df805744f0788fe3beb2deb33827a5109bd49dac27d03a43d16746",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Chaos Mesh Release Cycle\n---",
+      "source_content_hash": "50ee6d7992b862c2adffed161257131e233682b0ef851c182e220fa6d80dfb87",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "This document is focused on Chaos Mesh developers and contributors who need to create an enhancement, issue, or pull request which targets a specific release milestone.",
+      "source_content_hash": "02ef52680e25145835dea4755190b85198c760e9a8e5bff3b8effe96f83fa509",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントは、特定のリリースマイルストーンを対象とした機能拡張、Issue、またはプルリクエストを作成する必要があるChaos Meshの開発者とコントリビューター向けです。"
+      }
+    },
+    {
+      "segment_id": "a703643c",
+      "source_content": "## Roles",
+      "source_content_hash": "0119af1db59c8e66643e70c3a687926478085db6b66e92c869e026e537168cd7",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 役割"
+      }
+    },
+    {
+      "segment_id": "d912d376",
+      "source_content": "### Contributors/Developers",
+      "source_content_hash": "85a0cfbd2505d1795f1c7924c40dd07ec09a0ae5975e8fd810827e36d682faed",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### コントリビューター/開発者"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "Contributors are expected to participate in the release cycle with the following forms:",
+      "source_content_hash": "cd68f4972c35433cb7c43cf123468d4907a44f7de5e6f78db686da70d18934d2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "コントリビューターは、以下の形式でリリースサイクルに参加することが期待されます："
+      }
+    },
+    {
+      "segment_id": "730c423c",
+      "source_content": "- participant discussions of new features/enhancements collection\n- contribute with codes/docs for Chaos Mesh\n- help to prune feature if required",
+      "source_content_hash": "db09c9ee91efe7b1f679e1eb3b9ba00229bef1e00946146b57f4c9cabacc741b",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 新機能/機能拡張の収集に関する議論に参加\n- Chaos Meshのコード/ドキュメントに貢献\n- 必要に応じて機能の整理を支援"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "As a contributor, the only 2 things you need to notice are:",
+      "source_content_hash": "6bf3b13a2998a3dc89cfac73fd7508bbc0e5ab2284ff0b953f511b38955d4a03",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "コントリビューターとして注意すべきことは以下の2点です："
+      }
+    },
+    {
+      "segment_id": "034de896",
+      "source_content": "- you might be asked to complete your uncompleted work, or prune them from the release branch.\n- your PR might not be merged into master quickly during \"Code Freeze\"",
+      "source_content_hash": "7f920311a909978990f3e800164ac4c9b38426baa1f853134677629503636fc4",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 未完了の作業を完了するか、リリースブランチから整理するよう依頼される可能性がある\n- 「コードフリーズ」期間中は、PRがmasterブランチにすぐにマージされない可能性がある"
+      }
+    },
+    {
+      "segment_id": "63622bf0",
+      "source_content": "### Release Manager",
+      "source_content_hash": "4cbf89fde91bceac3f3c65c63d6f8e99594ae552d748792a69fc41b846d0ae24",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### リリースマネージャー"
+      }
+    },
+    {
+      "segment_id": "98cfbd53",
+      "source_content": "\"Release Managers\" is an umbrella term that encompasses the set of Chaos Mesh contributors responsible for maintaining release branches, tagging releases, and building/packaging Chaos Mesh.",
+      "source_content_hash": "aac159da77bff7b047ca3e3209ada97b71fe4825126acbcfd4a403091e59ee92",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "「リリースマネージャー」は、リリースブランチの維持、リリースのタグ付け、Chaos Meshのビルド/パッケージ化を担当するChaos Meshコントリビューターの総称です。"
+      }
+    },
+    {
+      "segment_id": "ccc88b4c",
+      "source_content": "Release Manager are expected to:",
+      "source_content_hash": "48ac728a22416ff9096aa05b64d67b24f48fb795b9adea877b9bbebd33d045f8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "リリースマネージャーは以下を行うことが期待されます："
+      }
+    },
+    {
+      "segment_id": "1d13125b",
+      "source_content": "- collect \"new features/enhancements\" as a GitHub Issue\n- create and maintain `vX.Y.0` GitHub Milestone\n- schedule and hold the required meeting\n- keep maintaining the tracking documentation for next coming release\n- communicate with contributors asking for help to complete/prune the unfinished features/docs; Or prune them by yourself if we lost the communication with contributors.\n- cut the release branch\n- draft the Release Notes for the minor version\n- release the alpha, beta, minor versions\n- keeping enriching release-related documents",
+      "source_content_hash": "f0a97f194fae10814fbb06b383ff4793a520643354d9cc23bfd921ac3e63858b",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- GitHub Issueとして「新機能/機能拡張」を収集\n- `vX.Y.0` GitHubマイルストーンを作成・維持\n- 必要な会議をスケジュールし開催\n- 次回リリースに向けた追跡ドキュメントを維持\n- コントリビューターと連絡を取り、未完了の機能/ドキュメントの完了/整理を依頼。連絡が取れない場合は自身で整理。\n- リリースブランチを切る\n- マイナーバージョンのリリースノートを草案\n- alpha、beta、マイナーバージョンをリリース\n- リリース関連ドキュメントを充実させ続ける"
+      }
+    },
+    {
+      "segment_id": "80d9e13c",
+      "source_content": "### Becoming Release Manager?",
+      "source_content_hash": "93e170dcc0b775b32229f84cb99a7b713c09b0ce0635ca309c01602e12a9c57c",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### リリースマネージャーになるには？"
+      }
+    },
+    {
+      "segment_id": "33331f27",
+      "source_content": "Chaos Mesh committers and maintainers would nominate new release managers at about the 1st week of the new release cycle, the nomination should be published in slack channel #chaos-mesh-maintainers. And they would be selected if there are no more than half the number of oppositions. At last, we would announce the release managers on the document website and slack channel [#project-chaos-mesh](https://cloud-native.slack.com/archives/C0193VAV272).",
+      "source_content_hash": "e5ea8e9ea98a6fec3f01f7f4d58b8df5e6cb64e31ef0cfa982bd866018598679",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshのコミッターとメンテナーは、新しいリリースサイクルの約1週目に新しいリリースマネージャーを指名します。指名はSlackチャンネル#chaos-mesh-maintainersで公開され、反対が半数以下であれば選出されます。最後に、ドキュメントサイトとSlackチャンネル[#project-chaos-mesh](https://cloud-native.slack.com/archives/C0193VAV272)でリリースマネージャーを発表します。"
+      }
+    },
+    {
+      "segment_id": "8d04259b",
+      "source_content": "## Versioning Scheme and Timeline",
+      "source_content_hash": "d215df441b7acf8f206c23c18bd9bdfffc39f24f3f7a0be21e33652b6c7d2489",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## バージョニングスキームとタイムライン"
+      }
+    },
+    {
+      "segment_id": "aa83231c",
+      "source_content": "- Chaos Mesh would release a minor version `vX.Y.0` every 8 weeks.\n- Chaos Mesh would release a preview version(`vX.Y.0.alpha/beta-W`, W>=0) every at least 2 weeks.\n- Chaos Mesh would release a bugfix/patch (`vX.Y.Z`, Z>0) version as required.",
+      "source_content_hash": "8eb7596f99c8c5ce750d73c957326d6b7e0dddd34dabfb9595d6e1d8eb55ed4e",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- Chaos Meshは8週間ごとにマイナーバージョン`vX.Y.0`をリリースします。\n- Chaos Meshは少なくとも2週間ごとにプレビューバージョン(`vX.Y.0.alpha/beta-W`, W>=0)をリリースします。\n- Chaos Meshは必要に応じてバグ修正/パッチバージョン(`vX.Y.Z`, Z>0)をリリースします。"
+      }
+    },
+    {
+      "segment_id": "c674e260",
+      "source_content": "## Release Phases",
+      "source_content_hash": "7d41cd78d2d4122aa6551282497acee88e4fc2651a9211e3e739b217bff050fa",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## リリースフェーズ"
+      }
+    },
+    {
+      "segment_id": "a44047a5",
+      "source_content": "There would be 3 phases in a cycle of release:",
+      "source_content_hash": "53e6d59b0bbdb559aa1145a8185798dfe3a450dc87c9f45b28a0e924f53dbbdc",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "リリースサイクルには3つのフェーズがあります："
+      }
+    },
+    {
+      "segment_id": "b4ef1e56",
+      "source_content": "- Normal Dev (Week 1-5)\n- Code Freeze (Week 6-7)\n- Release Week (Week 8)",
+      "source_content_hash": "3685fabcdf254fe2955240a1c3690203d3935290aa3ef4a6306a01cc2e5fc06d",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 通常開発 (Week 1-5)\n- コードフリーズ (Week 6-7)\n- リリース週 (Week 8)"
+      }
+    },
+    {
+      "segment_id": "2c1b51df",
+      "source_content": "### Normal Dev",
+      "source_content_hash": "208d8212f10cb0708259ce3dacc6e878b0625474770fa298da5837578220b596",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 通常開発"
+      }
+    },
+    {
+      "segment_id": "e536ea0d",
+      "source_content": "Things happened during \"Normal Dev\":",
+      "source_content_hash": "abae7416cef286032729a3c09a3b9a967bfaf37eb34006d1c1f5b9f4bc630c3e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "「通常開発」期間中に発生する事項："
+      }
+    },
+    {
+      "segment_id": "a0e887c2",
+      "source_content": "- selecting new Release Managers\n- collecting \"new features/enhancements\" would be carried with the next release\n- create the `vX.Y.0` milestone if not existed\n- coding and documenting\n- releasing alpha versions every 2 weeks",
+      "source_content_hash": "50cd2c5ebd0895344f1fe2bd4ae54b84266f9c089beb30961d01896e65b742c5",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 新しいリリースマネージャーの選出\n- 次回リリースで実施する「新機能/機能拡張」の収集\n- `vX.Y.0`マイルストーンが存在しない場合の作成\n- コーディングとドキュメント作成\n- 2週間ごとのalphaバージョンのリリース"
+      }
+    },
+    {
+      "segment_id": "8c6d7ee7",
+      "source_content": "### Code Freeze",
+      "source_content_hash": "600508f49761fa0422b6e79d39840e67bba394149a1858d0f59d54b457dd4c20",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### コードフリーズ"
+      }
+    },
+    {
+      "segment_id": "06e24cc0",
+      "source_content": "Things happened during \"Code Freeze\":",
+      "source_content_hash": "f8817d37704bb832996ee18e7f74af4aee27ffd830284ec03ec0f994a032582d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "「コードフリーズ」期間中に発生する事項："
+      }
+    },
+    {
+      "segment_id": "af7d8a35",
+      "source_content": "- blocking the merging of all unrelated PRs\n- reviewing \"new features/enhancements\" would be carried with the next release\n  - finish or prune the unfinished features\n  - the documents are ready, at least have a related open issue on chaos-mesh/website\n- cutting branch `release-X.Y`\n- releasing beta versions\n- preparing the Release Notes\n- create the `vX.Y+1.0` milestone\n- merging bugfix if required\n- documenting about the new release",
+      "source_content_hash": "9ea2b52ed221bf091f5810871dc8cbb3d30855d885da80cef8a6cf6046b7fe3f",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 関連のないすべてのPRのマージをブロック\n- 次回リリースで実施する「新機能/機能拡張」のレビュー\n  - 未完了の機能を完了または整理\n  - ドキュメントが準備済み（少なくともchaos-mesh/websiteに関連するオープンIssueがあること）\n- `release-X.Y`ブランチを切る\n- betaバージョンのリリース\n- リリースノートの準備\n- `vX.Y+1.0`マイルストーンの作成\n- 必要に応じてバグ修正をマージ\n- 新リリースに関するドキュメント作成"
+      }
+    },
+    {
+      "segment_id": "463ed165",
+      "source_content": "Phase \"Code Freeze\" would start at Week 6, and finish at branch `release-X.Y` created.",
+      "source_content_hash": "0461114beafb723c14ee32c08e43042f8ca5385701e8e53e32d63b972595acc8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "「コードフリーズ」フェーズはWeek 6に開始し、ブランチ`release-X.Y`が作成された時点で終了します。"
+      }
+    },
+    {
+      "segment_id": "a5c5772a",
+      "source_content": "When we are in \"Code Freeze\", PRs which are not related to the coming minor release would be prevented from merging into master. Only PRs related to the coming release could be merged into the master branch.",
+      "source_content_hash": "8d7cc496c8cc577e8c27122ddb823370982a5099604013b559e4d8e7aaf8b6df",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "「コードフリーズ」期間中は、次回のマイナーリリースに関連しないPRはmasterブランチへのマージが阻止されます。次回リリースに関連するPRのみがmasterブランチにマージ可能です。"
+      }
+    },
+    {
+      "segment_id": "fbc2db85",
+      "source_content": "Release Managers would communicate with contributors to ask them for finishing or pruning the unfinished features. Sometimes Release Managers would prune them by themselves if we lost the communication with the contributors.",
+      "source_content_hash": "bdf774886f0519c5e4bbae8a39a07b7ad66de27a1b10d2bd6037c36d0e7bc829",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "リリースマネージャーは、未完了の機能を完了または削除するようコントリビューターと連絡を取ります。コントリビューターとの連絡が取れない場合、リリースマネージャー自身がそれらを削除することがあります。"
+      }
+    },
+    {
+      "segment_id": "8126f763",
+      "source_content": "Once all the unfinished features are completed or marked as \"need prune\", the release manager would cut the `release-X.Y` branch. The merging process for all PRs back to normal.",
+      "source_content_hash": "f068d63ffab5d3147389ed514dab7dbaa1c51d2394b6e8bfcf18492ca5acf4ba",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "未完了の機能がすべて完了または「削除が必要」とマークされると、リリースマネージャーは `release-X.Y` ブランチを切ります。これにより、すべてのPRのマージプロセスが通常に戻ります。"
+      }
+    },
+    {
+      "segment_id": "74dd7937",
+      "source_content": "Once uncompleted features are pruned, Release Manager would release the first beta version. After that, only bug fixes would be cherry-picked into the release branch. Release Manager could release more beta versions if we have updates on the release branch.",
+      "source_content_hash": "974c4683ce1d96b3406712da2b4184c7d13a80040888ac2a62e3a8ea02f6b804",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "未完了の機能が削除されると、リリースマネージャーは最初のベータ版をリリースします。その後は、リリースブランチにバグ修正のみがチェリーピックされます。リリースブランチに更新がある場合、リリースマネージャーはさらにベータ版をリリースすることができます。"
+      }
+    },
+    {
+      "segment_id": "5803caac",
+      "source_content": "Release Manager should start to prepare Release Notes after the beta version is released.",
+      "source_content_hash": "e750fd70ff10789cfc881fe37748b8f04d417bfcf5c718f57a5a9be10c38c3ed",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "リリースマネージャーは、ベータ版がリリースされた後、リリースノートの準備を開始する必要があります。"
+      }
+    },
+    {
+      "segment_id": "39db08de",
+      "source_content": "### Release Week",
+      "source_content_hash": "f07dbfa1064335ca12152af0afe0e1fdbf5d64fd019f21c09a967f370c1c009b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### リリース週間"
+      }
+    },
+    {
+      "segment_id": "785750ac",
+      "source_content": "Things happened during \"Release Week\":",
+      "source_content_hash": "35f15d81f16cc0326fcb131d79cee4b1480b8023fa61affa00442a41b8d88d52",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "「リリース週間」中に発生する事項:"
+      }
+    },
+    {
+      "segment_id": "b264104e",
+      "source_content": "- merging emergency bugfix or vulnerabilities fix if required\n- releasing the minor version artifacts (helm charts, container images, and others)\n- releasing the minor version documentation",
+      "source_content_hash": "883a60a1ac5a0446e8ae99a21f5b1ad2e164d7e51c912cd9e14e7b7ed752eb91",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 緊急のバグ修正や脆弱性修正が必要な場合にマージする\n- マイナーバージョンのアーティファクト（Helmチャート、コンテナイメージなど）をリリースする\n- マイナーバージョンのドキュメントをリリースする"
+      }
+    },
+    {
+      "segment_id": "25212439",
+      "source_content": "Release Manager would release the `vX.Y.0` in this week.",
+      "source_content_hash": "31437a45511d2c41d0c617339f97e2a5cdcd01ab0014d4fe3cffc11a958cf959",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "リリースマネージャーは今週中に `vX.Y.0` をリリースします。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/version-2.6.7/release-cycle.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.648955+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "9d92e7a604df805744f0788fe3beb2deb33827a5109bd49dac27d03a43d16746"
+  }
+}

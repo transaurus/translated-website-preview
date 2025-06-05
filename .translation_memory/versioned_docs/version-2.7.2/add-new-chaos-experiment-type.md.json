@@ -1,0 +1,212 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "versioned_docs/version-2.7.2/add-new-chaos-experiment-type.md",
+  "source_file_content_hash": "1aded239260bf3155e1c81e2f8f9984a30575a757c98efb40e47a5f94a0773fa",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Add a New Chaos Experiment Type\n---",
+      "source_content_hash": "22b6788689d97b9633108e734988f85f4ba61d2a176265591af1d744e4221cac",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "7335511f",
+      "source_content": "import PickHelmVersion from '@site/src/components/PickHelmVersion'",
+      "source_content_hash": "753aee644dbd2a4b70a118018b50ec80427523e751a14d470e7956678fd8cb94",
+      "node_type": "mdxjsEsm",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_7335511f"
+      }
+    },
+    {
+      "segment_id": "6ef78e84",
+      "source_content": "This document describes how to add a new chaos experiment type.",
+      "source_content_hash": "954fb9d6e5bb52aa00f018ca966466b1b84aad8315f38c218340c0ffaa41767f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、新しいカオス実験タイプを追加する方法について説明します。"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "The following walks you through an example of `HelloWorldChaos`, a new chaos experiment type that prints `Hello world!` to the log. The steps include:",
+      "source_content_hash": "badd2e022ae5ae27d923417cecba9d822f9a48c24a2f22a6024c4a26985def4d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下は、ログに`Hello world!`と出力する新しいカオス実験タイプ`HelloWorldChaos`の例を通じて手順を説明します。手順は以下の通りです："
+      }
+    },
+    {
+      "segment_id": "be33979e",
+      "source_content": "- [Step 1: Define the schema of HelloWorldChaos](#step-1-define-the-schema-of-helloworldchaos)\n- [Step 2: Register the CRD](#step-2-register-the-crd)\n- [Step 3: Register the event handler for helloworld objects](#step-3-register-the-event-handler-for-helloworldchaos-objects)\n- [Step 4: Build Docker images](#step-4-build-docker-images)\n- [Step 5: Run HelloWorldChaos](#step-5-run-helloworldchaos)",
+      "source_content_hash": "19ad06f27a066b1c5854644b10b93e8ad56370d7f6a895df30c072ccb757c8f1",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- [Step 1: HelloWorldChaosのスキーマを定義する](#step-1-define-the-schema-of-helloworldchaos)\n- [Step 2: CRDを登録する](#step-2-register-the-crd)\n- [Step 3: helloworldオブジェクトのイベントハンドラを登録する](#step-3-register-the-event-handler-for-helloworldchaos-objects)\n- [Step 4: Dockerイメージをビルドする](#step-4-build-docker-images)\n- [Step 5: HelloWorldChaosを実行する](#step-5-run-helloworldchaos)"
+      }
+    },
+    {
+      "segment_id": "3daf1b88",
+      "source_content": "## Step 1: Define the schema of HelloWorldChaos",
+      "source_content_hash": "7878d5891a9b3705d410c8b47b572fbaed3e0570f37c7eae6363f52366d6ac68",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Step 1: HelloWorldChaosのスキーマを定義する"
+      }
+    },
+    {
+      "segment_id": "034de896",
+      "source_content": "1. Add `helloworldchaos_types.go` to the `api/v1alpha1` API directory with the following content:\n\n   ```go\n   package v1alpha1\n\n   import (\n           metav1 \"k8s.io/apimachinery/pkg/apis/meta/v1\"\n   )\n\n   // +kubebuilder:object:root=true\n   // +chaos-mesh:experiment\n   // +chaos-mesh:oneshot=true\n\n   // HelloWorldChaos is the Schema for the helloworldchaos API\n   type HelloWorldChaos struct {\n           metav1.TypeMeta   `json:\",inline\"`\n           metav1.ObjectMeta `json:\"metadata,omitempty\"`\n\n           Spec   HelloWorldChaosSpec   `json:\"spec\"`\n           Status HelloWorldChaosStatus `json:\"status,omitempty\"`\n   }\n\n   // HelloWorldChaosSpec defines the desired state of HelloWorldChaos\n   type HelloWorldChaosSpec struct {\n           // ContainerSelector specifies the target for injection\n           ContainerSelector `json:\",inline\"`\n\n           // Duration represents the duration of the chaos\n           // +optional\n           Duration *string `json:\"duration,omitempty\"`\n\n           // RemoteCluster represents the remote cluster where the chaos will be deployed\n           // +optional\n           RemoteCluster string `json:\"remoteCluster,omitempty\"`\n   }\n\n   // HelloWorldChaosStatus defines the observed state of HelloWorldChaos\n   type HelloWorldChaosStatus struct {\n           ChaosStatus `json:\",inline\"`\n   }\n\n   // GetSelectorSpecs is a getter for selectors\n   func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {\n           return map[string]interface{}{\n                   \".\": &obj.Spec.ContainerSelector,\n           }\n   }\n   ```\n\n   This file defines the schema type of `HelloWorldChaos`, which can be described in a YAML file:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: HelloWorldChaos\n   metadata:\n     name: <resource name>\n     namespace: <namespace>\n   spec:\n     duration: <duration>\n   #...\n   ```",
+      "source_content_hash": "4501b749e6b8b735e4ac68925ac79ce6b4ec16dd01a57bcd5b401b82df44df52",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. `api/v1alpha1` APIディレクトリに以下の内容で`helloworldchaos_types.go`を追加します：\n\n   ```go\n   package v1alpha1\n\n   import (\n           metav1 \"k8s.io/apimachinery/pkg/apis/meta/v1\"\n   )\n\n   // +kubebuilder:object:root=true\n   // +chaos-mesh:experiment\n   // +chaos-mesh:oneshot=true\n\n   // HelloWorldChaosはhelloworldchaos APIのスキーマです\n   type HelloWorldChaos struct {\n           metav1.TypeMeta   `json:\",inline\"`\n           metav1.ObjectMeta `json:\"metadata,omitempty\"`\n\n           Spec   HelloWorldChaosSpec   `json:\"spec\"`\n           Status HelloWorldChaosStatus `json:\"status,omitempty\"`\n   }\n\n   // HelloWorldChaosSpecはHelloWorldChaosの望ましい状態を定義します\n   type HelloWorldChaosSpec struct {\n           // ContainerSelectorは注入対象を指定します\n           ContainerSelector `json:\",inline\"`\n\n           // Durationはカオスの継続時間を表します\n           // +optional\n           Duration *string `json:\"duration,omitempty\"`\n\n           // RemoteClusterはカオスがデプロイされるリモートクラスタを表します\n           // +optional\n           RemoteCluster string `json:\"remoteCluster,omitempty\"`\n   }\n\n   // HelloWorldChaosStatusはHelloWorldChaosの観測された状態を定義します\n   type HelloWorldChaosStatus struct {\n           ChaosStatus `json:\",inline\"`\n   }\n\n   // GetSelectorSpecsはセレクタのゲッターです\n   func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {\n           return map[string]interface{}{\n                   \".\": &obj.Spec.ContainerSelector,\n           }\n   }\n   ```\n\n   このファイルは`HelloWorldChaos`のスキーマタイプを定義しており、YAMLファイルで記述できます：\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: HelloWorldChaos\n   metadata:\n     name: <リソース名>\n     namespace: <名前空間>\n   spec:\n     duration: <継続時間>\n   #...\n   ```"
+      }
+    },
+    {
+      "segment_id": "b936dd6a",
+      "source_content": "## Step 2: Register the CRD",
+      "source_content_hash": "3fe5eaca388fee1b744e495bdbe2dd2a0d33adc44e33cd141ac8736b82d8fed6",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Step 2: CRDを登録する"
+      }
+    },
+    {
+      "segment_id": "a5c5772a",
+      "source_content": "You need to register the CRD (Custom Resource Definition) of `HelloWorldChaos` to interact it with Kubernetes API.",
+      "source_content_hash": "28d837094fb86c50cc47c6cf60e1d1b19ae9f325ca7b528827d15f79572708d9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Kubernetes APIとやり取りするために、`HelloWorldChaos`のCRD（カスタムリソース定義）を登録する必要があります。"
+      }
+    },
+    {
+      "segment_id": "5dbc17cf",
+      "source_content": "1. To combine the CRD into manifests/crd.yaml, append `config/crd/bases/chaos-mesh.org_helloworldchaos.yaml` we generated in the previous step to `config/crd/kustomization.yaml`:\n\n   ```yaml\n   resources:\n     - bases/chaos-mesh.org_podchaos.yaml\n     - bases/chaos-mesh.org_networkchaos.yaml\n     - bases/chaos-mesh.org_iochaos.yaml\n     - bases/chaos-mesh.org_helloworldchaos.yaml # This is the new line\n   ```\n\n2. Run `make generate` in the root directory of Chaos Mesh, which generates a boilerplate of `HelloWorldChaos` for Chaos Mesh to compile:\n\n   ```bash\n   make generate\n   ```\n\n   Then you can see the definition of `HelloWorldChaos` in `manifests/crd.yaml`.",
+      "source_content_hash": "281ad694d61a546ceee55db446cf2793aa22231fc5218f2a7c7b6e4a699e17ed",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 前のステップで生成した`config/crd/bases/chaos-mesh.org_helloworldchaos.yaml`を`manifests/crd.yaml`に組み込むために、`config/crd/kustomization.yaml`に追加します：\n\n   ```yaml\n   resources:\n     - bases/chaos-mesh.org_podchaos.yaml\n     - bases/chaos-mesh.org_networkchaos.yaml\n     - bases/chaos-mesh.org_iochaos.yaml\n     - bases/chaos-mesh.org_helloworldchaos.yaml # これが新しい行です\n   ```\n\n2. Chaos Meshのルートディレクトリで`make generate`を実行し、Chaos Meshがコンパイルするための`HelloWorldChaos`のボイラープレートを生成します：\n\n   ```bash\n   make generate\n   ```\n\n   これにより、`manifests/crd.yaml`に`HelloWorldChaos`の定義が表示されます。"
+      }
+    },
+    {
+      "segment_id": "94145a94",
+      "source_content": "## Step 3: Register the event handler for helloworldchaos objects",
+      "source_content_hash": "4f1785e87bd8884a7242335bcbf109afd84ff41da3b6d4f7dfd04dfd5bd32389",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Step 3: helloworldchaosオブジェクトのイベントハンドラを登録する"
+      }
+    },
+    {
+      "segment_id": "dea0598f",
+      "source_content": "1. Create a new file `controllers/chaosimpl/helloworldchaos/types.go` with the following content:\n\n   ```go\n   package helloworldchaos\n\n   import (\n           \"context\"\n\n           \"github.com/go-logr/logr\"\n           \"go.uber.org/fx\"\n           \"sigs.k8s.io/controller-runtime/pkg/client\"\n\n           \"github.com/chaos-mesh/chaos-mesh/api/v1alpha1\"\n           impltypes \"github.com/chaos-mesh/chaos-mesh/controllers/chaosimpl/types\"\n           \"github.com/chaos-mesh/chaos-mesh/controllers/chaosimpl/utils\"\n   )\n\n   var _ impltypes.ChaosImpl = (*Impl)(nil)\n\n   type Impl struct {\n           client.Client\n           Log logr.Logger\n\n           decoder *utils.ContainerRecordDecoder\n   }\n\n   // This corresponds to the Apply phase of HelloWorldChaos. The execution of HelloWorldChaos will be triggered.\n   func (impl *Impl) Apply(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {\n           impl.Log.Info(\"Hello world!\")\n           return v1alpha1.Injected, nil\n   }\n\n   // This corresponds to the Recover phase of HelloWorldChaos. The reconciler will be triggered to recover the chaos action.\n   func (impl *Impl) Recover(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {\n           impl.Log.Info(\"Goodbye world!\")\n           return v1alpha1.NotInjected, nil\n   }\n\n   // NewImpl returns a new HelloWorldChaos implementation instance.\n   func NewImpl(c client.Client, log logr.Logger, decoder *utils.ContainerRecordDecoder) *impltypes.ChaosImplPair {\n           return &impltypes.ChaosImplPair{\n                   Name:   \"helloworldchaos\",\n                   Object: &v1alpha1.HelloWorldChaos{},\n                   Impl: &Impl{\n                           Client:  c,\n                           Log:     log.WithName(\"helloworldchaos\"),\n                           decoder: decoder,\n                   },\n                   ObjectList: &v1alpha1.HelloWorldChaosList{},\n        }\n   }\n\n   var Module = fx.Provide(\n            fx.Annotated{\n                    Group:  \"impl\",\n                    Target: NewImpl,\n            },\n   )\n   ```\n\n2. Chaos Mesh uses the [fx](https://github.com/uber-go/fx) library for dependency injection. To register `HelloWorldChaos` in the controller manager, add a line to `controllers/chaosimpl/fx.go`:\n\n   ```go\n   var AllImpl = fx.Options(\n           gcpchaos.Module,\n           stresschaos.Module,\n           jvmchaos.Module,\n           timechaos.Module,\n           helloworldchaos.Module // Add a new line. Make sure you have imported helloworldchaos first.\n           //...\n   )\n   ```\n\n   Then in `controllers/types/types.go`, append the following content into `ChaosObjects`:\n\n   ```go\n   var ChaosObjects = fx.Supply(\n          //...\n          fx.Annotated{\n                  Group: \"objs\",\n                  Target: Object{\n                          Name:   \"helloworldchaos\",\n                          Object: &v1alpha1.HelloWorldChaos{},\n                  },\n          },\n   )\n   ```",
+      "source_content_hash": "385ef44973e957e22b90b92db6c137ca535ec9ca178cf08feee5697ce1eb1b18",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 以下の内容で新しいファイル `controllers/chaosimpl/helloworldchaos/types.go` を作成します:\n\n   ```go\n   package helloworldchaos\n\n   import (\n           \"context\"\n\n           \"github.com/go-logr/logr\"\n           \"go.uber.org/fx\"\n           \"sigs.k8s.io/controller-runtime/pkg/client\"\n\n           \"github.com/chaos-mesh/chaos-mesh/api/v1alpha1\"\n           impltypes \"github.com/chaos-mesh/chaos-mesh/controllers/chaosimpl/types\"\n           \"github.com/chaos-mesh/chaos-mesh/controllers/chaosimpl/utils\"\n   )\n\n   var _ impltypes.ChaosImpl = (*Impl)(nil)\n\n   type Impl struct {\n           client.Client\n           Log logr.Logger\n\n           decoder *utils.ContainerRecordDecoder\n   }\n\n   // これはHelloWorldChaosのApplyフェーズに対応します。HelloWorldChaosの実行がトリガーされます。\n   func (impl *Impl) Apply(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {\n           impl.Log.Info(\"Hello world!\")\n           return v1alpha1.Injected, nil\n   }\n\n   // これはHelloWorldChaosのRecoverフェーズに対応します。リコンシラーがトリガーされ、カオスアクションが回復されます。\n   func (impl *Impl) Recover(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {\n           impl.Log.Info(\"Goodbye world!\")\n           return v1alpha1.NotInjected, nil\n   }\n\n   // NewImplは新しいHelloWorldChaosの実装インスタンスを返します。\n   func NewImpl(c client.Client, log logr.Logger, decoder *utils.ContainerRecordDecoder) *impltypes.ChaosImplPair {\n           return &impltypes.ChaosImplPair{\n                   Name:   \"helloworldchaos\",\n                   Object: &v1alpha1.HelloWorldChaos{},\n                   Impl: &Impl{\n                           Client:  c,\n                           Log:     log.WithName(\"helloworldchaos\"),\n                           decoder: decoder,\n                   },\n                   ObjectList: &v1alpha1.HelloWorldChaosList{},\n        }\n   }\n\n   var Module = fx.Provide(\n            fx.Annotated{\n                    Group:  \"impl\",\n                    Target: NewImpl,\n            },\n   )\n   ```\n\n2. Chaos Meshは依存性注入に[fx](https://github.com/uber-go/fx)ライブラリを使用しています。コントローラーマネージャーに`HelloWorldChaos`を登録するには、`controllers/chaosimpl/fx.go`に以下の行を追加します:\n\n   ```go\n   var AllImpl = fx.Options(\n           gcpchaos.Module,\n           stresschaos.Module,\n           jvmchaos.Module,\n           timechaos.Module,\n           helloworldchaos.Module // 新しい行を追加します。helloworldchaosを先にインポートしていることを確認してください。\n           //...\n   )\n   ```\n\n   次に、`controllers/types/types.go`で、`ChaosObjects`に以下の内容を追加します:\n\n   ```go\n   var ChaosObjects = fx.Supply(\n          //...\n          fx.Annotated{\n                  Group: \"objs\",\n                  Target: Object{\n                          Name:   \"helloworldchaos\",\n                          Object: &v1alpha1.HelloWorldChaos{},\n                  },\n          },\n   )\n   ```"
+      }
+    },
+    {
+      "segment_id": "6d457467",
+      "source_content": "## Step 4: Build Docker images",
+      "source_content_hash": "154e90db7791a68bf983d1a8771dd9aeb2bda964a7d51f078d8864ee13cb5766",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ステップ4: Dockerイメージのビルド"
+      }
+    },
+    {
+      "segment_id": "bc3926aa",
+      "source_content": "1. Build the production images:\n\n   ```bash\n   make image\n   ```\n\n2. If you deploy the Kubernetes cluster using minikube, then you need to load images into the cluster:\n\n   ```bash\n   minikube image load ghcr.io/chaos-mesh/chaos-dashboard:latest\n   minikube image load ghcr.io/chaos-mesh/chaos-mesh:latest\n   minikube image load ghcr.io/chaos-mesh/chaos-daemon:latest\n   ```",
+      "source_content_hash": "0b64efacbdc6e0c0fd9a68f86debf78cf380a26d84b9178b95b43e546a77fea6",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 本番用イメージをビルドします:\n\n   ```bash\n   make image\n   ```\n\n2. minikubeを使用してKubernetesクラスターをデプロイしている場合、イメージをクラスターにロードする必要があります:\n\n   ```bash\n   minikube image load ghcr.io/chaos-mesh/chaos-dashboard:latest\n   minikube image load ghcr.io/chaos-mesh/chaos-mesh:latest\n   minikube image load ghcr.io/chaos-mesh/chaos-daemon:latest\n   ```"
+      }
+    },
+    {
+      "segment_id": "e457c208",
+      "source_content": "## Step 5: Run HelloWorldChaos",
+      "source_content_hash": "5ae7d9c1ffc17f74b411c3d92d3992dffb8c5f6942885412ebf4205fb0b0b5bd",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ステップ5: HelloWorldChaosの実行"
+      }
+    },
+    {
+      "segment_id": "eeeea5ce",
+      "source_content": "In this step, you need to deploy Chaos Mesh with your latest changes to test HelloWorldChaos.",
+      "source_content_hash": "ad1c29dd1ef37168c1d52bed34583e59f99f8e27de0ba155c42aec0f48c75bac",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このステップでは、最新の変更を加えたChaos Meshをデプロイし、HelloWorldChaosをテストする必要があります。"
+      }
+    },
+    {
+      "segment_id": "9f118c66",
+      "source_content": "1. Register the CRD in your cluster:\n\n   ```bash\n   kubectl create -f manifests/crd.yaml\n   ```\n\n   You can see `HelloWorldChaos` is created from the output:\n\n   ```log\n   customresourcedefinition.apiextensions.k8s.io/helloworldchaos.chaos-mesh.org created\n   ```\n\n   Now you can get the CRD of `HelloWorldChaos` using the command below:\n\n   ```bash\n   kubectl get crd helloworldchaos.chaos-mesh.org\n   ```\n\n2. Deploy Chaos Mesh:\n\n   ```bash\n   helm install chaos-mesh helm/chaos-mesh -n=chaos-mesh --set controllerManager.leaderElection.enabled=false,dashboard.securityMode=false\n   ```\n\n   To verify the deployment is successful, you can check all Pods in the `chaos-mesh` namespace:\n\n   ```bash\n   kubectl get pods --namespace chaos-mesh -l app.kubernetes.io/instance=chaos-mesh\n   ```\n\n3. Deploy a deployment for testing, we can use an example echo server from minikube docs:\n\n   ```bash\n   kubectl create deployment hello-minikube --image=kicbase/echo-server:1.0\n   ```\n\n   Wait to see the pod is running:\n\n   ```bash\n   kubectl get pods\n   ```\n\n   Example output:\n\n   ```log\n   NAME                              READY   STATUS    RESTARTS   AGE\n   hello-minikube-77b6f68484-dg4sw   1/1     Running   0          2m\n   ```\n\n4. Create a `hello.yaml` file with the following content:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: HelloWorldChaos\n   metadata:\n     name: hello-world\n     namespace: chaos-mesh\n   spec:\n     selector:\n       labelSelectors:\n         app: hello-minikube\n     mode: one\n     duration: 1h\n   ```\n\n5. Run:\n\n   ```bash\n   kubectl apply -f hello.yaml\n   # helloworldchaos.chaos-mesh.org/hello-world created\n   ```\n\n   Now you can check if `chaos-controller-manager` has `Hello world!` in its logs:\n\n   ```bash\n   kubectl logs -n chaos-mesh chaos-controller-manager-xxx\n   ```\n\n   Example output:\n\n   ```txt\n   2023-07-16T06:19:40.068Z INFO records records/controller.go:149 apply chaos {\"id\": \"default/hello-minikube-77b6f68484-dg4sw/echo-server\"}\n   2023-07-16T06:19:40.068Z INFO helloworldchaos helloworldchaos/types.go:26 Hello world!\n   ```",
+      "source_content_hash": "2a67591c1d8c35512e617d6b8b9e48704717a5f38e2158f54ac9052911671176",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. クラスタにCRDを登録します:\n\n   ```bash\n   kubectl create -f manifests/crd.yaml\n   ```\n\n   出力から`HelloWorldChaos`が作成されたことを確認できます:\n\n   ```log\n   customresourcedefinition.apiextensions.k8s.io/helloworldchaos.chaos-mesh.org created\n   ```\n\n   以下のコマンドで`HelloWorldChaos`のCRDを取得できます:\n\n   ```bash\n   kubectl get crd helloworldchaos.chaos-mesh.org\n   ```\n\n2. Chaos Meshをデプロイします:\n\n   ```bash\n   helm install chaos-mesh helm/chaos-mesh -n=chaos-mesh --set controllerManager.leaderElection.enabled=false,dashboard.securityMode=false\n   ```\n\n   デプロイが成功したことを確認するには、`chaos-mesh`ネームスペース内のすべてのPodを確認します:\n\n   ```bash\n   kubectl get pods --namespace chaos-mesh -l app.kubernetes.io/instance=chaos-mesh\n   ```\n\n3. テスト用のデプロイメントをデプロイします。minikubeドキュメントのエコーサーバー例を使用できます:\n\n   ```bash\n   kubectl create deployment hello-minikube --image=kicbase/echo-server:1.0\n   ```\n\n   Podが実行中になるまで待ちます:\n\n   ```bash\n   kubectl get pods\n   ```\n\n   出力例:\n\n   ```log\n   NAME                              READY   STATUS    RESTARTS   AGE\n   hello-minikube-77b6f68484-dg4sw   1/1     Running   0          2m\n   ```\n\n4. 以下の内容で`hello.yaml`ファイルを作成します:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: HelloWorldChaos\n   metadata:\n     name: hello-world\n     namespace: chaos-mesh\n   spec:\n     selector:\n       labelSelectors:\n         app: hello-minikube\n     mode: one\n     duration: 1h\n   ```\n\n5. 実行します:\n\n   ```bash\n   kubectl apply -f hello.yaml\n   # helloworldchaos.chaos-mesh.org/hello-world created\n   ```\n\n   これで、`chaos-controller-manager`のログに`Hello world!`が表示されるか確認できます:\n\n   ```bash\n   kubectl logs -n chaos-mesh chaos-controller-manager-xxx\n   ```\n\n   出力例:\n\n   ```txt\n   2023-07-16T06:19:40.068Z INFO records records/controller.go:149 apply chaos {\"id\": \"default/hello-minikube-77b6f68484-dg4sw/echo-server\"}\n   2023-07-16T06:19:40.068Z INFO helloworldchaos helloworldchaos/types.go:26 Hello world!\n   ```"
+      }
+    },
+    {
+      "segment_id": "e93ab8a6",
+      "source_content": "## What's Next",
+      "source_content_hash": "7027d20df47e677159d4e3c8dbba8ebb639330853069eab74d83748ee5e5c49a",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 次のステップ"
+      }
+    },
+    {
+      "segment_id": "c9e08343",
+      "source_content": "If you encounter any problems during the process, create an [issue](https://github.com/chaos-mesh/chaos-mesh/issues) in the Chaos Mesh repository.",
+      "source_content_hash": "f6acb98708690c3189ab9c85e2aff31d9db14d952a136f57fd712562b8b778df",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このプロセスで問題が発生した場合は、Chaos Meshリポジトリに[issue](https://github.com/chaos-mesh/chaos-mesh/issues)を作成してください。"
+      }
+    },
+    {
+      "segment_id": "4786f22b",
+      "source_content": "In the next section, we'll learn more about how to extend the behavior of `HelloWorldChaos`.",
+      "source_content_hash": "c5910f254d497ea8d6756824f9a20a0e38374eae60965a4cf75b066360ca2a0a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "次のセクションでは、`HelloWorldChaos`の動作をさらに拡張する方法について学びます。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/version-2.7.2/add-new-chaos-experiment-type.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.671677+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "1aded239260bf3155e1c81e2f8f9984a30575a757c98efb40e47a5f94a0773fa"
+  }
+}

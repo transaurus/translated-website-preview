@@ -1,0 +1,372 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2021-12-16-chaos-mesh-skywalking.md",
+  "source_file_content_hash": "7e27c61435ca0fd29092ffdef7ebc43ffe67655bdf85f0a4a09c49e35cb19b81",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /better-observability-for-chaos-engineering\ntitle: 'Chaos Mesh + SkyWalking: Better Observability for Chaos Engineering'\nauthors: ningxuanwang\nimage: /img/blog/chaos-mesh-skywalking-banner.png\ntags: [Chaos Mesh, Chaos Engineering, Tutorials]\n---",
+      "source_content_hash": "dd0c198f6695c38aa0957eaaf3adbaaa7aaff54993e0a971fd2a830b12ef634b",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "![Chaos Mesh + SkyWalking: Better Observability for Chaos Engineering](/img/blog/chaos-mesh-skywalking-banner.png)",
+      "source_content_hash": "4ee849a490215a05bb97d4192e6509876311b307154336e651d92509b31e4a73",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos Mesh + SkyWalking: カオスエンジニアリングのためのより優れた可観測性](/img/blog/chaos-mesh-skywalking-banner.png)"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "[Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh) is an open-source cloud-native [chaos engineering](https://en.wikipedia.org/wiki/Chaos_engineering) platform. You can use Chaos Mesh to conveniently inject failures and simulate abnormalities that might occur in reality, so you can identify potential problems in your system. Chaos Mesh also offers a Chaos Dashboard which allows you to monitor the status of a chaos experiment. However, this dashboard cannot let you observe how the failures in the experiment impact the service performance of applications. This hinders us from further testing our systems and finding potential problems.",
+      "source_content_hash": "5dcd78a39f5c6cab12048bac05811bf0b0599c49d209410e9bf06de8c8639191",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh)は、オープンソースのクラウドネイティブな[カオスエンジニアリング](https://en.wikipedia.org/wiki/Chaos_engineering)プラットフォームです。Chaos Meshを使用すると、現実に発生する可能性のある障害や異常を簡単に注入・シミュレートでき、システム内の潜在的な問題を特定できます。Chaos MeshはChaos Dashboardも提供しており、カオス実験の状態を監視できます。しかし、このダッシュボードでは、実験中の障害がアプリケーションのサービスパフォーマンスにどのような影響を与えるかを観察することはできません。これにより、システムのさらなるテストや潜在的な問題の発見が妨げられています。"
+      }
+    },
+    {
+      "segment_id": "3e6699f4",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3e6699f4"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "[Apache SkyWalking](https://github.com/apache/skywalking) is an open-source application performance monitor (APM), specially designed to monitor, track, and diagnose cloud native, container-based distributed systems. It collects events that occur and then displays them on its dashboard, allowing you to observe directly the type and number of events that have occurred in your system and how different events impact the service performance.",
+      "source_content_hash": "7e9fe33d1c50fd55ae341fcd4a3ccc454d2d3352d65fc99240871d30c848612f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Apache SkyWalking](https://github.com/apache/skywalking)は、オープンソースのアプリケーションパフォーマンスモニタリング（APM）ツールで、特にクラウドネイティブでコンテナベースの分散システムを監視、追跡、診断するために設計されています。発生したイベントを収集し、ダッシュボードに表示することで、システム内で発生したイベントの種類や数、およびさまざまなイベントがサービスパフォーマンスにどのような影響を与えるかを直接観察できます。"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "When you use SkyWalking and Chaos Mesh together during chaos experiments, you can observe how different failures impact the service performance.",
+      "source_content_hash": "be73a14ee53254021940fe15d6b87873199508942cbc3c11f7789d26c65c3a7b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "SkyWalkingとChaos Meshをカオス実験中に併用することで、さまざまな障害がサービスパフォーマンスに与える影響を観察できます。"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "This tutorial will show you how to configure SkyWalking and Chaos Mesh. You’ll also learn how to leverage the two systems to monitor events and observe in real time how chaos experiments impact applications’ service performance.",
+      "source_content_hash": "ae23b36be4d3ad58f582b451894996c8632b4d39dd2044fb910b7ce80969f9e6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このチュートリアルでは、SkyWalkingとChaos Meshの設定方法を紹介します。また、2つのシステムを活用してイベントを監視し、カオス実験がアプリケーションのサービスパフォーマンスにリアルタイムでどのような影響を与えるかを観察する方法も学びます。"
+      }
+    },
+    {
+      "segment_id": "418617bd",
+      "source_content": "## Preparation",
+      "source_content_hash": "d81c442d4f16c533dafbc4c456d0e9b3d8b69102b40bed9a1eb9c50052de26f5",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 準備"
+      }
+    },
+    {
+      "segment_id": "2fdadb08",
+      "source_content": "Before you start to use SkyWalking and Chaos Mesh, you have to:",
+      "source_content_hash": "9fc33e1013ebadc8be4a9bf5b762922058df594711a3e3d2ef71626023d98dc2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "SkyWalkingとChaos Meshの使用を開始する前に、以下の手順を実行する必要があります："
+      }
+    },
+    {
+      "segment_id": "44d89370",
+      "source_content": "- Set up a SkyWalking cluster according to [the SkyWalking configuration guide](https://github.com/apache/skywalking-kubernetes#install).\n- Deploy Chao Mesh [using Helm](https://chaos-mesh.org/docs/production-installation-using-helm/).\n- Install [JMeter](https://jmeter.apache.org/index.html) or other Java testing tools (to increase service loads).\n- Configure SkyWalking and Chaos Mesh according to [this guide](https://github.com/chaos-mesh/chaos-mesh-on-skywalking) if you just want to run a demo.",
+      "source_content_hash": "bf21973a1e9ccf97be9bdf3b405a47afb8edba3d618f893347e7d4fe3a492b47",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- [SkyWalking設定ガイド](https://github.com/apache/skywalking-kubernetes#install)に従ってSkyWalkingクラスタをセットアップします。\n- [Helmを使用して](https://chaos-mesh.org/docs/production-installation-using-helm/)Chaos Meshをデプロイします。\n- [JMeter](https://jmeter.apache.org/index.html)または他のJavaテストツールをインストールします（サービス負荷を増加させるため）。\n- デモを実行したい場合は、[このガイド](https://github.com/chaos-mesh/chaos-mesh-on-skywalking)に従ってSkyWalkingとChaos Meshを設定します。"
+      }
+    },
+    {
+      "segment_id": "26524352",
+      "source_content": "Now, you are fully prepared, and we can cut to the chase.",
+      "source_content_hash": "650da0db0b42746cf499007c443208c87541c05520f55fcdef9cf8ea78f251fb",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これで準備は整いました。本題に進みましょう。"
+      }
+    },
+    {
+      "segment_id": "b25f21be",
+      "source_content": "## Step 1: Access the SkyWalking cluster",
+      "source_content_hash": "6a01025f07f2083ad9fe4948f1d0c59658f980a503c750677dcb92eecdc6a277",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ステップ1: SkyWalkingクラスタにアクセスする"
+      }
+    },
+    {
+      "segment_id": "7499a4e7",
+      "source_content": "After you install the SkyWalking cluster, you can access its user interface (UI). However, no service is running at this point, so before you start monitoring, you have to add one and set the agents.",
+      "source_content_hash": "c617fa3216bdddfb29ebce64b4c9e611eaa98b572ef7af4a82a8eccb27c3ea89",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "SkyWalkingクラスタをインストールした後、そのユーザーインターフェース（UI）にアクセスできます。ただし、この時点ではサービスが実行されていないため、監視を開始する前にサービスを追加し、エージェントを設定する必要があります。"
+      }
+    },
+    {
+      "segment_id": "517051a7",
+      "source_content": "In this tutorial, we take Spring Boot, a lightweight microservice framework, as an example to build a simplified demo environment.",
+      "source_content_hash": "dbcbc5e03b517f80a9c10fb31373a4a0b7bf09da0a1d907b1c79bb5dd6b05b2f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このチュートリアルでは、軽量なマイクロサービスフレームワークであるSpring Bootを例に、簡略化されたデモ環境を構築します。"
+      }
+    },
+    {
+      "segment_id": "157151e9",
+      "source_content": "1. Create a SkyWalking demo in Spring Boot by referring to [this document](https://github.com/chaos-mesh/chaos-mesh-on-skywalking/blob/master/demo-deployment.yaml).\n2. Execute the command `kubectl apply -f demo-deployment.yaml -n skywalking` to deploy the demo.",
+      "source_content_hash": "ddcc46ae2bdf8975026c8bb351e9034815003186a08e5cb20ce94b9d66689cd7",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. [このドキュメント](https://github.com/chaos-mesh/chaos-mesh-on-skywalking/blob/master/demo-deployment.yaml)を参照して、Spring BootでSkyWalkingデモを作成します。\n2. コマンド`kubectl apply -f demo-deployment.yaml -n skywalking`を実行してデモをデプロイします。"
+      }
+    },
+    {
+      "segment_id": "3cfe6286",
+      "source_content": "After you finish deployment, you can observe the real-time monitoring results at the SkyWalking UI.",
+      "source_content_hash": "726eb286e83f22b6da132b6ebadead2bebf74328e7067338bb571e7f02bb76d5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "デプロイが完了すると、SkyWalking UIでリアルタイムの監視結果を観察できます。"
+      }
+    },
+    {
+      "segment_id": "1042b50d",
+      "source_content": "**Note:** Spring Boot and SkyWalking have the same default port number: 8080. Be careful when you configure the port forwarding; otherise, you may have port conflicts. For example, you can set Spring Boot’s port to 8079 by using a command like `kubectl port-forward svc/spring-boot-skywalking-demo 8079:8080 -n skywalking` to avoid conflicts.",
+      "source_content_hash": "18f96c8f8169305bd365b4a1f25e628d57a4d5438ff9eb07e058692338cbace6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**注:** Spring BootとSkyWalkingは同じデフォルトポート番号（8080）を使用しています。ポートフォワーディングを設定する際には注意が必要です。そうしないと、ポート競合が発生する可能性があります。例えば、`kubectl port-forward svc/spring-boot-skywalking-demo 8079:8080 -n skywalking`のようなコマンドを使用してSpring Bootのポートを8079に設定することで、競合を回避できます。"
+      }
+    },
+    {
+      "segment_id": "35a77014",
+      "source_content": "## Step 2: Deploy SkyWalking Kubernetes Event Exporter",
+      "source_content_hash": "6c6c6e61e6bd1f050060155c4ab76e96f1a82971d0ebd4b0f147313bc87f5eae",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ステップ2: SkyWalking Kubernetes Event Exporterをデプロイする"
+      }
+    },
+    {
+      "segment_id": "13d9cd70",
+      "source_content": "[SkyWalking Kubernetes Event Exporter](https://github.com/apache/skywalking-kubernetes-event-exporter) is able to watch, filter, and send Kubernetes events into the SkyWalking backend. SkyWalking then associates the events with the system metrics and displays an overview about when and how the metrics are affected by the events.",
+      "source_content_hash": "27c765112b63724e0c077a1e5d371959bdb4c949365c94e12c91113e8bbda0c4",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[SkyWalking Kubernetes Event Exporter](https://github.com/apache/skywalking-kubernetes-event-exporter)は、Kubernetesイベントを監視、フィルタリングし、SkyWalkingバックエンドに送信することができます。SkyWalkingはこれらのイベントをシステムメトリクスに関連付け、メトリクスがいつ、どのようにイベントによって影響を受けたかについての概要を表示します。"
+      }
+    },
+    {
+      "segment_id": "29528c8d",
+      "source_content": "If you want to deploy SkyWalking Kubernetes Event Explorer with one line of commands, refer to [this document](https://github.com/chaos-mesh/chaos-mesh-on-skywalking/blob/master/exporter-deployment.yaml) to create configuration files in YAML format and then customize the parameters in the filters and exporters. Now, you can use the command `kubectl apply` to deploy SkyWalking Kubernetes Event Explorer.",
+      "source_content_hash": "4e1c03e5f2c8c9261ce7f5ecd027233ed93121ef798010590ee7390303e9de4d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "SkyWalking Kubernetes Event Explorerを1行のコマンドでデプロイしたい場合は、[このドキュメント](https://github.com/chaos-mesh/chaos-mesh-on-skywalking/blob/master/exporter-deployment.yaml)を参照してYAML形式の設定ファイルを作成し、フィルターとエクスポーターのパラメーターをカスタマイズしてください。その後、`kubectl apply`コマンドを使用してSkyWalking Kubernetes Event Explorerをデプロイできます。"
+      }
+    },
+    {
+      "segment_id": "11c76fcc",
+      "source_content": "## Step 3: Use JMeter to increase service loads",
+      "source_content_hash": "ffa4c3161723b83065505d1fefbb9e351bee50b095b04212c8f0f78771a3e374",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ステップ3: JMeterを使用してサービス負荷を増加させる"
+      }
+    },
+    {
+      "segment_id": "98d26038",
+      "source_content": "To better observe the change in service performance, you need to increase the service loads on Spring Boot. In this tutorial, we use JMeter, a widely adopted Java testing tool, to increase the service loads.",
+      "source_content_hash": "32daaf7e70c9a725c52e8baa685fc95df8282d243ea7bd8b36524e360c3a2749",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "サービスパフォーマンスの変化をよりよく観察するためには、Spring Boot上のサービス負荷を増加させる必要があります。このチュートリアルでは、広く採用されているJavaテストツールであるJMeterを使用してサービス負荷を増加させます。"
+      }
+    },
+    {
+      "segment_id": "d3649a1e",
+      "source_content": "Perform a stress test on `localhost:8079` using JMeter and add five threads to continuously increase the service loads.",
+      "source_content_hash": "050d5da0a6bab4254bdc0d1a282481ea856e130b2b572c3776e86e9916c1eda8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "JMeterを使用して`localhost:8079`に対して負荷テストを実行し、5つのスレッドを追加して継続的にサービス負荷を増加させます。"
+      }
+    },
+    {
+      "segment_id": "4d52a261",
+      "source_content": "![JMeter Dashboard 1](/img/blog/jmeter-1.png)",
+      "source_content_hash": "72377d033e0b5cf552b16db383dd2050320fe72f3dfaf7fd2a3a5ea871b47bad",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![JMeter Dashboard 1](/img/blog/jmeter-1.png)"
+      }
+    },
+    {
+      "segment_id": "23dfb152",
+      "source_content": "![JMeter Dashboard 2](/img/blog/jmeter-2.png)",
+      "source_content_hash": "d3287d8fa629c302d9eb71bed657bc1ab892a8f737dbaea5b01a61cf59036edb",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![JMeter Dashboard 2](/img/blog/jmeter-2.png)"
+      }
+    },
+    {
+      "segment_id": "1131ef75",
+      "source_content": "Open the SkyWalking Dashboard. You can see that the access rate is 100%, and that the service loads reach about 5,300 calls per minute (CPM).",
+      "source_content_hash": "f115a33b68181a9db26b90fa7c2305da32be1812dfbe44967086d167c21e942d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "SkyWalkingダッシュボードを開きます。アクセス率が100%であり、サービス負荷が約5,300コール/分（CPM）に達していることがわかります。"
+      }
+    },
+    {
+      "segment_id": "8b2a52b1",
+      "source_content": "![SkyWalking Dashboard](/img/blog/skywalking-dashboard.png)",
+      "source_content_hash": "c2c5f015fe15c34e03a3bee9bf063ebf0fab2896c4dbe8557705c652dbed1f74",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![SkyWalking Dashboard](/img/blog/skywalking-dashboard.png)"
+      }
+    },
+    {
+      "segment_id": "126950d7",
+      "source_content": "## Step 4: Inject failures via Chaos Mesh and observe results",
+      "source_content_hash": "1737bccc695bf9d58e86b43c376995552fc6197e5aebdb21bff4f7e062963849",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ステップ4: Chaos Meshで障害を注入し結果を観察する"
+      }
+    },
+    {
+      "segment_id": "0bb95128",
+      "source_content": "After you finish the three steps above, you can use the Chaos Dashboard to simulate stress scenarios and observe the change in service performance during chaos experiments.",
+      "source_content_hash": "92c975beea4f35a661a9eef5a69bc0ab2305c360e97b28261a77dab87c5ff2e6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "上記の3つのステップを完了したら、Chaos Dashboardを使用してストレスシナリオをシミュレートし、カオス実験中のサービスパフォーマンスの変化を観察できます。"
+      }
+    },
+    {
+      "segment_id": "657c2b20",
+      "source_content": "![StressChaos on Chaos Dashboard](/img/blog/chaos-dashboard-stresschaos.png)",
+      "source_content_hash": "e0ae766f56d8d9c7a598ba56dbfd5b9956b507a50e17d29d17d348437ca2480a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![StressChaos on Chaos Dashboard](/img/blog/chaos-dashboard-stresschaos.png)"
+      }
+    },
+    {
+      "segment_id": "e7772088",
+      "source_content": "The following sections describe how service performance varies under the stress of three chaos conditions:",
+      "source_content_hash": "c99a657282e34cb855583922e255b4ab55fa0631361e56845b415f547bf31242",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下のセクションでは、3つのカオス条件下でのサービスパフォーマンスの変化について説明します："
+      }
+    },
+    {
+      "segment_id": "69c1f590",
+      "source_content": "- CPU load: 10%; memory load: 128 MB\n\n  The first chaos experiment simulates low CPU usage. To display when a chaos experiment starts and ends, click the switching button on the right side of the dashboard. To learn whether the experiment is Applied to the system or Recovered from the system, move your cursor onto the short, green line.\n\n  During the time period between the two short, green lines, the service load decreases to 4,929 CPM, but returns to normal after the chaos experiment ends.\n\n  ![Test 1](/img/blog/cpuload-1.png)\n\n- CPU load: 50%; memory load: 128 MB\n\n  When the application’s CPU load increases to 50%, the service load decreases to 4,307 CPM.\n\n  ![Test 2](/img/blog/cpuload-2.png)\n\n- CPU load: 100%; memory load: 128 MB\n\n  When the CPU usage is at 100%, the service load decreases to only 40% of what it would be if no chaos experiments were taking place.\n\n  ![Test 3](/img/blog/cpuload-3.png)\n\n  Because the process scheduling under the Linux system does not allow a process to occupy the CPU all the time, the deployed Spring Boot Demo can still handle 40% of the access requests even in the extreme case of a full CPU load.",
+      "source_content_hash": "a573c7bd6b01ec226eafc8ec771571ed192ebe36a501dbc7116adceb12ebc70d",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- CPU負荷: 10%; メモリ負荷: 128 MB\n\n  最初のカオス実験では、低いCPU使用率をシミュレートします。実験の開始と終了をダッシュボードに表示するには、ダッシュボードの右側にある切り替えボタンをクリックします。実験がシステムに適用されたか、またはシステムから回復したかを確認するには、短い緑色の線にカーソルを合わせます。\n\n  2つの短い緑色の線の間の期間中、サービス負荷は4,929 CPMに減少しますが、カオス実験が終了すると正常に戻ります。\n\n  ![Test 1](/img/blog/cpuload-1.png)\n\n- CPU負荷: 50%; メモリ負荷: 128 MB\n\n  アプリケーションのCPU負荷が50%に増加すると、サービス負荷は4,307 CPMに減少します。\n\n  ![Test 2](/img/blog/cpuload-2.png)\n\n- CPU負荷: 100%; メモリ負荷: 128 MB\n\n  CPU使用率が100%の場合、サービス負荷はカオス実験が行われていない場合のわずか40%に減少します。\n\n  ![Test 3](/img/blog/cpuload-3.png)\n\n  Linuxシステムのプロセススケジューリングでは、プロセスがCPUを常に占有することを許可しないため、デプロイされたSpring Bootデモは、CPU負荷が最大の場合でもアクセスリクエストの40%を処理できます。"
+      }
+    },
+    {
+      "segment_id": "e33a2404",
+      "source_content": "## Summary",
+      "source_content_hash": "30ac03ff33731529441be8fbe52a3bd0d4c5ec830e806d54692168ebb7f98ada",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## まとめ"
+      }
+    },
+    {
+      "segment_id": "82e90254",
+      "source_content": "By combining SkyWalking and Chaos Mesh, you can clearly observe when and to what extent chaos experiments affect application service performance. This combination of tools lets you observe the service performance in various extreme conditions, thus boosting your confidence in your services.",
+      "source_content_hash": "77dec23a50ec353e30db3bce73910d8771af7b846ee45b91c44f184a5ecd5949",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "SkyWalkingとChaos Meshを組み合わせることで、カオス実験がアプリケーションのサービスパフォーマンスにいつ、どの程度影響を与えるかを明確に観察できます。このツールの組み合わせにより、さまざまな極端な条件下でのサービスパフォーマンスを観察できるため、サービスの信頼性を高めることができます。"
+      }
+    },
+    {
+      "segment_id": "2822251a",
+      "source_content": "Chaos Mesh has grown a lot in 2021 thanks to the unremitting efforts of all PingCAP engineers and community contributors. In order to continue to upgrade our support for our wide variety of users and learn more about users’ experience in Chaos Engineering, we’d like to invite you to take[ this survey](https://www.surveymonkey.com/r/X77BCNM) and give us your valuable feedback.",
+      "source_content_hash": "6f8814c2c227890f64495c22a8d1dba11d2ffe5a1eca53c466a7184b0feae1c0",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは2021年に多くの成長を遂げました。これはPingCAPのエンジニアとコミュニティ貢献者のたゆまぬ努力のおかげです。多様なユーザーへのサポートを継続的に向上させ、カオスエンジニアリングにおけるユーザー体験をさらに理解するために、[このアンケート](https://www.surveymonkey.com/r/X77BCNM)にご参加いただき、貴重なフィードバックをいただければ幸いです。"
+      }
+    },
+    {
+      "segment_id": "25212439",
+      "source_content": "If you want to know more about Chaos Mesh, you’re welcome to join [the Chaos Mesh community on GitHub](https://github.com/chaos-mesh) or our [Slack discussions](https://slack.cncf.io/) (#project-chaos-mesh). If you find any bugs or missing features when using Chaos Mesh, you can submit your pull requests or issues to our [GitHub repository](https://github.com/chaos-mesh/chaos-mesh).",
+      "source_content_hash": "1ecb3b82055293bf12fb41e79128c45e4d69b11b1f205ec3fd01621403393688",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshについてさらに知りたい場合は、[GitHubのChaos Meshコミュニティ](https://github.com/chaos-mesh)に参加するか、[Slackディスカッション](https://slack.cncf.io/) (#project-chaos-mesh)にご参加ください。Chaos Meshの使用中にバグや不足している機能を見つけた場合は、[GitHubリポジトリ](https://github.com/chaos-mesh/chaos-mesh)にプルリクエストまたはイシューを提出してください。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2021-12-16-chaos-mesh-skywalking.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.689100+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "7e27c61435ca0fd29092ffdef7ebc43ffe67655bdf85f0a4a09c49e35cb19b81"
+  }
+}

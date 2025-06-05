@@ -1,0 +1,432 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "versioned_docs/version-2.7.2/simulate-jvm-application-chaos.md",
+  "source_file_content_hash": "ca5f0af593eae76d8a5d840aef9b621f2f06a5c284df5bcaa95f7981e14efaf1",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Simulate JVM Application Faults\n---",
+      "source_content_hash": "7b0a5ccc05ac137b8e75422434af8373636172c3516204e79402151e65416e21",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "Chaos Mesh simulates the faults of JVM application through [Byteman](https://github.com/chaos-mesh/byteman). The supported fault types are as follows:",
+      "source_content_hash": "2b45a24ef6092779e101e02eec1285ef6fe197b97c76361d46fd4490d9bda2a9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは[Byteman](https://github.com/chaos-mesh/byteman)を使用してJVMアプリケーションの障害をシミュレートします。サポートされている障害タイプは以下の通りです："
+      }
+    },
+    {
+      "segment_id": "57e757df",
+      "source_content": "- Throw custom exceptions\n- Trigger garbage collection\n- Increase method latency\n- Modify return values of a method\n- Trigger faults by setting Byteman configuration files\n- Increase JVM pressure",
+      "source_content_hash": "adfffa960aecb9ca7de84da0a50d4c10f474a6d3f05c90b4d4a2ffce058c7e11",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- カスタム例外のスロー\n- ガベージコレクションのトリガー\n- メソッドレイテンシの増加\n- メソッドの戻り値の変更\n- Byteman設定ファイルによる障害のトリガー\n- JVM負荷の増加"
+      }
+    },
+    {
+      "segment_id": "ad8fd492",
+      "source_content": "This document describes how to use Chaos Mesh to create the above fault types of JVM experiments.",
+      "source_content_hash": "28b01fc839e65af551fc3839f51dd03a7dba8d72d1d75b62c9db9db3f1e7ab34",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、Chaos Meshを使用して上記のJVM実験の障害タイプを作成する方法について説明します。"
+      }
+    },
+    {
+      "segment_id": "976d532b",
+      "source_content": ":::note\n\nYour Linux kernel must be v4.1 or later.\n\n:::",
+      "source_content_hash": "07613849c01606e30e99cd4e2701735ddefeca8fdbe4fefa4383938b6952778e",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\nLinuxカーネルはv4.1以降である必要があります。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "63622bf0",
+      "source_content": "## Create experiments using Chaos Dashboard",
+      "source_content_hash": "0e6c13931d3c46c241532f93bf2c43261695607133973a006c15d6651045ed71",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Dashboardを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "8cf6d045",
+      "source_content": "1. Open Chaos Dashboard, and click **NEW EXPERIMENT** on the page to create a new experiment.\n\n   ![create a new experiment](./img/create-new-exp.png)\n\n2. In the **Choose a Target** area, choose **JVM FAULT**, and select a specific behavior, such as **`RETURN`**. Then, fill out the detailed configurations.\n\n   ![JVMChaos experiments](./img/jvmchaos-exp.png)\n\n   For information about how to fill out the configurations, refer to [Field Description] (#field-description).\n\n3. Fill out the experiment information, and specify the experiment scope and the scheduled experiment duration.\n\n   ![experiment information](./img/exp-info.png)\n\n4. Submit the experiment information.",
+      "source_content_hash": "f2d0321fcb986d785cab6ce686d7def92c01c26a86f3c12199fbb44ee0e45579",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. Chaos Dashboardを開き、ページ上の **NEW EXPERIMENT** をクリックして新しい実験を作成します。\n\n   ![新しい実験の作成](./img/create-new-exp.png)\n\n2. **Choose a Target** エリアで **JVM FAULT** を選択し、**`RETURN`** などの特定の動作を選択します。その後、詳細な設定を入力します。\n\n   ![JVMChaos実験](./img/jvmchaos-exp.png)\n\n   設定項目の記入方法については、[フィールド説明] (#field-description) を参照してください。\n\n3. 実験情報を入力し、実験範囲と予定された実験期間を指定します。\n\n   ![実験情報](./img/exp-info.png)\n\n4. 実験情報を送信します。"
+      }
+    },
+    {
+      "segment_id": "782c902a",
+      "source_content": "## Create experiments using YAML files",
+      "source_content_hash": "87be3d29972bae4243b6969851f9d8cee6ef367c0b93cb5fe2ad6e4c107cd5a3",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## YAMLファイルを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "50746522",
+      "source_content": "The following example shows the usage and effects of JVMChaos. The example specifies the return values of a method. The YAML files referred to in the following steps can be found in [examples/jvm](https://github.com/chaos-mesh/chaos-mesh/tree/master/examples/jvm). The default work directory for the following steps is also `examples/jvm`. The default namespace where Chaos Mesh is installed is `chaos-mesh`.",
+      "source_content_hash": "df4f14c6deafb402478ae2e62c9201a1d9ef00f7ed0c9f7430641b2c3cf6342f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下の例は、JVMChaosの使用方法と効果を示しています。この例では、メソッドの戻り値を指定しています。以下の手順で参照されるYAMLファイルは、[examples/jvm](https://github.com/chaos-mesh/chaos-mesh/tree/master/examples/jvm)にあります。以下の手順のデフォルトの作業ディレクトリも`examples/jvm`です。Chaos Meshがインストールされているデフォルトの名前空間は`chaos-mesh`です。"
+      }
+    },
+    {
+      "segment_id": "54268405",
+      "source_content": "### Step 1. Create the target application",
+      "source_content_hash": "51983759435465890239acb8aee3a81e3d3630b6495fe265b866dda3cd7acb95",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ステップ1. ターゲットアプリケーションの作成"
+      }
+    },
+    {
+      "segment_id": "8af76f3d",
+      "source_content": "[Helloworld](https://github.com/WangXiangUSTC/byteman-example/tree/main/example.helloworld) is a simple Java application. In this section, this application is used as the target application that is to be tested. The target application is defined in `example/jvm/app.yaml` as follows:",
+      "source_content_hash": "d2d0dc79fa2e88da0e10c91fe322a4cb2fd87a6c24ba3864816ec9206bda94d5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Helloworld](https://github.com/WangXiangUSTC/byteman-example/tree/main/example.helloworld)はシンプルなJavaアプリケーションです。このセクションでは、このアプリケーションをテスト対象として使用します。ターゲットアプリケーションは`example/jvm/app.yaml`で以下のように定義されています："
+      }
+    },
+    {
+      "segment_id": "48ec8149",
+      "source_content": "```yaml\napiVersion: v1\nkind: Pod\nmetadata:\n  name: helloworld\n  namespace: helloworld\nspec:\n  containers:\n    - name: helloworld\n      # source code: https://github.com/WangXiangUSTC/byteman-example/tree/main/example.helloworld\n      # this application will print log like this below:\n      # 0. Hello World\n      # 1. Hello World\n      # ...\n      image: xiang13225080/helloworld:v1.0\n      imagePullPolicy: IfNotPresent\n```",
+      "source_content_hash": "8c9632a4a0b0877b18d9e344ad591a8c29a1090b953b72c6b1b756a4e25505e3",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_48ec8149"
+      }
+    },
+    {
+      "segment_id": "2eb5ba30",
+      "source_content": "1. Create the namespace for the target application:\n\n   ```shell\n   kubectl create namespace helloworld\n   ```\n\n2. Build the application Pod:\n\n   ```shell\n   kubectl apply -f app.yaml\n   ```\n\n3. Execute `kubectl -n helloworld get pods`, and you are expected to find a pod named `helloworld` in the `helloworld` namespace.\n\n   ```shell\n   kubectl -n helloworld get pods\n   ```\n\n   The result is as follows:\n\n   ```text\n   kubectl get pods -n helloworld\n   NAME         READY   STATUS    RESTARTS   AGE\n   helloworld   1/1     Running   0          2m\n   ```\n\n   After the `READY` column turns to `1/1`, you can proceed to the next step.",
+      "source_content_hash": "fd8fb26eb2a4ae3d240009d81b7b988ec6023f83a66d0225f9580475f05af390",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. ターゲットアプリケーションの名前空間を作成します：\n\n   ```shell\n   kubectl create namespace helloworld\n   ```\n\n2. アプリケーションPodをビルドします：\n\n   ```shell\n   kubectl apply -f app.yaml\n   ```\n\n3. `kubectl -n helloworld get pods`を実行し、`helloworld`名前空間に`helloworld`という名前のPodがあることを確認します。\n\n   ```shell\n   kubectl -n helloworld get pods\n   ```\n\n   結果は以下のようになります：\n\n   ```text\n   kubectl get pods -n helloworld\n   NAME         READY   STATUS    RESTARTS   AGE\n   helloworld   1/1     Running   0          2m\n   ```\n\n   `READY`列が`1/1`になったら、次のステップに進むことができます。"
+      }
+    },
+    {
+      "segment_id": "f6b04a59",
+      "source_content": "### Step 2. Observe application behaviors before injecting faults​",
+      "source_content_hash": "e4defa8682e9e92e4281e1e0a03673c5ab66ee9b4eaa58dcae8b719bf8dc5eff",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ステップ2. 障害注入前のアプリケーション動作の観察"
+      }
+    },
+    {
+      "segment_id": "a311e967",
+      "source_content": "You can observe the behavior of `helloworld` application before injecting faults, for example:",
+      "source_content_hash": "cdf071040ecae23d4e1b518c2d13b19e45b4ec0d33842815712e28a0e23c6436",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "障害を注入する前に、`helloworld`アプリケーションの動作を観察できます。例えば："
+      }
+    },
+    {
+      "segment_id": "7fa46732",
+      "source_content": "```shell\nkubectl -n helloworld logs -f helloworld\n```",
+      "source_content_hash": "0469cd49d3e820ec1823adf6b402403f198e4858f6c26f6d0f75bf446abae068",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_7fa46732"
+      }
+    },
+    {
+      "segment_id": "6ca4479f",
+      "source_content": "The result is as follows:",
+      "source_content_hash": "9611d7f264a9daa04dbfea741f945b12f30e14bb89d500ff23f913a42abf7415",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "結果は以下のようになります："
+      }
+    },
+    {
+      "segment_id": "1cf51900",
+      "source_content": "```shell\n0. Hello World\n1. Hello World\n2. Hello World\n3. Hello World\n4. Hello World\n5. Hello World\n```",
+      "source_content_hash": "86b384e2d9d22ba7bdcaac189f66108654868ca9e6dbf615d93362a259925179",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_1cf51900"
+      }
+    },
+    {
+      "segment_id": "6693c38c",
+      "source_content": "You can see that `helloworld` outputs a line of `Hello World` every second, and the number of each line increases in turn.",
+      "source_content_hash": "dcd96a633cd06b761a9d8d7ecc578671c9eb7d0f506bc77499d0bffcb7a53aec",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`helloworld`が毎秒`Hello World`の行を出力し、各行の番号が順番に増加していることがわかります。"
+      }
+    },
+    {
+      "segment_id": "8172a0a5",
+      "source_content": "### Step 3. Inject JVMChaos and check",
+      "source_content_hash": "db1a7c5ed1a885f3092581bd2111dc4a61058d01bbc1a48d723d057a5f781eae",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ステップ3. JVMChaosの注入と確認"
+      }
+    },
+    {
+      "segment_id": "2890f5b2",
+      "source_content": "1. The JVMChaos with a specified return value is as follows:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: JVMChaos\n   metadata:\n     name: return\n     namespace: helloworld\n   spec:\n     action: return\n     class: Main\n     method: getnum\n     value: '9999'\n     mode: all\n     selector:\n       namespaces:\n         - helloworld\n   ```\n\n   JVMChaos changes the return value of the `getnum` method to the number `9999`, which means that the number of each line in the `helloworld` output is set to `9999`.\n\n2. Inject JVMChaos with a specified value:\n\n   ```shell\n   kubectl apply -f ./jvm-return-example.yaml\n   ```\n\n3. Check the latest log of `helloworld`:\n\n   ```shell\n   kubectl -n helloworld logs -f helloworld\n   ```\n\n   The log is as follows:\n\n   ```shell\n   Rule.execute called for return_0:0\n   return execute\n   caught ReturnException\n   9999. Hello World\n   ```",
+      "source_content_hash": "02e5584a4479fb5ccfe915d7b5953dd3032d6b8217dd64b92e1e4ef93f603cc3",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 指定された戻り値を持つJVMChaosの例は以下の通りです:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: JVMChaos\n   metadata:\n     name: return\n     namespace: helloworld\n   spec:\n     action: return\n     class: Main\n     method: getnum\n     value: '9999'\n     mode: all\n     selector:\n       namespaces:\n         - helloworld\n   ```\n\n   JVMChaosは`getnum`メソッドの戻り値を`9999`に変更します。これにより、`helloworld`の出力における各行の番号が`9999`に設定されます。\n\n2. 指定された値でJVMChaosを注入:\n\n   ```shell\n   kubectl apply -f ./jvm-return-example.yaml\n   ```\n\n3. `helloworld`の最新ログを確認:\n\n   ```shell\n   kubectl -n helloworld logs -f helloworld\n   ```\n\n   ログは以下のようになります:\n\n   ```shell\n   Rule.execute called for return_0:0\n   return execute\n   caught ReturnException\n   9999. Hello World\n   ```"
+      }
+    },
+    {
+      "segment_id": "c6b2ca77",
+      "source_content": "## Field description",
+      "source_content_hash": "afef87832591f63e7a3c9579f8a2492cf81afc3e8b0d02296e334646ad82d4f6",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## フィールド説明"
+      }
+    },
+    {
+      "segment_id": "1603328c",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| `action` | string | Indicates the specific fault type. The available fault types include `latency`, `return`, `exception`, `stress`, `gc`, and `ruleData`. | None | Yes | return |\n| `mode` | string | Indicates how to select Pod. The supported modes include `one`, `all`, `fixed`, `fixed-percent`, and `random-max-percent`. | None | Yes | `one` |",
+      "source_content_hash": "2eb9e903be70c033de60acb7b4a1012be6964f5c21470775cb79a8d32f898834",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_1603328c"
+      }
+    },
+    {
+      "segment_id": "0ddaa835",
+      "source_content": "The meanings of the different `action` values are as follows:",
+      "source_content_hash": "766a7cb3f2d0fb81a5e42d08bf2318e494e9823f90d1bf853e2a8e072beeee84",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "異なる`action`値の意味は以下の通りです:"
+      }
+    },
+    {
+      "segment_id": "62c9412b",
+      "source_content": "| Value | Meaning |\n| --- | --- |\n| `latency` | Increase method latency |\n| `return` | Modify return values of a method |\n| `exception` | Throw custom exceptions |\n| `stress` | Increase CPU usage of Java process, or cause memory overflow (support heap overflow and stack overflow) |\n| `gc` | Trigger garbage collection |\n| `ruleData` | Trigger faults by setting Byteman configuration files |",
+      "source_content_hash": "0245f63efef407daa1260a8bac56d132924ac6ecb975a6c3032901c8533e8d9b",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_62c9412b"
+      }
+    },
+    {
+      "segment_id": "808b0414",
+      "source_content": "For different `action` values, there are different configuration items that can be filled in.",
+      "source_content_hash": "c0e7a7efdec96165f53e116517f7c639d0e3297855711111cc0ccc1ac2a29cd2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`action`値によって、入力可能な設定項目が異なります。"
+      }
+    },
+    {
+      "segment_id": "a75f8411",
+      "source_content": "### Parameters for `latency`",
+      "source_content_hash": "154583193f31c7ef596f8aeaee79bde2dee7ad4bc02e7d7adf20b8773cc0e62c",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `latency`のパラメータ"
+      }
+    },
+    {
+      "segment_id": "dda3514e",
+      "source_content": "| Parameter | Type | Description | Required |\n| --- | --- | --- | --- |\n| `class` | string | The name of the Java class | Yes |\n| `method` | string | The name of the method | Yes |\n| `latency` | int | The duration of increasing method latency. The unit is millisecond. | Yes |\n| `port` | int | The port ID attached to the Java process agent. The faults are injected into the Java process through this ID. | No |",
+      "source_content_hash": "a49452077f9b739d1539d6aebd56dc37e0206cc134c58726eba10b6e9f6701fd",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_dda3514e"
+      }
+    },
+    {
+      "segment_id": "e63d69ef",
+      "source_content": "### Parameters for `return`",
+      "source_content_hash": "14e9d7e7104c9b6c7b6fd50a029f7e1d859ea10f59d2f56415b6cc5de0a0f83d",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `return`のパラメータ"
+      }
+    },
+    {
+      "segment_id": "04e40597",
+      "source_content": "| Parameter | Type | Description | Required |\n| --- | --- | --- | --- |\n| `class` | string | The name of the Java class | Yes |\n| `method` | string | The name of the method | Yes |\n| `value` | string | Specifies the return value of the method. Currently, the item can be numeric and string types. If the item (return value) is string, double quotes are required, like \"chaos\". | Yes |\n| `port` | int | The port ID attached to the Java process agent. The faults are injected into the Java process through this ID. | No |",
+      "source_content_hash": "bd348dab20d6500e20eda19fc4509527f6c24261264935a124fe35922a681e33",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_04e40597"
+      }
+    },
+    {
+      "segment_id": "dfa23ddf",
+      "source_content": "### Parameters for `exception`",
+      "source_content_hash": "2a14be71e0f26a4256753ee1797e73cf56467c6c17b8380ac3be1f3014bc4a0e",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `exception`のパラメータ"
+      }
+    },
+    {
+      "segment_id": "9c3939ea",
+      "source_content": "| Parameter | Type | Description | Required |\n| --- | --- | --- | --- |\n| `class` | string | The name of the Java class | Yes |\n| `method` | string | The name of the method | Yes |\n| `exception` | string | The thrown custom exception, such as 'java.io.IOException(\"BOOM\")'. | Yes |\n| `port` | int | The port ID attached to the Java process agent. The faults are injected into the Java process through this ID. | No |",
+      "source_content_hash": "96130d1478c26262bd971b82f5a6553cb81abc4fa4945c0443c6ccb7790f97ec",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_9c3939ea"
+      }
+    },
+    {
+      "segment_id": "a7628008",
+      "source_content": "### Parameters for `stress`",
+      "source_content_hash": "940901b9887d8ae300cc93d60fed53491afd818218a071274ca14e798307ee1a",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `stress`のパラメータ"
+      }
+    },
+    {
+      "segment_id": "0542488c",
+      "source_content": "| Parameter | Type | Description | Required |\n| --- | --- | --- | --- |\n| `cpuCount` | int | The number of CPU cores used for increasing CPU stress. You must configure one item between `cpu-count` and `mem-type`. | No |\n| `memType` | string | The type of OOM. Currently, both 'stack' and 'heap' OOM types are supported. You must configure one item between `cpu-count` and `mem-type`. | No |\n| `port` | int | The port ID attached to the Java process agent. The faults are injected into the Java process through this ID. | No |",
+      "source_content_hash": "c0b5337a95dd803aed9c8bbd969aadb132c7d96121cafe7b8cfde59662f5e623",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_0542488c"
+      }
+    },
+    {
+      "segment_id": "dd21637d",
+      "source_content": "### Parameters for `gc`",
+      "source_content_hash": "6149751e80088d26c32928970aa66a9823be1b61d36dfbc2a21c109f045e04e9",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `gc`のパラメータ"
+      }
+    },
+    {
+      "segment_id": "0ef6e712",
+      "source_content": "| Parameter | Type | Description | Required |\n| --- | --- | --- | --- |\n| `port` | int | The port ID attached to the Java process agent. The faults are injected into the Java process through this ID. | No |",
+      "source_content_hash": "f4853bf7d53424caf7650bc40e89950bccc1ab2b56324320014189ad05a2808e",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_0ef6e712"
+      }
+    },
+    {
+      "segment_id": "dc825187",
+      "source_content": "### Parameters for `ruleData`",
+      "source_content_hash": "cf8fc9846179d2aaff7cbe14a514e9ff0204aa108059069ca41e6326cff0cbea",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `ruleData`のパラメータ"
+      }
+    },
+    {
+      "segment_id": "b8bf77d8",
+      "source_content": "| Parameter | Type | Description | Required |\n| --- | --- | --- | --- |\n| `ruleData` | string | Specifies the Byteman configuration data | Yes |\n| `port` | int | The port ID attached to the Java process agent. The faults are injected into the Java process through this ID. | No |",
+      "source_content_hash": "2aefe466dc9327e86fc67f02331e6492e8f44760dc09b1604fedb56f7045da2f",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_b8bf77d8"
+      }
+    },
+    {
+      "segment_id": "49be422b",
+      "source_content": "When you write the rule configuration file, take into account the specific Java program and the [byteman-rule-language](https://downloads.jboss.org/byteman/4.0.16/byteman-programmers-guide.html#the-byteman-rule-language). For example:",
+      "source_content_hash": "dad04a4c11293af569c919dcbe539fe54eccfa728e7a83852dacb6d96a8d4202",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ルール設定ファイルを作成する際は、特定のJavaプログラムと[byteman-rule-language](https://downloads.jboss.org/byteman/4.0.16/byteman-programmers-guide.html#the-byteman-rule-language)を考慮してください。例:"
+      }
+    },
+    {
+      "segment_id": "5ad8d2b2",
+      "source_content": "```txt\nRULE modify return value\nCLASS Main\nMETHOD getnum\nAT ENTRY\nIF true\nDO\n    return 9999\nENDRULE\n```",
+      "source_content_hash": "4dbcd21ead3708322943d58ee6eeabe25769bff2bc6d74c6ffe7303b44aaa40c",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_5ad8d2b2"
+      }
+    },
+    {
+      "segment_id": "ba12acea",
+      "source_content": "You need to escape the line breaks in the configuration file to the newline character \"\\n\", and use the escaped text as the value of \"rule-data\" as follows:",
+      "source_content_hash": "2a61eacc74ea7712f8c156994b39e6ce0f73e057a08ae72073b01c9f299c79d1",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "設定ファイル内の改行を改行文字\"\\n\"にエスケープし、エスケープされたテキストを\"rule-data\"の値として使用します:"
+      }
+    },
+    {
+      "segment_id": "9d31dc8f",
+      "source_content": "```txt\n\\nRULE modify return value\\nCLASS Main\\nMETHOD getnum\\nAT ENTRY\\nIF true\\nDO return 9999\\nENDRULE\\n\"\n```",
+      "source_content_hash": "555c65757100835b44278617603b0893b01e4570e97d31c077cc685155103a63",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_9d31dc8f"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/version-2.7.2/simulate-jvm-application-chaos.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.693930+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "ca5f0af593eae76d8a5d840aef9b621f2f06a5c284df5bcaa95f7981e14efaf1"
+  }
+}

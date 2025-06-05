@@ -1,0 +1,562 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "versioned_docs/version-2.6.7/simulate-http-chaos-on-kubernetes.md",
+  "source_file_content_hash": "73824c2a8f1427431595ccd20f7b4f92f58b796c1a502305d97a8dedd5e6bdb3",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Simulate HTTP Faults\n---",
+      "source_content_hash": "d4c1566308ad0b326936fe968a3e55e1a26dd0ae27e34e0bfab3c81a4eda9e3a",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "This document describes how to simulate HTTP faults by creating HTTPChaos experiments in Chaos Mesh.",
+      "source_content_hash": "84e78b5e4112dd6c1e0a86f5396ec722d0d61bad1918c250c409dc429b286593",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、Chaos MeshでHTTPChaos実験を作成してHTTP障害をシミュレートする方法について説明します。"
+      }
+    },
+    {
+      "segment_id": "a703643c",
+      "source_content": "## HTTPChaos introduction",
+      "source_content_hash": "8ca2e4043efee463ed7d3e320c18273a5b2deb6cf5410f292bd731f20a3bdd3b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## HTTPChaosの紹介"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "HTTPChaos is a fault type provided by Chaos Mesh. By creating HTTPChaos experiments, you can simulate the fault scenarios during the HTTP request and response processing. Currently, HTTPChaos supports simulating the following fault types:",
+      "source_content_hash": "e5f84bfe106c7dace117606a827849d3f9315de07016dbdcb27d27e3c3b34602",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "HTTPChaosはChaos Meshが提供する障害タイプです。HTTPChaos実験を作成することで、HTTPリクエストとレスポンス処理中の障害シナリオをシミュレートできます。現在、HTTPChaosは以下の障害タイプのシミュレーションをサポートしています："
+      }
+    },
+    {
+      "segment_id": "be33979e",
+      "source_content": "- `abort`: interrupts the connection\n- `delay`: injects latency into the request or response\n- `replace`: replaces part of content in HTTP request or response messages\n- `patch`: adds additional content to HTTP request or response messages",
+      "source_content_hash": "95f3a923e00d959d0074ce0f57c381fd7249df2a102717da12b1fc0ef17c9f62",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- `abort`: 接続を中断する\n- `delay`: リクエストまたはレスポンスに遅延を注入する\n- `replace`: HTTPリクエストまたはレスポンスメッセージの一部を置換する\n- `patch`: HTTPリクエストまたはレスポンスメッセージに追加コンテンツを付与する"
+      }
+    },
+    {
+      "segment_id": "86b54d44",
+      "source_content": "HTTPChaos supports combinations of different fault types. If you have configured multiple HTTP fault types at the same time when creating HTTPChaos experiments, the order set to inject the faults when the experiments start running is `abort` -> `delay` -> `replace` -> `patch`. When the `abort` fault cause short circuits, the connection will be directly interrupted.",
+      "source_content_hash": "ece0a43cde7d077b0206666b252f8dde7693cd0fcacc94a7e7683c374d6facf7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "HTTPChaosは異なる障害タイプの組み合わせをサポートしています。HTTPChaos実験作成時に複数のHTTP障害タイプを同時に設定した場合、実験開始時に障害が注入される順序は`abort` -> `delay` -> `replace` -> `patch`となります。`abort`障害によって短絡が発生した場合、接続は直接中断されます。"
+      }
+    },
+    {
+      "segment_id": "39b3772c",
+      "source_content": "For the detailed description of HTTPChaos configuration, see [Field description](#field-description) below.",
+      "source_content_hash": "62160e8f9657cd3bf2785f18910c07e724a68848f95b8f7c2e34eee660cf890f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "HTTPChaos設定の詳細な説明については、以下の[フィールド説明](#field-description)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "bc633244",
+      "source_content": "## Notes",
+      "source_content_hash": "63e13e87b378d1e85f838ead267db9020c1457b1118a37e0af9fb5f976144f4b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 注意事項"
+      }
+    },
+    {
+      "segment_id": "2df4f75f",
+      "source_content": "Before injecting the faults supported by HTTPChaos, note the followings:",
+      "source_content_hash": "9385dae3e722cf035c8b7304f6d6ebe61c69ef94fe9d0d7be696ad6062ae7bab",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "HTTPChaosがサポートする障害を注入する前に、以下の点に注意してください："
+      }
+    },
+    {
+      "segment_id": "8cf6d045",
+      "source_content": "- There is no control manager of Chaos Mesh running on the target Pod.\n- The rules will affect both of clients and servers in the Pod, if you want to affect only one side, please refer to the [specify side](#specify-side) section.\n- HTTPS accesses should be disabled, because injecting HTTPS connections is not supported currently.\n- For HTTPChaos injection to take effect, the client should avoid reusing TCP socket. This is because HTTPChaos does not affect the HTTP requests that are sent via TCP socket before the fault injection.\n- Use non-idempotent requests (such as most of the POST requests) with caution in production environments. If such requests are used, the target service may not return to normal status by repeating requests after the fault injection.",
+      "source_content_hash": "30bdf543cacdf3d4bb51e09f76d2042ab3e56dbad4b421dbb2124588a9b4de67",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- ターゲットPod上でChaos Meshのコントロールマネージャーが動作していないこと\n- ルールはPod内のクライアントとサーバーの両方に影響します。片方のみに影響させたい場合は[指定側](#specify-side)セクションを参照してください\n- HTTPSアクセスは無効にする必要があります（現在HTTPS接続への注入はサポートされていません）\n- HTTPChaos注入を有効にするため、クライアントはTCPソケットの再利用を避ける必要があります。これはHTTPChaosが障害注入前にTCPソケット経由で送信されたHTTPリクエストには影響しないためです\n- 本番環境では非冪等リクエスト（POSTリクエストの大部分など）の使用に注意してください。このようなリクエストを使用した場合、障害注入後にリクエストを繰り返してもターゲットサービスが正常な状態に戻らない可能性があります"
+      }
+    },
+    {
+      "segment_id": "d06306f7",
+      "source_content": "## Create experiments using Chaos Dashboard",
+      "source_content_hash": "0e6c13931d3c46c241532f93bf2c43261695607133973a006c15d6651045ed71",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Dashboardを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "86b525ab",
+      "source_content": "1. Open Chaos Dashboard, and click **NEW EXPERIMENT** on the page to create a new experiment:\n\n   ![create an experiment](./img/create-new-exp.png)\n\n2. In the **Choose a Target** area, choose **HTTP FAULT** and select a specific behavior, such as `RESPONSE ABORT`. Then fill out specific configurations.\n\n   ![create HTTP fault](./img/create-new-httpchaos.png)\n\n3. Submit the experiment.\n\n   In the example above, you have configured injecting the \"Response abort\" fault into all requests of Port 80.",
+      "source_content_hash": "cc33c851e807f1f68cc6623d7bf3d1f9992031f6fd138bab48e15f5fea823ba0",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. Chaos Dashboardを開き、ページ上の**NEW EXPERIMENT**をクリックして新しい実験を作成します：\n\n   ![実験の作成](./img/create-new-exp.png)\n\n2. **Choose a Target**エリアで、**HTTP FAULT**を選択し、`RESPONSE ABORT`などの特定の動作を選択します。その後、具体的な設定を入力します。\n\n   ![HTTP障害の作成](./img/create-new-httpchaos.png)\n\n3. 実験を送信します。\n\n   上記の例では、ポート80のすべてのリクエストに「Response abort」障害を注入するように設定しています。"
+      }
+    },
+    {
+      "segment_id": "54268405",
+      "source_content": "## Create experiments using YAML files",
+      "source_content_hash": "87be3d29972bae4243b6969851f9d8cee6ef367c0b93cb5fe2ad6e4c107cd5a3",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## YAMLファイルを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "8af76f3d",
+      "source_content": "Chaos Mesh also supports using YAML configuration files to create HTTPChaos experiments. In a YAML file, you can simulate either one HTTP fault type or a combination of different HTTP fault types.",
+      "source_content_hash": "f1cf8611d73520cba49cc62263598bcd2e6d1407284593387c8973f4ad9afad0",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos MeshはYAML設定ファイルを使用したHTTPChaos実験の作成もサポートしています。YAMLファイルでは、単一のHTTP障害タイプまたは異なるHTTP障害タイプの組み合わせをシミュレートできます。"
+      }
+    },
+    {
+      "segment_id": "c674e260",
+      "source_content": "### Example of `abort`",
+      "source_content_hash": "a21805bc0faa5df54ce8245a3c1b917d6f41be85af2511fd690ab828c4c1bde1",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `abort`の例"
+      }
+    },
+    {
+      "segment_id": "40251870",
+      "source_content": "1. Write the experimental configuration to the `http-abort-failure.yaml` file as the example below:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: HTTPChaos\n   metadata:\n     name: test-http-chaos\n   spec:\n     mode: all\n     selector:\n       labelSelectors:\n         app: nginx\n     target: Request\n     port: 80\n     method: GET\n     path: /api\n     abort: true\n     duration: 5m\n   ```\n\n   Based on this configuration example, Chaos Mesh will inject the `abort` fault into the specified pod for 5 minutes. During the fault injection, the GET requests sent through port 80 in the `/api` path of the target Pod will be interrupted.\n\n2. After the configuration file is prepared, use `kubectl` to create the experiment:\n\n   ```bash\n   kubectl apply -f ./http-abort-failure.yaml\n   ```",
+      "source_content_hash": "c3fbd17ed9dae779f3d6e68ee8a2468aa0645c326d967e882ce26f869712212f",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 以下の例のように実験設定を`http-abort-failure.yaml`ファイルに記述します：\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: HTTPChaos\n   metadata:\n     name: test-http-chaos\n   spec:\n     mode: all\n     selector:\n       labelSelectors:\n         app: nginx\n     target: Request\n     port: 80\n     method: GET\n     path: /api\n     abort: true\n     duration: 5m\n   ```\n\n   この設定例に基づき、Chaos Meshは指定されたPodに5分間`abort`障害を注入します。障害注入中、ターゲットPodのポート80経由で`/api`パスに送信されるGETリクエストは中断されます。\n\n2. 設定ファイルの準備ができたら、`kubectl`を使用して実験を作成します：\n\n   ```bash\n   kubectl apply -f ./http-abort-failure.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "98355e36",
+      "source_content": "### Example of fault combinations",
+      "source_content_hash": "b8283c40ca762ab9aef065e5ebe802ae180510877c2ebc1bb8ab33a48e87fcbe",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 障害組み合わせの例"
+      }
+    },
+    {
+      "segment_id": "ca1573da",
+      "source_content": "1. Write the experimental configuration to `http-failure.yaml` file as the example below:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: HTTPChaos\n   metadata:\n     name: test-http-chaos\n   spec:\n     mode: all\n     selector:\n       labelSelectors:\n         app: nginx\n     target: Request\n     port: 80\n     method: GET\n     path: /api/*\n     delay: 10s\n     replace:\n       path: /api/v2/\n       method: DELETE\n     patch:\n       headers:\n         - ['Token', '<one token>']\n         - ['Token', '<another token>']\n       body:\n         type: JSON\n         value: '{\"foo\": \"bar\"}'\n     duration: 5m\n   ```\n\n   Based on this configuration example, Chaos Mesh will inject the `delay` fault, `replace` fault, and `patch` fault consecutively.\n\n2. After the configuration file is prepared, use `kubectl` to create the experiment:\n\n   ```bash\n   kubectl apply -f ./http-failure.yaml\n   ```",
+      "source_content_hash": "38402d25b4be6b4c8614d2d9990846de5fc2668f9878421096e8259a5fba5fa1",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 以下の例のように、実験設定を `http-failure.yaml` ファイルに記述します:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: HTTPChaos\n   metadata:\n     name: test-http-chaos\n   spec:\n     mode: all\n     selector:\n       labelSelectors:\n         app: nginx\n     target: Request\n     port: 80\n     method: GET\n     path: /api/*\n     delay: 10s\n     replace:\n       path: /api/v2/\n       method: DELETE\n     patch:\n       headers:\n         - ['Token', '<one token>']\n         - ['Token', '<another token>']\n       body:\n         type: JSON\n         value: '{\"foo\": \"bar\"}'\n     duration: 5m\n   ```\n\n   この設定例に基づき、Chaos Mesh は `delay` 障害、`replace` 障害、`patch` 障害を順番に注入します。\n\n2. 設定ファイルの準備ができたら、`kubectl` を使用して実験を作成します:\n\n   ```bash\n   kubectl apply -f ./http-failure.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "f8614e13",
+      "source_content": "## Field description",
+      "source_content_hash": "afef87832591f63e7a3c9579f8a2492cf81afc3e8b0d02296e334646ad82d4f6",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## フィールド説明"
+      }
+    },
+    {
+      "segment_id": "638efb88",
+      "source_content": "### Description for common fields",
+      "source_content_hash": "b031f67524fea55d284837249320870c0901ab5ba99c0f8d6c5e972db29428af",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 共通フィールドの説明"
+      }
+    },
+    {
+      "segment_id": "558df877",
+      "source_content": "Common fields are meaningful when the `target` of fault injection is `Request` or `Response`.",
+      "source_content_hash": "c31f719ab8ecc97719500c40b157db6a5ee2c3907ef8df39c111277b346ccc45",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "共通フィールドは、障害注入の `target` が `Request` または `Response` の場合に意味を持ちます。"
+      }
+    },
+    {
+      "segment_id": "aaf39b16",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| `mode` | string | Specifies the mode of the experiment. The mode options include `one` (selecting a random pod), `all` (selecting all eligible pods), `fixed` (selecting a specified number of eligible pods), `fixed-percent` (selecting a specified percentage of Pods from the eligible pods), and `random-max-percent` (selecting the maximum percentage of Pods from the eligible pods). |  | yes | `one` |\n| `value` | string | Provides parameters for the `mode` configuration depending on the value of `mode`. |  | no | 1 |\n| `target` | string | Specifies whether the target of fault injuection is `Request` or `Response`. The [`target`-related fields](#description-for-target-related-fields) should be configured at the same time. |  | yes | Request |\n| `port` | int32 | The TCP port that the target service listens on. |  | yes | 80 |\n| `path` | string | The URI path of the target request. Supports [Matching wildcards](https://www.wikiwand.com/en/Matching_wildcards). | Takes effect on all paths by default. | no | /api/\\* |\n| `method` | string | The HTTP method of the target request method. | Takes effect for all methods by default. | no | GET |\n| `request_headers` | map[string]string | Matches request headers to the target service. | Takes effect for all requests by default. | no | Content-Type: application/json |\n| `abort` | bool | Indicates whether to inject the fault that interrupts the connection. | false | no | true |\n| `delay` | string | Specifies the time for a latency fault. | 0 | no | 10s |\n| `replace.headers` | map[string]string | Specifies the key pair used to replace the request headers or response headers. |  | no | Content-Type: application/xml |\n| `replace.body` | []byte | Specifies request body or response body to replace the fault (Base64 encoded). |  | no | eyJmb28iOiAiYmFyIn0K |\n| `patch.headers` | [][]string | Specifies the attached key pair of the request headers or response headers with patch faults. |  | no | - [Set-Cookie, one cookie] |\n| `patch.body.type` | string | Specifies the type of patch faults of the request body or response body. Currently, it only supports [`JSON`](https://tools.ietf.org/html/rfc7396). |  | no | JSON |\n| `patch.body.value` | string | Specifies the fault of the request body or response body with patch faults. |  | no | `{\"foo\": \"bar\"}` |\n| `duration` | string | Specifies the duration of a specific experiment. |  | yes | 30s |\n| `scheduler` | string | Specifies the scheduling rules for the time of a specific experiment. |  | no | 5 \\* \\* \\* \\* |\n| `tls.secretName` | string | SecretName represents the name of required secret resource. The secrete must combined with data `{\"tls.certName\":cert, \"tls.KeyName\":key, \"tls.caName\":ca}` |  | no | \"http-tls-scr\" |\n| `tls.secretNamespace` | string | SecretNamespace represents the namespace of required secret resource,should be the same with deployment/chaos-controller-manager in most cases |  | no | \"chaos-mesh\" |\n| `tls.certName` | string | CertName represents the data name of cert file in secret, `tls.crt` for example |  | no | \"tls.crt\" |\n| `tls.KeyName` | string | KeyName represents the data name of key file in secret, `tls.key` for example |  | no | \"tls.key\" |\n| `tls.caName` | string | CAName represents the data name of ca file in secret, `ca.crt` for example |  | no | \"ca.crt\" |",
+      "source_content_hash": "e5a618884001bbb634199cb344900cc88158aeb6bcbf0b038ea1eb331987be3e",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_aaf39b16"
+      }
+    },
+    {
+      "segment_id": "fd42cd42",
+      "source_content": ":::note\n\n- When creating experiments with YAML files, `replace.body` must be the base64 encoding of the replacement content.\n\n- When creating experiments with the Kubernetes API, there is no need to encode the replacement content, just convert it to `[]byte` and put it into the `httpchaos.Spec.Replace.Body` field. The following is an example:\n\n```golang\nhttpchaos.Spec.Replace.Body = []byte(`{\"foo\": \"bar\"}`)\n```\n\n:::",
+      "source_content_hash": "38acb693bee688aa4e11da3b0d8c7126a3547beb01501064192aa3bc9dda87c6",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\n- YAML ファイルで実験を作成する場合、`replace.body` は置換内容の base64 エンコーディングである必要があります。\n\n- Kubernetes API で実験を作成する場合、置換内容をエンコードする必要はなく、`[]byte` に変換して `httpchaos.Spec.Replace.Body` フィールドに設定するだけです。以下は例です:\n\n```golang\nhttpchaos.Spec.Replace.Body = []byte(`{\"foo\": \"bar\"}`)\n```\n\n:::"
+      }
+    },
+    {
+      "segment_id": "531ec0bb",
+      "source_content": "### Description for `target`-related fields",
+      "source_content_hash": "f0bf89a583320ed536b7f485b3b896ea541a1309c9f909be9854f76958a06132",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `target` 関連フィールドの説明"
+      }
+    },
+    {
+      "segment_id": "ee213c98",
+      "source_content": "#### `Request`-related fields",
+      "source_content_hash": "7db989a7647ffb8a8ac8679476fe1662aa77d3b0bd52637a7fd6fb6139af0178",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "#### `Request` 関連フィールド"
+      }
+    },
+    {
+      "segment_id": "008183b0",
+      "source_content": "The `Request` field is a meaningful when the `target` set to `Request` during the fault injection.",
+      "source_content_hash": "03dd48bc27d1bdb1e43a63e48ad00927b1fddf081bcfec5b4a738a9294f4cbe7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`Request` フィールドは、障害注入時に `target` が `Request` に設定されている場合に意味を持ちます。"
+      }
+    },
+    {
+      "segment_id": "affefa6f",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| `replace.path` | string | Specifies the URI path used to replace content. |  | no | /api/v2/ |\n| `replace.method` | string | Specifies the replaced content of the HTTP request method. |  | no | DELETE |\n| `replace.queries` | map[string]string | Specifies the replaced key pair of the URI query. |  | no | foo: bar |\n| `patch.queries` | [][]string | Specifies the attached key pair of the URI query with patch faults. |  | no | - [foo, bar] |",
+      "source_content_hash": "bb9ff0fa74f1f4b124197dd124054e028bf0e7073ed6103c47319907fcfad86f",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_affefa6f"
+      }
+    },
+    {
+      "segment_id": "6ffd1ebe",
+      "source_content": "#### `Respond`-related fields",
+      "source_content_hash": "5252d82f07c60957dd816c474f13ff070eb1b5ca4eeab9b0e7c8d2baffcee13b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "#### `Respond` 関連フィールド"
+      }
+    },
+    {
+      "segment_id": "89cf7bac",
+      "source_content": "The `Response` is a meaningful when the `target` set to `Response` during the fault injection.",
+      "source_content_hash": "bc77bb904e2a79699c35cdb77960f465ecb1953067b9378aeb036214de26dc6b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`Response` フィールドは、障害注入時に `target` が `Response` に設定されている場合に意味を持ちます。"
+      }
+    },
+    {
+      "segment_id": "41321865",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| `code` | int32 | Specifies the status code responded by `target`. | Takes effect for all status codes by default. | no | 200 |\n| `response_headers` | map[string]string | Matches request headers to `target`. | Takes effect for all responses by default. | no | Content-Type: application/json |\n| `replace.code` | int32 | Specifies the replaced content of the response status code. |  | no | 404 |",
+      "source_content_hash": "179de6d4277f005f39dfca47ab2d9801713cb35b7d49f542677827a3f825c9c7",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_41321865"
+      }
+    },
+    {
+      "segment_id": "8d279c43",
+      "source_content": "## Specify side",
+      "source_content_hash": "373116e89fde9ded1ad804d7966e824994073cae65ae674ef981802fd5ac1f80",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 影響側の指定"
+      }
+    },
+    {
+      "segment_id": "e5821418",
+      "source_content": "The rules will affect both of clients and servers in the Pod by default, but you can affect only one side by selecting the request headers.",
+      "source_content_hash": "29d818e23f814ed962de51b82b209b69a217a37efa6361577f4d32800e4e97e8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "デフォルトでは、ルールは Pod 内のクライアントとサーバーの両方に影響を与えますが、リクエストヘッダーを選択することで片方のみに影響を与えることができます。"
+      }
+    },
+    {
+      "segment_id": "4e2e17c5",
+      "source_content": "This section provides some examples to specify the affected side, you can adjust the header selector in rules depend on your particular cases.",
+      "source_content_hash": "0516c780d889d3f9bedc9c9398b5ad3b9ad6ff123f52fa44dbe5519804306945",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このセクションでは、影響を与える側を指定する例をいくつか紹介します。特定のケースに応じてルールのヘッダーセレクターを調整できます。"
+      }
+    },
+    {
+      "segment_id": "cce332f2",
+      "source_content": "### Client side",
+      "source_content_hash": "546a189f37023ac0df35d95a1c5964430af66ac9c0640ae55824fd6188482d77",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### クライアント側"
+      }
+    },
+    {
+      "segment_id": "9ebd9d9b",
+      "source_content": "To inject faults into clients in the Pod without affecting servers, you can select the request/response by the `Host` header in the request.",
+      "source_content_hash": "755fa2a4f98236f46c9300c4f7c2537f5088f7fa59dbba4344b4b4abf03a8b21",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Pod 内のクライアントにのみ障害を注入し、サーバーに影響を与えないようにするには、リクエストの `Host` ヘッダーでリクエスト/レスポンスを選択します。"
+      }
+    },
+    {
+      "segment_id": "295367fa",
+      "source_content": "For example, if you want to interrupt all requests to `http://example.com/`, you can apply the following YAML config:",
+      "source_content_hash": "08ec6360e5c6321720de8e87c8fc355d817530f202ceee3ac313abf5f59e5fc0",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "例えば、`http://example.com/` へのすべてのリクエストを中断したい場合、以下の YAML 設定を適用できます:"
+      }
+    },
+    {
+      "segment_id": "edfcc73c",
+      "source_content": "```yaml\napiVersion: chaos-mesh.org/v1alpha1\nkind: HTTPChaos\nmetadata:\n  name: test-http-client\nspec:\n  mode: all\n  selector:\n    labelSelectors:\n      app: some-http-client\n  target: Request\n  port: 80\n  path: '*'\n  request_headers:\n    Host: 'example.com'\n  abort: true\n```",
+      "source_content_hash": "a3bd44529f336815fbf9c2df4d7df34059a66ca38b4ef88bb69adb09f72dc473",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_edfcc73c"
+      }
+    },
+    {
+      "segment_id": "97496aad",
+      "source_content": "### Server side",
+      "source_content_hash": "809618560f5b394a0e2b4a5e9ce4cc3394388988103abea4ce41078cb3cc4975",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### サーバー側"
+      }
+    },
+    {
+      "segment_id": "af834e0d",
+      "source_content": "To inject faults into servers in the Pod without affecting clients, you can also select the request/response by the `Host` header in the request.",
+      "source_content_hash": "04d4a7c645c40cb50f4fa9c4a3670263133e12b50fc37c0c3b987ccc2d88d4d7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Pod 内のサーバーにのみ障害を注入し、クライアントに影響を与えないようにするには、リクエストの `Host` ヘッダーでリクエスト/レスポンスを選択します。"
+      }
+    },
+    {
+      "segment_id": "d75361e3",
+      "source_content": "For example, if you want to interrupt all requests to your server behind service `nginx.nginx.svc`, you can apply the following YAML config:",
+      "source_content_hash": "42e2fe10ef36bb896a3e5125fa3c6000f0b5add3de60c45d5583465a2b6b8640",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "例えば、サービス `nginx.nginx.svc` の背後にあるサーバーへのすべてのリクエストを中断したい場合、以下の YAML 設定を適用できます:"
+      }
+    },
+    {
+      "segment_id": "3ae81768",
+      "source_content": "```yaml\napiVersion: chaos-mesh.org/v1alpha1\nkind: HTTPChaos\nmetadata:\n  name: test-http-server\nspec:\n  mode: all\n  selector:\n    labelSelectors:\n      app: nginx\n  target: Request\n  port: 80\n  path: '*'\n  request_headers:\n    Host: 'nginx.nginx.svc'\n  abort: true\n```",
+      "source_content_hash": "1433e7774cf6024aeac94e4b4c0c4aef960cd104ff0c215eb45083b19089b689",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3ae81768"
+      }
+    },
+    {
+      "segment_id": "130a77cc",
+      "source_content": "In other cases, especially when injecting the inbound request from outside, you may select the request/response by the `X-Forwarded-Host` header in the request.",
+      "source_content_hash": "1d746102617f127d63227e989e221d93f02f02c855e2b597a95e7d669f3068d6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "他のケース、特に外部からのインバウンドリクエストに障害を注入する場合、リクエストの `X-Forwarded-Host` ヘッダーでリクエスト/レスポンスを選択することがあります。"
+      }
+    },
+    {
+      "segment_id": "d119b75c",
+      "source_content": "For example, if you want to interrupt all requests to your server behind a public gateway `nginx.host.org`, you can apply the following YAML config:",
+      "source_content_hash": "8d914ed1c5a326917f43f4dc25776ac56586a6a173720eacbcb62254b98d6cbd",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "例えば、パブリックゲートウェイ `nginx.host.org` の背後にあるサーバーへのすべてのリクエストを中断したい場合、以下の YAML 設定を適用できます:"
+      }
+    },
+    {
+      "segment_id": "bce471ae",
+      "source_content": "```yaml\napiVersion: chaos-mesh.org/v1alpha1\nkind: HTTPChaos\nmetadata:\n  name: test-http-server\nspec:\n  mode: all\n  selector:\n    labelSelectors:\n      app: nginx\n  target: Request\n  port: 80\n  path: '*'\n  request_headers:\n    X-Forwarded-Host: 'nginx.host.org'\n  abort: true\n```",
+      "source_content_hash": "fc61ec80792c12333f769d0aab006d3c907ce3ee1ce7ee2e54d7087d4d59c32f",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_bce471ae"
+      }
+    },
+    {
+      "segment_id": "371cb514",
+      "source_content": "## TLS",
+      "source_content_hash": "991c43119fd2e3440124ae0f94ddc5cd69db8e1fbe09e7d4305caa3bb11f422f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## TLS"
+      }
+    },
+    {
+      "segment_id": "5d5a3416",
+      "source_content": "To inject faults inside connection base on TLS, user should use TLS mode. Our proxy play a proxy role here, so in TLS people both need to act as a remote server with a trustful CA , but also need to act as a client trust the server with some ca.",
+      "source_content_hash": "0c9345b37c7545fcbf89d599538a3737fe6a638a6b6e4e9b371ae35c8f526856",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "TLS ベースの接続内に障害を注入するには、ユーザーは TLS モードを使用する必要があります。ここではプロキシがプロキシ役を果たすため、TLS では信頼できる CA を持つリモートサーバーとして動作する必要があると同時に、クライアントとしてサーバーを信頼する CA も必要です。"
+      }
+    },
+    {
+      "segment_id": "070ff7a2",
+      "source_content": "So in the secret data blow user need to create its' TLS keys & CA & CRT on their own.",
+      "source_content_hash": "2ecea5bb56d465fe1e6ebeb963b0a59420a478987132fe0c4605a81eea3cc245",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "そのため、以下のシークレットデータでは、ユーザー自身がTLSキー、CA、CRTを作成する必要があります。"
+      }
+    },
+    {
+      "segment_id": "703442ed",
+      "source_content": "```\n{\n  \"tls.certName\":cert,\n  \"tls.KeyName\":key,\n  \"tls.caName\":ca\n}\n```",
+      "source_content_hash": "0f0ad130c2f640be83955e0003ca76538425193ee560d9d5a949a95d5b276c90",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_703442ed"
+      }
+    },
+    {
+      "segment_id": "f4b938fe",
+      "source_content": "If user need to create a new TLS server and inject the connection to it, they should:",
+      "source_content_hash": "311f0e2c81740ea60942ed46021a84e2284942780f337b5815a4dd98f9f8f23e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ユーザーが新しいTLSサーバーを作成し、その接続に障害を注入する必要がある場合、以下の手順を実行する必要があります:"
+      }
+    },
+    {
+      "segment_id": "08cc9caa",
+      "source_content": "1. Create their own root CA's private key and root CA's certificate:\n\n   ```\n   openssl req -newkey rsa:4096  -x509  -sha512  -days 365 -nodes -out ca.crt -keyout ca.key\n   ```\n\n2. Create their server's Certificate Signing Request:\n\n   ```\n   openssl genrsa -out server.key 2048\n   openssl req -new -key server.key -out server.csr\n   ```\n\n3. Write an extension file `server.ext` for the server like:\n\n   ```\n   authorityKeyIdentifier=keyid,issuer\n   basicConstraints=CA:FALSE\n   keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment\n   subjectAltName = @alt_names\n\n   [alt_names]\n   IP.1 = X.X.X.X\n   ```\n\n4. Generate certificate of server:\n\n   ```\n   openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 365 -sha256 -extfile server.ext\n   ```\n\n5. Add CA `ca.crt` to client.\n\n6. Put `server.key`, `server.crt`, `ca.crt` into a secrete and give it to TLS mode.",
+      "source_content_hash": "b2c9f63f51095568c11b70b736e1170a0e6541fc928736275624311c6d920e61",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 独自のルートCAの秘密鍵とルートCAの証明書を作成します:\n\n   ```\n   openssl req -newkey rsa:4096  -x509  -sha512  -days 365 -nodes -out ca.crt -keyout ca.key\n   ```\n\n2. サーバーの証明書署名要求(CSR)を作成します:\n\n   ```\n   openssl genrsa -out server.key 2048\n   openssl req -new -key server.key -out server.csr\n   ```\n\n3. サーバー用の拡張ファイル `server.ext` を以下のように作成します:\n\n   ```\n   authorityKeyIdentifier=keyid,issuer\n   basicConstraints=CA:FALSE\n   keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment\n   subjectAltName = @alt_names\n\n   [alt_names]\n   IP.1 = X.X.X.X\n   ```\n\n4. サーバーの証明書を生成します:\n\n   ```\n   openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 365 -sha256 -extfile server.ext\n   ```\n\n5. クライアントにCA `ca.crt` を追加します。\n\n6. `server.key`、`server.crt`、`ca.crt` をシークレットに格納し、TLSモードに渡します。"
+      }
+    },
+    {
+      "segment_id": "95b3e282",
+      "source_content": "If user need to inject a client , they should act the proxy of HTTP Chaos like the remote server , you should just edit `server.ext` above to the specify domain.",
+      "source_content_hash": "faa9e1afacb7d6635b40e121037ae5ec11c677ff18de983e842e39c8fa3a4c42",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ユーザーがクライアントに障害を注入する必要がある場合、HTTP Chaosのプロキシをリモートサーバーとして動作させる必要があります。上記の `server.ext` を特定のドメインに編集するだけです。"
+      }
+    },
+    {
+      "segment_id": "1f92e934",
+      "source_content": "Example:",
+      "source_content_hash": "872887e563e75957ffc20b021332504f2ddd0a8f3964cb93070863bfaf13cdad",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "例:"
+      }
+    },
+    {
+      "segment_id": "bdb6a28d",
+      "source_content": "```\nsubjectAltName = @alt_names\n\n[alt_names]\nDNS.1 = *.domain.com\nIP.1 = xxx.xxx.xxx.xxx\n```",
+      "source_content_hash": "4b7da1182011ed28ea1adfd835c2938782dfb9310e9b2e2667a334455a896a7c",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_bdb6a28d"
+      }
+    },
+    {
+      "segment_id": "363f5ed5",
+      "source_content": "## Local debugging",
+      "source_content_hash": "abedfa9d762e5b2b5c56723048fd359f88bdcefb74790dee728d57a72e3e8dd9",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ローカルデバッグ"
+      }
+    },
+    {
+      "segment_id": "ebe673d6",
+      "source_content": "If you are not sure of the effects of certain fault injections, you can also test the corresponding features locally using [rs-tproxy](https://github.com/chaos-mesh/rs-tproxy). Chaos Mesh also provides HTTP Chaos by using chaos-tproxy.",
+      "source_content_hash": "ec79127cb8cba75c541465cf4a6c29e7895b087e89ce7c3ee803cbb3d3685c06",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "特定の障害注入の効果が不明な場合、[rs-tproxy](https://github.com/chaos-mesh/rs-tproxy)を使用してローカルで対応する機能をテストすることもできます。Chaos Meshはchaos-tproxyを使用してHTTP Chaosも提供しています。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/version-2.6.7/simulate-http-chaos-on-kubernetes.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.661961+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "73824c2a8f1427431595ccd20f7b4f92f58b796c1a502305d97a8dedd5e6bdb3"
+  }
+}

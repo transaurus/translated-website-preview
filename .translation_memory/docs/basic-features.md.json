@@ -1,0 +1,192 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "docs/basic-features.md",
+  "source_file_content_hash": "aa8bd988d8763c9820ee81cf8625b47e4d98f0f804bde3ae7cb7d9e8955a47f7",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Basic Features\n---",
+      "source_content_hash": "6af9ac9e4e354187a693f7160df44babdc3becf81c40c1d933d108a790132efa",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "This document describes the basic features of Chaos Mesh, including [fault injection](#fault-injection), [Chaos workflows](#chaos-workflows), [visualized operations](#visualized-operations), and [security guarantees](#security-guarantees).",
+      "source_content_hash": "d0bff3b47856e6a65f92b6cab4a59736ebdc38d7fff55b9c81034e4eb7b3bb8c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、Chaos Meshの基本機能について説明します。主な機能には[障害注入](#fault-injection)、[Chaosワークフロー](#chaos-workflows)、[可視化操作](#visualized-operations)、[セキュリティ保証](#security-guarantees)が含まれます。"
+      }
+    },
+    {
+      "segment_id": "a703643c",
+      "source_content": "## Fault injection",
+      "source_content_hash": "05c2fbfff9bb0f31b61b762df976ce9cca67ad750a16b01857ff6a8ba8a9de10",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 障害注入"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "Fault injection is the key of Chaos experiments. Chaos Mesh covers a full range of faults that might occur in a distributed system, and provides three comprehensive and fine-grained fault types: basic resource faults, platform faults, and application-layer faults.",
+      "source_content_hash": "865cea94e36362a960a343f0ba3c487a5e67cdbbfdf762b8257e6c5de6b053c8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "障害注入はChaos実験の核心です。Chaos Meshは分散システムで発生する可能性のあるあらゆる障害を網羅し、基本リソース障害、プラットフォーム障害、アプリケーション層障害という3つの包括的で詳細な障害タイプを提供します。"
+      }
+    },
+    {
+      "segment_id": "be33979e",
+      "source_content": "- Basic resource faults:\n  - [PodChaos](simulate-pod-chaos-on-kubernetes.md): simulates Pod failures, such as Pod node restart, Pod's persistent unavailability, and certain container failures in a specific Pod.\n  - [NetworkChaos](simulate-network-chaos-on-kubernetes.md): simulates network failures, such as network latency, packet loss, packet disorder, and network partitions.\n  - [DNSChaos](simulate-dns-chaos-on-kubernetes.md): simulates DNS failures, such as the parsing failure of DNS domain name and the wrong IP address returned.\n  - [HTTPChaos](simulate-http-chaos-on-kubernetes.md): simulates HTTP communication failures, such as HTTP communication latency.\n  - [StressChaos](simulate-heavy-stress-on-kubernetes.md): simulates CPU race or memory race.\n  - [IOChaos](simulate-io-chaos-on-kubernetes.md): simulates the I/O failure of an application file, such as I/O delays, read and write failures.\n  - [TimeChaos](simulate-time-chaos-on-kubernetes.md): simulates the time jump exception.\n  - [KernelChaos](simulate-kernel-chaos-on-kubernetes.md): simulates kernel failures, such as an exception of the application memory allocation.\n- Platform faults:\n  - [AWSChaos](simulate-aws-chaos.md): simulates AWS platform failures, such as the AWS node restart.\n  - [GCPChaos](simulate-gcp-chaos.md): simulates GCP platform failures, such as the GCP node restart.\n- Application faults:\n  - [JVMChaos](simulate-jvm-application-chaos.md): simulates JVM application failures, such as the function call delay.",
+      "source_content_hash": "38cabc3a063f46363f483afc0e1fcb69f8cf8087d7ca6face7f75668211527b3",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 基本リソース障害:\n  - [PodChaos](simulate-pod-chaos-on-kubernetes.md): Podの再起動、Podの持続的な利用不可、特定のPod内のコンテナ障害など、Podの障害をシミュレートします。\n  - [NetworkChaos](simulate-network-chaos-on-kubernetes.md): ネットワーク遅延、パケット損失、パケット順序の乱れ、ネットワーク分断など、ネットワーク障害をシミュレートします。\n  - [DNSChaos](simulate-dns-chaos-on-kubernetes.md): DNSドメイン名の解決失敗や誤ったIPアドレスの返却など、DNS障害をシミュレートします。\n  - [HTTPChaos](simulate-http-chaos-on-kubernetes.md): HTTP通信の遅延など、HTTP通信障害をシミュレートします。\n  - [StressChaos](simulate-heavy-stress-on-kubernetes.md): CPU競合やメモリ競合をシミュレートします。\n  - [IOChaos](simulate-io-chaos-on-kubernetes.md): アプリケーションファイルのI/O遅延、読み書き失敗など、I/O障害をシミュレートします。\n  - [TimeChaos](simulate-time-chaos-on-kubernetes.md): 時間のジャンプ異常をシミュレートします。\n  - [KernelChaos](simulate-kernel-chaos-on-kubernetes.md): アプリケーションのメモリ割り当て異常など、カーネル障害をシミュレートします。\n- プラットフォーム障害:\n  - [AWSChaos](simulate-aws-chaos.md): AWSノードの再起動など、AWSプラットフォームの障害をシミュレートします。\n  - [GCPChaos](simulate-gcp-chaos.md): GCPノードの再起動など、GCPプラットフォームの障害をシミュレートします。\n- アプリケーション障害:\n  - [JVMChaos](simulate-jvm-application-chaos.md): 関数呼び出しの遅延など、JVMアプリケーションの障害をシミュレートします。"
+      }
+    },
+    {
+      "segment_id": "79b2d0b9",
+      "source_content": "## Chaos workflows",
+      "source_content_hash": "da3b4b329f6dff6ee101402d2060c95bb9e52987a1147776f4af365cb0e5f2c0",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaosワークフロー"
+      }
+    },
+    {
+      "segment_id": "d9172fa4",
+      "source_content": "A Chaos workflow includes a set of Chaos experiments and an application status check, so you can complete the entire process of a Chaos engineering project on the platform.",
+      "source_content_hash": "7fc81a70f2e08ea634f04f5d9373baff3e95e6179f2cef20986d80e28fc50eab",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaosワークフローは、一連のChaos実験とアプリケーション状態チェックを含むため、プラットフォーム上でChaosエンジニアリングプロジェクトの全プロセスを完了できます。"
+      }
+    },
+    {
+      "segment_id": "26524352",
+      "source_content": "Chaos workflows enable you to perform a series of Chaos experiments, keep expanding the explosion radius (including the scope of attacks), and increase the failure types. After running a Chaos workflow, you can easily view the current state of the application using Chaos Mesh and determine whether to perform follow-up experiments.At the same time, to reduce the cost of maintaining Chaos workflows, you can keep updating and accumulating the Chaos experiment workflows, and apply the existing experiments to other workflows.",
+      "source_content_hash": "a9f23cdbb0602259e34b3799d1019d54e5fb6db01df60cb272976f5c9d4e103a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaosワークフローを使用すると、一連のChaos実験を実行し、爆発半径（攻撃範囲）を拡大しながら障害タイプを増やすことができます。Chaosワークフローを実行後、Chaos Meshを使用してアプリケーションの現在の状態を簡単に確認し、追跡実験を行うかどうかを判断できます。同時に、Chaosワークフローのメンテナンスコストを削減するため、既存の実験ワークフローを更新・蓄積し、他のワークフローに適用できます。"
+      }
+    },
+    {
+      "segment_id": "73ab96a3",
+      "source_content": "Currently, Chaos workflows provide the following features:",
+      "source_content_hash": "50853d8c67f12d578237959e203c7913166b295413380879899ad9afd7cff9c9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "現在、Chaosワークフローは以下の機能を提供します:"
+      }
+    },
+    {
+      "segment_id": "f2c8a42b",
+      "source_content": "- Orchestrate serial Chaos experiments\n- Orchestrate parallel Chaos experiments\n- Support checking experimental status and results\n- Support pausing a Chaos experiment\n- Support using YAML files to define and manage Chaos workflows\n- Support using the web UI to define and manage Chaos workflows",
+      "source_content_hash": "52d8176f01bc912d76975b20884014d633755cd13d9c086bf5cc957c4abdedbc",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 直列的なChaos実験のオーケストレーション\n- 並列的なChaos実験のオーケストレーション\n- 実験状態と結果のチェックサポート\n- Chaos実験の一時停止サポート\n- YAMLファイルを使用したChaosワークフローの定義と管理サポート\n- Web UIを使用したChaosワークフローの定義と管理サポート"
+      }
+    },
+    {
+      "segment_id": "3cfe6286",
+      "source_content": "For the configuration of a specific workflow, see [Create Chaos Mesh workflow](create-chaos-mesh-workflow.md).",
+      "source_content_hash": "3943c7eea83687743852db510db4557f648cd00dfc134a151ce35034c3e8248e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "特定のワークフローの設定については、[Chaos Meshワークフローの作成](create-chaos-mesh-workflow.md)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "06c0f776",
+      "source_content": "## Visualized operations",
+      "source_content_hash": "76c03b59837833f4a35a02ecd5de802fae150ba335cc652658aa5fb1dcb14d4b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 可視化操作"
+      }
+    },
+    {
+      "segment_id": "aa1e7006",
+      "source_content": "Chaos Mesh provides the Chaos Dashboard component for visualized operations, which greatly simplifies Chaos experiments.You can manage and monitor a Chaos experiment directly through the visualization interface. For example, with a few clicks on the interface, you can define the scope of a Chaos experiment, specify the type of Chaos injection, define scheduling rules, and get the results of the Chaos experiment.",
+      "source_content_hash": "015a7143c0d5f84a581cf3c6ca3fd15363644c61e61b2398e30d6229ecca960c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは可視化操作のためのChaos Dashboardコンポーネントを提供し、Chaos実験を大幅に簡素化します。可視化インターフェースを通じて直接Chaos実験を管理・監視できます。例えば、インターフェース上で数回クリックするだけで、Chaos実験の範囲を定義し、障害注入タイプを指定し、スケジューリングルールを定義し、Chaos実験の結果を取得できます。"
+      }
+    },
+    {
+      "segment_id": "13d9cd70",
+      "source_content": "![Chaos workflow](img/dashboard-overview.png)",
+      "source_content_hash": "699ad8d7d11d802b7213244df29ffdfc49a272a9bdb1de60161a453c6db543d8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaosワークフロー](img/dashboard-overview.png)"
+      }
+    },
+    {
+      "segment_id": "6f930b2f",
+      "source_content": "## Security guarantees",
+      "source_content_hash": "b101b95b69002fc5a84b7cee7e9dd75d29770ee8aa2df322dd7a8fc8d01bf524",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## セキュリティ保証"
+      }
+    },
+    {
+      "segment_id": "c504c207",
+      "source_content": "Chaos Mesh manages permissions using the native [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) feature in Kubernetes.",
+      "source_content_hash": "83592ac64e4e0ef4ce93aae48a418c8049a408affbc640a5a6b9c67378cc0066",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは、Kubernetesのネイティブな[RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)機能を使用して権限を管理します。"
+      }
+    },
+    {
+      "segment_id": "98d26038",
+      "source_content": "You can freely create multiple roles based on your actual permission requirements, bind the roles to the username service account, and then generate the token corresponding to the service account.When you log into the Dashboard using this token, you can only perform Chaos experiments within the permissions given by the service account.",
+      "source_content_hash": "eb83d92e2e1c62227dd5fc8fbcf9041d9a39d01c6f0a6060c6d70416b2ccfd5e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "実際の権限要件に基づいて複数のロールを自由に作成し、それらのロールをユーザー名サービスアカウントにバインドできます。その後、サービスアカウントに対応するトークンを生成します。このトークンを使用してDashboardにログインすると、サービスアカウントに与えられた権限の範囲内でのみChaos実験を実行できます。"
+      }
+    },
+    {
+      "segment_id": "d3649a1e",
+      "source_content": "In addition, you can specify the namespaces that allow Chaos experiments by setting the namespace annotations, which further safeguards the control of Chaos experiments.",
+      "source_content_hash": "debf436dd5b61d91b91cf4fa750e3fcac3a9fddf848d325ada9987c0f3650f8e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "さらに、namespaceアノテーションを設定することでChaos実験を許可するnamespaceを指定でき、Chaos実験の制御をさらに強化できます。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/current/basic-features.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.630087+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "aa8bd988d8763c9820ee81cf8625b47e4d98f0f804bde3ae7cb7d9e8955a47f7"
+  }
+}

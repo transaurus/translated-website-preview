@@ -1,0 +1,252 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2020-9-25-chaos-mesh-1.0-chaos-engineering-on-kubernetes-made-easier.md",
+  "source_file_content_hash": "91836847d080ef3447bef84d065b36279c5d044b778a9cf017c76e4923700cd5",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /chaos-mesh-1.0-chaos-engineering-on-kubernetes-made-easier\ntitle: 'Chaos Mesh 1.0: Chaos Engineering on Kubernetes Made Easier'\nauthors: chaos-mesh\nimage: /img/blog/chaos-mesh-1.0.png\ntags: [Chaos Mesh, Chaos Engineering, Announcement]\n---",
+      "source_content_hash": "4339ff311273166700c33488fa2fd6f5a6dfff6a26a98c32d42a641832458cfa",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "![Chaos-Mesh-1.0 - Chaos-Engineering-on-Kubernetes-Made-Easier](/img/blog/chaos-mesh-1.0.png)",
+      "source_content_hash": "76eb0deb97e39e88126af25c77918d717cdfbea05ca4801d6f0a70f6af1320a8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos-Mesh-1.0 - Chaos-Engineering-on-Kubernetes-Made-Easier](/img/blog/chaos-mesh-1.0.png)"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "Today, we are proud to announce the general availability of Chaos Mesh 1.0, following its entry into CNCF as a [sandbox project](https://pingcap.com/blog/announcing-chaos-mesh-as-a-cncf-sandbox-project) in July, 2020.",
+      "source_content_hash": "6ea4caa4587e4ea40d877c805fe0518306286c5d5c3ca5f2473f40b8ca67479c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "本日、私たちはChaos Mesh 1.0の一般提供開始を発表できることを誇りに思います。これは2020年7月にCNCFの[サンドボックスプロジェクト](https://pingcap.com/blog/announcing-chaos-mesh-as-a-cncf-sandbox-project)として採択されて以来の大きな進展です。"
+      }
+    },
+    {
+      "segment_id": "3e6699f4",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3e6699f4"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "Chaos Mesh 1.0 is a major milestone in the project’s development. After 10 months of effort within the open-source community, Chaos Mesh is now ready in terms of functionality, scalability, and ease of use. Here are some highlights.",
+      "source_content_hash": "df117313c0c7d015e780ea73fb06942edb0320468fcfa9a84a88f528ef241d2c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Mesh 1.0はこのプロジェクトの開発における主要なマイルストーンです。オープンソースコミュニティにおける10ヶ月にわたる努力の結果、Chaos Meshは機能性、拡張性、使いやすさの面で完成の域に達しました。以下に主な特徴をご紹介します。"
+      }
+    },
+    {
+      "segment_id": "3daf1b88",
+      "source_content": "## Powerful chaos support",
+      "source_content_hash": "8b5a5a7608ef2dc240a8b48986168d192f0d5f875855742852cf09b9c7de4cbc",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 強力なカオスサポート"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "[Chaos Mesh](https://chaos-mesh.org) originated in the testing framework of [TiDB](https://pingcap.com/products/tidb), a distributed database, so it takes into account the possible faults of a distributed system. Chaos Mesh provides comprehensive and fine-grained fault types, covering the Pod, the network, system I/O, and the kernel. Chaos experiments are defined in YAML, which is fast and easy to use.",
+      "source_content_hash": "199f1267119c3f0fc756fef2ef2914cb6c892786e7ac40602c72867b87734982",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Chaos Mesh](https://chaos-mesh.org)は分散型データベース[TiDB](https://pingcap.com/products/tidb)のテストフレームワークから生まれたため、分散システムで発生しうる障害を考慮しています。Chaos MeshはPod、ネットワーク、システムI/O、カーネルなど、包括的で細かい粒度の障害タイプを提供します。カオス実験はYAMLで定義され、迅速かつ簡単に使用できます。"
+      }
+    },
+    {
+      "segment_id": "f5f6d2ce",
+      "source_content": "Chaos Mesh 1.0 supports the following fault types:",
+      "source_content_hash": "970d5e80db71047e6e70ca9fd279cfbf3cc737a395790c446ae9d469bb465e71",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Mesh 1.0では以下の障害タイプをサポートしています："
+      }
+    },
+    {
+      "segment_id": "1b8c1887",
+      "source_content": "- clock-skew: Simulates clock skew\n- container-kill: Simulates the container being killed\n- cpu-burn: Simulates CPU pressure\n- io-attribution-override: Simulates file exceptions\n- io-fault: Simulates file system I/O errors\n- io-latency: Simulates file system I/O latency\n- kernel-injection: Simulates kernel failures\n- memory-burn: Simulates memory pressure\n- network-corrupt: Simulates network packet corruption\n- network-duplication: Simulates network packet duplication\n- network-latency: Simulate network latency\n- network-loss: Simulates network loss\n- network-partition: Simulates network partition\n- pod-failure: Simulates continuous unavailability of Kubernetes Pods\n- pod-kill: Simulates the Kubernetes Pod being killed",
+      "source_content_hash": "b3f0653e6d0c1a6e73bc78aa9df7eb0a1dea1ad1f174d29c840344b3002d3f3f",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- clock-skew: 時刻のずれをシミュレート\n- container-kill: コンテナの強制終了をシミュレート\n- cpu-burn: CPU負荷をシミュレート\n- io-attribution-override: ファイル例外をシミュレート\n- io-fault: ファイルシステムI/Oエラーをシミュレート\n- io-latency: ファイルシステムI/O遅延をシミュレート\n- kernel-injection: カーネル障害をシミュレート\n- memory-burn: メモリ負荷をシミュレート\n- network-corrupt: ネットワークパケット破損をシミュレート\n- network-duplication: ネットワークパケット重複をシミュレート\n- network-latency: ネットワーク遅延をシミュレート\n- network-loss: ネットワーク損失をシミュレート\n- network-partition: ネットワーク分断をシミュレート\n- pod-failure: Kubernetes Podの継続的利用不可をシミュレート\n- pod-kill: Kubernetes Podの強制終了をシミュレート"
+      }
+    },
+    {
+      "segment_id": "62a6890b",
+      "source_content": "## Visual chaos orchestration",
+      "source_content_hash": "cf4cf760ba220ea242fc13e5f9e6555ca9a9df898d093c34d386f325733a88d4",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 視覚的なカオスオーケストレーション"
+      }
+    },
+    {
+      "segment_id": "3cfe6286",
+      "source_content": "The Chaos Dashboard component is a one-stop web interface for Chaos Mesh users to orchestrate chaos experiments. Previously, Chaos Dashboard was only available for testing TiDB. With Chaos Mesh 1.0, it is available to everyone. Chaos Dashboard greatly simplifies the complexity of chaos experiments. With only a few mouse clicks, you can define the scope of the chaos experiment, specify the type of chaos injection, define scheduling rules, and observe the results of the chaos experiment—all in the same web interface.",
+      "source_content_hash": "e67fffda75affaf27d244c6bc7d4a7fc0e45e755b94bb6e4da9e0b45e8d38b54",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Dashboardコンポーネントは、Chaos Meshユーザーがカオス実験をオーケストレーションするためのワンストップWebインターフェースです。以前はTiDBのテスト専用でしたが、Chaos Mesh 1.0では誰でも利用可能になりました。Chaos Dashboardはカオス実験の複雑さを大幅に軽減します。数回のマウスクリックだけで、カオス実験の範囲を定義し、注入する障害の種類を指定し、スケジューリングルールを定義し、カオス実験の結果を観察できます - すべて同じWebインターフェース上で行えます。"
+      }
+    },
+    {
+      "segment_id": "1042b50d",
+      "source_content": "![Chaos Dashboard](/img/blog/chaos-dashboard.gif)",
+      "source_content_hash": "d051d3668ca75af21e5198a3f84c3e65159a6ff47fc1e75f6eaa8ff18e709ab5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos Dashboard](/img/blog/chaos-dashboard.gif)"
+      }
+    },
+    {
+      "segment_id": "35a77014",
+      "source_content": "## Grafana plug-in for enhanced observability",
+      "source_content_hash": "d1e1ccff482260dd2d8e589235fd625272fca87df398027e6b1ccdcb3c3e9542",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 可観測性を強化するGrafanaプラグイン"
+      }
+    },
+    {
+      "segment_id": "13d9cd70",
+      "source_content": "To further improve the observability of chaos experiments, Chaos Mesh 1.0 includes a Grafana plug-in to allow you to directly display real-time chaos experiment information on your application monitoring panel. Currently, the chaos experiment information is displayed as annotations. This way, you can simultaneously observe the running status of the application and the current chaos experiment information.",
+      "source_content_hash": "9ba0e694a6f40ad0cdd45d175ae45b75beed91a0d8ba1ce8f8b46ed6ed4d8457",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "カオス実験の可観測性をさらに向上させるため、Chaos Mesh 1.0にはGrafanaプラグインが含まれており、アプリケーション監視パネルにリアルタイムのカオス実験情報を直接表示できます。現在、カオス実験情報は注釈として表示されます。これにより、アプリケーションの実行状態と現在のカオス実験情報を同時に観察できます。"
+      }
+    },
+    {
+      "segment_id": "29528c8d",
+      "source_content": "![Chaos status and application status on Grafana](/img/blog/chaos-status.png)",
+      "source_content_hash": "e12a9a7faae5541d206561efef88163e2440f09fe3746d1934f6e7a92697705b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Grafana上のカオス状態とアプリケーション状態](/img/blog/chaos-status.png)"
+      }
+    },
+    {
+      "segment_id": "11c76fcc",
+      "source_content": "## Safe and controllable chaos",
+      "source_content_hash": "17a829f838f24a241aa0d681ecab5b7f96ee461a9804381c33ac98676c50eca9",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 安全で制御可能なカオス"
+      }
+    },
+    {
+      "segment_id": "98d26038",
+      "source_content": "When we conduct chaos experiments, it is vital that we keep strict control over the chaos scope or “blast radius.” Chaos Mesh 1.0 not only provides a wealth of selectors to accurately control the scope of the experiment, but it also enables you to set protected Namespaces to protect important applications. You can also use Namespace permissions to limit the scope of Chaos Mesh to a specific Namespace. Together, these features make chaos experiments with Chaos Mesh safe and controllable.",
+      "source_content_hash": "cfeac8a25daa55a713ec338558659bcf2cefdbc5388459b625485481a0634f72",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "カオス実験を実施する際には、カオスの範囲または「爆発半径」を厳密に制御することが極めて重要です。Chaos Mesh 1.0は実験範囲を正確に制御するための豊富なセレクターを提供するだけでなく、重要なアプリケーションを保護するための保護されたNamespaceを設定することも可能にします。また、Namespace権限を使用してChaos Meshの範囲を特定のNamespaceに制限することもできます。これらの機能を組み合わせることで、Chaos Meshを使ったカオス実験は安全かつ制御可能になります。"
+      }
+    },
+    {
+      "segment_id": "af52d59d",
+      "source_content": "## Try it out now",
+      "source_content_hash": "5a7109d03a37547783f66d82adf9d65420c5e43206b7a163e4dfc1ee0baca6a3",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 今すぐお試しください"
+      }
+    },
+    {
+      "segment_id": "0bfbe139",
+      "source_content": ":::note\n\n2022-10-24: Because of https://www.oreilly.com/online-learning/leveraging-katacoda-technology.html, and refer to [#356](https://github.com/chaos-mesh/website/pull/356), the interactive tutorial is temporarily unavailable.\n\n:::",
+      "source_content_hash": "309c9fa56a89085317288948daab67d47db5d9ef3cd9382c10b3a8e1c64972fe",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\n2022-10-24: https://www.oreilly.com/online-learning/leveraging-katacoda-technology.html および [#356](https://github.com/chaos-mesh/website/pull/356) により、インタラクティブチュートリアルは一時的に利用できません。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "8b2a52b1",
+      "source_content": "You can quickly deploy Chaos Mesh in your Kubernetes environment through the `install.sh` script or the Helm tool. For specific installation steps, please refer to the [Chaos Mesh Getting Started](https://chaos-mesh-website-archived.netlify.app/docs/1.2.4/user_guides/installation) document. In addition, thanks to the `Katakoda interactive tutorial`, you can also quickly get your hands on Chaos Mesh without having to deploy it.",
+      "source_content_hash": "5aba264f2303a2b85f15f3505f30512a6a8efaeb9f456df0ee773adb7e0279e4",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`install.sh`スクリプトまたはHelmツールを使用して、Kubernetes環境にChaos Meshを迅速にデプロイできます。具体的なインストール手順については、[Chaos Mesh 入門ガイド](https://chaos-mesh-website-archived.netlify.app/docs/1.2.4/user_guides/installation)ドキュメントを参照してください。また、`Katakodaインタラクティブチュートリアル`を利用すれば、デプロイせずにChaos Meshをすぐに体験することも可能です。"
+      }
+    },
+    {
+      "segment_id": "5dae11e3",
+      "source_content": "If you haven’t upgraded to 1.0 GA, please refer to the [1.0 Release Notes](https://github.com/chaos-mesh/chaos-mesh/releases/tag/v1.0.0) for the changes and upgrade guidelines.",
+      "source_content_hash": "e39ecb5c9b07914684d79e2d69231c68b7fc5367983fa79b1590bfb76bf2e57e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "1.0 GAにアップグレードしていない場合は、変更点とアップグレードガイドラインについて[1.0 リリースノート](https://github.com/chaos-mesh/chaos-mesh/releases/tag/v1.0.0)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "a5a4323e",
+      "source_content": "## Thanks",
+      "source_content_hash": "1e57366f4f2b8342ce1186455878164e2c099d41b453de456c1a921520e0df59",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 謝辞"
+      }
+    },
+    {
+      "segment_id": "657c2b20",
+      "source_content": "Thanks to all our Chaos Mesh [contributors](https://github.com/chaos-mesh/chaos-mesh/graphs/contributors)!",
+      "source_content_hash": "4224d15676eda72bb9da417abaae846b0888add96a42ffd98a4e5afae65c0f05",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "すべてのChaos Mesh[コントリビューター](https://github.com/chaos-mesh/chaos-mesh/graphs/contributors)の皆様に感謝いたします。"
+      }
+    },
+    {
+      "segment_id": "e7772088",
+      "source_content": "If you are interested in Chaos Mesh, you’re welcome to join us by submitting issues, or contributing code, documentation, or articles. We look forward to your participation and feedback!",
+      "source_content_hash": "97180b183196e2023c4fdb1332b90f2cc8cc2be40e7fc47cbfe75b5bbd80c9f5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshに興味をお持ちの方は、Issueの投稿やコード・ドキュメント・記事のコントリビューションを通じてぜひご参加ください。皆様の参加とフィードバックをお待ちしております！"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2020-9-25-chaos-mesh-1.0-chaos-engineering-on-kubernetes-made-easier.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.640479+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "91836847d080ef3447bef84d065b36279c5d044b778a9cf017c76e4923700cd5"
+  }
+}

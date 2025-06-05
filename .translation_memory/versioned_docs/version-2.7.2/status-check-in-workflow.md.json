@@ -1,0 +1,482 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "versioned_docs/version-2.7.2/status-check-in-workflow.md",
+  "source_file_content_hash": "93500eeafaeeafc37e45686312f95609a24abdc8a93a15761c81806c29eb6c65",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Status Check in Workflow\n---",
+      "source_content_hash": "a15ef057ca2d158ab25a9a8d5c0fc3b0fea511fed47b6afc1b0097bf8e559866",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "In Workflow, the status check could execute specified operations on external systems, such as application systems and monitoring systems, to obtain their statuses, and automatically abort the Workflow when it finds the system is unhealthy. The concept is similar to `Container Probes` in Kubernetes. This article describes how to execute status checks in Workflow using YAML files.",
+      "source_content_hash": "9fb65404d0c0d0f7057be25bd3b11801a88051a2e576498a56b50b4de6935271",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Workflowでは、ステータスチェックを使用して、アプリケーションシステムや監視システムなどの外部システムに対して指定された操作を実行し、それらの状態を取得できます。システムが不健全であることが判明した場合、自動的にWorkflowを中止します。この概念はKubernetesの`Container Probes`と似ています。この記事では、YAMLファイルを使用してWorkflowでステータスチェックを実行する方法について説明します。"
+      }
+    },
+    {
+      "segment_id": "8c98994c",
+      "source_content": ":::note\n\nChaos Mesh does not yet support creating `StatusCheck` nodes on Chaos Dashboard, so you could only create `StatusCheck` nodes using YAML for now.\n\n:::",
+      "source_content_hash": "b80a9f7039b0331f4a9f86bdce73cb0052ad831a43a193b837e4eb6613e170b1",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\nChaos Meshは現在、Chaos Dashboard上で`StatusCheck`ノードを作成する機能をサポートしていないため、現時点ではYAMLを使用して`StatusCheck`ノードを作成する必要があります。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "ba4f48ff",
+      "source_content": "## Status Check type",
+      "source_content_hash": "fe73b77293381e08291dd063bde99dd8f39e9482ff70880c4cb3dc9d8fc74c39",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ステータスチェックのタイプ"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "Chaos Mesh only support the `HTTP` type to execute a status check.",
+      "source_content_hash": "a6912cb17bd3827d8c615eb64ee2d861fb4235f509603ef70d9ec6facc854396",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは、ステータスチェックを実行するための`HTTP`タイプのみをサポートしています。"
+      }
+    },
+    {
+      "segment_id": "3daf1b88",
+      "source_content": "### Define a `HTTP` `StatusCheck` node",
+      "source_content_hash": "bf6bdaecfcb71f6afc22d99e49c8ce8b28002dfb0055959d42464044ec3a267f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `HTTP`タイプの`StatusCheck`ノードを定義する"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "A `StatusCheck` node sends `GET` or `POST` HTTP requests to the specific URL, with custom headers and body, and then determines the result of the request by the conditions in the `criteria` field.",
+      "source_content_hash": "f06c7b619fb82b608d272f199aa6fb36d42aea93bb39ff340068d2434d2018b7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`StatusCheck`ノードは、特定のURLに`GET`または`POST` HTTPリクエストを送信し、カスタムヘッダーとボディを使用して、`criteria`フィールドの条件に基づいてリクエストの結果を判定します。"
+      }
+    },
+    {
+      "segment_id": "cbbebf8e",
+      "source_content": "```yaml\n- name: workflow-status-check\n  templateType: StatusCheck\n  deadline: 20s\n  statusCheck:\n    mode: Continuous\n    type: HTTP\n    intervalSeconds: 1\n    timeoutSeconds: 1\n    http:\n      url: http://123.123.123.123\n      method: GET\n      criteria:\n        statusCode: '200'\n```",
+      "source_content_hash": "e09c11c5d6e8f2f1a11a52e09759385f96ef347654d38d5b754b1c2d72e915fe",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_cbbebf8e"
+      }
+    },
+    {
+      "segment_id": "97ae4a01",
+      "source_content": "In the configuration, you can see a `StatusCheck` node with `HTTP` type. The `deadline` field specifies that this node could be executed for a maximum of 20 seconds. The `mode` field specifies that this node will execute status checks continuously. The `intervalSeconds` field specifies a repetition interval of 1 second. The `timeoutSeconds` field specifies the timeout for each execution.",
+      "source_content_hash": "fcf7468724b1034f010385cfb42bce92f970a0f0eb039c1f3249da701d3b4ba1",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この設定では、`HTTP`タイプの`StatusCheck`ノードを確認できます。`deadline`フィールドは、このノードが最大20秒間実行可能であることを指定します。`mode`フィールドは、このノードが継続的にステータスチェックを実行することを指定します。`intervalSeconds`フィールドは、1秒間隔で繰り返すことを指定します。`timeoutSeconds`フィールドは、各実行のタイムアウトを指定します。"
+      }
+    },
+    {
+      "segment_id": "c3a738de",
+      "source_content": "When Workflow runs to this `StatusCheck` node, the specified status check would be executed every second. The status check uses the `GET` method to send an HTTP request to the URL `http://123.123.123.123`. If the response is returned within 1 second and the status code is `200`, this execution succeeds, otherwise it fails.",
+      "source_content_hash": "7dbb738ce21a36b7d5de5c2a8424c4aa1bfd88ff2b05c5a19fba479fe8fe04fa",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Workflowがこの`StatusCheck`ノードに到達すると、指定されたステータスチェックが毎秒実行されます。ステータスチェックは、`GET`メソッドを使用してURL `http://123.123.123.123`にHTTPリクエストを送信します。レスポンスが1秒以内に返され、ステータスコードが`200`の場合、この実行は成功とみなされます。それ以外の場合は失敗とみなされます。"
+      }
+    },
+    {
+      "segment_id": "9f9e64f5",
+      "source_content": "## Status Check results",
+      "source_content_hash": "42ca32b5b5d5849f5493546fcb2e4f90d828d5c2128206372d622ecb8d367eb1",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ステータスチェックの結果"
+      }
+    },
+    {
+      "segment_id": "1042b50d",
+      "source_content": "Each execution of the status check will get an `execution result`, either `Success` or `Failure`. Because a single `execution result` may not reflect the real situation of the system, due to fluctuations in certain conditions, the final `status check result` is not determined based on a single `execution result`.",
+      "source_content_hash": "162ed39272fe57910469d93e0dbbde07eb3f922b69a1a05434e90cdb85c3f987",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ステータスチェックの各実行は、`Success`または`Failure`のいずれかの`execution result`を取得します。単一の`execution result`は、特定の条件の変動により、システムの実際の状況を反映しない可能性があるため、最終的な`status check result`は単一の`execution result`に基づいて決定されません。"
+      }
+    },
+    {
+      "segment_id": "aa1e7006",
+      "source_content": "The `StatusCheck` node has `failureThreshold` and `successThreshold` two fields:",
+      "source_content_hash": "bc1c4c80c17da6210d177358ad03ce478bb5ee4ac8771087eb16f35658836e84",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`StatusCheck`ノードには`failureThreshold`と`successThreshold`の2つのフィールドがあります："
+      }
+    },
+    {
+      "segment_id": "b93ddfac",
+      "source_content": "- When the number of consecutive failed `execution results` exceeds the `failureThreshold`, the `status check result` is considered to be a `Failure`.\n- When the number of consecutive successful `execution results` exceeds the `successThreshold`, the `status check result` is considered to be a `Success`.",
+      "source_content_hash": "c1b0dd999516eae9aa2a4c85ed793471b566789068756c416bfad8e0fc69c6ce",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 連続して失敗した`execution result`の数が`failureThreshold`を超えると、`status check result`は`Failure`とみなされます。\n- 連続して成功した`execution result`の数が`successThreshold`を超えると、`status check result`は`Success`とみなされます。"
+      }
+    },
+    {
+      "segment_id": "95318d95",
+      "source_content": "```yaml\n- name: workflow-status-check\n  templateType: StatusCheck\n  deadline: 20s\n  statusCheck:\n    mode: Continuous\n    type: HTTP\n    successThreshold: 1\n    failureThreshold: 3\n    http:\n      url: http://123.123.123.123\n      method: GET\n      criteria:\n        statusCode: '200'\n```",
+      "source_content_hash": "792a163e4689616b5c1a45b12ae9fa2abe424c0ac0d1cd4edd55d3f389c75819",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_95318d95"
+      }
+    },
+    {
+      "segment_id": "531437ca",
+      "source_content": "In the configuration, the `StatusCheck` node will execute status checks continuously:",
+      "source_content_hash": "c0a84d8288e90fb2855b82536260eab4f47de22e6c95905085a5dbdec0e76f94",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この設定では、`StatusCheck`ノードは継続的にステータスチェックを実行します："
+      }
+    },
+    {
+      "segment_id": "645e08e3",
+      "source_content": "- When the `execution result` is `Success` for 1 or more consecutive times, the `status check result` is considered to be a `Success`.\n- When the `execution result` is `Failure` for 3 or more consecutive times, the `status check result` is considered to be a `Failure`.",
+      "source_content_hash": "0b1316a979dc45a4398c5f24fbb52245dd96a00a81472378fe99416dde9b38f1",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- `execution result`が1回以上連続して`Success`の場合、`status check result`は`Success`とみなされます。\n- `execution result`が3回以上連続して`Failure`の場合、`status check result`は`Failure`とみなされます。"
+      }
+    },
+    {
+      "segment_id": "724adee0",
+      "source_content": ":::note\n\nIn the following sections, `status check fails` refers to that `status check result` is `Failure`, rather than a single `execution result` is `Failure`.\n\n:::",
+      "source_content_hash": "7a424211a124762b4ab849f73ab20a4bc531824d4f213109ca56f9c4c694b49e",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\n以下のセクションで「ステータスチェックが失敗する」とは、単一の`execution result`が`Failure`であることではなく、`status check result`が`Failure`であることを指します。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "93028a4e",
+      "source_content": "### When the Status Check is unsuccessful, abort the Workflow",
+      "source_content_hash": "662414751edcc2ff7116520b40193de73529eb3f702318d095d0f8b5a6dd7b83",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ステータスチェックが失敗した場合にWorkflowを中止する"
+      }
+    },
+    {
+      "segment_id": "084f365a",
+      "source_content": ":::note\n\nThe `StatusCheck` node only supports aborting the workflow automatically when the status check is unsuccessful. It could not pause or resume the workflow.\n\n:::",
+      "source_content_hash": "f3eed0c51a69993e1014c00f0db54a46b7e4637a12ba53cf3feee6a8d66f33ee",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\n`StatusCheck`ノードは、ステータスチェックが失敗した場合にのみWorkflowを自動的に中止する機能をサポートしています。Workflowを一時停止または再開することはできません。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "fbc2db85",
+      "source_content": "When executing chaos experiments, the application system might become `unhealthy`, this function can be used to restore the application system by quickly ending chaos experiments. To enable the workflow to abort automatically when the status check fails, you can set the `abortWithStatusCheck` field to `true` on the `StatusCheck` node.",
+      "source_content_hash": "79fbe48c34c6c169afe037fa02da2e287a68d2f2040d095f6e9502d3ec99ae9f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "カオス実験を実行している際に、アプリケーションシステムが「不健全」になる可能性があります。この機能を使用すると、カオス実験を迅速に終了させることでアプリケーションシステムを復旧できます。ステータスチェックが失敗した場合にWorkflowを自動的に中止するには、`StatusCheck`ノードの`abortWithStatusCheck`フィールドを`true`に設定します。"
+      }
+    },
+    {
+      "segment_id": "b73a4a7a",
+      "source_content": "```yaml\n- name: workflow-status-check\n  templateType: StatusCheck\n  deadline: 20s\n  abortWithStatusCheck: true\n  statusCheck:\n    mode: Continuous\n    type: HTTP\n    http:\n      url: http://123.123.123.123\n      method: GET\n      criteria:\n        statusCode: '200'\n```",
+      "source_content_hash": "ce455b4875be496e50385a3244f3f2b85cf7c4b4e1d8facba4f12a316b62f617",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_b73a4a7a"
+      }
+    },
+    {
+      "segment_id": "6ca4479f",
+      "source_content": "The status check is considered unsuccessful when any of the following conditions are met:",
+      "source_content_hash": "2c723b898ed23db2e29577250881ec1eefe8f7416ae9caa769cebf72ecf897af",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下のいずれかの条件が満たされた場合、ステータスチェックは失敗とみなされます："
+      }
+    },
+    {
+      "segment_id": "936011bd",
+      "source_content": "- The status check fails.\n- When the `StatusCheck` node timeout is exceeded, and the `status check result` is not successful. For example, `successThreshold` is 1, `failureThreshold` is 3, and when the timeout is exceeded, there are 2 consecutive failures and 0 successes. Although it does not meet the condition for \"status check fails\", it is also considered to be unsuccessful in this case.",
+      "source_content_hash": "0187d22b3dc218aaf114b5ce39955832fa0f52757cb71befd48301bb11324439",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- ステータスチェックが失敗した場合。\n- `StatusCheck`ノードのタイムアウトが発生し、`status check result`が成功していない場合。例えば、`successThreshold`が1、`failureThreshold`が3で、タイムアウト時に2回連続で失敗し、0回成功した場合。この場合、「ステータスチェック失敗」の条件を満たしていなくても、不成功とみなされます。"
+      }
+    },
+    {
+      "segment_id": "42a5832e",
+      "source_content": "## Status Check mode",
+      "source_content_hash": "07ba39bb378ea7fc71e98e0bf99f68032df7dde49f2d849a8bee538f1935bb64",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ステータスチェックモード"
+      }
+    },
+    {
+      "segment_id": "f947c8e4",
+      "source_content": "### Continuous Status Check",
+      "source_content_hash": "9ade87932e17a036ab31e00ce588551fc0fc91048f8d8c2a33c8eeb863a63428",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 継続的ステータスチェック"
+      }
+    },
+    {
+      "segment_id": "7bc8bb24",
+      "source_content": "When the `mode` field is `Continuous`, it means this `StatusCheck` node will execute status checks continuously until the node times out or the status check fails.",
+      "source_content_hash": "0b1f0ab986e2ab74b1039b590a360dc7835d1477da7b956b6cb63f2d9ff1305e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`mode`フィールドが`Continuous`の場合、この`StatusCheck`ノードはノードがタイムアウトするか、ステータスチェックが失敗するまで継続的にステータスチェックを実行します。"
+      }
+    },
+    {
+      "segment_id": "f39e109c",
+      "source_content": "```yaml\n- name: workflow-status-check\n  templateType: StatusCheck\n  deadline: 20s\n  statusCheck:\n    mode: Continuous\n    type: HTTP\n    intervalSeconds: 1\n    successThreshold: 1\n    failureThreshold: 3\n    http:\n      url: http://123.123.123.123\n      method: GET\n      criteria:\n        statusCode: '200'\n```",
+      "source_content_hash": "09ec3ff5a57c980f739c7d8a2864c930ecf9acd28c1130910381a0e536822774",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {}
+    },
+    {
+      "segment_id": "c364340c",
+      "source_content": "In the configuration, the `StatusCheck` node will execute status checks every second, and exit when any of the following conditions are met:",
+      "source_content_hash": "87808d0caad9ff22f31b532d563fb0c233811b5a0635d7d028f07814bddc770d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この設定では、`StatusCheck`ノードは毎秒ステータスチェックを実行し、以下のいずれかの条件が満たされると終了します："
+      }
+    },
+    {
+      "segment_id": "cd2fd2f2",
+      "source_content": "- The status check fails, i.e. 3 or more consecutive failed `execution results`\n- Trigger the node timeout after 20 seconds",
+      "source_content_hash": "5b2fb94a48bf8cb783f94dc904c20bc7f9b631d9e398435204172b510217480c",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- ステータスチェックが失敗した場合（3回以上連続で`execution result`が失敗）\n- 20秒後にノードのタイムアウトが発生した場合"
+      }
+    },
+    {
+      "segment_id": "d53c8ed4",
+      "source_content": "### One time Status Check",
+      "source_content_hash": "0475d6ce0ceccc09656bc823de99489667885f3d4ff8797443201b5c8feb8596",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ワンタイムステータスチェック"
+      }
+    },
+    {
+      "segment_id": "1ecf0882",
+      "source_content": "When the `mode` field is `Synchronous`, it means that this `StatusCheck` node will exit immediately when the `status check result` is clear, or when the node times out.",
+      "source_content_hash": "a71ce81b0bfa7c4f29a171e8cb3f0eb75bddb3b92524a890d6642e457e5772fc",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`mode`フィールドが`Synchronous`の場合、この`StatusCheck`ノードは`status check result`が確定するか、ノードがタイムアウトすると即座に終了します。"
+      }
+    },
+    {
+      "segment_id": "4c6754b2",
+      "source_content": "```yaml\n- name: workflow-status-check\n  templateType: StatusCheck\n  deadline: 20s\n  statusCheck:\n    mode: Synchronous\n    type: HTTP\n    intervalSeconds: 1\n    successThreshold: 1\n    failureThreshold: 3\n    http:\n      url: http://123.123.123.123\n      method: GET\n      criteria:\n        statusCode: '200'\n```",
+      "source_content_hash": "c8b7c790ebfa0246a1e485d411b247d524249cff9c996264e114e6e4c7e1efc1",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {}
+    },
+    {
+      "segment_id": "619c3209",
+      "source_content": "In the configuration, the `StatusCheck` node will execute status checks every second, and exit when any of the following conditions are met:",
+      "source_content_hash": "87808d0caad9ff22f31b532d563fb0c233811b5a0635d7d028f07814bddc770d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この設定では、`StatusCheck`ノードは毎秒ステータスチェックを実行し、以下のいずれかの条件が満たされると終了します："
+      }
+    },
+    {
+      "segment_id": "9fbd2efb",
+      "source_content": "- The status check succeeds, i.e. 1 or more consecutive successful `execution results`\n- The status check fails, i.e. 3 or more consecutive failed `execution results`\n- Trigger the node timeout after 20 seconds",
+      "source_content_hash": "5a6dc9c11359d1bde40a303f7479668e722f74a979cf7368e98bf68bc0d8a665",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- ステータスチェックが成功した場合（1回以上連続で`execution result`が成功）\n- ステータスチェックが失敗した場合（3回以上連続で`execution result`が失敗）\n- 20秒後にノードのタイムアウトが発生した場合"
+      }
+    },
+    {
+      "segment_id": "ee213c98",
+      "source_content": "## StatusCheck vs HTTP Request Task",
+      "source_content_hash": "32cf9dcf7e1e8f625d25b86da2db35c35c587c8788f02803ad91589ffa42f5c8",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## StatusCheck vs HTTPリクエストタスク"
+      }
+    },
+    {
+      "segment_id": "008183b0",
+      "source_content": "Similarities:",
+      "source_content_hash": "6a188315b0a37ffec81da53189097a86a67f5126c10185d6ead4dd25f912a159",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "共通点："
+      }
+    },
+    {
+      "segment_id": "e258929d",
+      "source_content": "- The `StatusCheck` node and the `HTTP Request Task` node (the `Task` node that executes HTTP requests) are a node type of Workflow.\n- The `StatusCheck` node and the `HTTP Request Task` node can obtain information about external systems through HTTP requests.",
+      "source_content_hash": "8f9be401d608c6224afb948576a4883df73050279f53af4b16fb1cf9f4d190ad",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- `StatusCheck`ノードと`HTTP Request Task`ノード（HTTPリクエストを実行する`Task`ノード）は、どちらもWorkflowのノードタイプです。\n- `StatusCheck`ノードと`HTTP Request Task`ノードは、HTTPリクエストを通じて外部システムの情報を取得できます。"
+      }
+    },
+    {
+      "segment_id": "39f476dc",
+      "source_content": "Differences:",
+      "source_content_hash": "2b4200bbc7a65770f341019e07e7118dc0cdebea830c3b051702a7794085b507",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "相違点："
+      }
+    },
+    {
+      "segment_id": "093c95e5",
+      "source_content": "- The `HTTP Request Task` node could only send an HTTP once, and cannot send HTTP requests continuously.\n- The `HTTP Request Task` node cannot affect the status of the workflow when the request fails, such as aborting the workflow.",
+      "source_content_hash": "c90f53e0289c14c41f4d77ac938c560ca5076d8e8da1fd7968fbea40ecc56d65",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- `HTTP Request Task`ノードはHTTPリクエストを1回しか送信できず、継続的に送信することはできません。\n- `HTTP Request Task`ノードは、リクエストが失敗した場合にワークフローの状態に影響を与えることができません（例：ワークフローを中止するなど）。"
+      }
+    },
+    {
+      "segment_id": "191265da",
+      "source_content": "## Field description",
+      "source_content_hash": "afef87832591f63e7a3c9579f8a2492cf81afc3e8b0d02296e334646ad82d4f6",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## フィールド説明"
+      }
+    },
+    {
+      "segment_id": "85ea22dd",
+      "source_content": "For more information about Workflow and Template, refer to [Create Chaos Mesh Workflow](create-chaos-mesh-workflow.md#field-description).",
+      "source_content_hash": "9f78e4f3a8b3e60341419c6e40a89632a8059f169ce7e871eb4665510f0b5ee8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "WorkflowとTemplateの詳細については、[Chaos Mesh Workflowの作成](create-chaos-mesh-workflow.md#field-description)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "e1642ab4",
+      "source_content": "### StatusCheck field description",
+      "source_content_hash": "1f7c23c76c50a8768b27c7dc7242f04dfb1a414bb4d0cf1841065480d89c0376",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### StatusCheckフィールド説明"
+      }
+    },
+    {
+      "segment_id": "a815f635",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| mode | `string` | The execution mode of the status check. Support value: `Synchronous`/`Continuous`. | None | Yes | `Synchronous` |\n| type | `string` | The type of the status check. Support value: `HTTP`. | `HTTP` | Yes | `HTTP` |\n| duration | `string` | The duration of the whole status check if the number of failed execution does not exceed the `failureThreshold`. It is available in both `Synchronous` and `Continuous` modes. | None | No | `100s` |\n| timeoutSeconds | `int` | The timeout seconds when the status check fails. | `1` | No | `1` |\n| intervalSeconds | `int` | Defines how often (in seconds) to perform an execution of status check. | `1` | No | `1` |\n| failureThreshold | `int` | The minimum consecutive failure for the status check to be considered failed. | `3` | No | `3` |\n| successThreshold | `int` | The minimum consecutive successes for the status check to be considered successful. | `1` | No | `1` |\n| recordsHistoryLimit | `int` | The number of records to retain. | `100` | No | `100` |\n| http | `HTTPStatusCheck` | Configure the detail of the HTTP request to execute. | None | No |  |",
+      "source_content_hash": "593285b200d2b9ae49cb64ffaffd81e7d5efa6668f084f7982b9590758cc85f8",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {}
+    },
+    {
+      "segment_id": "be4b1cbf",
+      "source_content": "### HTTPStatusCheck field description",
+      "source_content_hash": "7baa88f20ba83f3cf7fb258995d92693a8c74c01b3606cdc76d29ed92a6ea772",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### HTTPStatusCheckフィールド説明"
+      }
+    },
+    {
+      "segment_id": "6f7967ab",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| url | `string` | The URL of the HTTP request. | None | Yes | `http://123.123.123.123` |\n| method | `string` | The method of the HTTP request. Support value: `GET`/`POST`. | `GET` | No | `GET` |\n| headers | `map[string][]string` | The headers of the HTTP request. | None | No |  |\n| body | `string` | The body of the HTTP request. | None | No | `{\"a\":\"b\"}` |\n| criteria | `HTTPCriteria` | Defines how to determine the result of the HTTP StatusCheck. | None | Yes |  |",
+      "source_content_hash": "2d88774b0239ca4e144eca96b4bbe4ef566ceb0d53c16da266806f07d58a586c",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {}
+    },
+    {
+      "segment_id": "b7d7a8d8",
+      "source_content": "### HTTPCriteria field description",
+      "source_content_hash": "a64c28a91ebfa1529d160dcecd0da0484a6d2235a76470585502a7f4358c1cba",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### HTTPCriteriaフィールド説明"
+      }
+    },
+    {
+      "segment_id": "d251d5be",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| statusCode | `string` | The expected http status code for the request. A statusCode string could be a single code (e.g. `200`), or an inclusive range (e.g. `200-400`, both `200` and `400` are included). | None | Yes | `200` |",
+      "source_content_hash": "5fbdf411ccd45311aaeba21b9280b0f8c82b7fd51e78db77a991ca914a4dac9d",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {}
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/version-2.7.2/status-check-in-workflow.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.697712+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "93500eeafaeeafc37e45686312f95609a24abdc8a93a15761c81806c29eb6c65"
+  }
+}

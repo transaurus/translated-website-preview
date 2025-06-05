@@ -1,0 +1,332 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2021-08-13-chaos-mesh-2.0-to-a-chaos-engineering-ecology.md",
+  "source_file_content_hash": "e9554af72dc6a2836cf6df1f1c8550075cd085a45d087882325d47b121a8516f",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /chaos-mesh-2.0-to-a-chaos-engineering-ecology\ntitle: 'Chaos Mesh 2.0: To a Chaos Engineering Ecology'\nauthors: chaos-mesh\nimage: /img/blog/chaos-mesh-2.0-ga.png\ntags: [Chaos Mesh, Chaos Engineering, Announcement]\n---",
+      "source_content_hash": "bf29058747b24c13491b97f865ebcde73850cb782e5ec28d057b1419b87585bf",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "![Chaos Mesh 2.0: To a Chaos Engineering Ecology](/img/blog/chaos-mesh-2.0-ga.png)",
+      "source_content_hash": "edce758e1575d5caf767d7f728fbe43e4dada67091031d949c1d534261f58326",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos Mesh 2.0: カオスエンジニアリングの生態系へ](/img/blog/chaos-mesh-2.0-ga.png)"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "On July 23, 2021, Chaos Mesh 2.0 was made generally available! It’s an exciting release, marking a solid milestone towards the chaos engineering ecology that we hope to build.",
+      "source_content_hash": "9f46702d0519a6e38071d8cb25615ffa35a68a3a955ab72ca7bf19176686c93d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "2021年7月23日、Chaos Mesh 2.0が一般公開されました！これはエキサイティングなリリースであり、私たちが構築を目指すカオスエンジニアリングの生態系に向けた重要なマイルストーンです。"
+      }
+    },
+    {
+      "segment_id": "3e6699f4",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3e6699f4"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "Making chaos engineering easier has always been Chaos Mesh’s unswerving goal, and this release is a key step. After almost a year of continuous efforts, we have made major improvements in three main areas: ease of use, native experiment orchestration & scheduling, along with the richness of fault injection types.",
+      "source_content_hash": "cbdf5d5954885a91692acdba4dbd2859f853ef17146d91e385f8c57d4445d896",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "カオスエンジニアリングをより簡単にすることは、常にChaos Meshの揺るぎない目標であり、このリリースはその重要な一歩です。約1年にわたる継続的な努力の結果、主に3つの分野で大幅な改善を行いました：使いやすさ、ネイティブな実験オーケストレーション＆スケジューリング、そして故障注入タイプの豊富さです。"
+      }
+    },
+    {
+      "segment_id": "3daf1b88",
+      "source_content": "## Ease of use",
+      "source_content_hash": "dc86b9d36c95aad91b834a6716f75622106ebba7707da18598d4cabc8cdc0840",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 使いやすさ"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "We are committed to improving the usability of Chaos Mesh, and a key path to this is Chaos Dashboard, a web interface for users to orchestrate chaos experiments. For Chaos Mesh 2.0, we have improved the Chaos Dashboard in the following ways, further simplifying the complexity of chaos experiments:",
+      "source_content_hash": "264603783c6c7cf1882d192a5628bd8a34d274af337ab8f29499c93b299ca2bd",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "私たちはChaos Meshの使いやすさを向上させることに尽力しており、その重要な手段がChaos Dashboardです。これはユーザーがカオス実験をオーケストレーションするためのWebインターフェースです。Chaos Mesh 2.0では、以下の方法でChaos Dashboardを改善し、カオス実験の複雑さをさらに簡素化しました："
+      }
+    },
+    {
+      "segment_id": "0787cf7f",
+      "source_content": "- It now supports the creation, viewing, and updating of AWSChaos and GCPChaos, so that conducting chaos experiments in a cloud environment can provide a consistent experience as in Kubernetes;\n- It can display more detailed records of each experiment, further enhancing its visibility.",
+      "source_content_hash": "185153aea41fc0ef80dac5fdbb0ce7b305d64d07c9780a3fc5ac0083143b6e1c",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- AWSChaosとGCPChaosの作成、表示、更新をサポートし、クラウド環境でのカオス実験がKubernetesと同様の体験を提供できるようになりました；\n- 各実験のより詳細な記録を表示できるようになり、可視性がさらに向上しました。"
+      }
+    },
+    {
+      "segment_id": "98cfbd53",
+      "source_content": "![Chaos Mesh 2.0 - Experiment scheduling](/img/blog/chaos-mesh-scheduling-2.0.png)",
+      "source_content_hash": "7f7780cdc56160e733fdea237c4b83ff7c0ca96ad582bc0c0f63dfae2d9ea7db",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos Mesh 2.0 - 実験スケジューリング](/img/blog/chaos-mesh-scheduling-2.0.png)"
+      }
+    },
+    {
+      "segment_id": "79b2d0b9",
+      "source_content": "## Native experiment orchestration & scheduling",
+      "source_content_hash": "efe1989029efd727c2f5f5014ac0918525dbec550bd4322fcf2a539e1c27b8fb",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ネイティブな実験オーケストレーション＆スケジューリング"
+      }
+    },
+    {
+      "segment_id": "d9172fa4",
+      "source_content": "When conducting chaos experiments, a single experiment is often not enough to simulate a complete testing scenario, and manually starting or stopping the experiment would be a tedious and dangerous thing to do. Previously, we [combined Argo with Chaos Mesh](https://chaos-mesh.org/blog/building_automated_testing_framework) to inject faults automatically as a workflow. However, we later realized that Argo workflow is not the best way to describe declarative chaos experiments, and decided to write another workflow engine. Chaos Mesh 2.0 features native Workflow to support experiment orchestration, which means you can serially or parallely execute multiple experiments. You can even weave in notifications and health checks to simulate more complex experimental scenarios.",
+      "source_content_hash": "c6d2df0a265d665e16c280008adf44e6d74cf970fc32068d8f8b6fa348662c12",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "カオス実験を行う際、単一の実験では完全なテストシナリオをシミュレートするには不十分なことが多く、実験を手動で開始または停止することは面倒で危険な作業です。以前は、[ArgoとChaos Meshを組み合わせる](https://chaos-mesh.org/blog/building_automated_testing_framework)ことで、ワークフローとして自動的に故障を注入していました。しかし、Argoワークフローは宣言的なカオス実験を記述する最良の方法ではないことに気づき、別のワークフローエンジンを開発することにしました。Chaos Mesh 2.0では、ネイティブのWorkflowをサポートし、複数の実験を直列または並列に実行できるようになりました。さらに、通知やヘルスチェックを組み込むことで、より複雑な実験シナリオをシミュレートすることも可能です。"
+      }
+    },
+    {
+      "segment_id": "26524352",
+      "source_content": "![Chaos Mesh 2.0 - Workflow](/img/blog/chaos-mesh-workflow-2.0.png)",
+      "source_content_hash": "c9975dc126e454fd2d5b46ee2b67ec82ffdb55c0e7aa9e7c4f4b9713d68d1909",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos Mesh 2.0 - ワークフロー](/img/blog/chaos-mesh-workflow-2.0.png)"
+      }
+    },
+    {
+      "segment_id": "73ab96a3",
+      "source_content": "In previous versions, we used the `cron` and `duration` fields to define chaos experiments that were executed periodically. It didn’t take us long to realize that describing behavior this way was not fitting. For example, a single execution often takes longer than an execution cycle. This definition works fine, but lacks a suitable description for the study of expected behavior. We referred to CronJob and introduced Schedule, a new custom object, to Chaos Mesh. It adds more explicit properties to periodically executed tasks, such as whether multiple experiments are allowed to be executed at the same time, thereby restricting behavior.",
+      "source_content_hash": "2a711f4ef61a59eaada33d42646f7d749f0b5b3fb93791884053d9aff8650ff8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以前のバージョンでは、`cron`と`duration`フィールドを使用して定期的に実行されるカオス実験を定義していました。しかし、この方法では動作を適切に記述できないことにすぐに気づきました。例えば、単一の実行が実行サイクルよりも長くなる場合があります。この定義は機能しますが、期待される動作の研究には適していません。私たちはCronJobを参考に、Scheduleという新しいカスタムオブジェクトをChaos Meshに導入しました。これにより、複数の実験を同時に実行できるかどうかなど、定期的に実行されるタスクにより明確なプロパティを追加し、動作を制限できるようになりました。"
+      }
+    },
+    {
+      "segment_id": "7499a4e7",
+      "source_content": "![Chaos Mesh 2.0 - Schedule](/img/blog/chaos-dashboard-schedule-2.0.png)",
+      "source_content_hash": "a0fc4cd245a0a81218a7691677e798615be95a1b5e661546ae43a184d3a36d0f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos Mesh 2.0 - スケジュール](/img/blog/chaos-dashboard-schedule-2.0.png)"
+      }
+    },
+    {
+      "segment_id": "109ace10",
+      "source_content": "## Richer fault injection types",
+      "source_content_hash": "752ecf4112fbe4a376a4d3eacbd6d43fbb9105572a3ae2a627d6774d8459879d",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## より豊富な故障注入タイプ"
+      }
+    },
+    {
+      "segment_id": "135468ee",
+      "source_content": "Chaos Mesh already supports system-level fault injection types, as well as fault injections into cloud environments such as AWSChaos and GCPChaos. Starting from 2.0, injecting chaos into the application layer has been made possible with the introduction of JVMChaos and HTTPChaos.",
+      "source_content_hash": "c8c49488b68c0797c9667357cf9b5bedbfda90994bfb17f087d9916c7fb2c028",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshはすでにシステムレベルの故障注入タイプをサポートしており、AWSChaosやGCPChaosなどのクラウド環境への故障注入も可能です。2.0からは、JVMChaosとHTTPChaosの導入により、アプリケーション層へのカオス注入も可能になりました。"
+      }
+    },
+    {
+      "segment_id": "782c902a",
+      "source_content": "### JVMChaos",
+      "source_content_hash": "3d3fd8e71019646980d46c8fe0700ae6c7fc6b25268324aad39376517f21d226",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### JVMChaos"
+      }
+    },
+    {
+      "segment_id": "50746522",
+      "source_content": "JVM languages such as Java and Kotlin are widely used in the industry. A JVMChaos can be easily simulated through methods like JVM bytecode enhancement and Java Agent. Currently, JVMChaos uses [chaosblade-exec-jvm](https://github.com/chaosblade-io/chaosblade-exec-jvm), and supports injecting various application-level fault types including method delay, specify return value, OOM and throw custom exception. For more info, you can refer to the document: [Simulate JVM Application Faults](https://chaos-mesh.org/docs/simulate-jvm-application-chaos).",
+      "source_content_hash": "d252f855a1a50221e4881fd0533452b5def9461e80f2ee8742cf3665e776407f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "JavaやKotlinなどのJVM言語は業界で広く使用されています。JVMChaosは、JVMバイトコードの強化やJava Agentなどの方法で簡単にシミュレートできます。現在、JVMChaosは[chaosblade-exec-jvm](https://github.com/chaosblade-io/chaosblade-exec-jvm)を使用しており、メソッド遅延、指定された戻り値、OOM、カスタム例外のスローなど、さまざまなアプリケーションレベルの故障タイプの注入をサポートしています。詳細については、[JVMアプリケーションの故障をシミュレートする](https://chaos-mesh.org/docs/simulate-jvm-application-chaos)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "54268405",
+      "source_content": "### HTTPChaos",
+      "source_content_hash": "4ac6d8d2587d2d97a23b88cf0da9bbfe47f249ab834dd1d008227ceb0c7c97ad",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### HTTPChaos"
+      }
+    },
+    {
+      "segment_id": "8af76f3d",
+      "source_content": "HTTPChaos is a brand new Chaos type supported in the 2.0 version. It can hijack HTTP service requests and responses from the server side, as well as interrupt links, delay injection, or modify Header/Body. It is suitable for all scenarios that use HTTP as the communication protocol. For more information, refer to [Simulate HTTP Faults](https://chaos-mesh.org/docs/simulate-http-chaos-on-kubernetes).",
+      "source_content_hash": "f8fa0a2e50fb481e80000dd0c51a62e396a2c8884105442958d473c95358e71c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "HTTPChaosはバージョン2.0で新たにサポートされたChaosタイプです。HTTPサービスのリクエストとレスポンスをサーバーサイドでハイジャックしたり、リンクの切断、遅延注入、Header/Bodyの改変が可能です。HTTPを通信プロトコルとして使用するすべてのシナリオに適しています。詳細は[HTTP障害のシミュレート](https://chaos-mesh.org/docs/simulate-http-chaos-on-kubernetes)をご参照ください。"
+      }
+    },
+    {
+      "segment_id": "c674e260",
+      "source_content": "## Chaosd: an fault injection tool for physical nodes",
+      "source_content_hash": "413becefaf525484c43baf00e94769308391b5dbedffadbee26a7faeb62f9a16",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaosd: 物理ノード向けの障害注入ツール"
+      }
+    },
+    {
+      "segment_id": "a44047a5",
+      "source_content": "Chaos Mesh is designed for Kubernetes. For physical machine environments, we present [Chaosd](https://github.com/chaos-mesh/chaosd). It evolved from chaos-daemon, a key component in Chaos Mesh, and we have added specific chaos experiments based on the characteristics of physical machines. Currently, Chaosd supports process kill, network, JVM, pressure, disk and a few other types of fault injection onto the physical machine.",
+      "source_content_hash": "1e5388aac3e02c0d311f95b9f16b06bf2f63179ddecee4a72060c33d9e1b52be",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos MeshはKubernetes向けに設計されています。物理マシン環境向けには[Chaosd](https://github.com/chaos-mesh/chaosd)を提供しています。これはChaos Meshの主要コンポーネントであるchaos-daemonから進化したもので、物理マシンの特性に基づいた特定のカオス実験を追加しました。現在、Chaosdはプロセスキル、ネットワーク、JVM、負荷、ディスクなど、物理マシンに対する複数の障害注入タイプをサポートしています。"
+      }
+    },
+    {
+      "segment_id": "cb5b269c",
+      "source_content": "## Looking ahead",
+      "source_content_hash": "5de3a424e9b3a2054cdc8d7602f6c4663662e4a048f0d9190c2e98c5bb9ca758",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 今後の展望"
+      }
+    },
+    {
+      "segment_id": "b36c6338",
+      "source_content": "Chaos Mesh is still under active development, and we have some more powerful features in the works, including:",
+      "source_content_hash": "522484e444e3ab9173800b5643cf22a2efb9bd65c0492a5e57ab7e50ede4197d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは現在も活発に開発が続いており、より強力な機能が計画されています："
+      }
+    },
+    {
+      "segment_id": "9b797309",
+      "source_content": "- To inject JVMChaos at runtime, lowering the cost of JVMChaos and making it more easy-to-use.\n- To introduce a plug-in mechanism to build custom chaos experiments, while the Scheduling function remains unimpaired.",
+      "source_content_hash": "bb302ec90ea5f7ff4d7015241797a308a4fadbe40ea15541e3e025789a563f45",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 実行時におけるJVMChaosの注入を実現し、JVMChaosのコストを削減して使いやすくする\n- カスタムカオス実験を構築するためのプラグインメカニズムを導入しつつ、スケジューリング機能を維持する"
+      }
+    },
+    {
+      "segment_id": "23dfb152",
+      "source_content": "In addition, we noticed that chaos experiments can be reused in a number of scenarios, hence we plan to launch a platform, where customized experiments can be turned into templates. This will enable our users to share and reuse not only specific chaos experiments, but also Workflows for different scenarios.",
+      "source_content_hash": "4116120a65139ca96250c9528e6d3da7a35884ca845694bc2c918ce9c933b7f6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "さらに、カオス実験が多くのシナリオで再利用可能であることに気付き、カスタマイズされた実験をテンプレート化できるプラットフォームの立ち上げを計画しています。これにより、ユーザーは特定のカオス実験だけでなく、さまざまなシナリオ向けのWorkflowも共有・再利用できるようになります。"
+      }
+    },
+    {
+      "segment_id": "e912d935",
+      "source_content": "## Try it out!",
+      "source_content_hash": "41387c021013aa12b6d53975bc1b73d3d43a8e32cd418e423fd2e88f5e34072e",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## ぜひお試しください！"
+      }
+    },
+    {
+      "segment_id": "3a4225d7",
+      "source_content": ":::note\n\n2022-10-24: Because of https://www.oreilly.com/online-learning/leveraging-katacoda-technology.html, and refer to [#356](https://github.com/chaos-mesh/website/pull/356), the interactive tutorial is temporarily unavailable.\n\n:::",
+      "source_content_hash": "309c9fa56a89085317288948daab67d47db5d9ef3cd9382c10b3a8e1c64972fe",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\n2022-10-24: https://www.oreilly.com/online-learning/leveraging-katacoda-technology.html および [#356](https://github.com/chaos-mesh/website/pull/356) のため、インタラクティブチュートリアルは一時的に利用できません。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "657c2b20",
+      "source_content": "Try out the `Chaos Mesh 2.0 interactive scenarios` from your browser! There’s no need to install or configure, as the complete development environment has been preconfigured with everything you need. Otherwise, you can visit [the Chaos Mesh docs](https://chaos-mesh.org/docs) for more info.",
+      "source_content_hash": "ad155b6a03ee2ab408a36cac918d6399862490fa4556bc444617ee3d7a4a6549",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ブラウザから`Chaos Mesh 2.0インタラクティブシナリオ`をお試しください！インストールや設定は不要で、完全な開発環境が事前に構成されています。詳細については[Chaos Meshドキュメント](https://chaos-mesh.org/docs)をご覧ください。"
+      }
+    },
+    {
+      "segment_id": "52388877",
+      "source_content": "## A big thank you",
+      "source_content_hash": "3d24f6b532c4106e2bbbce41bcbcf964113b500d84a212753fb0c8700596618b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 感謝の言葉"
+      }
+    },
+    {
+      "segment_id": "eab056be",
+      "source_content": "Thanks to all [Chaos Mesh contributors](https://github.com/chaos-mesh/chaos-mesh/graphs/contributors), Chaos Mesh couldn’t have come from 1.0 to 2.0 without all of your efforts!",
+      "source_content_hash": "5385a07b2dcafe06a56b1f7e1d4c0a1f4121c827a14339643212f727329ead06",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "すべての[Chaos Meshコントリビューター](https://github.com/chaos-mesh/chaos-mesh/graphs/contributors)の皆様に感謝申し上げます。皆様の努力なしにはChaos Meshが1.0から2.0へ進化することはできませんでした！"
+      }
+    },
+    {
+      "segment_id": "f01228d3",
+      "source_content": "If you are interested in Chaos Mesh and would like to help us improve it, you’re welcome to join [our Slack channel](https://slack.cncf.io/) or submit your pull requests or issues to our [GitHub repository](https://github.com/chaos-mesh/chaos-mesh). Chaos Mesh looks forward to your participation and feedback!",
+      "source_content_hash": "ad7ce50037309922280afe0a8bfd77176e28052bc14bff4c72a2a155207af06a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshに興味があり、改善に協力したい方は、ぜひ[Slackチャンネル](https://slack.cncf.io/)に参加するか、[GitHubリポジトリ](https://github.com/chaos-mesh/chaos-mesh)にプルリクエストやイシューを投稿してください。Chaos Meshは皆様の参加とフィードバックを心待ちにしています！"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2021-08-13-chaos-mesh-2.0-to-a-chaos-engineering-ecology.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.674981+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "e9554af72dc6a2836cf6df1f1c8550075cd085a45d087882325d47b121a8516f"
+  }
+}

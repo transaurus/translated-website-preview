@@ -1,0 +1,512 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "docs/simulate-network-chaos-on-kubernetes.md",
+  "source_file_content_hash": "00e0b0d3da1abbd6e6c83765735ecaa5700a02c530f2ee635ce5fcd23f37ae9f",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Simulate Network Faults\n---",
+      "source_content_hash": "30fa39ebb5879952d3a52d52c2d3b12ac2510586e3bd1d3b1ee2505f1193ff2f",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "This document describes how to simulate network faults using NetworkChaos in Chaos Mesh.",
+      "source_content_hash": "8d090efffdb06b044506ef00926bd960d13e61ad077db9af6607cc356ee924f6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、Chaos MeshのNetworkChaosを使用してネットワーク障害をシミュレートする方法について説明します。"
+      }
+    },
+    {
+      "segment_id": "a703643c",
+      "source_content": "## NetworkChaos introduction",
+      "source_content_hash": "26ef958e02d74f1d4d6851f87a6013f9841ac55f88ab1aaeb2c3ef0ca84d2be0",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## NetworkChaosの概要"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "NetworkChaos is a fault type in Chaos Mesh. By creating a NetworkChaos experiment, you can simulate a network fault scenario for a cluster. Currently, NetworkChaos supports the following fault types:",
+      "source_content_hash": "04ce9b39e0c3ee0751f91b10543f0b1a866a59d04e8e6336fe68cbef2f1fc580",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "NetworkChaosはChaos Meshの障害タイプの一つです。NetworkChaos実験を作成することで、クラスタに対してネットワーク障害シナリオをシミュレートできます。現在、NetworkChaosは以下の障害タイプをサポートしています："
+      }
+    },
+    {
+      "segment_id": "be33979e",
+      "source_content": "- **Partition**: network disconnection and partition.\n- **Net Emulation**: poor network conditions, such as high delays, high packet loss rate, packet reordering, and so on.\n- **Bandwidth**: limit the communication bandwidth between nodes.",
+      "source_content_hash": "3e5a303386410ad65df7f4dd8da0981abed9b5635c4e72188a95870a0bfeab50",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- **Partition**: ネットワークの切断および分断\n- **Net Emulation**: 高遅延、高パケット損失率、パケット順序変更などの悪いネットワーク状態\n- **Bandwidth**: ノード間の通信帯域幅の制限"
+      }
+    },
+    {
+      "segment_id": "e14c9928",
+      "source_content": "## Notes",
+      "source_content_hash": "63e13e87b378d1e85f838ead267db9020c1457b1118a37e0af9fb5f976144f4b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 注意事項"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "Before creating NetworkChaos experiments, ensure the following:",
+      "source_content_hash": "abb84674596ff083c0feaf36f73cd09f1e1bc2b4e3f7b387d2ffccc3d423bb57",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "NetworkChaos実験を作成する前に、以下の点を確認してください："
+      }
+    },
+    {
+      "segment_id": "034de896",
+      "source_content": "1. During the network injection process, make sure that the connection between Controller Manager and Chaos Daemon works, otherwise the NetworkChaos cannot be restored anymore.\n2. If you want to simulate Net Emulation fault, make sure the NET_SCH_NETEM module is installed in the Linux kernel. If you are using CentOS, you can install the module through the kernel-modules-extra package. Most other Linux distributions have installed the module already by default.",
+      "source_content_hash": "b178b2710e6037cabb1ee202f060b8d2437cba50be5f3e76b72003e28774a9f2",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. ネットワークインジェクション処理中、Controller ManagerとChaos Daemon間の接続が機能していることを確認してください。そうでない場合、NetworkChaosを回復できなくなる可能性があります。\n2. Net Emulation障害をシミュレートする場合、LinuxカーネルにNET_SCH_NETEMモジュールがインストールされていることを確認してください。CentOSを使用している場合、kernel-modules-extraパッケージを通じてこのモジュールをインストールできます。他のほとんどのLinuxディストリビューションでは、このモジュールはデフォルトでインストールされています。"
+      }
+    },
+    {
+      "segment_id": "63622bf0",
+      "source_content": "## Create experiments using Chaos Dashboard",
+      "source_content_hash": "0e6c13931d3c46c241532f93bf2c43261695607133973a006c15d6651045ed71",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Dashboardを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "8cf6d045",
+      "source_content": "1. Open Chaos Dashboard, and click **NEW EXPERIMENT** on the page to create a new experiment:\n\n   ![Create Experiment](./img/create-new-exp.png)\n\n2. In the **Choose a Target** area, choose **NETWORK ATTACK** and select a specific behavior, such as **LOSS**. Then fill out specific configuration.\n\n   ![NetworkChaos Experiments](./img/networkchaos-exp.png)\n\n   For details of specific configuration fields, refer to [Field description](#field-description).\n\n3. Fill out the experiment information, and specify the experiment scope and the scheduled experiment duration.\n\n   ![Experiment Information](./img/exp-info.png)\n\n4. Submit the experiment information.",
+      "source_content_hash": "b498cd1146e14d105b478cf6c9f420116730bece77e268aa4725f28067518b18",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. Chaos Dashboardを開き、ページ上の**NEW EXPERIMENT**をクリックして新しい実験を作成します：\n\n   ![実験の作成](./img/create-new-exp.png)\n\n2. **Choose a Target**エリアで、**NETWORK ATTACK**を選択し、**LOSS**などの特定の動作を選択します。その後、具体的な設定を入力します。\n\n   ![NetworkChaos実験](./img/networkchaos-exp.png)\n\n   具体的な設定フィールドの詳細については、[フィールド説明](#field-description)を参照してください。\n\n3. 実験情報を入力し、実験範囲と予定された実験期間を指定します。\n\n   ![実験情報](./img/exp-info.png)\n\n4. 実験情報を送信します。"
+      }
+    },
+    {
+      "segment_id": "782c902a",
+      "source_content": "## Create experiments using the YAML files",
+      "source_content_hash": "b28651d6feb8cbe0279d0621bb5559ff4dc33f1eb16ffa643cf71d9a907b48f0",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## YAMLファイルを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "8d04259b",
+      "source_content": "### Delay example",
+      "source_content_hash": "4e73d3e79831ae3c9f4c59cc0446b746f1ea5a9953078b144e82da0816160979",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 遅延の例"
+      }
+    },
+    {
+      "segment_id": "aa83231c",
+      "source_content": "1. Write the experiment configuration to the `network-delay.yaml` file, as shown below:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: NetworkChaos\n   metadata:\n     name: delay\n   spec:\n     action: delay\n     mode: one\n     selector:\n       namespaces:\n         - default\n       labelSelectors:\n         'app': 'web-show'\n     delay:\n       latency: '10ms'\n       correlation: '100'\n       jitter: '0ms'\n   ```\n\n   This configuration causes a latency of 10 milliseconds in the network connections of the target Pods. In addition to latency injection, Chaos Mesh supports packet loss and packet reordering injection. For details, see [field description](#field-description).\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f ./network-delay.yaml\n   ```",
+      "source_content_hash": "f4bba3dd2a89aa7f25b3d43079564d077a51564bfb1e4b7352b4c30758976a99",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 以下のように実験設定を`network-delay.yaml`ファイルに記述します：\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: NetworkChaos\n   metadata:\n     name: delay\n   spec:\n     action: delay\n     mode: one\n     selector:\n       namespaces:\n         - default\n       labelSelectors:\n         'app': 'web-show'\n     delay:\n       latency: '10ms'\n       correlation: '100'\n       jitter: '0ms'\n   ```\n\n   この設定は、対象Podのネットワーク接続に10ミリ秒の遅延を引き起こします。遅延注入に加えて、Chaos Meshはパケット損失やパケット順序変更の注入もサポートしています。詳細は[フィールド説明](#field-description)を参照してください。\n\n2. 設定ファイルの準備ができたら、`kubectl`を使用して実験を作成します：\n\n   ```bash\n   kubectl apply -f ./network-delay.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "d422fb13",
+      "source_content": "### Partition example",
+      "source_content_hash": "59adc9fb2da41565b61cc793dac5744199c0f7b435d5e981117e681a828b3cd1",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 分断の例"
+      }
+    },
+    {
+      "segment_id": "aa0bd54f",
+      "source_content": "1. Write the experiment configuration to the `network-partition.yaml` file, as shown below:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: NetworkChaos\n   metadata:\n     name: partition\n   spec:\n     action: partition\n     mode: all\n     selector:\n       namespaces:\n         - default\n       labelSelectors:\n         'app': 'app1'\n     direction: to\n     target:\n       mode: all\n       selector:\n         namespaces:\n           - default\n         labelSelectors:\n           'app': 'app2'\n   ```\n\n   This configuration blocks the connection created from `app1` to `app2`. The value for the `direction` field can be `to`, `from` or `both`. For details, refer to [Field description](#field-description).\n\n2. After the configuration file is prepared, use `kubectl` to create the experiment:\n\n   ```bash\n   kubectl apply -f ./network-partition.yaml\n   ```",
+      "source_content_hash": "45c2dcdd2dfc89a7274eefef105cf0ebeb07baac5f64f754a4babe3c560f815a",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 以下のように実験設定を`network-partition.yaml`ファイルに記述します：\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: NetworkChaos\n   metadata:\n     name: partition\n   spec:\n     action: partition\n     mode: all\n     selector:\n       namespaces:\n         - default\n       labelSelectors:\n         'app': 'app1'\n     direction: to\n     target:\n       mode: all\n       selector:\n         namespaces:\n           - default\n         labelSelectors:\n           'app': 'app2'\n   ```\n\n   この設定は、`app1`から`app2`への接続をブロックします。`direction`フィールドの値は`to`、`from`または`both`を指定できます。詳細は[フィールド説明](#field-description)を参照してください。\n\n2. 設定ファイルの準備ができたら、`kubectl`を使用して実験を作成します：\n\n   ```bash\n   kubectl apply -f ./network-partition.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "1f4b3b94",
+      "source_content": "### Bandwidth example",
+      "source_content_hash": "e5014fd7520fed2a2ebb167b614562b6913f9773bb385a2574909fdc91098d9a",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 帯域幅の例"
+      }
+    },
+    {
+      "segment_id": "2270deb6",
+      "source_content": "1. Write the experiment configuration to the `network-bandwidth.yaml` file, as shown below:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: NetworkChaos\n   metadata:\n     name: bandwidth\n   spec:\n     action: bandwidth\n     mode: all\n     selector:\n       namespaces:\n         - default\n       labelSelectors:\n         'app': 'app1'\n     bandwidth:\n       rate: '1mbps'\n       limit: 20971520\n       buffer: 10000\n   ```\n\n   This configuration limits the bandwidth of `app1` to 1 mbps.\n\n2. After the configuration file is prepared, use `kubectl` to create the experiment:\n\n   ```bash\n   kubectl apply -f ./network-bandwidth.yaml\n   ```",
+      "source_content_hash": "8ce94777e5a5134a267d0d8174b964dfae5e9384c494f6e6070ece5df44ab3b9",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 以下のように、実験設定を `network-bandwidth.yaml` ファイルに記述します:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: NetworkChaos\n   metadata:\n     name: bandwidth\n   spec:\n     action: bandwidth\n     mode: all\n     selector:\n       namespaces:\n         - default\n       labelSelectors:\n         'app': 'app1'\n     bandwidth:\n       rate: '1mbps'\n       limit: 20971520\n       buffer: 10000\n   ```\n\n   この設定により、`app1` の帯域幅が 1 mbps に制限されます。\n\n2. 設定ファイルの準備ができたら、`kubectl` を使用して実験を作成します:\n\n   ```bash\n   kubectl apply -f ./network-bandwidth.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "c6868a9f",
+      "source_content": "### Network Emulation example",
+      "source_content_hash": "c035aa2d205cec16f9c264694ba89eefb0cedc75cc22d935d3cf98837d8856bf",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ネットワークエミュレーションの例"
+      }
+    },
+    {
+      "segment_id": "8c9c56b6",
+      "source_content": "1. Write the experiment configuration to the `netem.yaml` file, as shown below:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: NetworkChaos\n   metadata:\n     name: network-emulation\n   spec:\n     action: netem\n     mode: all\n     selector:\n       namespaces:\n         - default\n       labelSelectors:\n         'app': 'web-show'\n     delay:\n       latency: '10ms'\n       correlation: '100'\n       jitter: '0ms'\n     rate:\n       rate: '10mbps'\n   ```\n\n   This configuration causes a latency of 10 milliseconds and a bandwidth limit of 10mbps in the network connections of the target Pods. In addition to latency and rate, the `netem` action also supports packet loss, reorder and corruption.\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f ./netem.yaml\n   ```",
+      "source_content_hash": "e88aeb898805f72ff543552e9089b38c3f6857cde4ead03b19f8df70ad9189d4",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 以下のように、実験設定を `netem.yaml` ファイルに記述します:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: NetworkChaos\n   metadata:\n     name: network-emulation\n   spec:\n     action: netem\n     mode: all\n     selector:\n       namespaces:\n         - default\n       labelSelectors:\n         'app': 'web-show'\n     delay:\n       latency: '10ms'\n       correlation: '100'\n       jitter: '0ms'\n     rate:\n       rate: '10mbps'\n   ```\n\n   この設定により、対象の Pod のネットワーク接続に 10 ミリ秒の遅延と 10mbps の帯域幅制限が発生します。遅延と帯域幅制限に加えて、`netem` アクションはパケット損失、並べ替え、破損もサポートしています。\n\n2. 設定ファイルの準備ができたら、`kubectl` を使用して実験を作成します:\n\n   ```bash\n   kubectl apply -f ./netem.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "89b740fe",
+      "source_content": "## Field description",
+      "source_content_hash": "afef87832591f63e7a3c9579f8a2492cf81afc3e8b0d02296e334646ad82d4f6",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## フィールド説明"
+      }
+    },
+    {
+      "segment_id": "28fc1cfd",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| action | string | Indicates the specific fault type. Available types include: `netem`, `delay` (network delay), `loss` (packet loss), `duplicate` (packet duplicating), `corrupt` (packet corrupt), `partition` (network partition), and `bandwidth` (network bandwidth limit). After you specify `action` field, refer to [Description for `action`-related fields](#description-for-action-related-fields) for other necessary field configuration. | None | Yes | Partition |\n| target | Selector | Used in combination with direction, making Chaos only effective for some packets. | None | No |  |\n| direction | enum | Indicates the direction of `target` packets. Available values include `from` (the packets from `target`), `to` (the packets to `target`), and `both` ( the packets from or to `target`). This parameter makes Chaos only take effect for a specific direction of packets. | to | No | both |\n| mode | string | Specifies the mode of the experiment. The mode options include `one` (selecting a random Pod), `all` (selecting all eligible Pods), `fixed` (selecting a specified number of eligible Pods), `fixed-percent` (selecting a specified percentage of Pods from the eligible Pods), and `random-max-percent` (selecting the maximum percentage of Pods from the eligible Pods). | None | Yes | `one` |\n| value | string | Provides a parameter for the `mode` configuration, depending on `mode`. For example, when `mode` is set to `fixed-percent`, `value` specifies the percentage of Pods. | None | No | 1 |\n| selector | struct | Specifies the target Pod. For details, refer to [Define the experiment scope](./define-chaos-experiment-scope.md). | None | Yes |  |\n| externalTargets | []string | Indicates the network targets except for Kubernetes, which can be IPv4 addresses or domains. This parameter only works with `direction: to`. | None | No | 1.1.1.1, google.com |\n| device | string | Specifies the affected network interface | None | No | \"eth0\" |",
+      "source_content_hash": "1e77d30e5d9d6d9315bbc870a271e6fdd51703e864dc75be1feeb2d5a2e46bd4",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_28fc1cfd"
+      }
+    },
+    {
+      "segment_id": "61282bab",
+      "source_content": "## Description for `action`-related fields",
+      "source_content_hash": "1ec6d2be1ea31c0778c82523b238d6c45683dbc5873e23b684e8a0bfabf3d5f4",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## `action` 関連フィールドの説明"
+      }
+    },
+    {
+      "segment_id": "4e2e17c5",
+      "source_content": "For the Net Emulation and Bandwidth fault types, you can further configure the `action` related parameters according to the following description.",
+      "source_content_hash": "c6d38313a83815f32d7762c2fadc6c0da81627f30d1babb310087f49e07e87a5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ネットワークエミュレーションと帯域幅の障害タイプについては、以下の説明に従って `action` 関連のパラメータをさらに設定できます。"
+      }
+    },
+    {
+      "segment_id": "fc7b5b3c",
+      "source_content": "- Net Emulation type: `delay`, `loss`, `duplicated`, `corrupt`, `rate`\n- Bandwidth type: `bandwidth`",
+      "source_content_hash": "344143485fc336f188d2dbc06a8d03dbaf8fd70cb6f99e83d0ab169628eaf72d",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- ネットワークエミュレーションタイプ: `delay`, `loss`, `duplicated`, `corrupt`, `rate`\n- 帯域幅タイプ: `bandwidth`"
+      }
+    },
+    {
+      "segment_id": "be4b1cbf",
+      "source_content": "### delay",
+      "source_content_hash": "ed5aec5a59290a7cd0e9760871c482af79ae681c88da0fd85041fca3e85dadf2",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### delay"
+      }
+    },
+    {
+      "segment_id": "b27c61de",
+      "source_content": "Setting `action` to `delay` means simulating network delay fault. You can also configure the following parameters.",
+      "source_content_hash": "2b8fcaada8d0cdc2bc55aedb93e26cb2f1054a7c542fc9afbd83ba0b161f7c1d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`action` を `delay` に設定すると、ネットワーク遅延障害をシミュレートします。以下のパラメータも設定できます。"
+      }
+    },
+    {
+      "segment_id": "304aa33b",
+      "source_content": "| Parameter | Type | Description | Required | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| latency | string | Indicates the network latency | No | No | 2ms |\n| correlation | string | Indicates the correlation between the current latency and the previous one. Range of value: [0, 100] | No | No | 50 |\n| jitter | string | Indicates the range of the network latency | No | No | 1ms |\n| reorder | Reorder(#Reorder) | Indicates the status of network packet reordering |  | No |  |",
+      "source_content_hash": "3d6b6a867a72de5acdd25d745b26e93cad0aaac34efe5c22003ca40d419faa33",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_304aa33b"
+      }
+    },
+    {
+      "segment_id": "38f964f1",
+      "source_content": "The computational model for `correlation` is as follows:",
+      "source_content_hash": "2bc83d6142c5693a8c78c4c210ea66ade7e30d1e37d9e8d6708be236b66c5e0a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`correlation` の計算モデルは以下の通りです:"
+      }
+    },
+    {
+      "segment_id": "c53e56f7",
+      "source_content": "1. Generate a random number whose distribution is related to the previous value:\n\n   ```c\n   rnd = value * (1-corr) + last_rnd * corr\n   ```\n\n   `rnd` is the random number. `corr` is the `correlation` you fill out before.\n\n2. Use this random number to determine the delay of the current packet:\n\n   ```c\n   ((rnd % (2 * sigma)) + mu) - sigma\n   ```\n\n   In the above command, `sigma` is `jitter` and `mu` is `latency`.",
+      "source_content_hash": "48dad4dc2e3ac386e774a7261c6c919137db9bac58fa192939e5fcc7eea788ae",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 前の値に関連した分布を持つ乱数を生成します:\n\n   ```c\n   rnd = value * (1-corr) + last_rnd * corr\n   ```\n\n   `rnd` は乱数です。`corr` は事前に入力した `correlation` です。\n\n2. この乱数を使用して現在のパケットの遅延を決定します:\n\n   ```c\n   ((rnd % (2 * sigma)) + mu) - sigma\n   ```\n\n   上記のコマンドでは、`sigma` は `jitter`、`mu` は `latency` です。"
+      }
+    },
+    {
+      "segment_id": "3079a4d2",
+      "source_content": "### reorder",
+      "source_content_hash": "86c04c85a202002a5913775434b9b21cd1595f7c83442b202876b0773720b1e6",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### reorder"
+      }
+    },
+    {
+      "segment_id": "e4945edb",
+      "source_content": "Setting `action` to `reorder` means simulating network packet reordering fault. You can also configure the following parameters.",
+      "source_content_hash": "bfce1780c09403bb7858487d58619abfa179331458db6515a37586c784a244e0",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`action` を `reorder` に設定すると、ネットワークパケットの並べ替え障害をシミュレートします。以下のパラメータも設定できます。"
+      }
+    },
+    {
+      "segment_id": "0576ca11",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| reorder | string | Indicates the probability to reorder | 0 | No | 0.5 |\n| correlation | string | Indicates the correlation between this time's length of delay time and the previous time's length of delay time. Range of value: [0, 100] | 0 | No | 50 |\n| gap | int | Indicates the gap before and after packet reordering | 0 | No | 5 |",
+      "source_content_hash": "83a186ebe760237f75ea57cc8f517d1fac4d3bf8e2c778821572edc9bdc84420",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_0576ca11"
+      }
+    },
+    {
+      "segment_id": "200685d4",
+      "source_content": "### loss",
+      "source_content_hash": "3c8d9ded425172a3ea077f3125d6dd86212a848fb909074f0bfc4e6f95b4c6fe",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### loss"
+      }
+    },
+    {
+      "segment_id": "09d52457",
+      "source_content": "Setting `action` to `loss` means simulating packet loss fault. You can also configure the following parameters.",
+      "source_content_hash": "b52bcb797ba8f6eac93208dac6c2b4e1c6c9ff3824630b74b61f80ea8ad3fd75",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`action` を `loss` に設定すると、パケット損失障害をシミュレートします。以下のパラメータも設定できます。"
+      }
+    },
+    {
+      "segment_id": "759a3d15",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| loss | string | Indicates the probability of packet loss. Range of value: [0, 100] | 0 | No | 50 |\n| correlation | string | Indicates the correlation between the probability of current packet loss and the previous time's packet loss. Range of value: [0, 100] | 0 | No | 50 |",
+      "source_content_hash": "f4186cfa71ab532f685ba164d9cfa0f8e14333b553d393ce336c8b3d546379ae",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_759a3d15"
+      }
+    },
+    {
+      "segment_id": "ad8a5f54",
+      "source_content": "### duplicate",
+      "source_content_hash": "3a24f9d52beca909088208d87b2146e9c3a4f9fa830f85ed8cdf2c633a16ce48",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### duplicate"
+      }
+    },
+    {
+      "segment_id": "4033c370",
+      "source_content": "Set `action` to `duplicate`, meaning simulating package duplication. At this point, you can also set the following parameters.",
+      "source_content_hash": "f9554c05566819fe4edbed16719d7238b7be0ebc8b1255bbc8f87c0b433b1bd3",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`action` を `duplicate` に設定すると、パケットの重複をシミュレートします。この時、以下のパラメータも設定できます。"
+      }
+    },
+    {
+      "segment_id": "6c82acb3",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| duplicate | string | Indicates the probability of packet duplicating. Range of value: [0, 100] | 0 | No | 50 |\n| correlation | string | Indicates the correlation between the probability of current packet duplicating and the previous time's packet duplicating. Range of value: [0, 100] | 0 | No | 50 |",
+      "source_content_hash": "930a1fe699da1a424a471bfdf844176b9a7d8a5caedc5bb4043c798466162677",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_6c82acb3"
+      }
+    },
+    {
+      "segment_id": "52dd49af",
+      "source_content": "### corrupt",
+      "source_content_hash": "20d26b7a484909408b522d3b5d4e4856d0f1d2dbde4b116c8b7821e005cb0c29",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### corrupt"
+      }
+    },
+    {
+      "segment_id": "ceb4fd26",
+      "source_content": "Setting `action` to `corrupt` means simulating package corruption fault. You can also configure the following parameters.",
+      "source_content_hash": "2a13bf08ce1cdc685822de6376308ad774fb320771f79384e628468273a613ed",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`action` を `corrupt` に設定すると、パケット破損障害をシミュレートします。以下のパラメータも設定できます。"
+      }
+    },
+    {
+      "segment_id": "cd7684b7",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| corrupt | string | Indicates the probability of packet corruption. Range of value: [0, 100] | 0 | No | 50 |\n| correlation | string | Indicates the correlation between the probability of current packet corruption and the previous time's packet corruption. Range of value: [0, 100] | 0 | No | 50 |",
+      "source_content_hash": "e15b59e00cac4ba5dceb1f0fb261ab81e39127f010f9926b93c8a76821b3dd37",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_cd7684b7"
+      }
+    },
+    {
+      "segment_id": "5d3138c7",
+      "source_content": "For occasional events such as `reorder`, `loss`, `duplicate`, and `corrupt`, the `correlation` is more complicated. For specific model description, refer to [NetemCLG](http://web.archive.org/web/20200120162102/http://netgroup.uniroma2.it/twiki/bin/view.cgi/Main/NetemCLG).",
+      "source_content_hash": "a520e131870d2ff0fc1bdbd2c855e482eb991c5aba860a4a00c409265b181e72",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`reorder`、`loss`、`duplicate`、`corrupt`などの偶発的なイベントの場合、`correlation`はより複雑です。具体的なモデルの説明については、[NetemCLG](http://web.archive.org/web/20200120162102/http://netgroup.uniroma2.it/twiki/bin/view.cgi/Main/NetemCLG)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "cb2e9dbf",
+      "source_content": "### rate",
+      "source_content_hash": "9f28aa1e780b5e0b78f18781555f44112d6fe8792742f349f0f6d3ece77d8e87",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### rate"
+      }
+    },
+    {
+      "segment_id": "9c70c953",
+      "source_content": "Setting `action` to `rate` means simulating bandwidth rate fault. This action is similar to [bandwidth/rate](#bandwidth) below, however, **the key distinction is that this action can combine with other `netem` actions listed above**. However, if you require more control over the bandwidth simulation such as limiting the buffer size, check the [bandwidth](#bandwidth) action.",
+      "source_content_hash": "67c4137f7ac9ff73bf7528e43eae97d9e1774b56be2d7f6d558e5fc8633e8d7a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`action`を`rate`に設定すると、帯域幅レートの障害をシミュレートします。このアクションは以下の[bandwidth/rate](#bandwidth)と似ていますが、**重要な違いは、このアクションが上記の他の`netem`アクションと組み合わせることができる点です**。ただし、バッファサイズの制限など、帯域幅シミュレーションをより詳細に制御する必要がある場合は、[bandwidth](#bandwidth)アクションを確認してください。"
+      }
+    },
+    {
+      "segment_id": "745b9b1e",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| rate | string | Indicates the rate of bandwidth limit. Allows bit, kbit, mbit, gbit, tbit, bps, kbps, mbps, gbps, tbps unit. bps means bytes per second |  | Yes | 1mbps |",
+      "source_content_hash": "254e62c2224f4cdf10a5a88a6230d502486046b65e686690163685a814c0c9b7",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_745b9b1e"
+      }
+    },
+    {
+      "segment_id": "b1889ce8",
+      "source_content": "### bandwidth",
+      "source_content_hash": "c05739bb6049dc65cb224d3e714ce2426a782fd9f5ec092f90ec58f11cf9589b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### bandwidth"
+      }
+    },
+    {
+      "segment_id": "30aa9816",
+      "source_content": "Setting `action` to `bandwidth` means simulating bandwidth limit fault. You also need to configure the following parameters.",
+      "source_content_hash": "cbea1c7f4184db1308b7b050aab0abf95622ce45ec925aac4e4aa27c69e0632d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`action`を`bandwidth`に設定すると、帯域幅制限の障害をシミュレートします。また、以下のパラメータを設定する必要があります。"
+      }
+    },
+    {
+      "segment_id": "8d11bbb6",
+      "source_content": ":::info\n\nThis action is mutually exclusive with any `netem` action defined above. If you need to inject bandwidth rate along with other network failures such as corruption, use the [rate](#rate) action instead.\n\n:::",
+      "source_content_hash": "05ad2817e09bd10ac6e4813c64272e423a5a8196a8c08750dcbfd84d6690bf56",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::info\n\nこのアクションは、上記で定義された`netem`アクションとは排他的です。帯域幅レートと破損などの他のネットワーク障害を同時に注入する必要がある場合は、代わりに[rate](#rate)アクションを使用してください。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "53f1f452",
+      "source_content": "| Parameter | Type | Description | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| rate | string | Indicates the rate of bandwidth limit. Allows bit, kbit, mbit, gbit, tbit, bps, kbps, mbps, gbps, tbps unit. bps means bytes per second |  | Yes | 1mbps |\n| limit | uint32 | Indicates the number of bytes waiting in queue |  | Yes | 1 |\n| buffer | uint32 | Indicates the maximum number of bytes that can be sent instantaneously |  | Yes | 1 |\n| peakrate | uint64 | Indicates the maximum consumption of `bucket` (usually not set) |  | No | 1 |\n| minburst | uint32 | Indicates the size of `peakrate bucket` (usually not set) |  | No | 1 |",
+      "source_content_hash": "4d1575f317f78d313a12bc430ad5083d5f2132561ebec11d16c1a70d43c789f1",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_53f1f452"
+      }
+    },
+    {
+      "segment_id": "46e586a3",
+      "source_content": "For more details of these fields, you can refer to [tc-tbf document](https://man7.org/linux/man-pages/man8/tc-tbf.8.html). The limit is suggested to set to at least `2 * rate * latency`, where the `latency` is the estimated latency between source and target, and it can be estimated through `ping` command. Too small `limit` can cause high loss rate and impact the throughput of the tcp connection.",
+      "source_content_hash": "10860cc73407e949988fd7f98d2ee42ba21f1eaa6e9679ad6f6248a3f1e19119",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "これらのフィールドの詳細については、[tc-tbfドキュメント](https://man7.org/linux/man-pages/man8/tc-tbf.8.html)を参照してください。`limit`は少なくとも`2 * rate * latency`に設定することを推奨します。ここで、`latency`は送信元と宛先間の推定遅延であり、`ping`コマンドで推定できます。`limit`が小さすぎると、高い損失率が発生し、TCP接続のスループットに影響を与える可能性があります。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/current/simulate-network-chaos-on-kubernetes.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.655245+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "00e0b0d3da1abbd6e6c83765735ecaa5700a02c530f2ee635ce5fcd23f37ae9f"
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "versioned_docs/version-2.6.7/gcp-authentication.md",
+  "source_file_content_hash": "da0e33493d3da8cd5734d3237028c5df198c4d27cbad0e0b70b4914afe5dda5a",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: GCP OAuth Authentication\n---",
+      "source_content_hash": "c0cab84aaea9d8f63f3e1a0559dd928a534877f6e6ef302bf5f7d91e0aaa0d39",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "When Chaos Mesh is deployed on the Google Cloud Platform, you can log in to Chaos Dashboard through Google OAuth. This document describes how to enable and configure this function.",
+      "source_content_hash": "27081d5f117e645c8ba93fc7098cc5c7cacf92776979f1156e0c1a53c23b4dcc",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos MeshをGoogle Cloud Platformにデプロイする場合、Google OAuthを通じてChaos Dashboardにログインできます。このドキュメントでは、この機能を有効化して設定する方法について説明します。"
+      }
+    },
+    {
+      "segment_id": "a703643c",
+      "source_content": "## Create OAuth Client",
+      "source_content_hash": "343b472535b9e5dfbee99b59595cada6091078e73a1b6880b03e1e6713c1b739",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## OAuthクライアントの作成"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "Create GCP OAuth client and get the Client ID and Client Secret according to [Setting up OAuth 2.0](https://support.google.com/cloud/answer/6158849?hl=en).",
+      "source_content_hash": "d4c6cf8495b20cc91f661b89767bcf726e23c222873c4b1abe097c75be3d1b58",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[OAuth 2.0の設定](https://support.google.com/cloud/answer/6158849?hl=en)に従ってGCP OAuthクライアントを作成し、Client IDとClient Secretを取得します。"
+      }
+    },
+    {
+      "segment_id": "be33979e",
+      "source_content": "1. Go to the [Google Cloud Platform Console](https://console.cloud.google.com/).\n2. From the projects list, select a project or create a new one.\n3. If the APIs & services page was not loaded automatically, open the console left side menu and select \"APIs & services\" manually.\n4. Click \"Credentials\" on the left.\n5. Click \"Create Credentials\", then select \"OAuth client ID\".\n6. Select \"Web Application\" as the application type, and enter additional information and the redirect URL of Chaos dashboard, which is `ROOT_URL/api/auth/gcp/callback`. In this part, `ROOT_URL` is the root URL of Chaos dashboard, like `http://localhost:2333`. This URL can be set through the configuration item `dashboard.rootUrl` by `helm`.\n7. Click \"Create\".",
+      "source_content_hash": "c8357b26ee1315412051b9959b718f07dd0ff71c0b18421101323c446298a5b9",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. [Google Cloud Platform Console](https://console.cloud.google.com/)にアクセスします。\n2. プロジェクト一覧からプロジェクトを選択するか、新規作成します。\n3. APIs & servicesページが自動的に読み込まれない場合、コンソールの左側メニューから手動で「APIs & services」を選択します。\n4. 左側の「Credentials」をクリックします。\n5. 「Create Credentials」をクリックし、「OAuth client ID」を選択します。\n6. アプリケーションタイプとして「Web Application」を選択し、Chaos DashboardのリダイレクトURL（`ROOT_URL/api/auth/gcp/callback`）などの追加情報を入力します。ここで、`ROOT_URL`はChaos DashboardのルートURL（例: `http://localhost:2333`）です。このURLは`helm`を通じて`dashboard.rootUrl`設定項目で設定できます。\n7. 「Create」をクリックします。"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "After creating the client, remember to save the Client ID and Client Secret for the following steps.",
+      "source_content_hash": "89c6f2e2ae5df218cc70649188585f6a45dc611ed86c22a59332ba5aa5b6fbec",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "クライアント作成後、以下の手順で使用するためClient IDとClient Secretを保存しておいてください。"
+      }
+    },
+    {
+      "segment_id": "418617bd",
+      "source_content": "## Configure and Start Chaos Mesh",
+      "source_content_hash": "62587bb19abf1ea12260b4f53d5a1dec0d17ea7532ae17819b1321dc3bff24ec",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Meshの設定と起動"
+      }
+    },
+    {
+      "segment_id": "9beb6e94",
+      "source_content": ":::info\n\nUpdate: Since `v2.7.0`, you can provide a **Secret** to store the Client ID and Client Secret. **We recommend you to use this method**.\n\nThis change is to avoid exposing the Client ID and Client Secret to the public. In the previous versions, the Client ID and Client Secret are specified in the values directly, which is not safe in general.\n\nFor more information, see https://github.com/chaos-mesh/chaos-mesh/issues/4206.\n\n:::",
+      "source_content_hash": "fd5d36d218ca7ba14b7783f504f2b45515441d00dbf2e2be47673eae5694c77c",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::info\n\n更新: `v2.7.0`以降、Client IDとClient Secretを保存するために**Secret**を提供できます。**この方法を使用することを推奨します**。\n\nこの変更は、Client IDとClient Secretを公開しないようにするためです。以前のバージョンでは、これらの値が直接valuesに指定されていましたが、一般的に安全ではありませんでした。\n\n詳細は https://github.com/chaos-mesh/chaos-mesh/issues/4206 を参照してください。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "4daf5cdd",
+      "source_content": "To enable the function, you need to set the configuration items in helm charts as follows:",
+      "source_content_hash": "d2136b35a8a5eafab05a810951289a53a4dbb771199fe351d784d9ce2fa6ecd2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この機能を有効化するには、helm chartsで以下の設定項目を設定する必要があります:"
+      }
+    },
+    {
+      "segment_id": "ef6eebef",
+      "source_content": "```yaml\ndashboard:\n  rootUrl: http://localhost:2333\n  gcpSecurityMode:\n    enabled: true\n    # Old configuration items for compatibility.\n    clientId: ''\n    clientSecret: ''\n    # References existing Kubernetes secret containing `GCP_CLIENT_ID` and `GCP_CLIENT_SECRET`.\n    existingSecret: ''\n```",
+      "source_content_hash": "7e37ee5f73003b72e707011a4ad0b35c2f2b128b4a480b5759755c9f0346fb1f",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_ef6eebef"
+      }
+    },
+    {
+      "segment_id": "13d9cd70",
+      "source_content": "If Chaos Mesh has been installed, you can update the configuration items through `helm upgrade`. If not, you can install Chaos Mesh through `helm install`.",
+      "source_content_hash": "828efb50aba70b4f54d5d99aaaa03bcc710b702adb657b554760ff8009f20628",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshが既にインストールされている場合、`helm upgrade`を通じて設定項目を更新できます。インストールされていない場合、`helm install`でChaos Meshをインストールできます。"
+      }
+    },
+    {
+      "segment_id": "6f930b2f",
+      "source_content": "## Login with Google",
+      "source_content_hash": "3425874674cdb9a13abc1249a5c731817e8eb8ecca90bec0513589e656d5841f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Googleでのログイン"
+      }
+    },
+    {
+      "segment_id": "c504c207",
+      "source_content": "Open Chaos Dashboard, and click the Google icon under the authentication window.",
+      "source_content_hash": "5e3dc8830a7dbbdcd88044e51d797054344bea5f727bd074c3e5dcded0fb35cd",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Dashboardを開き、認証ウィンドウの下にあるGoogleアイコンをクリックします。"
+      }
+    },
+    {
+      "segment_id": "98d26038",
+      "source_content": "![img](./img/google-auth.png)",
+      "source_content_hash": "ab6274dee0415eefce08e02d239e0be2447737bf57d4513cf719571ca12c901e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![img](./img/google-auth.png)"
+      }
+    },
+    {
+      "segment_id": "d3649a1e",
+      "source_content": "After logging in to the Google account and being granted permission to OAuth Client, the page automatically redirects to Chaos Dashboard with logged-in status. At this time, you have the same permissions as the google account in this cluster. If you need to add other permissions, you can edit the permission through the RBAC (Role-based access control). For example:",
+      "source_content_hash": "37d4526f7333856989b43271e7a4885e91a65d040e1b7f66f01b302173cf555b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Googleアカウントにログインし、OAuthクライアントに権限を付与した後、ページは自動的にログイン状態のChaos Dashboardにリダイレクトされます。この時点で、このクラスター内のGoogleアカウントと同じ権限を持ちます。追加の権限が必要な場合、RBAC（Role-based access control）を通じて権限を編集できます。例:"
+      }
+    },
+    {
+      "segment_id": "c3955998",
+      "source_content": "```yaml\nkind: ClusterRole\napiVersion: rbac.authorization.k8s.io/v1\nmetadata:\n  name: chaos-mesh-cluster-manager\nrules:\n  - apiGroups:\n      - chaos-mesh.org\n    resources: ['*']\n    verbs: ['get', 'list', 'watch', 'create', 'delete', 'patch', 'update']\n---\nkind: ClusterRoleBinding\napiVersion: rbac.authorization.k8s.io/v1\nmetadata:\n  name: cluster-manager-binding\n  namespace: chaos-mesh\nsubjects:\n  - kind: User\n    name: example@gmail.com\nroleRef:\n  kind: ClusterRole\n  name: chaos-mesh-cluster-manager\n  apiGroup: rbac.authorization.k8s.io\n```",
+      "source_content_hash": "ee6c8bd01894a4bb4fdff0670e89c207c0130c2bcbb31d85a4f63ed49644865c",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_c3955998"
+      }
+    },
+    {
+      "segment_id": "6270d577",
+      "source_content": "By setting this configuration, the user `example@gmail.com` is enabled to see or create any chaos experiments.",
+      "source_content_hash": "2bf81c1ea5549e6aa9df8bcff2fc617101ec5a1655c233a9fb4f3e0bf14b4d91",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この設定により、ユーザー`example@gmail.com`はあらゆるカオス実験を閲覧または作成できるようになります。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/version-2.6.7/gcp-authentication.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.673033+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "da0e33493d3da8cd5734d3237028c5df198c4d27cbad0e0b70b4914afe5dda5a"
+  }
+}

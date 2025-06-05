@@ -1,0 +1,332 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "docs/chaosctl-tool.md",
+  "source_file_content_hash": "56260eb4ee5572cbc5bdca7480994da6e8bd0001ff7cc8c0a666dcfe4653ece0",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Chaosctl\n---",
+      "source_content_hash": "2e40a0e418bc99aa7cf43fd8baff74faa098a9ca419cd36e01930bd114b4123e",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "Chaosctl is a tool to assist in debugging Chaos Mesh. With Chaosctl, you can simplify the process of developing and debugging new chaos types, and provide references for other developers when raising an issue.",
+      "source_content_hash": "91642fdf15a25cff7d0a5cac577c3c9d885c49943d190c8a067294bf562c3239",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaosctlは、Chaos Meshのデバッグを支援するツールです。Chaosctlを使用することで、新しいカオスタイプの開発とデバッグのプロセスを簡素化し、他の開発者がIssueを提起する際の参考情報を提供できます。"
+      }
+    },
+    {
+      "segment_id": "a703643c",
+      "source_content": "## Get Chaosctl",
+      "source_content_hash": "0375ce32047bf51727e20f82be293cc5d63723bebd09fa21e4ec8c710f08e504",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaosctlの取得"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "For Linux users, you can directly download the executable file for Chaosctl.",
+      "source_content_hash": "5fa64bb19a02d8605703cff0a045e12e9d983e7d491b2256b1e135e906861dca",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Linuxユーザーの場合、Chaosctlの実行ファイルを直接ダウンロードできます。"
+      }
+    },
+    {
+      "segment_id": "43a8bc7e",
+      "source_content": "```bash\ncurl -sSL https://mirrors.chaos-mesh.org/latest/chaosctl -O\n```",
+      "source_content_hash": "eba0bc255009da483ef29028733d3587d202582cf31d6505510c59469752fbb7",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_43a8bc7e"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "For Windows or macOS users, you can compile it from the source code. Go v1.15 or above is recommended for compiling. Perform the following steps:",
+      "source_content_hash": "efaf4639c4cafff8747fbc5d65ab17b78f614df5afe21eeccfd9bcfeb342b177",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "WindowsまたはmacOSユーザーの場合、ソースコードからコンパイルできます。コンパイルにはGo v1.15以上を推奨します。以下の手順を実行してください："
+      }
+    },
+    {
+      "segment_id": "84758135",
+      "source_content": "1. Clone the Chaos Mesh repository to your local machine.\n\n   ```bash\n   git clone https://github.com/chaos-mesh/chaos-mesh.git\n   ```\n\n2. Switch to the Chaos Mesh directory.\n\n3. Execute the following command:\n\n   ```bash\n   make chaosctl\n   ```\n\n   The compiled executable file is at `bin/chaosctl`.",
+      "source_content_hash": "9722e38f58e7c8bba40be093ec36bcf44fbafd1a297a21926d2b8cc845e14406",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. Chaos Meshリポジトリをローカルマシンにクローンします。\n\n   ```bash\n   git clone https://github.com/chaos-mesh/chaos-mesh.git\n   ```\n\n2. Chaos Meshディレクトリに移動します。\n\n3. 以下のコマンドを実行します：\n\n   ```bash\n   make chaosctl\n   ```\n\n   コンパイルされた実行ファイルは`bin/chaosctl`にあります。"
+      }
+    },
+    {
+      "segment_id": "0037ff70",
+      "source_content": "## Features",
+      "source_content_hash": "9eb55e137a031f4b4d166f425f9b2d9183ca01a0ab9de3d390966dacb1e6a038",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 機能"
+      }
+    },
+    {
+      "segment_id": "bdc231b1",
+      "source_content": "Currently, Chaosctl supports printing logs and debugging information for Chaos experiments.",
+      "source_content_hash": "3849c5cadf22b65fb67479413dcfc4be9f47e6a70e48cb656d39ce6325077479",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "現在、ChaosctlはChaos実験のログとデバッグ情報の出力をサポートしています。"
+      }
+    },
+    {
+      "segment_id": "3b7478ea",
+      "source_content": "### Printing logs",
+      "source_content_hash": "8b605cea4918d985de067167f234ac47e7db88885dd9cee2b9de988bc0594fc4",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ログの出力"
+      }
+    },
+    {
+      "segment_id": "c3a738de",
+      "source_content": "To print the logs from all Chaos Mesh components, use the `chaosctl logs` command. To check the help information and examples of this feature, use the `chaosctl logs -h` command. An example command is as follows:",
+      "source_content_hash": "a67df85036ed3e336ca316d152ed783f6cd1d362f22246f49aeadab36c59ac27",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "すべてのChaos Meshコンポーネントのログを出力するには、`chaosctl logs`コマンドを使用します。この機能のヘルプ情報と例を確認するには、`chaosctl logs -h`コマンドを使用してください。コマンドの例は以下の通りです："
+      }
+    },
+    {
+      "segment_id": "bca33820",
+      "source_content": "```bash\nchaosctl logs -t 100 # Print the last 100 lines of logs from all components\n```",
+      "source_content_hash": "83703aa74341bbcdbc204e23a48b0b3446ecaaa65b728b0f49c37eef920d7e49",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_bca33820"
+      }
+    },
+    {
+      "segment_id": "35a77014",
+      "source_content": "### Printing debugging information",
+      "source_content_hash": "ac3df41545fb95f2c46842e00aef3d42efa9da3c4b81f4f57292ad68e66586b7",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### デバッグ情報の出力"
+      }
+    },
+    {
+      "segment_id": "13d9cd70",
+      "source_content": "To print debugging information, use the `chaosctl debug` command. To check the help information and examples of this feature, use the `chaosctl debug -h` command. When you are debugging, you need to make sure Chaosctl is connected to the corresponding `chaos-daemon`. If you disable TLS (enabled by default) when deploying Chaos Mesh, add the `-i` option to tell Chaosctl that TLS is not used. An example command is as follows:",
+      "source_content_hash": "6f83c43cca6c6a782be50833d5dc0269920fd9fa760472e318262ed4ce4c91b2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "デバッグ情報を出力するには、`chaosctl debug`コマンドを使用します。この機能のヘルプ情報と例を確認するには、`chaosctl debug -h`コマンドを使用してください。デバッグ時には、Chaosctlが対応する`chaos-daemon`に接続されていることを確認する必要があります。Chaos Meshのデプロイ時にTLSを無効にした場合（デフォルトで有効）、`-i`オプションを追加してChaosctlにTLSが使用されていないことを伝えてください。コマンドの例は以下の通りです："
+      }
+    },
+    {
+      "segment_id": "229d6705",
+      "source_content": "```bash\n./chaosctl debug -i networkchaos web-show-network-delay\n```",
+      "source_content_hash": "738baeab95c020d4d1593a3055228d60eaede308926ef610ed68bb8e8c5acca9",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_229d6705"
+      }
+    },
+    {
+      "segment_id": "98d26038",
+      "source_content": "Currently, Chaosctl only supports the debugging of IOChaos, NetworkChaos, and StressChaos.",
+      "source_content_hash": "f678d2c991d6e576e5fbb145e4f420e404414e1cd31a3f0d4330b0882aa8f5b9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "現在、ChaosctlはIOChaos、NetworkChaos、およびStressChaosのデバッグのみをサポートしています。"
+      }
+    },
+    {
+      "segment_id": "af52d59d",
+      "source_content": "### Generate TLS certificates for Chaosd",
+      "source_content_hash": "ba035414f4f9fe665d851183cdc5c2982503bbbf829e308d4739a9fb3529fdb6",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### Chaosd用TLS証明書の生成"
+      }
+    },
+    {
+      "segment_id": "4d52a261",
+      "source_content": "When a request is initiated between Chaosd and Chaos Mesh, to ensure communications security between Chaosd and Chaos-controller-manager services, Chaos Mesh recommends enabling mTLS (Mutual Transport Layer Security) mode.",
+      "source_content_hash": "f73ca18de6eba7f7d842b916c24b3c041ff9b233aad1d7e99301d8ea26eda97f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ChaosdとChaos Mesh間でリクエストが開始される際、ChaosdとChaos-controller-managerサービス間の通信セキュリティを確保するために、Chaos MeshはmTLS（Mutual Transport Layer Security）モードの有効化を推奨しています。"
+      }
+    },
+    {
+      "segment_id": "23dfb152",
+      "source_content": "To enable mTLS mode, the TLS certificate parameters should be configured in Chaosd and Chaos mesh. Therefore, make sure that Chaosd and Chaos Mesh have generated TLS certificates, then start Chaosd and Chaos Mesh with the TLS certificate as parameters.",
+      "source_content_hash": "5e87a3c8b29dc1da23d3291d5e2df9f9e21e849d4cf1b83d0ea9da592387ae1e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "mTLSモードを有効にするには、ChaosdとChaos MeshでTLS証明書パラメータを設定する必要があります。そのため、ChaosdとChaos MeshがTLS証明書を生成していることを確認した上で、TLS証明書をパラメータとして指定してChaosdとChaos Meshを起動してください。"
+      }
+    },
+    {
+      "segment_id": "3df4f066",
+      "source_content": "- Chaosd: You can start Chaosd before **or** after configuring TLS certificate parameters. For clusters security, it is recommended to configure TLS certificate parameters first, and then start Chaosd. For details, see [Deploy Chaosd server](simulate-physical-machine-chaos.md#deploy-chaosd-server).\n- Chaos Mesh: If you deployed Chaos Mesh using Helm, TLS certificate parameters are configured by default.",
+      "source_content_hash": "7c148e2c4158597d56f098cd1cf5ed9bf54d6503c406c42027ab28e493677079",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- Chaosd: TLS証明書パラメータを設定する**前または後**にChaosdを起動できます。クラスタのセキュリティのため、TLS証明書パラメータを先に設定してからChaosdを起動することを推奨します。詳細は[Chaosdサーバーのデプロイ](simulate-physical-machine-chaos.md#deploy-chaosd-server)を参照してください。\n- Chaos Mesh: Helmを使用してChaos Meshをデプロイした場合、TLS証明書パラメータはデフォルトで設定されています。"
+      }
+    },
+    {
+      "segment_id": "79ad944d",
+      "source_content": "If your Chaosd does not generate a TLS certificate, you can use Chaosctl to easily generate the certificate through the command lines. In the following use cases, Chaosctl runs commands through different schemes.",
+      "source_content_hash": "c43d54510c7a3bc5c5f8db2d2142e65a1d5761983425f026d6d9d86f34abbeb3",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ChaosdがTLS証明書を生成していない場合、Chaosctlを使用してコマンドラインから簡単に証明書を生成できます。以下の使用例では、Chaosctlが異なるスキームを通じてコマンドを実行します。"
+      }
+    },
+    {
+      "segment_id": "531437ca",
+      "source_content": "**Case 1**: The nodes where Chaosctl runs can access Kubernetes clusters and connect to a physical machine using SSH tools.",
+      "source_content_hash": "919aac73e79dd90dfda11115bee1b4624af8ea758c8a7cfac58682b62a82d98b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**ケース1**: Chaosctlを実行するノードがKubernetesクラスタにアクセス可能で、SSHツールを使用して物理マシンに接続できる場合。"
+      }
+    },
+    {
+      "segment_id": "06e24cc0",
+      "source_content": "Run the following commands to complete the operations:",
+      "source_content_hash": "dfed11fc421582c7008a7e62c203a56560a492052f9c7dc3efe2975485391535",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下のコマンドを実行して操作を完了します："
+      }
+    },
+    {
+      "segment_id": "af7d8a35",
+      "source_content": "- Command: Use `chaosctl pm init` command:\n\n  ```bash\n  ./chaosctl pm init pm-name --ip=123.123.123.123 -l arch=amd64,anotherkey=value\n  ```\n\n- Operation: The command performs the following operations.\n  - Generate the required certificate for Chaosd simply, and save the certificate to the corresponding physical machine.\n  - Create the corresponding `PhysicalMachine` resource in Kubernetes clusters.",
+      "source_content_hash": "9a57ff714e83597ed605d80e88ef53fa584d5103b053a9f6c65a0d9320756692",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- コマンド: `chaosctl pm init`コマンドを使用します：\n\n  ```bash\n  ./chaosctl pm init pm-name --ip=123.123.123.123 -l arch=amd64,anotherkey=value\n  ```\n\n- 操作: このコマンドは以下の操作を実行します。\n  - Chaosdに必要な証明書を簡単に生成し、対応する物理マシンに保存します。\n  - Kubernetesクラスタに対応する`PhysicalMachine`リソースを作成します。"
+      }
+    },
+    {
+      "segment_id": "7736989b",
+      "source_content": "For further information and examples of this feature, refer to `chaosctl pm init -h`.",
+      "source_content_hash": "3fdfdf79308a6396da3153e09b68a8f65248d32286d3763f99368cd0fbdafd07",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この機能の詳細と例については、`chaosctl pm init -h`を参照してください。"
+      }
+    },
+    {
+      "segment_id": "6270d577",
+      "source_content": "**Case 2**: The nodes where Chaosctl runs can access Kubernetes clusters, but they cannot connect to a physical machine using SSH tools.",
+      "source_content_hash": "9e52bab31cbd7910a39697b0a2baaf4377794cac0b45183bb75c49db0e3ff4db",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "**ケース2**: Chaosctlを実行するノードがKubernetesクラスタにアクセス可能だが、SSHツールを使用して物理マシンに接続できない場合。"
+      }
+    },
+    {
+      "segment_id": "a1fa5396",
+      "source_content": "Run the following commands to complete the operations:",
+      "source_content_hash": "dfed11fc421582c7008a7e62c203a56560a492052f9c7dc3efe2975485391535",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下のコマンドを実行して操作を完了します:"
+      }
+    },
+    {
+      "segment_id": "cc9271fb",
+      "source_content": "1. Before executing the command, you need to manually get a CA certificate from Kubernetes clusters through commands. For example:\n\n   ```bash\n   kubectl get secret chaos-mesh-chaosd-client-certs -n chaos-mesh -o \"jsonpath={.data['ca\\.crt']}\" | base64 -d > ca.crt\n\n   kubectl get secret chaos-mesh-chaosd-client-certs -n chaos-mesh -o \"jsonpath={.data['ca\\.key']}\" | base64 -d> ca.key\n   ```\n\n2. Copy the `ca.crt` and `ca.key` files to **the corresponding physical machine**. For example, copy the files to the `/etc/chaosd/pki` directory.\n3. Use the `chaosctl pm generate` command to generate TLS certificates (save to `/etc/chaosd/pki by default) on **the physical machine**. For example:\n\n   ```bash\n   ./chaosctl pm generate --cacert=/etc/chaosd/pki/ca.crt --cakey=/etc/chaosd/pki/ca.key\n   ```\n\n   For further information and examples of this feature, refer to `chaosctl pm generate -h`.\n\n4. Use the `chaosctl pm create` command to create a `PhysicalMachine` resource in Kubernetes clusters on the machine that has access to Kubernetes clusters. For example:\n\n   ```bash\n   ./chaosctl pm create pm-name --ip=123.123.123.123 -l arch=amd64\n   ```\n\n   For further information and examples of this feature, refer to `chaosctl pm create -h`.",
+      "source_content_hash": "2a004ad643e865a7b2dfc3da48082b10636ae22a031aa8b3b95f370d4af9104c",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. コマンドを実行する前に、KubernetesクラスターからCA証明書を手動で取得する必要があります。例:\n\n   ```bash\n   kubectl get secret chaos-mesh-chaosd-client-certs -n chaos-mesh -o \"jsonpath={.data['ca\\.crt']}\" | base64 -d > ca.crt\n\n   kubectl get secret chaos-mesh-chaosd-client-certs -n chaos-mesh -o \"jsonpath={.data['ca\\.key']}\" | base64 -d> ca.key\n   ```\n\n2. `ca.crt`と`ca.key`ファイルを**対応する物理マシン**にコピーします。例えば、ファイルを`/etc/chaosd/pki`ディレクトリにコピーします。\n3. **物理マシン**上で`chaosctl pm generate`コマンドを使用してTLS証明書を生成します（デフォルトでは`/etc/chaosd/pki`に保存されます）。例:\n\n   ```bash\n   ./chaosctl pm generate --cacert=/etc/chaosd/pki/ca.crt --cakey=/etc/chaosd/pki/ca.key\n   ```\n\n   この機能の詳細と例については、`chaosctl pm generate -h`を参照してください。\n\n4. Kubernetesクラスターにアクセスできるマシン上で、`chaosctl pm create`コマンドを使用してKubernetesクラスター内に`PhysicalMachine`リソースを作成します。例:\n\n   ```bash\n   ./chaosctl pm create pm-name --ip=123.123.123.123 -l arch=amd64\n   ```\n\n   この機能の詳細と例については、`chaosctl pm create -h`を参照してください。"
+      }
+    },
+    {
+      "segment_id": "d1f76d04",
+      "source_content": "## Questions and feedback",
+      "source_content_hash": "3c2022148ba07f7e3c89985d4baf2f4330bbf506bfba24e1c8b2ad8fc5aee68f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 質問とフィードバック"
+      }
+    },
+    {
+      "segment_id": "6693c38c",
+      "source_content": "The code of Chaosctl is currently hosted in the Chaos Mesh project. For details, refer to [chaos-mesh/pkg/chaosctl](https://github.com/chaos-mesh/chaos-mesh/tree/master/pkg/chaosctl).",
+      "source_content_hash": "f73cfb440eebbfb85f55670a0606d4b80c7887d5c6e51ad62f7d8aaac42849ec",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaosctlのコードは現在、Chaos Meshプロジェクトでホストされています。詳細は[chaos-mesh/pkg/chaosctl](https://github.com/chaos-mesh/chaos-mesh/tree/master/pkg/chaosctl)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "e9313fef",
+      "source_content": "If you encounter problems during performing operations, or you are interested in helping us improve this tool, you are welcome to contact the Chaos Mesh team through [CNCF Slack](https://cloud-native.slack.com/archives/C0193VAV272), or create an [GitHub issue](https://github.com/chaos-mesh/chaos-mesh/issues).",
+      "source_content_hash": "fe54b4240161faf6da5f18fa1d290293ad876eb3f0dc384a981ba28380a83d33",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "操作中に問題が発生した場合、またはこのツールの改善に興味がある場合は、[CNCF Slack](https://cloud-native.slack.com/archives/C0193VAV272)を通じてChaos Meshチームに連絡するか、[GitHub issue](https://github.com/chaos-mesh/chaos-mesh/issues)を作成してください。"
+      }
+    },
+    {
+      "segment_id": "1b4de6df",
+      "source_content": "When describing your issues, it would be helpful to attach related logs and Chaos information. To provide reference material for developers, you are encouraged to attach the results of `chaosctl logs` to your questions. Besides, if your question is related to iochaos, networkchaos, stresschaos, the `chaosctl debug` related information also helps to diagnose the problem.",
+      "source_content_hash": "443faeea0fe2340efc2d3e86c7f2b3372716455cc8c7d3ef32678069dfa5a9f5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "問題を説明する際には、関連するログとChaos情報を添付すると役立ちます。開発者向けの参考資料として、質問に`chaosctl logs`の結果を添付することを推奨します。また、iochaos、networkchaos、stresschaosに関連する質問の場合、`chaosctl debug`の関連情報も問題の診断に役立ちます。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/current/chaosctl-tool.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.660059+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "56260eb4ee5572cbc5bdca7480994da6e8bd0001ff7cc8c0a666dcfe4653ece0"
+  }
+}

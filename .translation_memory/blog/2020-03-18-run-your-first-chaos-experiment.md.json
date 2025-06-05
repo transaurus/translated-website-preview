@@ -1,0 +1,462 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "blog/2020-03-18-run-your-first-chaos-experiment.md",
+  "source_file_content_hash": "2fbeeb70af9270d29857e680a5dee5cfbca22207ca9b9146aba62dd8e78847c1",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\nslug: /run_your_first_chaos_experiment\ntitle: Run Your First Chaos Experiment in 10 Minutes\nauthors: cwen\nimage: /img/blog/run-first-chaos-experiment-in-ten-minutes.jpg\ntags: [Chaos Mesh, Chaos Engineering, Kubernetes]\n---",
+      "source_content_hash": "ca0bbd3178caa60284bf0fddb04405e23615f8d25ffa8ba4730580f85e072b26",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "![Run your first chaos experiment in 10 minutes](/img/blog/run-first-chaos-experiment-in-ten-minutes.jpg)",
+      "source_content_hash": "43f505212c87d50ccf26c7ca6315f0432b215750b2142f0282ed0d8168721216",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![10分で初めてのカオス実験を実行する](/img/blog/run-first-chaos-experiment-in-ten-minutes.jpg)"
+      }
+    },
+    {
+      "segment_id": "8ac585fb",
+      "source_content": "Chaos Engineering is a way to test a production software system's robustness by simulating unusual or disruptive conditions. For many people, however, the transition from learning Chaos Engineering to practicing it on their own systems is daunting. It sounds like one of those big ideas that require a fully-equipped team to plan ahead. Well, it doesn't have to be. To get started with chaos experimenting, you may be just one suitable platform away.",
+      "source_content_hash": "767dede386309305bfdb4d8886e38d67ff6e145d235351e914c32c8265d084d9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "カオスエンジニアリングは、異常または破壊的な状況をシミュレートすることで、本番環境のソフトウェアシステムの堅牢性をテストする方法です。しかし多くの人にとって、カオスエンジニアリングを学ぶことから自社システムで実践するまでの移行は困難に感じられます。まるで十分な装備を持ったチームが事前に計画を立てる必要がある大きなアイデアのように思えるかもしれません。しかし、必ずしもそうではありません。カオス実験を始めるには、適切なプラットフォームがあれば十分なのです。"
+      }
+    },
+    {
+      "segment_id": "3e6699f4",
+      "source_content": "<!--truncate-->",
+      "source_content_hash": "f5cded2aa7e288e395fe4f67f9dabda2281904b2f5358d07302b3aa8be0acdfa",
+      "node_type": "comment",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3e6699f4"
+      }
+    },
+    {
+      "segment_id": "cf898102",
+      "source_content": "[Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh) is an **easy-to-use**, open-source, cloud-native Chaos Engineering platform that orchestrates chaos in Kubernetes environments. This 10-minute tutorial will help you quickly get started with Chaos Engineering and run your first chaos experiment with Chaos Mesh.",
+      "source_content_hash": "1a3e1f15b9aa15a9bd39a47a951c168813b9d02f7ed1cf38573907f0ec1d1e8e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh)は、**使いやすい**オープンソースのクラウドネイティブなカオスエンジニアリングプラットフォームで、Kubernetes環境でカオスをオーケストレーションします。この10分チュートリアルでは、カオスエンジニアリングを迅速に開始し、Chaos Meshで初めてのカオス実験を実行する方法を紹介します。"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "For more information about Chaos Mesh, refer to our [previous article](https://pingcap.com/blog/chaos-mesh-your-chaos-engineering-solution-for-system-resiliency-on-kubernetes/) or the [chaos-mesh project](https://github.com/chaos-mesh/chaos-mesh) on GitHub.",
+      "source_content_hash": "228075151313136130d57eb1d322e838572f7caefd942e6b6e5371920046398a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshの詳細については、[以前の記事](https://pingcap.com/blog/chaos-mesh-your-chaos-engineering-solution-for-system-resiliency-on-kubernetes/)またはGitHubの[chaos-meshプロジェクト](https://github.com/chaos-mesh/chaos-mesh)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "aee0e40d",
+      "source_content": "## A preview of our little experiment",
+      "source_content_hash": "c2c19f790b0f05ac734d8a90c8f0c49b6e0df117d13a56e392a8de150fd3002a",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 実験のプレビュー"
+      }
+    },
+    {
+      "segment_id": "f5f6d2ce",
+      "source_content": "Chaos experiments are similar to experiments we do in a science class. It's perfectly fine to stimulate turbulent situations in a controlled environment. In our case here, we will be simulating network chaos on a small web application called [web-show](https://github.com/chaos-mesh/web-show). To visualize the chaos effect, web-show records the latency from its pod to the kube-controller pod (under the namespace of `kube-system`) every 10 seconds.",
+      "source_content_hash": "15b37f7740441981d23ba522324799dcfae7608f698308f69cd40b1e00706c4b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "カオス実験は、科学の授業で行う実験に似ています。制御された環境で乱れた状況をシミュレートすることは全く問題ありません。ここでは、[web-show](https://github.com/chaos-mesh/web-show)という小さなWebアプリケーションでネットワークカオスをシミュレートします。カオスの効果を可視化するため、web-showは10秒ごとに自身のPodから`kube-system`ネームスペース内のkube-controller Podまでのレイテンシを記録します。"
+      }
+    },
+    {
+      "segment_id": "2fdadb08",
+      "source_content": "The following clip shows the process of installing Chaos Mesh, deploying web-show, and creating the chaos experiment within a few commands:",
+      "source_content_hash": "4780be67136e13e43bbb76ee4f9d66f80d95de7205a0c0d47109c737a5b19edc",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下のクリップは、Chaos Meshのインストール、web-showのデプロイ、そして数コマンドでカオス実験を作成するプロセスを示しています："
+      }
+    },
+    {
+      "segment_id": "f2c2bdd0",
+      "source_content": "![The whole process of the chaos experiment](/img/blog/whole-process-of-chaos-experiment.gif)",
+      "source_content_hash": "73539a72af7795b0492ccdc556a703cf6b708782803ac50bee8e3f7aebdbd093",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![カオス実験の全プロセス](/img/blog/whole-process-of-chaos-experiment.gif)"
+      }
+    },
+    {
+      "segment_id": "a76548f8",
+      "source_content": "Now it's your turn! It's time to get your hands dirty.",
+      "source_content_hash": "3f80922e9a6650eee9182a08516a79cc99acaccc29c2fd1f00bf64bd57d7ff80",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "さあ、あなたの番です！実際に手を動かしてみましょう。"
+      }
+    },
+    {
+      "segment_id": "f2f30ae8",
+      "source_content": "## Let's get started!",
+      "source_content_hash": "0fb4a2594832c33e13f4ab27b436387337cdd9657b8b514c12f1b38b86c31905",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 始めましょう！"
+      }
+    },
+    {
+      "segment_id": "dfe931a2",
+      "source_content": "For our simple experiment, we use Kubernetes in the Docker ([Kind](https://kind.sigs.k8s.io/)) for Kubernetes development. You can feel free to use [Minikube](https://minikube.sigs.k8s.io/) or any existing Kubernetes clusters to follow along.",
+      "source_content_hash": "f2d566dafa8a713ddb17b7b5c606817b329d574ae7da786cb5133804f70717cf",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この簡単な実験では、Kubernetes開発用のDocker内Kubernetes（[Kind](https://kind.sigs.k8s.io/)）を使用します。[Minikube](https://minikube.sigs.k8s.io/)や既存のKubernetesクラスターを使用して進めることも自由です。"
+      }
+    },
+    {
+      "segment_id": "0037ff70",
+      "source_content": "### Prepare the environment",
+      "source_content_hash": "3190a178a9bbd83ed3064366ff4286ef8ca3c6975a9fc4cf4e6ebb4fac51b224",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 環境の準備"
+      }
+    },
+    {
+      "segment_id": "bdc231b1",
+      "source_content": "Before moving forward, make sure you have [Git](https://git-scm.com/) and [Docker](https://www.docker.com/) installed on your local computer, with Docker up and running. For macOS, it's recommended to allocate at least 6 CPU cores to Docker. For details, see [Docker configuration for Mac](https://docs.docker.com/docker-for-mac/#advanced).",
+      "source_content_hash": "4f4abc253b097ce54d538cfcfae5d29e13bc1addfb2a6fc2fe20a6b376c0181d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "先に進む前に、ローカルコンピュータに[Git](https://git-scm.com/)と[Docker](https://www.docker.com/)がインストールされており、Dockerが実行中であることを確認してください。macOSの場合、Dockerに少なくとも6つのCPUコアを割り当てることを推奨します。詳細は、[Mac向けDocker設定](https://docs.docker.com/docker-for-mac/#advanced)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "5d66c9dc",
+      "source_content": "1. Get Chaos Mesh:\n\n   ```bash\n   git clone https://github.com/chaos-mesh/chaos-mesh.git\n   cd chaos-mesh/\n   ```\n\n2. Install Chaos Mesh with the `install.sh` script:\n\n   ```bash\n   ./install.sh --local kind\n   ```\n\n   `install.sh` is an automated shell script that checks your environment, installs Kind, launches Kubernetes clusters locally, and deploys Chaos Mesh. To see the detailed description of `install.sh`, you can include the `--help` option.\n\n   > **Note:**\n   >\n   > If your local computer cannot pull images from `docker.io` or `gcr.io`, use the local gcr.io mirror and execute `./install.sh --local kind --docker-mirror` instead.\n\n3. Set the system environment variable:\n\n   ```bash\n   source ~/.bash_profile\n   ```",
+      "source_content_hash": "d5d82ab117dc90173a163a0dd29bd394d9b088df83358d8ca45eb1acd164f8d2",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. Chaos Meshを取得：\n\n   ```bash\n   git clone https://github.com/chaos-mesh/chaos-mesh.git\n   cd chaos-mesh/\n   ```\n\n2. `install.sh`スクリプトでChaos Meshをインストール：\n\n   ```bash\n   ./install.sh --local kind\n   ```\n\n   `install.sh`は自動化されたシェルスクリプトで、環境をチェックし、Kindをインストールし、ローカルにKubernetesクラスターを起動し、Chaos Meshをデプロイします。`install.sh`の詳細な説明を見るには、`--help`オプションを追加してください。\n\n   > **注記:**\n   >\n   > ローカルコンピュータが`docker.io`または`gcr.io`からイメージをプルできない場合、ローカルのgcr.ioミラーを使用し、代わりに`./install.sh --local kind --docker-mirror`を実行してください。\n\n3. システム環境変数を設定：\n\n   ```bash\n   source ~/.bash_profile\n   ```"
+      }
+    },
+    {
+      "segment_id": "73f3d740",
+      "source_content": "> **Note:**\n>\n> - Depending on your network, these steps might take a few minutes.\n> - If you see an error message like this:\n>\n>   ```bash\n>   ERROR: failed to create cluster: failed to generate kubeadm config content: failed to get kubernetes version from node: failed to get file: command \"docker exec --privileged kind-control-plane cat /kind/version\" failed with error: exit status 1\n>   ```\n>\n>   increase the available resources for Docker on your local computer and execute the following command:\n>\n>   ```bash\n>   ./install.sh --local kind --force-local-kube\n>   ```",
+      "source_content_hash": "767576910db40eb6a51a55b5d59845b1c2ad94a9a890c1ed3979a554287b6df9",
+      "node_type": "blockquote",
+      "translatable": true,
+      "translations": {
+        "ja": "> **注記:**\n>\n> - ネットワーク環境によっては、これらの手順に数分かかる場合があります。\n> - 以下のようなエラーメッセージが表示された場合:\n>\n>   ```bash\n>   ERROR: failed to create cluster: failed to generate kubeadm config content: failed to get kubernetes version from node: failed to get file: command \"docker exec --privileged kind-control-plane cat /kind/version\" failed with error: exit status 1\n>   ```\n>\n>   ローカルコンピュータ上のDockerに割り当てるリソースを増やし、次のコマンドを実行してください:\n>\n>   ```bash\n>   ./install.sh --local kind --force-local-kube\n>   ```"
+      }
+    },
+    {
+      "segment_id": "afa378f7",
+      "source_content": "When the process completes you will see a message indicating Chaos Mesh is successfully installed.",
+      "source_content_hash": "11651a60df49c97769a4c21fd39084e538332b769d20ceab5dc38bc992a19579",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "プロセスが完了すると、Chaos Meshが正常にインストールされたことを示すメッセージが表示されます。"
+      }
+    },
+    {
+      "segment_id": "58ed925f",
+      "source_content": "### Deploy the application",
+      "source_content_hash": "a486ec791e196e243471128832ee849b52da24965c856bf0d88dba30c561587e",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### アプリケーションのデプロイ"
+      }
+    },
+    {
+      "segment_id": "463ed165",
+      "source_content": "The next step is to deploy the application for testing. In our case here, we choose web-show because it allows us to directly observe the effect of network chaos. You can also deploy your own application for testing.",
+      "source_content_hash": "cb61034153674824f7f37b523c6470c1a74ce5579d7403e5c95810eb77963ced",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "次のステップは、テスト用のアプリケーションをデプロイすることです。ここでは、ネットワークカオスの効果を直接観察できるweb-showを選択します。テスト用に独自のアプリケーションをデプロイすることも可能です。"
+      }
+    },
+    {
+      "segment_id": "536b7b6b",
+      "source_content": "1. Deploy web-show with the `deploy.sh` script:\n\n   ```bash\n   # Make sure you are in the Chaos Mesh directory\n   cd examples/web-show &&\n   ./deploy.sh\n   ```\n\n   > **Note:**\n   >\n   > If your local computer cannot pull images from `docker.io`, use the `local gcr.io` mirror and execute `./deploy.sh --docker-mirror` instead.\n\n2. Access the web-show application. From your web browser, go to `http://localhost:8081`.",
+      "source_content_hash": "d7c759e34dfedbaadbea270a76f0ec0a37bff15b1dc4af40eaca02320a13b859",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. `deploy.sh`スクリプトを使用してweb-showをデプロイ:\n\n   ```bash\n   # Chaos Meshディレクトリにいることを確認\n   cd examples/web-show &&\n   ./deploy.sh\n   ```\n\n   > **注記:**\n   >\n   > ローカルコンピュータが`docker.io`からイメージをプルできない場合、`local gcr.io`ミラーを使用して`./deploy.sh --docker-mirror`を実行してください。\n\n2. web-showアプリケーションにアクセス。ウェブブラウザから`http://localhost:8081`に移動します。"
+      }
+    },
+    {
+      "segment_id": "b10963d7",
+      "source_content": "### Create the chaos experiment",
+      "source_content_hash": "85502086e5d89d984d9a9651d42e9a6025ad7f7ce84e3cca1a575a901c2ff479",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### カオス実験の作成"
+      }
+    },
+    {
+      "segment_id": "2822251a",
+      "source_content": "Now that everything is ready, it's time to run your chaos experiment!",
+      "source_content_hash": "31e409484efb8213abd992af9cd691085b9f6cd45aa804ce1de477028904b7cc",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "準備が整ったので、カオス実験を実行しましょう！"
+      }
+    },
+    {
+      "segment_id": "25212439",
+      "source_content": "Chaos Mesh uses [CustomResourceDefinitions](https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/) (CRD) to define chaos experiments. CRD objects are designed separately based on different experiment scenarios, which greatly simplifies the definition of CRD objects. Currently, CRD objects that have been implemented in Chaos Mesh include PodChaos, NetworkChaos, IOChaos, TimeChaos, and KernelChaos. Later, we'll support more fault injection types.",
+      "source_content_hash": "55959b76812f92840f9e63e2e310881e1591b82ec13a6810300cdb09f1887fe7",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは[CustomResourceDefinitions](https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/)(CRD)を使用してカオス実験を定義します。CRDオブジェクトは実験シナリオごとに個別に設計されており、CRDオブジェクトの定義を大幅に簡素化しています。現在、Chaos Meshで実装されているCRDオブジェクトにはPodChaos、NetworkChaos、IOChaos、TimeChaos、KernelChaosがあります。今後、より多くの障害注入タイプをサポートする予定です。"
+      }
+    },
+    {
+      "segment_id": "d79a4831",
+      "source_content": "In this experiment, we are using [NetworkChaos](https://github.com/chaos-mesh/chaos-mesh/blob/master/examples/web-show/network-delay.yaml) for the chaos experiment. The NetworkChaos configuration file, written in YAML, is shown below:",
+      "source_content_hash": "f9cc36fd838e4ae47c654889cd5bb6a6325847a082ea929a978ba2fc97a1c33a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この実験では、カオス実験に[NetworkChaos](https://github.com/chaos-mesh/chaos-mesh/blob/master/examples/web-show/network-delay.yaml)を使用します。YAMLで記述されたNetworkChaos設定ファイルは以下の通りです:"
+      }
+    },
+    {
+      "segment_id": "64071bcc",
+      "source_content": "```\napiVersion: chaos-mesh.org/v1alpha1\nkind: NetworkChaos\nmetadata:\n  name: network-delay-example\nspec:\n  action: delay\n  mode: one\n  selector:\n    namespaces:\n      - default\n    labelSelectors:\n      \"app\": \"web-show\"\n  delay:\n    latency: \"10ms\"\n    correlation: \"100\"\n    jitter: \"0ms\"\n  duration: \"30s\"\n  scheduler:\n    cron: \"@every 60s\"\n```",
+      "source_content_hash": "96fd5a730a296a86cc9383a50a10bf41d75ba44e87f5568ca1527e16bf897823",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_64071bcc"
+      }
+    },
+    {
+      "segment_id": "b9331170",
+      "source_content": "For detailed descriptions of NetworkChaos actions, see [Chaos Mesh wiki](https://github.com/chaos-mesh/chaos-mesh/wiki/Network-Chaos). Here, we just rephrase the configuration as:",
+      "source_content_hash": "d83fe207c7e06826150d9a4ebe5d8f1e0731d20d2ce2111913f464270a5801ce",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "NetworkChaosアクションの詳細な説明については、[Chaos Mesh wiki](https://github.com/chaos-mesh/chaos-mesh/wiki/Network-Chaos)を参照してください。ここでは、設定を以下のように言い換えます:"
+      }
+    },
+    {
+      "segment_id": "4b530389",
+      "source_content": "- target: `web-show`\n- mission: inject a `10ms` network delay every `60s`\n- attack duration: `30s` each time",
+      "source_content_hash": "b221e3ba7ffe97438da539ddf3b6fae4d2f912f3c36d9779bcd59e71ae431e37",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- ターゲット: `web-show`\n- ミッション: `60s`ごとに`10ms`のネットワーク遅延を注入\n- 攻撃期間: 毎回`30s`"
+      }
+    },
+    {
+      "segment_id": "9c9e2b64",
+      "source_content": "To start NetworkChaos, do the following:",
+      "source_content_hash": "e8e8d5fb9c6970eb7d9f25dfb053873e5a68329bbf6e88a71bf61b1c3d102ccf",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "NetworkChaosを開始するには、以下の手順を実行します:"
+      }
+    },
+    {
+      "segment_id": "6409152f",
+      "source_content": "1. Run `network-delay.yaml`:\n\n   ```bash\n   # Make sure you are in the chaos-mesh/examples/web-show directory\n   kubectl apply -f network-delay.yaml\n   ```\n\n2. Access the web-show application. In your web browser, go to `http://localhost:8081`.\n\n   From the line graph, you can tell that there is a 10 ms network delay every 60 seconds.",
+      "source_content_hash": "2505eceddc8764036caad907367718ea10754218ba32609fac0ade34c41ca0e9",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. `network-delay.yaml`を実行:\n\n   ```bash\n   # chaos-mesh/examples/web-showディレクトリにいることを確認\n   kubectl apply -f network-delay.yaml\n   ```\n\n2. web-showアプリケーションにアクセス。ウェブブラウザから`http://localhost:8081`に移動します。\n\n   折れ線グラフから、60秒ごとに10msのネットワーク遅延が発生していることがわかります。"
+      }
+    },
+    {
+      "segment_id": "cfeb9eb1",
+      "source_content": "![Using Chaos Mesh to insert delays in web-show](/img/blog/using-chaos-mesh-to-insert-delays-in-web-show.png)",
+      "source_content_hash": "2b745bb79d5e27a7ea6802f861ef0b3f1a50c83a80dc1cce03f3548af855f596",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![Chaos Meshを使用してweb-showに遅延を挿入](/img/blog/using-chaos-mesh-to-insert-delays-in-web-show.png)"
+      }
+    },
+    {
+      "segment_id": "f7e6e884",
+      "source_content": "Congratulations! You just stirred up a little bit of chaos. If you are intrigued and want to try out more chaos experiments with Chaos Mesh, check out [examples/web-show](https://github.com/chaos-mesh/chaos-mesh/tree/master/examples/web-show).",
+      "source_content_hash": "85c133cd9520551104477abeb0db1c24d7c45164e77c475a0ab91634de65985d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "おめでとうございます！あなたは少しばかりのカオスを引き起こしました。興味を持ち、Chaos Meshでさらに多くのカオス実験を試したい場合は、[examples/web-show](https://github.com/chaos-mesh/chaos-mesh/tree/master/examples/web-show)をチェックしてください。"
+      }
+    },
+    {
+      "segment_id": "35353302",
+      "source_content": "### Delete the chaos experiment",
+      "source_content_hash": "a6ab13219e096de8baaf07a179373b3b924a7532ddd0ac8219665486c12ee7ef",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### カオス実験の削除"
+      }
+    },
+    {
+      "segment_id": "719d3997",
+      "source_content": "Once you're finished testing, terminate the chaos experiment.",
+      "source_content_hash": "d806c877dae65ec0f803dba1a98493b4e20ce14a43bd507637e180d48e69a495",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "テストが終了したら、カオス実験を終了させます。"
+      }
+    },
+    {
+      "segment_id": "3670cec0",
+      "source_content": "1. Delete `network-delay.yaml`:\n\n   ```bash\n   # Make sure you are in the chaos-mesh/examples/web-show directory\n   kubectl delete -f network-delay.yaml\n   ```\n\n2. Access the web-show application. From your web browser, go to `http://localhost:8081`.",
+      "source_content_hash": "325492c3cfaad2ee0f00bb32049adc8199954e34a4eb19bbcb85c6ab66f05417",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. `network-delay.yaml`を削除:\n\n   ```bash\n   # chaos-mesh/examples/web-showディレクトリにいることを確認\n   kubectl delete -f network-delay.yaml\n   ```\n\n2. web-showアプリケーションにアクセス。ウェブブラウザから`http://localhost:8081`に移動します。"
+      }
+    },
+    {
+      "segment_id": "6f08f877",
+      "source_content": "From the line graph, you can see the network latency level is back to normal.",
+      "source_content_hash": "5058ba4a617eb243f528ccf397373c67ce8f2bf5febf69e94ec0ff3f65d5c028",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "折れ線グラフから、ネットワークの遅延レベルが正常に戻ったことが確認できます。"
+      }
+    },
+    {
+      "segment_id": "2dbfc5f7",
+      "source_content": "![Network latency level is back to normal](/img/blog/network-latency-level-is-back-to-normal.png)",
+      "source_content_hash": "e300a29743fa9cb45e81209c031859f63cce20cce653a0ce35059dea5ba1b253",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![ネットワーク遅延レベルが正常に戻った様子](/img/blog/network-latency-level-is-back-to-normal.png)"
+      }
+    },
+    {
+      "segment_id": "3f77c6a0",
+      "source_content": "### Delete Kubernetes clusters",
+      "source_content_hash": "88362f0cc81fa7b90de4ce45753bab4b37e25441552a9a67705cd33959b42b9f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### Kubernetesクラスタの削除"
+      }
+    },
+    {
+      "segment_id": "39f476dc",
+      "source_content": "After you're done with the chaos experiment, execute the following command to delete the Kubernetes clusters:",
+      "source_content_hash": "88f41eab66001a377c2616d16415e9837408472b861b1890b497482cc9ef921d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "カオス実験が終了したら、以下のコマンドを実行してKubernetesクラスタを削除してください："
+      }
+    },
+    {
+      "segment_id": "8ecb92db",
+      "source_content": "```bash\nkind delete cluster --name=kind\n```",
+      "source_content_hash": "80543c9d7dd6670e4d8f239d6f1852e236e836efacfc5782008f1e3ab2bce372",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_8ecb92db"
+      }
+    },
+    {
+      "segment_id": "fa447120",
+      "source_content": "> **Note:**\n>\n> If you encounter the `kind: command not found` error, execute `source ~/.bash_profile` command first and then delete the Kubernetes clusters.",
+      "source_content_hash": "3a3bcf0f082ad02b20c065070fd016fe40b32aead0d3d346a5bd328677546470",
+      "node_type": "blockquote",
+      "translatable": true,
+      "translations": {
+        "ja": "> **注記:**\n>\n> `kind: command not found` エラーが発生した場合は、まず `source ~/.bash_profile` コマンドを実行してからKubernetesクラスタを削除してください。"
+      }
+    },
+    {
+      "segment_id": "a75f8411",
+      "source_content": "## Cool! What's next?",
+      "source_content_hash": "e0862abdfd6ae3a4fe7713a5356e666fb7568f4092150c110d8059aec8f54d98",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 素晴らしい！次は何をしましょうか？"
+      }
+    },
+    {
+      "segment_id": "39c48ff7",
+      "source_content": "Congratulations on your first successful journey into Chaos Engineering. How does it feel? Chaos Engineering is easy, right? But perhaps Chaos Mesh is not that easy-to-use. Command-line operation is inconvenient, writing YAML files manually is a bit tedious, or checking the experiment results is somewhat clumsy? Don't worry, Chaos Dashboard is on its way! Running chaos experiments on the web sure does sound exciting! If you'd like to help us build testing standards for cloud platforms or make Chaos Mesh better, we'd love to hear from you!",
+      "source_content_hash": "53f38eb27929d6c365ae451aac08d0eace5ad6962c9f14062ed7e070057c0640",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Engineeringへの初めての旅が成功しましたね。いかがでしたか？Chaos Engineeringは簡単でしょう？しかし、Chaos Meshがそれほど使いやすくないと感じたかもしれません。コマンドライン操作は不便だし、YAMLファイルを手動で書くのは少し面倒だし、実験結果を確認するのもやや煩雑かもしれませんか？心配しないでください、Chaos Dashboardが準備中です！Web上でカオス実験を実行するのは確かにエキサイティングです！クラウドプラットフォームのテスト標準を構築したり、Chaos Meshをさらに改善するお手伝いをしたい方は、ぜひご連絡ください！"
+      }
+    },
+    {
+      "segment_id": "e29bd639",
+      "source_content": "If you find a bug or think something is missing, feel free to file an issue, open a pull request (PR), or join us on the #project-chaos-mesh channel in the [CNCF slack workspace](https://slack.cncf.io/).",
+      "source_content_hash": "c1e096264a7f6c449593dd764eba2500525f5d0453fcfd35b897086397afbf12",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "バグを見つけたり、何か不足していると思われる場合は、遠慮なくissueを登録したり、プルリクエスト（PR）を開いたり、[CNCF slackワークスペース](https://slack.cncf.io/)の#project-chaos-meshチャンネルに参加してください。"
+      }
+    },
+    {
+      "segment_id": "e5821418",
+      "source_content": "GitHub: [https://github.com/chaos-mesh/chaos-mesh](https://github.com/chaos-mesh/chaos-mesh)",
+      "source_content_hash": "b75733d09677e0aa0d576fc3d698c82f623a933dae94e1c93e29d422b66566b2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "GitHub: [https://github.com/chaos-mesh/chaos-mesh](https://github.com/chaos-mesh/chaos-mesh)"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-blog/2020-03-18-run-your-first-chaos-experiment.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.653654+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "2fbeeb70af9270d29857e680a5dee5cfbca22207ca9b9146aba62dd8e78847c1"
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "versioned_docs/version-2.7.2/chaosd-overview.md",
+  "source_file_content_hash": "5b447eddb64a502a827927fff0753a16db0ca232437cc0ff7e7042bf19f3f161",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Chaosd Introduction\n---",
+      "source_content_hash": "1726702cd296409bac65bf7556f9ca787b3806e854b57715bc315cd9d8db2779",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "f85bbfb4",
+      "source_content": "## Chaosd introduction",
+      "source_content_hash": "8d36c5f538ce04c61d8fe86a766c6efa2804370a04775e67b4719bd08a5e0eab",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaosdの紹介"
+      }
+    },
+    {
+      "segment_id": "6ef78e84",
+      "source_content": "[Chaosd](https://github.com/chaos-mesh/chaosd) is a Chaos Engineering testing tool provided by Chaos Mesh. You need to download and deploy it separately (see [Download and deploy](#download-and-deploy)). It is used to inject faults into physical machine environments and also recover faults.",
+      "source_content_hash": "5af33554ee3f9c8a6658a30025cb463525d24a5c7bfccfea20e208e642531e6e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "[Chaosd](https://github.com/chaos-mesh/chaosd)は、Chaos Meshが提供するカオスエンジニアリングテストツールです。別途ダウンロードとデプロイが必要です（[ダウンロードとデプロイ](#download-and-deploy)参照）。物理マシン環境に障害を注入したり、障害を回復したりするために使用されます。"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "Chaosd has the following core strengths:",
+      "source_content_hash": "991f3ee470a66a43392219998b0996d6b80cbcaf0478926ac001b904439d9ef2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaosdには以下のコア強みがあります："
+      }
+    },
+    {
+      "segment_id": "be33979e",
+      "source_content": "- Easy-to-use: You only need to execute simple commands in Chaosd to create and manage Chaos experiments.\n- Various fault types: Chaosd provides various fault types to be injected into physical machines at different levels, including process, network, pressure, disk, host, etc. More fault types are to be added.\n- Multiple work modes: Chaosd can be used both as a command-line tool and as a service to meet the needs of different scenarios.",
+      "source_content_hash": "7886ed932cddf1b3a6867867c39de32e2bf063b9ddeaf32e45b381e5c0a43226",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- 使いやすさ：Chaosdで簡単なコマンドを実行するだけで、カオス実験の作成と管理が可能です。\n- 多様な障害タイプ：物理マシンに対してプロセス、ネットワーク、負荷、ディスク、ホストなど、さまざまなレベルで多様な障害タイプを注入できます。さらに多くの障害タイプが追加予定です。\n- 複数の動作モード：コマンドラインツールとしても、サービスとしても使用可能で、さまざまなシナリオのニーズに対応します。"
+      }
+    },
+    {
+      "segment_id": "e14c9928",
+      "source_content": "### Supported fault types",
+      "source_content_hash": "89a89ff9208939fc801625657914883caa4196e477bd2a386a971d1d6169e9f0",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### サポートされている障害タイプ"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "You can use Chaosd to simulate the following fault types:",
+      "source_content_hash": "4a3550179d863ee6142b8167f3e339513818d897d349f43ca264332986cd139a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaosdを使用して以下の障害タイプをシミュレートできます："
+      }
+    },
+    {
+      "segment_id": "034de896",
+      "source_content": "- Process: Injects faults into the processes. Operations such as killing the process or stopping the process are supported.\n- Network: Injects faults into the network of physical machines. Operations such as increasing network latency, losing packets, and corrupting packets are supported.\n- Pressure: Injects pressure on the CPU or memory of the physical machines.\n- Disk: Injects faults into disks of the physical machines. Operations such as increasing disk load of reads and writes, and filling disks are supported.\n- Host: Injects faults into the physical machine. Operations such as shutdown the physical machine are supported.",
+      "source_content_hash": "7216a8fcddceb6d124e2acb7eb542e96c5876300f9451dfc8d9a5b0c91a964f4",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- プロセス：プロセスに障害を注入します。プロセスの強制終了や停止などの操作がサポートされています。\n- ネットワーク：物理マシンのネットワークに障害を注入します。ネットワーク遅延の増加、パケット損失、パケット破損などの操作がサポートされています。\n- 負荷：物理マシンのCPUやメモリに負荷をかけます。\n- ディスク：物理マシンのディスクに障害を注入します。読み書きのディスク負荷増加やディスクの容量逼迫などの操作がサポートされています。\n- ホスト：物理マシン自体に障害を注入します。物理マシンのシャットダウンなどの操作がサポートされています。"
+      }
+    },
+    {
+      "segment_id": "f2c2bdd0",
+      "source_content": "For details about the introduction and usage of each fault type, refer to the related documentation.",
+      "source_content_hash": "89a1ae5a9ee57efea22344d71fd2241de4411b9af0afe5df7c32469c1cc042ce",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "各障害タイプの詳細な紹介と使用方法については、関連ドキュメントを参照してください。"
+      }
+    },
+    {
+      "segment_id": "fa430ad4",
+      "source_content": "### Operating environment",
+      "source_content_hash": "573e2eb368678797cbbd6d85dedf8740f30d9bf714b678b08fa4692b21191013",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 動作環境"
+      }
+    },
+    {
+      "segment_id": "4b1d2d7d",
+      "source_content": "Your glibc version must be v2.17 or later versions.",
+      "source_content_hash": "3fec9119a31ad84835c313a681e98161eb3f28629a82087b221919bffadac52e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "glibcのバージョンはv2.17以降である必要があります。"
+      }
+    },
+    {
+      "segment_id": "48847fd4",
+      "source_content": "### Download and deploy",
+      "source_content_hash": "291a1e963bfc442c1c7656b0d9cadd690e1b23e9cc052b1cf936dfd18b6b5607",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ダウンロードとデプロイ"
+      }
+    },
+    {
+      "segment_id": "cd471e4e",
+      "source_content": "1. Set the version of Chaosd to be downloaded as the environment variable. For example, v1.0.0:\n\n   ```bash\n   export CHAOSD_VERSION=v1.0.0\n   ```\n\n   To view all released versions of Chaosd, refer to [releases](https://github.com/chaos-mesh/chaosd/releases).\n\n   To download the latest version (not stable), use `latest`:\n\n   ```bash\n   export CHAOSD_VERSION=latest\n   ```\n\n2. Download Chaosd:\n\n   ```bash\n   curl -fsSLO https://mirrors.chaos-mesh.org/chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz\n   ```\n\n3. Unzip the Chaosd file and move it to the `/usr/local` directory:\n\n   ```bash\n   tar zxvf chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz && sudo mv chaosd-$CHAOSD_VERSION-linux-amd64 /usr/local/\n   ```\n\n4. Add the Chaosd directory to the `PATH` environment variable:\n\n   ```bash\n   export PATH=/usr/local/chaosd-$CHAOSD_VERSION-linux-amd64:$PATH\n   ```",
+      "source_content_hash": "6660e83a3b3ecd584b3686c95136ae1d80ec036c883ea01d1416392437454c16",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. ダウンロードするChaosdのバージョンを環境変数として設定します。例：v1.0.0：\n\n   ```bash\n   export CHAOSD_VERSION=v1.0.0\n   ```\n\n   Chaosdの全リリースバージョンを確認するには、[releases](https://github.com/chaos-mesh/chaosd/releases)を参照してください。\n\n   最新バージョン（安定版ではない）をダウンロードするには、`latest`を使用します：\n\n   ```bash\n   export CHAOSD_VERSION=latest\n   ```\n\n2. Chaosdをダウンロードします：\n\n   ```bash\n   curl -fsSLO https://mirrors.chaos-mesh.org/chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz\n   ```\n\n3. Chaosdファイルを解凍し、`/usr/local`ディレクトリに移動します：\n\n   ```bash\n   tar zxvf chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz && sudo mv chaosd-$CHAOSD_VERSION-linux-amd64 /usr/local/\n   ```\n\n4. Chaosdディレクトリを`PATH`環境変数に追加します：\n\n   ```bash\n   export PATH=/usr/local/chaosd-$CHAOSD_VERSION-linux-amd64:$PATH\n   ```"
+      }
+    },
+    {
+      "segment_id": "126950d7",
+      "source_content": "### Work modes",
+      "source_content_hash": "c12be466861eaf8d46476e44c83c9fab56ba976cef11d3c962cc4d14f8a8619a",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 動作モード"
+      }
+    },
+    {
+      "segment_id": "0bb95128",
+      "source_content": "You can use Chaosd in the following modes:",
+      "source_content_hash": "4230c42c76ee708e890811ba7b8f6781943bd8aa370a589deedc7bf3d127fc63",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaosdは以下のモードで使用できます："
+      }
+    },
+    {
+      "segment_id": "a4bd3cfc",
+      "source_content": "- Command-line mode: Run Chaosd directly as a command-line tool to inject and recover faults.\n- Service mode: Run Chaosd as a service in the background, to inject and recover faults by sending HTTP requests.",
+      "source_content_hash": "4c62d24bb7f0d7594c63f42557a646b6d936ee4d762d44e8340f5f31a578e440",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- コマンドラインモード：Chaosdを直接コマンドラインツールとして実行し、障害の注入と回復を行います。\n- サービスモード：Chaosdをバックグラウンドサービスとして実行し、HTTPリクエストを送信して障害の注入と回復を行います。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/version-2.7.2/chaosd-overview.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.682093+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "5b447eddb64a502a827927fff0753a16db0ca232437cc0ff7e7042bf19f3f161"
+  }
+}

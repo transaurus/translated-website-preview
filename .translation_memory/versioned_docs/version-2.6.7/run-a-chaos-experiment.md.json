@@ -1,0 +1,402 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "versioned_docs/version-2.6.7/run-a-chaos-experiment.md",
+  "source_file_content_hash": "24c4e3ee7dc6fa98edcd2c2353f3fb8946aaafadc3f3ad1553a62776ca342718",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Run a Chaos Experiment\n---",
+      "source_content_hash": "1299f11219633926c0f0a97959a2e5029407c8ebcbae3ef2f46a99838de92873",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "This document describes how to create, run, view, pause, update, and delete Chaos experiments in Chaos Mesh.",
+      "source_content_hash": "c917ab4bf2af757763410d5a23b78ce1f4e9e7d2666510b7f62dddefdd2c185d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、Chaos Meshにおけるカオス実験の作成、実行、確認、一時停止、更新、削除の方法について説明します。"
+      }
+    },
+    {
+      "segment_id": "a703643c",
+      "source_content": "## Create Chaos experiments",
+      "source_content_hash": "66d399ea588e7ba4799c1530fb645af0254c7a87ac256cd5ba12f55117718b70",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## カオス実験の作成"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "You can create the following types of Chaos experiments in Chaos Mesh:",
+      "source_content_hash": "1b1f9b3695511774a29978d321621441786b117b54476ec301e29037fcf1d296",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshでは以下のタイプのカオス実験を作成できます："
+      }
+    },
+    {
+      "segment_id": "be33979e",
+      "source_content": "- One-time Chaos experiments: The smallest instance of Chaos experiments. Once a one-time experiment is created, Chaos Mesh immediately injects faults into the target test machine according to the experiment configurations. If the `duration` parameter is configured, injected faults will be restored automatically after a period of time specified by `duration`. When the Chaos experiment is paused or deleted, injected faults will be restored immediately.\n- Scheduled or cyclic Chaos experiments: Chaos experiments that can be run at a regular interval or cyclically. You need to define the scheduling rules for the experiment when creating this type of Chaos experiment.",
+      "source_content_hash": "45c8dc33c4d51d92a955b1a4e86f3f160699745900f9bf4aeca3bc0ca8b873de",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- ワンタイムカオス実験：最小単位のカオス実験インスタンス。作成されると、Chaos Meshは実験設定に従って即座にターゲットマシンに障害を注入します。`duration`パラメータが設定されている場合、指定時間経過後に注入された障害は自動的に復旧します。実験が一時停止または削除されると、注入された障害は即座に復旧します。\n- スケジュールまたは定期実行カオス実験：定期的または周期的に実行可能なカオス実験。このタイプの実験を作成する際には、実行スケジュールルールを定義する必要があります。"
+      }
+    },
+    {
+      "segment_id": "70153c6e",
+      "source_content": "### One-time Chaos experiments",
+      "source_content_hash": "861f1ebc7edaa898f3ceea6aa1b8f1f1bcbd4b835910d5fc8bcaae9d462a4810",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### ワンタイムカオス実験"
+      }
+    },
+    {
+      "segment_id": "86b54d44",
+      "source_content": "To create a one-time Chaos experiment, you can use one of the following methods:",
+      "source_content_hash": "6f3724d02597922be265f9e8d1395c6c6f5e2c7a9012c412b69949aafa262dc8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "ワンタイムカオス実験を作成するには、以下のいずれかの方法を使用します："
+      }
+    },
+    {
+      "segment_id": "11c829ab",
+      "source_content": "- Use Chaos Dashboard to create a new Chaos experiment, then click **Submit** to run the experiment. For more details, refer to the documentation of each specific Chaos experiment type.\n- Use a YAML file to define the Chaos experiment, then create and run the experiment using `kubectl`. If you want to create and run a Chaos experiment in this way, take the following steps:",
+      "source_content_hash": "243c0c06900ee5d4d6cdc9e5b4c3906c2e0ea9f664382b0bf76d1554779fd380",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- Chaos Dashboardを使用して新しいカオス実験を作成し、「Submit」をクリックして実験を実行します。詳細は各カオス実験タイプのドキュメントを参照してください。\n- YAMLファイルでカオス実験を定義し、`kubectl`を使用して実験を作成・実行します。この方法でカオス実験を作成・実行する場合は、以下の手順に従います："
+      }
+    },
+    {
+      "segment_id": "0787cf7f",
+      "source_content": "1. Create a new YAML file to define a Chaos experiment. Add configuration parameters in the file based on the type of Chaos experiment you want to create.\n\n   Take a NetworkChaos experiment as an example. Save the following YAML text as `network-delay.yaml`.\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: NetworkChaos\n   metadata:\n     name: network-delay\n   spec:\n     action: delay # the specific chaos action to inject\n     mode: one # the mode to run chaos action; supported modes are one/all/fixed/fixed-percent/random-max-percent\n     selector: # pods where to inject chaos actions\n       namespaces:\n         - default\n       labelSelectors:\n         'app': 'web-show' # the label of the pod for chaos injection\n     delay:\n       latency: '10ms'\n     duration: '12s'\n   ```\n\n   The above YAML example defines a network latency fault lasting for `12 seconds`, targeting applications with the `\"app\": \"web-show\"` tag under the `default` namespace. For more configuration information about the NetworkChaos experiment, refer to [Simulate network chaos](simulate-network-chaos-on-kubernetes.md).\n\n2. Execute the following command to create and run this Chaos experiment.\n\n   ```sh\n   kubectl apply -f network-delay.yaml\n   ```\n\n3. To view the running status of the Chaos experiment after it begins, use the following `kubectl describe` command to check the `status` or `event` of this experiment object.\n\n   ```sh\n   kubectl describe networkchaos network-delay\n   ```\n\n   For detailed steps to check the result of the Chaos experiment, refer to [Inspect Chaos experiments](inspect-chaos-experiments.md).",
+      "source_content_hash": "9b052c4bed4c19ad72fe475d627243ee5201115bd9f4199e0aaeb283799d53ef",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 新しいYAMLファイルを作成してカオス実験を定義します。作成したいカオス実験のタイプに基づいて設定パラメータを追加します。\n\n   NetworkChaos実験を例として、以下のYAMLテキストを`network-delay.yaml`として保存します。\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: NetworkChaos\n   metadata:\n     name: network-delay\n   spec:\n     action: delay # 注入する具体的なカオスアクション\n     mode: one # カオスアクションを実行するモード；サポートモードはone/all/fixed/fixed-percent/random-max-percent\n     selector: # カオスアクションを注入するポッド\n       namespaces:\n         - default\n       labelSelectors:\n         'app': 'web-show' # カオス注入対象ポッドのラベル\n     delay:\n       latency: '10ms'\n     duration: '12s'\n   ```\n\n   上記のYAML例は、`default`ネームスペース内の`\"app\": \"web-show\"`タグが付いたアプリケーションを対象とした、`12秒間`持続するネットワーク遅延障害を定義しています。NetworkChaos実験の詳細な設定情報については、[Kubernetes上でのネットワークカオスのシミュレーション](simulate-network-chaos-on-kubernetes.md)を参照してください。\n\n2. 以下のコマンドを実行してこのカオス実験を作成・実行します。\n\n   ```sh\n   kubectl apply -f network-delay.yaml\n   ```\n\n3. カオス実験の開始後に実行ステータスを確認するには、以下の`kubectl describe`コマンドを使用して実験オブジェクトの`status`または`event`を確認します。\n\n   ```sh\n   kubectl describe networkchaos network-delay\n   ```\n\n   カオス実験結果の確認手順の詳細については、[カオス実験の検査](inspect-chaos-experiments.md)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "7283cdac",
+      "source_content": "### Scheduled or cyclic Chaos experiments",
+      "source_content_hash": "963ffd793bdac90341bab937e2c14927fec1ad6823463ab926135710dcf6e5cf",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### スケジュールまたは定期実行カオス実験"
+      }
+    },
+    {
+      "segment_id": "1131ef75",
+      "source_content": "Chaos Mesh offers the `Schedule` object to create scheduled Chaos experiments and cyclic Chaos experiments.",
+      "source_content_hash": "4a3f4b3b0ced70328d32fc6ac2f3d9d795ef2b12455b1b2e8c3673bb270783de",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは`Schedule`オブジェクトを提供し、スケジュールされたカオス実験と定期実行カオス実験を作成できます。"
+      }
+    },
+    {
+      "segment_id": "8b2a52b1",
+      "source_content": "To create this type of Chaos experiments, take the following steps:",
+      "source_content_hash": "3356d36a647474e6be30f6e034ce1ada857bccc80aa945d624076762fc19cac5",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このタイプのカオス実験を作成するには、以下の手順に従います："
+      }
+    },
+    {
+      "segment_id": "35f6931b",
+      "source_content": "1. Create a new YAML file to define a Chaos experiment. You need to configure the `Schedule` parameter in the YAML file to define specific schedule rules for the experiment, and then configure other parameters according to the type of Chaos experiments you want to create.\n\n   Take a scheduled NetworkChaos experiment as an example. Save the following YAML text as `schedule-delay-example.yaml`.\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: Schedule\n   metadata:\n     name: schedule-delay-example\n   spec:\n     schedule: '5 * * * *'\n     historyLimit: 2\n     concurrencyPolicy: 'Allow'\n     type: 'NetworkChaos'\n     networkChaos:\n       action: delay\n       mode: one\n       selector:\n         namespaces:\n           - default\n         labelSelectors:\n           'app': 'web-show'\n       delay:\n         latency: '10ms'\n       duration: '12s'\n   ```\n\n   The above YAML example defines a network latency fault that can be automatically triggered at the fifth minute of each hour.For detailed introduction of scheduling rules, refer to [Define scheduling rules](define-scheduling-rules.md).\n\n   :::note\n\n   If you do not set the `duration` parameter, the fault behavior keeps taking effect until you pause or delete the Chaos experiment.\n\n   :::\n\n2. Execute the following command to create and run this Chaos experiment.\n\n   ```sh\n   kubectl apply -f schedule-delay-example.yaml\n   ```\n\n3. To view the running status of the Chaos experiment after it begins, use the following `kubectl describe` command to check the `status` or `event` of this experiment object.\n\n   ```sh\n   kubectl describe networkchaos schedule-delay-example\n   ```\n\n   For detailed steps to check the result of the Chaos experiment, refer to [Inspect Chaos experiments](inspect-chaos-experiments.md).",
+      "source_content_hash": "72e067381f8ec472179c564de48f490d0e2804f2f9c41a1de69b9c3a8b206492",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 新しいYAMLファイルを作成し、Chaos実験を定義します。YAMLファイル内で`Schedule`パラメータを設定して実験の具体的なスケジュールルールを定義し、その後、作成したいChaos実験のタイプに応じて他のパラメータを設定します。\n\n   スケジュールされたNetworkChaos実験を例として、以下のYAMLテキストを`schedule-delay-example.yaml`として保存してください。\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: Schedule\n   metadata:\n     name: schedule-delay-example\n   spec:\n     schedule: '5 * * * *'\n     historyLimit: 2\n     concurrencyPolicy: 'Allow'\n     type: 'NetworkChaos'\n     networkChaos:\n       action: delay\n       mode: one\n       selector:\n         namespaces:\n           - default\n         labelSelectors:\n           'app': 'web-show'\n       delay:\n         latency: '10ms'\n       duration: '12s'\n   ```\n\n   上記のYAML例は、毎時5分に自動的にトリガーされるネットワーク遅延障害を定義しています。スケジュールルールの詳細については、[スケジュールルールの定義](define-scheduling-rules.md)を参照してください。\n\n   :::note\n\n   `duration`パラメータを設定しない場合、障害の動作はChaos実験を一時停止または削除するまで継続して有効になります。\n\n   :::\n\n2. 以下のコマンドを実行して、このChaos実験を作成および実行します。\n\n   ```sh\n   kubectl apply -f schedule-delay-example.yaml\n   ```\n\n3. Chaos実験が開始した後の実行ステータスを確認するには、以下の`kubectl describe`コマンドを使用して、この実験オブジェクトの`status`または`event`をチェックします。\n\n   ```sh\n   kubectl describe networkchaos schedule-delay-example\n   ```\n\n   Chaos実験の結果を確認する詳細な手順については、[Chaos実験の検査](inspect-chaos-experiments.md)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "ab39e8a7",
+      "source_content": "## Pause Chaos experiments",
+      "source_content_hash": "e840c4b05db6a93b591e5b5c2481bf653021db27ed2207b7be9cae34ff673fdc",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos実験の一時停止"
+      }
+    },
+    {
+      "segment_id": "7974af84",
+      "source_content": "### Pause or resume Chaos experiments using commands",
+      "source_content_hash": "c034ab84916eaedff34de22364a8816a181869965a081d7cf86b9891f586682b",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### コマンドを使用したChaos実験の一時停止または再開"
+      }
+    },
+    {
+      "segment_id": "44aaa880",
+      "source_content": "For a running Chaos experiment, you can pause the experiment by setting a pause annotation to it using commands.",
+      "source_content_hash": "b8a542d6ef548ede1555bccfb2d521e05fe8417a03257eff2320b7afe0c37be2",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "実行中のChaos実験に対して、コマンドを使用して一時停止アノテーションを設定することで、実験を一時停止できます。"
+      }
+    },
+    {
+      "segment_id": "396efb28",
+      "source_content": "For example, you can use the following command to pause a Chaos experiment named `network-delay` in the default namespace:",
+      "source_content_hash": "14aee71096ed220fa65d8511be6f958d23e1593240069ee6f463d6d150d4fda4",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "例えば、以下のコマンドを使用して、デフォルト名前空間にある`network-delay`という名前のChaos実験を一時停止できます："
+      }
+    },
+    {
+      "segment_id": "b27056c4",
+      "source_content": "```sh\nkubectl annotate networkchaos network-delay experiment.chaos-mesh.org/pause=true\n```",
+      "source_content_hash": "a9b3088ce47e313028eae9d3a87b3e810cf227e4732f17959992a8587c85468d",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_b27056c4"
+      }
+    },
+    {
+      "segment_id": "5f82a1e9",
+      "source_content": "After this command is executed, Chaos Mesh restores the injected faults immediately. If you want to resume this Chaos experiment from the pause state to the normal running state, use the following command:",
+      "source_content_hash": "eea3e390e315184e6327d19997e6d26079255ceee4d948d099d4d9f580b15e17",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このコマンドが実行されると、Chaos Meshは注入された障害を直ちに復元します。一時停止状態から通常の実行状態にChaos実験を再開したい場合は、以下のコマンドを使用します："
+      }
+    },
+    {
+      "segment_id": "1ae0b80d",
+      "source_content": "```sh\nkubectl annotate networkchaos network-delay experiment.chaos-mesh.org/pause-\n```",
+      "source_content_hash": "e033437a963674795cb11c985759e3c08fc2c6ae49a439bd75e5d3f5a91aa67c",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_1ae0b80d"
+      }
+    },
+    {
+      "segment_id": "47cd8dd6",
+      "source_content": "### Pause or resume Chaos experiments using Chaos Dashboard",
+      "source_content_hash": "777f93b8e1b4a75b54f1163787dfea9f3eacb01d76d7d01653a7c5c8044a2eec",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### Chaos Dashboardを使用したChaos実験の一時停止または再開"
+      }
+    },
+    {
+      "segment_id": "692c6053",
+      "source_content": "If you want to pause or resume a Chaos experiment using Chaos Dashboard, find the Chaos experiment you want on the Dashboard and click the **Pause** button or the **Start** button.",
+      "source_content_hash": "ec88a21cb34b29ce7cc94d0cbc6f09ac873bac94f6ce88c75ca79225a2f0805a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Dashboardを使用してChaos実験を一時停止または再開したい場合は、Dashboard上で対象のChaos実験を見つけ、**一時停止**ボタンまたは**開始**ボタンをクリックします。"
+      }
+    },
+    {
+      "segment_id": "383fbdd2",
+      "source_content": "![Pause experiment](img/pause.png)",
+      "source_content_hash": "eda4c9d233b5954e07613a79aab90e8f11a16e3f1cadae652a0f44a7a3e01ee4",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![実験の一時停止](img/pause.png)"
+      }
+    },
+    {
+      "segment_id": "14bc6b75",
+      "source_content": "![Restart experiment](img/restart.png)",
+      "source_content_hash": "51d4f3cd43dd310ab259f59fca470f9a09520185b3ce6578f49f89d1f0002be9",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![実験の再開](img/restart.png)"
+      }
+    },
+    {
+      "segment_id": "5dba1427",
+      "source_content": "## Update Chaos experiments",
+      "source_content_hash": "9a0e03ba521640fef6db75b42650deeb8a0c0987a0d538d891d33d008250f499",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos実験の更新"
+      }
+    },
+    {
+      "segment_id": "9c2ab4c8",
+      "source_content": "### Update Chaos experiments using commands",
+      "source_content_hash": "68b4aa4ccefddc4c79bf73a4e770518f54d44698f64cca5d2a4db883be69e147",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### コマンドを使用したChaos実験の更新"
+      }
+    },
+    {
+      "segment_id": "a9c2a503",
+      "source_content": "The `Spec` field of Chaos experiment is currently not allowed to be updated.",
+      "source_content_hash": "03045a6a83bfcb02bfe6d3fc66ea6fa3bab8a9e09b6abdb24c32749213a44d2f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "現在、Chaos実験の`Spec`フィールドは更新が許可されていません。"
+      }
+    },
+    {
+      "segment_id": "cfeb9eb1",
+      "source_content": "For more details, refer to the related [GitHub issue](https://github.com/chaos-mesh/chaos-mesh/issues/2227).",
+      "source_content_hash": "ba91bf9e7195b5d029f7b7966210461ad8f7244a649980af4c194ce6806a33fe",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "詳細については、関連する[GitHub issue](https://github.com/chaos-mesh/chaos-mesh/issues/2227)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "dd4905a4",
+      "source_content": "### Update Chaos experiments using Chaos Dashboard",
+      "source_content_hash": "52d77e77e1fc691433194a4f38cb32d3b299afc6bc4f8307c166abe7541e6ba4",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### Chaos Dashboardを使用したChaos実験の更新"
+      }
+    },
+    {
+      "segment_id": "17b50e81",
+      "source_content": "The Chaos Dashboard doesn't support updating Chaos experiments at this time because the `Spec` field of Chaos experiments is not allowed to be updated.",
+      "source_content_hash": "1401c6b5d8a9040db4407542dce6f6f29ce0b6894fc8f3be6f8d54bb15d77c50",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Dashboardは現在、Chaos実験の更新をサポートしていません。これはChaos実験の`Spec`フィールドが更新を許可していないためです。"
+      }
+    },
+    {
+      "segment_id": "6ab1b234",
+      "source_content": "## Delete Chaos experiments",
+      "source_content_hash": "543fef45dd85f7df3501651b2a0da306f9ca56934b8ca3311cd5c550e89edf05",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos実験の削除"
+      }
+    },
+    {
+      "segment_id": "b77e7669",
+      "source_content": "### Delete Chaos experiments using commands",
+      "source_content_hash": "169c3676b062d59f59cc7f9a67ff9f79c9b2f1cf11f32a4de588ab7308a2efac",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### コマンドを使用したChaos実験の削除"
+      }
+    },
+    {
+      "segment_id": "619c3209",
+      "source_content": "After a Chaos experiment finishes, you can delete the experiment using the following `kubectl delete` command. Once you delete the Chaos experiment, the injected fault will be restored immediately:",
+      "source_content_hash": "98b6ee9f1675c427cba432747035a3d225464317f2f6144b0b05ce49c83cf84e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos実験が終了した後、以下の`kubectl delete`コマンドを使用して実験を削除できます。Chaos実験を削除すると、注入された障害は直ちに復元されます："
+      }
+    },
+    {
+      "segment_id": "9129c0c5",
+      "source_content": "```sh\nkubectl delete -f network-delay.yaml\n# or delete the chaos object directly\nkubectl delete networkchaos network-delay\n```",
+      "source_content_hash": "723b08aa7097dfeb7ded46b985d0e8420242606148ca2a316cb5341d141bccde",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_9129c0c5"
+      }
+    },
+    {
+      "segment_id": "008183b0",
+      "source_content": "If the delete operation is blocked, this means that some fault behaviors of the target object cannot be restored. You can check the Chaos Mesh logs for troubleshooting or directly create a [GitHub issue](https://github.com/pingcap/chaos-mesh/issues) to report this problem to the Chaos Mesh team. Besides, you can forcibly delete the Chaos experiment with the following command:",
+      "source_content_hash": "26ed1955312f5718693d99232ff59d51dcb0274bce89650b5db04b62cbb31799",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "削除操作がブロックされた場合、これは対象オブジェクトの一部の障害動作が復元できないことを意味します。Chaos Meshのログを確認してトラブルシューティングを行うか、直接[GitHub issue](https://github.com/pingcap/chaos-mesh/issues)を作成してこの問題をChaos Meshチームに報告できます。また、以下のコマンドを使用してChaos実験を強制的に削除することもできます："
+      }
+    },
+    {
+      "segment_id": "71779666",
+      "source_content": "```sh\nkubectl annotate networkchaos web-show-network-delay chaos-mesh.chaos-mesh.org/cleanFinalizer=forced\n```",
+      "source_content_hash": "4e0d6fd311f9cfab57b936c6cd454f5fbcab1e3d1cb8b0e2187e272b8862ddde",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_71779666"
+      }
+    },
+    {
+      "segment_id": "58f98d22",
+      "source_content": "### Delete Chaos experiments using Chaos Dashboard",
+      "source_content_hash": "9e3df164869cb96171ee9d7ea6f7f2cbe2d40b7ee7c7cc69e7262fdabda548a5",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### Chaos Dashboardを使用したChaos実験の削除"
+      }
+    },
+    {
+      "segment_id": "d636abf8",
+      "source_content": "If you want to delete a Chaos experiment on Chaos Dashboard and archive it to the experiment history, you can click the corresponding **Archive** button of the Chaos experiment.",
+      "source_content_hash": "077cd2551f93de63b602faefe8517820f307cae7737ca7ef784b2adac9ddd791",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos DashboardでChaos実験を削除し、実験履歴にアーカイブする場合は、該当するChaos実験の**アーカイブ**ボタンをクリックします。"
+      }
+    },
+    {
+      "segment_id": "99840f13",
+      "source_content": "![Archive experiment](img/archive.png)",
+      "source_content_hash": "e52d71ddce19a51d9cc6e31f71f7555d26280a854d6ca2974a2aae81e1773c13",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "![実験をアーカイブ](img/archive.png)"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/version-2.6.7/run-a-chaos-experiment.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.626904+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "24c4e3ee7dc6fa98edcd2c2353f3fb8946aaafadc3f3ad1553a62776ca342718"
+  }
+}

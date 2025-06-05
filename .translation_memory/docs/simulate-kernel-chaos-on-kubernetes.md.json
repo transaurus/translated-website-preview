@@ -1,0 +1,242 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "docs/simulate-kernel-chaos-on-kubernetes.md",
+  "source_file_content_hash": "aaee8cb3e6188a7532990213a18cca0706daf1bf944d76cd119003926a5f8059",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Simulate Linux Kernel Faults\n---",
+      "source_content_hash": "d305c95664206aebf37095098db7b9bbd7373034aa628dd03071158e84ff5a4a",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "This document describes how to use KernelChaos to simulate Linux kernel faults. This feature injects I/O-based or memory-based faults into the specified kernel paths using [BPF](https://lore.kernel.org/lkml/20171213180356.hsuhzoa7s4ngro2r@destiny/T/).",
+      "source_content_hash": "7d471ad2f630d1140161f1b8ae4d7beca827c3f736965c650c5fc6c50f63b232",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、KernelChaosを使用してLinuxカーネルの障害をシミュレートする方法について説明します。この機能は、[BPF](https://lore.kernel.org/lkml/20171213180356.hsuhzoa7s4ngro2r@destiny/T/)を使用して、指定されたカーネルパスにI/Oベースまたはメモリベースの障害を注入します。"
+      }
+    },
+    {
+      "segment_id": "6ef78e84",
+      "source_content": "Although you can set the injection target of KernelChaos to one or several Pods, the performance of other Pods on the host will be affected, because all Pods share the same kernel.",
+      "source_content_hash": "cf1c4e54970ca3c529e74d5bc9aa8c921f540507104dc824692e5e595af3564c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "KernelChaosの注入ターゲットを1つまたは複数のPodに設定することは可能ですが、ホスト上の他のPodのパフォーマンスにも影響が及ぶ可能性があります。これは、すべてのPodが同じカーネルを共有しているためです。"
+      }
+    },
+    {
+      "segment_id": "0d5e1c45",
+      "source_content": ":::warning\n\nThe simulation of Linux kernel faults is disabled by default. Do not use this feature in a production environment.\n\n:::",
+      "source_content_hash": "ef667768f5785c30fea470bab2c7e7796d44e1f35dbf8e08067e1582b548a0b5",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::warning\n\nLinuxカーネル障害のシミュレーションはデフォルトで無効化されています。本番環境ではこの機能を使用しないでください。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "e14c9928",
+      "source_content": "## Prerequisites",
+      "source_content_hash": "bbd3d4949a6f237efd8d4ff5c7c5f30d968e7a989ad12f3d7dcef69c98053912",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 前提条件"
+      }
+    },
+    {
+      "segment_id": "84758135",
+      "source_content": "- Linux kernel version >= 4.18.\n- The Linux kernel configuration [CONFIG_BPF_KPROBE_OVERRIDE](https://cateee.net/lkddb/web-lkddb/BPF_KPROBE_OVERRIDE.html) is enabled.\n- The `bpfki.create` configuration value in [values.yaml](https://github.com/chaos-mesh/chaos-mesh/blob/master/helm/chaos-mesh/values.yaml) is `true`.",
+      "source_content_hash": "1afd555c289de44cecc470ecbe157a659eb908b455c29ea22ddc5715c94991ee",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- Linuxカーネルバージョン >= 4.18。\n- Linuxカーネル設定 [CONFIG_BPF_KPROBE_OVERRIDE](https://cateee.net/lkddb/web-lkddb/BPF_KPROBE_OVERRIDE.html) が有効になっていること。\n- [values.yaml](https://github.com/chaos-mesh/chaos-mesh/blob/master/helm/chaos-mesh/values.yaml) の `bpfki.create` 設定値が `true` であること。"
+      }
+    },
+    {
+      "segment_id": "418617bd",
+      "source_content": "## Configuration file",
+      "source_content_hash": "8afe930bd9993d93e7d1b97e245cdb25d5908dbd92161573dade148fe45c03eb",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 設定ファイル"
+      }
+    },
+    {
+      "segment_id": "2fdadb08",
+      "source_content": "A simple KernelChaos configuration file is as follows:",
+      "source_content_hash": "0ea9652c1b36cc2ae251116c679a47517bfcf3877c3d802c81e5ffe4c335e09d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "シンプルなKernelChaos設定ファイルの例は以下の通りです："
+      }
+    },
+    {
+      "segment_id": "3569d545",
+      "source_content": "```yaml\napiVersion: chaos-mesh.org/v1alpha1\nkind: KernelChaos\nmetadata:\n  name: kernel-chaos-example\n  namespace: chaos-mesh\nspec:\n  mode: one\n  selector:\n    namespaces:\n      - chaos-mount\n  failKernRequest:\n    callchain:\n      - funcname: '__x64_sys_mount'\n    failtype: 0\n```",
+      "source_content_hash": "859ab072bdfe504c32c03c38f3a49259fbe7d4ec07441205a06bb52cf7cca33a",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_3569d545"
+      }
+    },
+    {
+      "segment_id": "50746522",
+      "source_content": "For more configuration examples, refer to [examples](https://github.com/chaos-mesh/chaos-mesh/tree/master/examples). You can modify these configuration examples as needed.",
+      "source_content_hash": "40a2342e38b2f31831c5dc994fee6675d198ad8b7706622734f7f39a41da6a8e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "より多くの設定例については、[examples](https://github.com/chaos-mesh/chaos-mesh/tree/master/examples) を参照してください。必要に応じてこれらの設定例を変更できます。"
+      }
+    },
+    {
+      "segment_id": "95e9ba12",
+      "source_content": "Configuration description:",
+      "source_content_hash": "c1df15db6758c0c0d5124f846b8c664d8ef53090b03f24583f5d121821591857",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "設定の説明："
+      }
+    },
+    {
+      "segment_id": "824626b3",
+      "source_content": "- **mode** specifies how the experiment runs. The options are as follows:\n\n  - `one`: randomly selects an eligible Pod.\n  - `all`: selects all eligible Pods.\n  - `fixed`: selects a specified number of eligible Pods.\n  - `fixed-percent`: selects a specified percentage of eligible Pods.\n  - `random-max-percent`: selects the maximum percentage of eligible Pods.\n\n- **selector** specifies the target Pod for fault injection.\n- **FailedkernRequest** specifies the fault mode (such as kmallo and bio). It also specifies a specific call chain path and the optional filtering conditions. The configuration items are as follows:\n\n  - **Failtype** specifies the fault type. The value options are as follows:\n\n    - '0': injects the slab allocation error should_failslab.\n    - '1': injects the memory page allocation error should_fail_alloc_page.\n    - '2': injects the bio error should_fail_bio.\n\n    For more information on these three fault types, refer to [fault-injection](https://www.kernel.org/doc/html/latest/fault-injection/fault-injection.html) and [inject_example](http://github.com/iovisor/bcc/blob/master/tools/inject_example.txt).\n\n  - **Callchain** specifies a specific call chain. For example:\n\n    ```c\n    ext4_mount\n    -> mount_subtree\n    -> ...\n        -> should_failslab\n    ```\n\n    You can also use the function parameters as filtering rules to inject more fine-grained faults. Refer to [call chain and predicate examples](https://github.com/chaos-mesh/bpfki/tree/develop/examples) for more information. If no call chain is specified, keep the `callchain` field empty, indicating that faults will be injected to any path on which slab alloc is called (for example, kmallo).\n\n    The call chain type is a frame array, consisting of the following three parts:\n\n    - **funcname**, which can be found from the kernel source code or from `/proc/kallsyms`, such as `ext4_mount`.\n    - **parameters**, which is used for filtering. If you want to inject a slab error on the `d_alloc_parallel(struct dentry *parent, const struct qstr *name)` with a special name `bananas` path, you need to set the `parameters` to `struct dentry *parent, const struct qstr *name`. Otherwise, omit this configuration.\n    - **predicate**, which is used to access the parameters of the frame array. Taking **parameters** as an example, you can set it to `STRNCMP(name->name, \"bananas\", 8)` to control the path of fault injection, or you can leave it empty for all call paths that execute `d_allo_parallel` receive the slab fault injection.\n\n  - **headers** specifies the kernel header file you need. For example, \"linux/mmzone.h\" and \"linux/blkdev.h\".\n  - **probability** specifies the probability of faults. If you want the probability of 1%, set to '1'.\n  - **times** specifies the maximum number of times a fault is triggered.",
+      "source_content_hash": "0ef6d4062306ee5a4ecbda9668ddffe2a2dfebc2a5e89ad416a4c70565bf0647",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- **mode** は実験の実行方法を指定します。オプションは以下の通りです:\n\n  - `one`: 条件に合致するPodをランダムに1つ選択します。\n  - `all`: 条件に合致する全てのPodを選択します。\n  - `fixed`: 指定した数の条件に合致するPodを選択します。\n  - `fixed-percent`: 条件に合致するPodの指定した割合を選択します。\n  - `random-max-percent`: 条件に合致するPodの最大割合を選択します。\n\n- **selector** は障害注入の対象となるPodを指定します。\n- **FailedkernRequest** は障害モード（kmaloやbioなど）を指定します。また、特定のコールチェーンパスとオプションのフィルタ条件も指定します。設定項目は以下の通りです:\n\n  - **Failtype** は障害タイプを指定します。値のオプションは以下の通りです:\n\n    - '0': slabアロケーションエラーshould_failslabを注入します。\n    - '1': メモリページアロケーションエラーshould_fail_alloc_pageを注入します。\n    - '2': bioエラーshould_fail_bioを注入します。\n\n    これら3つの障害タイプの詳細については、[fault-injection](https://www.kernel.org/doc/html/latest/fault-injection/fault-injection.html)と[inject_example](http://github.com/iovisor/bcc/blob/master/tools/inject_example.txt)を参照してください。\n\n  - **Callchain** は特定のコールチェーンを指定します。例:\n\n    ```c\n    ext4_mount\n    -> mount_subtree\n    -> ...\n        -> should_failslab\n    ```\n\n    関数パラメータをフィルタリングルールとして使用し、より細かい粒度で障害を注入することもできます。詳細は[call chain and predicate examples](https://github.com/chaos-mesh/bpfki/tree/develop/examples)を参照してください。コールチェーンが指定されていない場合、`callchain`フィールドを空のままにします。これはslab allocが呼び出される任意のパス（例えばkmalo）に障害が注入されることを意味します。\n\n    コールチェーンタイプはフレーム配列で、以下の3つの部分で構成されます:\n\n    - **funcname**: カーネルソースコードまたは`/proc/kallsyms`から見つけることができます（例: `ext4_mount`）。\n    - **parameters**: フィルタリングに使用されます。`d_alloc_parallel(struct dentry *parent, const struct qstr *name)`という特別な名前`bananas`のパスでslabエラーを注入したい場合、`parameters`を`struct dentry *parent, const struct qstr *name`に設定する必要があります。それ以外の場合はこの設定を省略します。\n    - **predicate**: フレーム配列のパラメータにアクセスするために使用されます。**parameters**の例として、`STRNCMP(name->name, \"bananas\", 8)`と設定して障害注入のパスを制御するか、`d_allo_parallel`を実行する全てのコールパスにslab障害を注入する場合は空のままにします。\n\n  - **headers** は必要なカーネルヘッダファイルを指定します（例: \"linux/mmzone.h\"、\"linux/blkdev.h\"）。\n  - **probability** は障害発生確率を指定します。1%の確率にしたい場合は'1'と設定します。\n  - **times** は障害がトリガーされる最大回数を指定します。"
+      }
+    },
+    {
+      "segment_id": "1c598ecd",
+      "source_content": "## Create an experiment using kubectl",
+      "source_content_hash": "a21c7aa7156d639d86a0b5973f35335a83ab0cfc76a9032adddb347705e85650",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## kubectlを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "2547a6bb",
+      "source_content": "Use `kubectl` to create an experiment:",
+      "source_content_hash": "b12d6c08bb69bff07180fa960f6bde9d48e002245fe0573bb065c56116e1ae47",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`kubectl`を使用して実験を作成します:"
+      }
+    },
+    {
+      "segment_id": "7d898a0e",
+      "source_content": "```bash\nkubectl apply -f KernelChaos\n```",
+      "source_content_hash": "e2329532c7091e827466b459954fa2386fd369982c1b7ee873f2d17e3852852b",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_7d898a0e"
+      }
+    },
+    {
+      "segment_id": "6b77b644",
+      "source_content": "The KernelChaos feature is similar to [inject.py](https://github.com/iovisor/bcc/blob/master/tools/inject.py). For more information, refer to [input_example.txt](https://github.com/iovisor/bcc/blob/master/tools/inject_example.txt).",
+      "source_content_hash": "ef9a5c78b8f252a5d7b8e217efbed1edd585883934ed5723b02cbfa750eb4b6b",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "KernelChaos機能は[inject.py](https://github.com/iovisor/bcc/blob/master/tools/inject.py)と似ています。詳細は[input_example.txt](https://github.com/iovisor/bcc/blob/master/tools/inject_example.txt)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "a311e967",
+      "source_content": "A simple example is as follows:",
+      "source_content_hash": "e497d1de6900ee7e9d110e22631910b9e670f9b43081df28c38ee9e520fccdc8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "簡単な例は以下の通りです:"
+      }
+    },
+    {
+      "segment_id": "7fa46732",
+      "source_content": "```c\n#include <sys/mount.h>\n#include <stdio.h>\n#include <string.h>\n#include <errno.h>\n#include <unistd.h>\n\nint main(void) {\n  int ret;\n  while (1) {\n    ret = mount(\"/dev/sdc\", \"/mnt\", \"ext4\",\n          MS_MGC_VAL | MS_RDONLY | MS_NOSUID, \"\");\n    if (ret < 0)\n      fprintf(stderr, \"%s\\n\", strerror(errno));\n    sleep(1);\n    ret = umount(\"/mnt\");\n    if (ret < 0)\n      fprintf(stderr, \"%s\\n\", strerror(errno));\n  }\n}\n```",
+      "source_content_hash": "bb439bfc5c745d8b27a6b9f22d865ade4534c5c6d49313aab82afb5caa89c1f6",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_7fa46732"
+      }
+    },
+    {
+      "segment_id": "396efb28",
+      "source_content": "During the fault injection, the output is as follows:",
+      "source_content_hash": "28f4050c5764c4bdcd6269b1758a8b56b25e687b1ed6d8c8ac2294c67cfad219",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "障害注入中の出力は以下の通りです:"
+      }
+    },
+    {
+      "segment_id": "b27056c4",
+      "source_content": "```\n> Cannot allocate memory\n> Invalid argument\n> Cannot allocate memory\n> Invalid argument\n> Cannot allocate memory\n> Invalid argument\n> Cannot allocate memory\n> Invalid argument\n> Cannot allocate memory\n> Invalid argument\n```",
+      "source_content_hash": "0242f15f2ee76e6b1eb02d6ee7b75db17760eb25d7b8e90ae8da36b6993724ad",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_b27056c4"
+      }
+    },
+    {
+      "segment_id": "d53c8ed4",
+      "source_content": "## Usage restriction",
+      "source_content_hash": "8ee28225abe83ba79fc313f652945b7d3778ed05166a8153006cd1a33a3f9196",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## 使用制限"
+      }
+    },
+    {
+      "segment_id": "1ecf0882",
+      "source_content": "You can use container_id to limit the scope of the fault injection, but some paths trigger system-level behaviors. For example:",
+      "source_content_hash": "40927b8deed8e3b59dc9f7baea330344fc96b817f51460cda73ca760039b77fd",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "container_idを使用して障害注入の範囲を制限できますが、一部のパスはシステムレベルの動作を引き起こします。例:"
+      }
+    },
+    {
+      "segment_id": "e77cf7c6",
+      "source_content": "When `failtype` is `1`, it means that the physical page allocation fails. If this event is frequently triggered within a short period of time (for example, `while (1) {memset(malloc(1M), '1', 1M)}`), the oom-killer system call is triggered to recycle memory.",
+      "source_content_hash": "5e15a5ba23abb23813e9ae0e539ef354c6688570fd993ab1673c6b67942bbd22",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`failtype`が`1`の場合、物理ページのアロケーションが失敗することを意味します。このイベントが短期間に頻繁にトリガーされると（例: `while (1) {memset(malloc(1M), '1', 1M)}`）、oom-killerシステムコールがトリガーされメモリが回収されます。"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/current/simulate-kernel-chaos-on-kubernetes.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.653258+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "aaee8cb3e6188a7532990213a18cca0706daf1bf944d76cd119003926a5f8059"
+  }
+}

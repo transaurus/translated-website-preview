@@ -1,0 +1,242 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "versioned_docs/version-2.6.7/simulate-gcp-chaos.md",
+  "source_file_content_hash": "10e102b0e89ebd833d277966dbb6ed08e6dee46d02e3c0095d572ea70663f1c4",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Simulate GCP Faults\n---",
+      "source_content_hash": "5ce81359d496e6319590e01232b27de4e0a921278c73619e1283cafd9003779b",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "e7ec8f99",
+      "source_content": "This document describes how to use Chaos Mesh to inject faults into GCP Pod. Chaos Dashboard and YAML files are provided to create GCPChaos experiments.",
+      "source_content_hash": "d3cd0af90297fe94d947755cc18c3afb2a780d4aeae5b68b635c4ec4b96cd847",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、Chaos Meshを使用してGCP Podに障害を注入する方法について説明します。Chaos DashboardとYAMLファイルを使用してGCPChaos実験を作成する方法を提供します。"
+      }
+    },
+    {
+      "segment_id": "a703643c",
+      "source_content": "## GCPChaos introduction",
+      "source_content_hash": "0514bc41f2710c425a58e5e662042339d097ab411c8e841d5cd4287222a09610",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## GCPChaosの紹介"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "GCPChaos is a fault type in Chaos Mesh. By creating a GCPChaos experiment, you can simulate fault scenarios of the specified GCP instance. Currently, GCPChaos supports the following fault types:",
+      "source_content_hash": "11677c60b0a8cd52536fd9b10ac1e86b4039627c0e2aadcb8f843b0432749d34",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "GCPChaosはChaos Meshの障害タイプの一つです。GCPChaos実験を作成することで、指定したGCPインスタンスの障害シナリオをシミュレートできます。現在、GCPChaosは以下の障害タイプをサポートしています："
+      }
+    },
+    {
+      "segment_id": "be33979e",
+      "source_content": "- **Node Stop**: stops the specified GCP instance.\n- **Node Reset**: reboots the specified GCP instance.\n- **Disk Loss**: uninstalls the storage volume from the specified GCP instance.",
+      "source_content_hash": "ad6300790905c25089e36d1b29f0f453410fdf17b42078e4aa964fc526ad2747",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- **Node Stop**: 指定したGCPインスタンスを停止します。\n- **Node Reset**: 指定したGCPインスタンスを再起動します。\n- **Disk Loss**: 指定したGCPインスタンスからストレージボリュームを切り離します。"
+      }
+    },
+    {
+      "segment_id": "e14c9928",
+      "source_content": "## `Secret` file",
+      "source_content_hash": "40818e83e0d5e10acd521ba6bc524c2ec02c01da7c0f26ef764979b4810fd37c",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## `Secret`ファイル"
+      }
+    },
+    {
+      "segment_id": "42ad8e83",
+      "source_content": "To easily connect to the GCP cluster, you can create a Kubernetes `Secret` file to store the authentication information in advance.",
+      "source_content_hash": "91a4dbf8be0f1c570d3bb716684edb3905e5fa1b522f350ab4ce0500796f938a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "GCPクラスタに簡単に接続するために、認証情報を事前に保存するKubernetes `Secret`ファイルを作成できます。"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "Below is a sample `secret` file:",
+      "source_content_hash": "a8b231eedb33fcae6d6e5ae4b8c405ee35f1b170a003dbd7148eee447584f6fd",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下は`secret`ファイルのサンプルです："
+      }
+    },
+    {
+      "segment_id": "cbbebf8e",
+      "source_content": "```yaml\napiVersion: v1\nkind: Secret\nmetadata:\n  name: cloud-key-secret\n  namespace: chaos-mesh\ntype: Opaque\nstringData:\n  service_account: your-gcp-service-account-base64-encode\n```",
+      "source_content_hash": "1c9cfcd4124c054d04aaccdfa9216bca2e700f71b2e1b503b50554ea5844e35d",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_cbbebf8e"
+      }
+    },
+    {
+      "segment_id": "86b525ab",
+      "source_content": "- **name** defines the name of kubernetes secret.\n- **namespace** defines the namespace of kubernetes secret.\n- **service_account** stores the service account key of your GCP cluster. Remember to complete [Base64](https://zh.wikipedia.org/wiki/Base64) encoding for your GCP service account key. To learn more about service account key, see [Creating and managing service account keys](https://cloud.google.com/iam/docs/creating-managing-service-account-keys).",
+      "source_content_hash": "ba41526be6ad115e194898790635746f871c244c4a6f9f3944346b7f0c6e690a",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "- **name**: Kubernetesシークレットの名前を定義します。\n- **namespace**: Kubernetesシークレットの名前空間を定義します。\n- **service_account**: GCPクラスタのサービスアカウントキーを保存します。GCPサービスアカウントキーは[Base64](https://ja.wikipedia.org/wiki/Base64)エンコードを完了していることを確認してください。サービスアカウントキーの詳細については、[サービスアカウントキーの作成と管理](https://cloud.google.com/iam/docs/creating-managing-service-account-keys)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "109ace10",
+      "source_content": "## Create experiments using Chaos Dashboard",
+      "source_content_hash": "0e6c13931d3c46c241532f93bf2c43261695607133973a006c15d6651045ed71",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Dashboardを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "214ab298",
+      "source_content": ":::note\n\nBefore you create an experiment using Chaos Dashboard, make sure the following requirements are met:\n\n1. Chaos Dashboard is installed.\n2. Chaos Dashboard can be accessed using `kubectl port-forward` command:\n\n   ```bash\n   kubectl port-forward -n chaos-mesh svc/chaos-dashboard 2333:2333\n   ```\n\n   Then you can access the dashboard via [`http://localhost:2333`](http://localhost:2333) in your browser.\n\n:::",
+      "source_content_hash": "08d7cb6b688e43e970aac113975cd56ddfde892d7067523622b45ea04da4c336",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\nChaos Dashboardを使用して実験を作成する前に、以下の要件を満たしていることを確認してください：\n\n1. Chaos Dashboardがインストールされていること。\n2. `kubectl port-forward`コマンドを使用してChaos Dashboardにアクセスできること：\n\n   ```bash\n   kubectl port-forward -n chaos-mesh svc/chaos-dashboard 2333:2333\n   ```\n\n   その後、ブラウザで[`http://localhost:2333`](http://localhost:2333)にアクセスしてダッシュボードを利用できます。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "310e47b7",
+      "source_content": "1. Open Chaos Dashboard, and click **NEW EXPERIMENT** on the page to create a new experiment:\n\n   ![img](img/create-pod-chaos-on-dashboard-1.png)\n\n2. In the **Choose a Target** area, choose **GCP fault** and select a specific behavior, such as **STOP NODE**:\n\n   ![img](img/create-gcp-chaos-on-dashboard-2.png)\n\n3. Fill out the experiment information, and specify the experiment scope and the scheduled experiment duration:\n\n   ![img](img/create-gcp-chaos-on-dashboard-3.png)\n\n   ![img](img/create-gcp-chaos-on-dashboard-4.png)\n\n4. Submit the experiment information.",
+      "source_content_hash": "0674269a732057bde9d8e30dde9e82606c549973b1e95ad38d1c1c286935c394",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. Chaos Dashboardを開き、ページ上の**NEW EXPERIMENT**をクリックして新しい実験を作成します：\n\n   ![img](img/create-pod-chaos-on-dashboard-1.png)\n\n2. **Choose a Target**エリアで、**GCP fault**を選択し、**STOP NODE**などの具体的な動作を選択します：\n\n   ![img](img/create-gcp-chaos-on-dashboard-2.png)\n\n3. 実験情報を入力し、実験の範囲とスケジュールされた実験期間を指定します：\n\n   ![img](img/create-gcp-chaos-on-dashboard-3.png)\n\n   ![img](img/create-gcp-chaos-on-dashboard-4.png)\n\n4. 実験情報を送信します。"
+      }
+    },
+    {
+      "segment_id": "3ef18741",
+      "source_content": "## Create experiments using YAML file",
+      "source_content_hash": "08b6467338265a9464161826425ad847478a81661f23ac2f4fb2f871e7833946",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## YAMLファイルを使用した実験の作成"
+      }
+    },
+    {
+      "segment_id": "52388877",
+      "source_content": "### A `node-stop` configuration example",
+      "source_content_hash": "74bcb806f831bd06ec506c2fbee1e5ae6cb2e980def646c72032210095a24016",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `node-stop`設定例"
+      }
+    },
+    {
+      "segment_id": "69c1f590",
+      "source_content": "1. Write the experiment configuration to the `gcpchaos-node-stop.yaml`， as shown below:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: GCPChaos\n   metadata:\n     name: node-stop-example\n     namespace: chaos-mesh\n   spec:\n     action: node-stop\n     secretName: 'cloud-key-secret'\n     project: 'your-project-id'\n     zone: 'your-zone'\n     instance: 'your-instance-name'\n     duration: '5m'\n   ```\n\n   Based on this configuration example, Chaos Mesh will inject the `node-stop` fault into the specified GCP instance so that the GCP instance will be unavailable in 5 minutes.\n\n   For more information about stopping GCP instances, refer to [Stop GCP instance](https://cloud.google.com/compute/docs/instances/stop-start-instance).\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f gcpchaos-node-stop.yaml\n   ```",
+      "source_content_hash": "2234aadd3290932b87cc8c4104a7e99fd7e7c2adb9e1fefceba7c18777243291",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 以下のように実験設定を`gcpchaos-node-stop.yaml`に記述します：\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: GCPChaos\n   metadata:\n     name: node-stop-example\n     namespace: chaos-mesh\n   spec:\n     action: node-stop\n     secretName: 'cloud-key-secret'\n     project: 'your-project-id'\n     zone: 'your-zone'\n     instance: 'your-instance-name'\n     duration: '5m'\n   ```\n\n   この設定例に基づき、Chaos Meshは指定したGCPインスタンスに`node-stop`障害を注入し、5分以内にGCPインスタンスを利用不可にします。\n\n   GCPインスタンスの停止に関する詳細は、[GCPインスタンスの停止](https://cloud.google.com/compute/docs/instances/stop-start-instance)を参照してください。\n\n2. 設定ファイルの準備ができたら、`kubectl`を使用して実験を作成します：\n\n   ```bash\n   kubectl apply -f gcpchaos-node-stop.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "c19de48a",
+      "source_content": "### A `node-reset` configuration example",
+      "source_content_hash": "2b3f6833448ccfa4b32b2791beb533446873d20c06eef6ad1fe5a49d4527cc53",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `node-reset`設定例"
+      }
+    },
+    {
+      "segment_id": "2d15468d",
+      "source_content": "1. Write the experiment configuration to the `gcpchaos-node-reset.yaml`, as shown below:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: GCPChaos\n   metadata:\n     name: node-reset-example\n     namespace: chaos-mesh\n   spec:\n     action: node-reset\n     secretName: 'cloud-key-secret'\n     project: 'your-project-id'\n     zone: 'your-zone'\n     instance: 'your-instance-name'\n     duration: '5m'\n   ```\n\n   Based on this configuration example, Chaos Mesh will inject `node-reset` fault into the specified GCP instance so that the GCP instance will be reset.\n\n   For more information about resetting GCP instances, refer to [Resetting a GCP instance](https://cloud.google.com/compute/docs/instances/stop-start-instance#resetting_an_instance).\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f gcpchaos-node-reset.yaml\n   ```",
+      "source_content_hash": "9f813f4ff5c73b7415fbe7dbac360618e64e4b2e0e4d4eeaf13804e37674b99d",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 実験設定を `gcpchaos-node-reset.yaml` に以下のように記述します:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: GCPChaos\n   metadata:\n     name: node-reset-example\n     namespace: chaos-mesh\n   spec:\n     action: node-reset\n     secretName: 'cloud-key-secret'\n     project: 'your-project-id'\n     zone: 'your-zone'\n     instance: 'your-instance-name'\n     duration: '5m'\n   ```\n\n   この設定例に基づき、Chaos Mesh は指定された GCP インスタンスに `node-reset` 障害を注入し、GCP インスタンスがリセットされます。\n\n   GCP インスタンスのリセットに関する詳細は、[GCP インスタンスのリセット](https://cloud.google.com/compute/docs/instances/stop-start-instance#resetting_an_instance)を参照してください。\n\n2. 設定ファイルの準備ができたら、`kubectl` を使用して実験を作成します:\n\n   ```bash\n   kubectl apply -f gcpchaos-node-reset.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "2bb63d77",
+      "source_content": "### A `disk-loss` configuration example",
+      "source_content_hash": "9ec48562cb9e087b14635f5f8f2dc0fb059d3c1459df4ec7f899f6f9ed414060",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `disk-loss` 設定例"
+      }
+    },
+    {
+      "segment_id": "a8198b43",
+      "source_content": "1. Write the experiment configuration to the `gcpchaos-disk-loss.yaml`, as shown below:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: GCPChaos\n   metadata:\n     name: disk-loss-example\n     namespace: chaos-mesh\n   spec:\n     action: disk-loss\n     secretName: 'cloud-key-secret'\n     project: 'your-project-id'\n     zone: 'your-zone'\n     instance: 'your-instance-name'\n     deviceNames: ['disk-name']\n     duration: '5m'\n   ```\n\n   Based on this configuration example, Chaos Mesh will inject a `disk-loss` fault into the specified GCP instance so that the GCP instance is detached from the specified storage volume within 5 minutes.\n\n   For more information about detaching GCP instances, refer to [Detach GCP storage](https://cloud.google.com/compute/docs/reference/rest/v1/instances/detachDisk).\n\n2. After the configuration file is prepared, use `kubectl` to create an experiment:\n\n   ```bash\n   kubectl apply -f gcpchaos-disk-loss.yaml\n   ```",
+      "source_content_hash": "199c9d0341131cef748922ebc087227fd778184408d844767dbdb29487076e3b",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. 実験設定を `gcpchaos-disk-loss.yaml` に以下のように記述します:\n\n   ```yaml\n   apiVersion: chaos-mesh.org/v1alpha1\n   kind: GCPChaos\n   metadata:\n     name: disk-loss-example\n     namespace: chaos-mesh\n   spec:\n     action: disk-loss\n     secretName: 'cloud-key-secret'\n     project: 'your-project-id'\n     zone: 'your-zone'\n     instance: 'your-instance-name'\n     deviceNames: ['disk-name']\n     duration: '5m'\n   ```\n\n   この設定例に基づき、Chaos Mesh は指定された GCP インスタンスに `disk-loss` 障害を注入し、5分以内に指定されたストレージボリュームから GCP インスタンスが切り離されます。\n\n   GCP ストレージの切り離しに関する詳細は、[GCP ストレージの切り離し](https://cloud.google.com/compute/docs/reference/rest/v1/instances/detachDisk)を参照してください。\n\n2. 設定ファイルの準備ができたら、`kubectl` を使用して実験を作成します:\n\n   ```bash\n   kubectl apply -f gcpchaos-disk-loss.yaml\n   ```"
+      }
+    },
+    {
+      "segment_id": "c6b2ca77",
+      "source_content": "### Field description",
+      "source_content_hash": "65096914168d6220ba2cc9e38088ff322d829e39af74e98d0df5f5b3cb7a27de",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### フィールド説明"
+      }
+    },
+    {
+      "segment_id": "dce16ab4",
+      "source_content": "The following table shows the fields in the YAML configuration file.",
+      "source_content_hash": "395fcf169ece18108fecbff8546ec6ba376662a308444a8419d19d241f03a56c",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下の表に、YAML 設定ファイルのフィールドを示します。"
+      }
+    },
+    {
+      "segment_id": "03a09291",
+      "source_content": "| Parameter | Type | Descpription | Default value | Required | Example |\n| --- | --- | --- | --- | --- | --- |\n| action | string | Indicates the specific type of faults. The available fault types include node-stop, node-reset, and disk-loss. | node-stop | Yes | node-stop |\n| mode | string | Indicates the mode of the experiment. The mode options include `one` (selecting a Pod at random), `all` (selecting all eligible Pods), `fixed` (selecting a specified number of eligible Pods), `fixed-percent` (selecting a specified percentage of the eligible Pods), and `random-max-percent` (selecting the maximum percentage of the eligible Pods). | None | Yes | `one` |\n| value | string | Provides parameters for the `mode` configuration, depending on `mode`. For example, when `mode` is set to `fixed-percent`, `value` specifies the percentage of pods. | None | No | 1 |\n| secretName | string | Indicates the name of the Kubernetes secret that stores the GCP authentication information. | None | No | cloud-key-secret |\n| project | string | Indicates the ID of GCP project. | None | Yes | real-testing-project |\n| zone | string | Indicates the region of GCP instance. | None | Yes | us-central1-a |\n| instance | string | Indicates the name of GCP instance. | None | Yes | gke-xxx-cluster--default-pool-xxx-yyy |\n| deviceNames | []string | This is a required field when the `action` is `disk-loss`. This field specifies the machine disk ID. | None | no | [\"your-disk-id\"] |\n| duration | string | Indicates the duration of the experiment. | None | Yes | 30s |",
+      "source_content_hash": "5c675f33e67ba16fc4024d75234e3e8f5101e996a306a6167efa0d3006948a2c",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_03a09291"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/version-2.6.7/simulate-gcp-chaos.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.657349+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "10e102b0e89ebd833d277966dbb6ed08e6dee46d02e3c0095d572ea70663f1c4"
+  }
+}

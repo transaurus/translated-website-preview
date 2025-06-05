@@ -1,0 +1,622 @@
+{
+  "source_file_path_relative_to_docusaurus_root": "versioned_docs/version-2.7.2/define-scheduling-rules.md",
+  "source_file_content_hash": "68b2b228209151de3d04c9282331083b7fb166b9fe0671692e6e45e641143999",
+  "segments": [
+    {
+      "segment_id": "58cfcc64",
+      "source_content": "---\ntitle: Define Scheduling Rules\n---",
+      "source_content_hash": "b490ed3e98e1710726540932ed0f18fc4442317f42f6ad5e461ce2660010e0ac",
+      "node_type": "yaml",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_58cfcc64"
+      }
+    },
+    {
+      "segment_id": "f85bbfb4",
+      "source_content": "## Schedule overview",
+      "source_content_hash": "a802dea29e2d9c041cf3095e58ba60c477642b34f112e274fce95dce895553ff",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## スケジュール概要"
+      }
+    },
+    {
+      "segment_id": "6ef78e84",
+      "source_content": "This document describes how to use Chaos Mesh to create a scheduled task, which can automatically create Chaos experiments at a fixed time (or at a fixed time interval).",
+      "source_content_hash": "de01cea2d4405cc2cef48b4b59332dca4a5fb0838d5f4035902d1504a246f439",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このドキュメントでは、Chaos Meshを使用してスケジュールされたタスクを作成する方法について説明します。これにより、固定された時間（または固定された時間間隔）で自動的にカオス実験を作成できます。"
+      }
+    },
+    {
+      "segment_id": "53eaf0e1",
+      "source_content": "In Kubernetes, Chaos Mesh uses `Schedule` to describe scheduled tasks.",
+      "source_content_hash": "aef3ed8674ccffd665c99bc98369e021b12fd3565fdb9e8eca842d945eeb7f7a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Kubernetesでは、Chaos Meshは`Schedule`を使用してスケジュールされたタスクを記述します。"
+      }
+    },
+    {
+      "segment_id": "bb849aa9",
+      "source_content": ":::note\n\nThe name of a `Schedule` object should not exceed 57 characters because the created Chaos experiment will add 6 additional random characters to the end of the name.The name of the `Schedule` object with `Workflow` should not exceed 51 characters because Workflow will add 6 additional random characters to the end of the name.\n\n:::",
+      "source_content_hash": "f0760e1abf9623df42464f3ce7ebbbe0037e9542a806ee279fa5d681aea8c78b",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\n`Schedule`オブジェクトの名前は57文字を超えてはいけません。なぜなら、作成されたカオス実験は名前の末尾に6文字のランダムな文字を追加するためです。`Workflow`を使用する`Schedule`オブジェクトの名前は51文字を超えてはいけません。なぜなら、Workflowは名前の末尾に6文字のランダムな文字を追加するためです。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "3daf1b88",
+      "source_content": "## Create scheduling rules with `kubectl` using YAML files",
+      "source_content_hash": "d2b6aae050f913bd1ec72888ca37364adf986f58be83486b1e9f7827f6434cc8",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## YAMLファイルを使用して`kubectl`でスケジュールルールを作成"
+      }
+    },
+    {
+      "segment_id": "f6168993",
+      "source_content": "For example, to apply a 100 millisecond delay for 12 seconds in the fifth minute of each hour, configure the YAML file as follows:",
+      "source_content_hash": "9f65d5cd9c50fa82a17a3fbfe6cd3f95ba90d172b013bfa51ff933353915653d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "例えば、毎時5分目に12秒間100ミリ秒の遅延を適用するには、YAMLファイルを以下のように設定します："
+      }
+    },
+    {
+      "segment_id": "cbbebf8e",
+      "source_content": "```yaml\napiVersion: chaos-mesh.org/v1alpha1\nkind: Schedule\nmetadata:\n  name: schedule-delay-example\nspec:\n  schedule: '5 * * * *'\n  historyLimit: 2\n  concurrencyPolicy: 'Allow'\n  type: 'NetworkChaos'\n  networkChaos:\n    action: delay\n    mode: one\n    selector:\n      namespaces:\n        - default\n      labelSelectors:\n        'app': 'web-show'\n    delay:\n      latency: '10ms'\n      correlation: '100'\n      jitter: '0ms'\n    duration: '12s'\n```",
+      "source_content_hash": "228eb9efc84efe01bf8853dd92d1ec0e60db710edf004e39fa13b675ae36d109",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_cbbebf8e"
+      }
+    },
+    {
+      "segment_id": "8af76f3d",
+      "source_content": "Save this YAML file as `schedule-networkchaos.yaml`, and then run `kubectl apply -f ./schedule-networkchaos.yaml`.",
+      "source_content_hash": "8ac2f0d6a80c3a8c87fbc9d2a8e828ea55fb45b8da2fe5ffaa6f5240b2e1630f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このYAMLファイルを`schedule-networkchaos.yaml`として保存し、`kubectl apply -f ./schedule-networkchaos.yaml`を実行します。"
+      }
+    },
+    {
+      "segment_id": "a9d49f92",
+      "source_content": "Based on this configuration, Chaos Mesh will create the following `NetworkChaos` object in the fifth minute of each hour (such as `0:05`, `1:05`...):",
+      "source_content_hash": "50a4d73c90934ecf23ac156a6df75539cbf68e36d301b552259d3cadfa5f352e",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この設定に基づいて、Chaos Meshは毎時5分目（例えば`0:05`、`1:05`など）に以下の`NetworkChaos`オブジェクトを作成します："
+      }
+    },
+    {
+      "segment_id": "95318d95",
+      "source_content": "```yaml\napiVersion: chaos-mesh.org/v1alpha1\nkind: NetworkChaos\nmetadata:\n  name: schedule-delay-example-xxxxx\nspec:\n  action: delay\n  mode: one\n  selector:\n    namespaces:\n      - default\n    labelSelectors:\n      'app': 'web-show'\n  delay:\n    latency: '10ms'\n    correlation: '100'\n    jitter: '0ms'\n  duration: '12s'\n```",
+      "source_content_hash": "53d12daebce4d1a9ab7449f6a22cde207aa30959109da5e011a4173b4dd71141",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_95318d95"
+      }
+    },
+    {
+      "segment_id": "7f71ff2a",
+      "source_content": "The fields in `Schedule` are described below, mostly similar to fields in Kubernetes `CronJob`. You can refer to the [documentation of Kubernetes CronJob](https://kubernetes.io/zh/docs/concepts/workloads/controllers/cron-jobs/) for more information.",
+      "source_content_hash": "5dddab4d2617115f6cb9ec04aa550910b42264d0548b21618517d7b2ddf0d565",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`Schedule`内のフィールドは以下のように説明され、ほとんどがKubernetesの`CronJob`のフィールドと類似しています。詳細については、[Kubernetes CronJobのドキュメント](https://kubernetes.io/zh/docs/concepts/workloads/controllers/cron-jobs/)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "c1d6a7ca",
+      "source_content": ":::note\n\nThe timezone in the `schedule` field subjects to the timezone of `chaos-controller-manager`.\n\n:::",
+      "source_content_hash": "e57b641b0a18960645e0b1a442b63ae1e91403554ef3012816d82f7869f2f7af",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\n`schedule`フィールドのタイムゾーンは、`chaos-controller-manager`のタイムゾーンに従います。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "98355e36",
+      "source_content": "### `schedule` field",
+      "source_content_hash": "beda887afdd99817c001d6a5fd6c46a2c71ec672645ab4a79b99fd976e117b99",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `schedule`フィールド"
+      }
+    },
+    {
+      "segment_id": "7736989b",
+      "source_content": "The `schedule` field is used to specify the time when an experiment is to be run. In other words, the alias for a schedule is a cron job:",
+      "source_content_hash": "a539c5c8d2f5ada89d4c2132ccd759eced01c6551b52bdfd4cb8df7b27da6d4f",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`schedule`フィールドは、実験を実行する時間を指定するために使用されます。言い換えれば、スケジュールの別名はcronジョブです："
+      }
+    },
+    {
+      "segment_id": "a716abf2",
+      "source_content": "```txt\n# ┌───────────── minute (0 - 59)\n# │ ┌───────────── hour (0 - 23)\n# │ │ ┌───────────── day of the month (1 - 31)\n# │ │ │ ┌───────────── month (1 - 12)\n# │ │ │ │ ┌───────────── day of the week (0 - 6) (Sunday to Saturday; 7 is also Sunday on some systems)\n# │ │ │ │ │\n# │ │ │ │ │\n# │ │ │ │ │\n# * * * * * <command to execute>\n```",
+      "source_content_hash": "8fdf4b6ae3cb523545483cdcb1d0e2eb42654d343f059c5ffee170b4de89db69",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_a716abf2"
+      }
+    },
+    {
+      "segment_id": "c769e6ea",
+      "source_content": "> This diagram is taken from https://en.wikipedia.org/wiki/Cron.",
+      "source_content_hash": "0230afa22761a6cdc412c5c59eafd2b59f36f55f9c00a9230042c0312628f4f6",
+      "node_type": "blockquote",
+      "translatable": true,
+      "translations": {
+        "ja": "> この図はhttps://en.wikipedia.org/wiki/Cronから引用しています。"
+      }
+    },
+    {
+      "segment_id": "a311e967",
+      "source_content": "Chaos Mesh uses [robfig/cron/v3](https://pkg.go.dev/github.com/robfig/cron/v3) to transform the `schedule` field into a cron expression internally.",
+      "source_content_hash": "95f3b8f66637efc8b1388b3cc9fbffbaf4f0e593d4a1bb9d549ff2501e8d21f1",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "Chaos Meshは内部的に[robfig/cron/v3](https://pkg.go.dev/github.com/robfig/cron/v3)を使用して、`schedule`フィールドをcron式に変換します。"
+      }
+    },
+    {
+      "segment_id": "ca7170d9",
+      "source_content": ":::tip\n\nIf you need to generate a schedule, you can use some web tools such as [crontab.guru](https://crontab.guru).\n\n:::",
+      "source_content_hash": "28cbbb09feaf18b4522021723070b84182dabe90bbae9a8d7a776b7ef6219ad6",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::tip\n\nスケジュールを生成する必要がある場合、[crontab.guru](https://crontab.guru)などのウェブツールを使用できます。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "71169a2d",
+      "source_content": "#### Predefined schedules",
+      "source_content_hash": "681c8b57c3fd60decd598fd37cd3f3746fbf282ccf591383b265f69f23c54d3c",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "#### 事前定義されたスケジュール"
+      }
+    },
+    {
+      "segment_id": "c1eaf30b",
+      "source_content": "In addition to regular syntax, it also has several pre-defined schedules. You may use one of several pre-defined schedules in place of a cron expression:",
+      "source_content_hash": "348a47cce88d8dc3b683935ba5ebd8318c0fe137ad1b72a0fb2f49d845ffcf4d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "通常の構文に加えて、いくつかの事前定義されたスケジュールもあります。cron式の代わりに、以下の事前定義されたスケジュールのいずれかを使用できます："
+      }
+    },
+    {
+      "segment_id": "99cd240c",
+      "source_content": "| Entry                  | Description                                | Equivalent To |\n| ---------------------- | ------------------------------------------ | ------------- |\n| @yearly (or @annually) | Run once a year, midnight, Jan. 1st        | 0 0 1 1 \\*    |\n| @monthly               | Run once a month, midnight, first of month | 0 0 1 \\* \\*   |\n| @weekly                | Run once a week, midnight between Sat/Sun  | 0 0 \\* \\* 0   |\n| @daily (or @midnight)  | Run once a day, midnight                   | 0 0 \\* \\* \\*  |\n| @hourly                | Run once an hour, beginning of hour        | 0 \\* \\* \\* \\* |",
+      "source_content_hash": "68f2fb726fd9184f9ba28dc0f20c072a7f9e8903b731b5a106176ec69bd3ba98",
+      "node_type": "table",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_99cd240c"
+      }
+    },
+    {
+      "segment_id": "f5bf3976",
+      "source_content": "> This table is taken from https://pkg.go.dev/github.com/robfig/cron/v3#hdr-Predefined_schedules.",
+      "source_content_hash": "653e43430135fd87e33471209af381f5dcc15d27c63e46264ae2623072c76fbe",
+      "node_type": "blockquote",
+      "translatable": true,
+      "translations": {
+        "ja": "> この表はhttps://pkg.go.dev/github.com/robfig/cron/v3#hdr-Predefined_schedulesから引用しています。"
+      }
+    },
+    {
+      "segment_id": "f8614e13",
+      "source_content": "#### Intervals",
+      "source_content_hash": "1dab0e3a8ec5f2282b7eb359c838ee93a39065e5a22705aea7ad895eaddd56de",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "#### インターバル"
+      }
+    },
+    {
+      "segment_id": "396efb28",
+      "source_content": "You may also schedule a job to execute at fixed intervals, starting at the time it's added or cron is run. This is supported by formatting the cron spec like this:",
+      "source_content_hash": "dcfa1b511289e3e49f0336d45546a8c2c85035b951b709999ea03b43b94699d6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "また、ジョブを固定されたインターバルで実行するようにスケジュールすることもできます。これは、cron仕様を以下のようにフォーマットすることでサポートされます："
+      }
+    },
+    {
+      "segment_id": "b27056c4",
+      "source_content": "```txt\n@every <duration>\n```",
+      "source_content_hash": "230683b3e698be41c6201bd486c86ca2bc57c84a8a71d805cf109a611987acf4",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_b27056c4"
+      }
+    },
+    {
+      "segment_id": "5f82a1e9",
+      "source_content": "For example, `@every 1h30m10s` would indicate a schedule that activates after 1 hour, 30 minutes, 10 seconds, and then every interval after that.",
+      "source_content_hash": "8a7307b87b6f8ff2e35d22369504edb116cbc93bc5781e14cfc24d47bf22f77a",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "例えば、`@every 1h30m10s`は、1時間30分10秒後にアクティブ化され、その後そのインターバルごとに実行されるスケジュールを示します。"
+      }
+    },
+    {
+      "segment_id": "168f82c4",
+      "source_content": ":::info\n\nThe content of `Intervals` is taken from https://pkg.go.dev/github.com/robfig/cron/v3#hdr-Intervals. You can refer to the official documentation for more information.\n\n:::",
+      "source_content_hash": "a330637b5038dee1b04e9c7e32c41f439d5d047b27d54e00434b59036d9dcc2c",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::info\n\n`Intervals`の内容はhttps://pkg.go.dev/github.com/robfig/cron/v3#hdr-Intervalsから引用しています。詳細については、公式ドキュメントを参照してください。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "8f1c1cd6",
+      "source_content": "### `historyLimit` field",
+      "source_content_hash": "e87db159291c50a2ed0f020c86c2158f2b12d7dc880cf122bc4ab8c497d59628",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `historyLimit`フィールド"
+      }
+    },
+    {
+      "segment_id": "383fbdd2",
+      "source_content": "After an experiment ends, the corresponding history will not be deleted so you can retrieve and observe the results easily in case of any errors. The number set in `historyLimit` is the number of reserved tasks. This number includes tasks in progress. Chaos Mesh does not delete running tasks.",
+      "source_content_hash": "4ec32910e57a727b4311f3816139f16ef370ed6c56d03f46e57b3568df5fd431",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "実験が終了した後、対応する履歴は削除されません。これにより、エラーが発生した場合に結果を簡単に取得して観察できます。`historyLimit`に設定された数は、予約されるタスクの数です。この数には進行中のタスクも含まれます。Chaos Meshは実行中のタスクを削除しません。"
+      }
+    },
+    {
+      "segment_id": "14bc6b75",
+      "source_content": "When there are more than `historyLimit` tasks, Chaos Mesh will delete the earliest created tasks sequentially. If those tasks continue to run, they will be skipped and not deleted.",
+      "source_content_hash": "14648bba76898aadd7826b038430b983a0792de560b06e6c120bf20ae355e7a8",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`historyLimit`で指定されたタスク数を超える場合、Chaos Meshは最も古く作成されたタスクから順番に削除します。それらのタスクが実行中の場合、スキップされ削除されません。"
+      }
+    },
+    {
+      "segment_id": "5dba1427",
+      "source_content": "### `concurrencyPolicy` field",
+      "source_content_hash": "6f47b38863c14bfcb0736d7ceceedb3d9e172f3c73669b8e6c2f2cd1ebae5e19",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `concurrencyPolicy`フィールド"
+      }
+    },
+    {
+      "segment_id": "534ac82e",
+      "source_content": "The values available for this field are `\"Forbid\"`, `\"Allow\"`, and `\"\"`.",
+      "source_content_hash": "43075e52e572eb53b8f560e611588c00669aeffa8bb28ccd3103c3200d6129ea",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このフィールドに指定可能な値は`\"Forbid\"`、`\"Allow\"`、`\"\"`です。"
+      }
+    },
+    {
+      "segment_id": "a9c2a503",
+      "source_content": "This field is used to specify whether to allow this `Schedule` object to create multiple concurrent experiments. For example, with the `schedule: * * * * *` configuration, one experiment will be created every minute. If the `duration` of the experiment is configured to be 70 seconds, multiple experiments will be created simtaneously.",
+      "source_content_hash": "8b361e88f95c0f997ea41c374877f86885df966e11838f98b7cd73e84ea9ff70",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このフィールドは、この`Schedule`オブジェクトが複数の並列実験を作成することを許可するかどうかを指定するために使用されます。例えば、`schedule: * * * * *`設定の場合、1分ごとに1つの実験が作成されます。実験の`duration`が70秒に設定されている場合、複数の実験が同時に作成されることになります。"
+      }
+    },
+    {
+      "segment_id": "cfeb9eb1",
+      "source_content": "By default, the `concurrencyPolicy` field is set to `Forbid`, which means multiple experiments are not allowed to be created simultaneously. If you set the value of the `concurrencyPolicy` field to `Allow`, multiple experiments are allowed to be created simultaneously.",
+      "source_content_hash": "64edc744693858c5bea72f4a957c3726b870852a6580c6ec852a8c3fd79a20d4",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "デフォルトでは、`concurrencyPolicy`フィールドは`Forbid`に設定されており、複数の実験を同時に作成することは許可されません。`concurrencyPolicy`フィールドの値を`Allow`に設定すると、複数の実験を同時に作成することが許可されます。"
+      }
+    },
+    {
+      "segment_id": "f7e6e884",
+      "source_content": "The following configuration still takes the delay experiment as an example:",
+      "source_content_hash": "2b04abd5a5e1c647ddf66ba57472b522b3a2ed8c23ec3642626faafcc466a5e1",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "以下の設定では、遅延実験を例として使用しています："
+      }
+    },
+    {
+      "segment_id": "ad3cd2f7",
+      "source_content": "```yaml\nspec:\n  schedule: '* * * * *'\n  type: 'NetworkChaos'\n  networkChaos:\n    action: delay\n    mode: one\n    selector:\n      namespaces:\n        - default\n      labelSelectors:\n        'app': 'web-show'\n    delay:\n      latency: '10ms'\n    duration: '70s'\n```",
+      "source_content_hash": "4af87ce929fa55416989fb596838fb92ada3f56a5dbef3bea1798ebd7a1df249",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_ad3cd2f7"
+      }
+    },
+    {
+      "segment_id": "6b40e7a2",
+      "source_content": "Based on this configuration, if you set `concurrencyPolicy: \"Allow\"`, there will be a delay of 20 milliseconds in 10 seconds every minute. And for the other 50 seconds, there will be a delay of 10 milliseconds. If you set `concurrencyPolicy: \"Forbid\"`, there will always be a delay of 10 milliseconds.",
+      "source_content_hash": "da26268b3c2791bf57cf217fe8a2a49925e1a46f20565bb5d35a5fc3b78f2a45",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "この設定に基づいて、`concurrencyPolicy: \"Allow\"`を設定すると、毎分10秒間に20ミリ秒の遅延が発生します。残りの50秒間は10ミリ秒の遅延が発生します。`concurrencyPolicy: \"Forbid\"`を設定すると、常に10ミリ秒の遅延が発生します。"
+      }
+    },
+    {
+      "segment_id": "b1fb63b3",
+      "source_content": ":::note\n\nNot all experiment types support multiple experiments on the same Pod. For details, refer to the documents of the specific experiment types.\n\n:::",
+      "source_content_hash": "bb709e49389e8dcc4c220dbc5e9ec5d2a2ca7a78b23d7b5aea68209fcc908bc1",
+      "node_type": "containerDirective",
+      "translatable": true,
+      "translations": {
+        "ja": ":::note\n\nすべての実験タイプが同じPod上での複数の実験をサポートしているわけではありません。詳細については、特定の実験タイプのドキュメントを参照してください。\n\n:::"
+      }
+    },
+    {
+      "segment_id": "a49ac2ed",
+      "source_content": "### `startingDeadlineSeconds` field",
+      "source_content_hash": "3c7e6af48d4cd892d127c6f1e044bee184001bbe826e08e14472de84fc0217f6",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### `startingDeadlineSeconds`フィールド"
+      }
+    },
+    {
+      "segment_id": "808b0414",
+      "source_content": "The default value of `startingDeadlineSeconds` is `nil`.",
+      "source_content_hash": "879e9059700ba8910313a68c239c9646ce701d89a5ffa1d4c616055e241deccc",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`startingDeadlineSeconds`のデフォルト値は`nil`です。"
+      }
+    },
+    {
+      "segment_id": "61a78cbe",
+      "source_content": "When `startingDeadlineSeconds` is set to `nil`, Chaos Mesh will check if any experiments are missed from the last time of the scheduling to now (this might happen when you close Chaos Mesh, suspend Schedule for a long time, or set `concurrencyPolicy` to `Forbid`).",
+      "source_content_hash": "b332f4b830b2a3406ed1c4aa2d4bb387cf87c32556602bdfa682a11c0642e822",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`startingDeadlineSeconds`が`nil`に設定されている場合、Chaos Meshは最後のスケジューリング時点から現在までの間に見逃された実験がないかどうかをチェックします（これは、Chaos Meshを閉じた場合、長時間Scheduleを停止した場合、または`concurrencyPolicy`を`Forbid`に設定した場合に発生する可能性があります）。"
+      }
+    },
+    {
+      "segment_id": "39c48ff7",
+      "source_content": "When `startingDeadlineSeconds` is set and larger than `0`, Chaos Mesh will check if any experiments are missed for the past `startingDeadlineSeconds` seconds since the current time. If the value of `startingDeadlineSeconds` is too small, some experiments might be missed. For example:",
+      "source_content_hash": "222078d0b91f20c35a1ecef4f3251e1faef0abb83857a6020df1cb238da7d678",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`startingDeadlineSeconds`が設定され、`0`より大きい場合、Chaos Meshは現在時刻から過去`startingDeadlineSeconds`秒間の間に見逃された実験がないかどうかをチェックします。`startingDeadlineSeconds`の値が小さすぎると、一部の実験が見逃される可能性があります。例えば："
+      }
+    },
+    {
+      "segment_id": "b26685f5",
+      "source_content": "```yaml\nspec:\n  schedule: '* * * * *'\n  type: 'NetworkChaos'\n  networkChaos:\n    action: delay\n    mode: one\n    selector:\n      namespaces:\n        - default\n      labelSelectors:\n        'app': 'web-show'\n    startingDeadlineSeconds: 5\n    delay:\n      latency: '10ms'\n    duration: '70s'\n```",
+      "source_content_hash": "03a7e3538eade3c5080c1a32267255f44b8801a4aac3559bc2e7e70d11cfb793",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_b26685f5"
+      }
+    },
+    {
+      "segment_id": "3208eb29",
+      "source_content": "In the above example, due to `concurrencyPolicy` is set to `Forbid`, creating new tasks is forbidden at the beginning of the minute. And in the tenth second of this minute, the last created Chaos experiment has finished running. But due to the limits of `startingDeadlineSeconds` and the set of `concurrencyPolicy`, the missing events will not be retrieved and no Chaos experiments will be created. New Chaos experiment will only be created at the beginning of the next minute.",
+      "source_content_hash": "9b458621ac8a69874a698b6d9e207f81ae10c3ac94427420494e558551f85930",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "上記の例では、`concurrencyPolicy`が`Forbid`に設定されているため、分の開始時に新しいタスクの作成が禁止されます。そしてこの分の10秒目に、最後に作成されたChaos実験の実行が終了します。しかし、`startingDeadlineSeconds`の制限と`concurrencyPolicy`の設定により、見逃されたイベントは検索されず、新しいChaos実験は作成されません。新しいChaos実験は次の分の開始時にのみ作成されます。"
+      }
+    },
+    {
+      "segment_id": "38f964f1",
+      "source_content": "If `startingDeadlineSeconds` is not set (or is set to `nil`), there will always be a delay of 10 milliseconds. This is because after the running task is done, Chaos Mesh finds a previous missing task (due to `concurrencyPolicy` is set to `Forbid`), and immediately creates a new task.",
+      "source_content_hash": "2a5dc2fb430492c4034456460a1969019e6a5ac886b20a4e99aff642f9a28140",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`startingDeadlineSeconds`が設定されていない（または`nil`に設定されている）場合、常に10ミリ秒の遅延が発生します。これは、実行中のタスクが終了した後、Chaos Meshが以前に見逃されたタスク（`concurrencyPolicy`が`Forbid`に設定されているため）を発見し、すぐに新しいタスクを作成するためです。"
+      }
+    },
+    {
+      "segment_id": "b4204c03",
+      "source_content": "To learn more examples and similar explanations of this field, see [Kubernetes CronJob documents](https://kubernetes.io/zh/docs/concepts/workloads/controllers/cron-jobs/#cron-job-limitations).",
+      "source_content_hash": "5605082b97279163347263d24719309fd05c79191ecdee3bf19d10d35669d280",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "このフィールドの詳細な例と説明については、[Kubernetes CronJobドキュメント](https://kubernetes.io/zh/docs/concepts/workloads/controllers/cron-jobs/#cron-job-limitations)を参照してください。"
+      }
+    },
+    {
+      "segment_id": "428f235a",
+      "source_content": "### Define experiments",
+      "source_content_hash": "02cda3f1b506bfebf5182bed41929f971874edc97c366b2514f86c67377f9953",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### 実験の定義"
+      }
+    },
+    {
+      "segment_id": "dad05c50",
+      "source_content": "To define the specific content of the experiment, you need to specify two fields in `Schedule`: `type` and `*Chaos`. `type` field is used to specify the type of an experiment, and `*Chaos` field is used to describe the content of the experiment. Normally, the content in the `type` field uses upper camel case, for example: `NetworkChaos`, `PodChaos`, `IOChaos`. While the key of `*Chaos` uses lower camel case like `networkChaos`, `podChaos`, and `ioChaos`. The key of `*Chaos` is the `spec` of the corresponding type of experiment. For details, refer to the documents of the specific experiment types.",
+      "source_content_hash": "4a8dad5fcdf9918f70166737eb6b266da1a8003dfda780880ef168d5a4a2f059",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "実験の具体的な内容を定義するには、`Schedule`内で2つのフィールドを指定する必要があります：`type`と`*Chaos`です。`type`フィールドは実験のタイプを指定するために使用され、`*Chaos`フィールドは実験の内容を記述するために使用されます。通常、`type`フィールドの内容はアッパーキャメルケース（例：`NetworkChaos`、`PodChaos`、`IOChaos`）を使用します。一方、`*Chaos`のキーはローワーキャメルケース（例：`networkChaos`、`podChaos`、`ioChaos`）を使用します。`*Chaos`のキーは、対応する実験タイプの`spec`です。詳細については、特定の実験タイプのドキュメントを参照してください。"
+      }
+    },
+    {
+      "segment_id": "4e8f71c1",
+      "source_content": "## Create Scheduling rules using Chaos Dashboard",
+      "source_content_hash": "8cfc658ccfe6e5bb3b5c71f8dc526eb265f2fe715a056dda6037d86e0d36fede",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "## Chaos Dashboardを使用したスケジューリングルールの作成"
+      }
+    },
+    {
+      "segment_id": "9f118c66",
+      "source_content": "1. Open Chaos Dashboard, and click **NEW EXPERIMENT** on the page to create a new experiment.\n\n   ![Create plans](./img/create-new-schedule.png)\n\n2. Select and fill in the specific details of the experiment.\n\n   ![Select and fill in the content](./img/define-schedule-inner-resource.png)\n\n3. Fill out information including the planning cycle and concurrency strategy.\n\n   ![Fill out planning rules](./img/define-schedule-spec.png)\n\n4. Submit the experiment information.",
+      "source_content_hash": "b6fb1fa9b007294cd0c531650b399dbbcf07aa7d1e0121265bfd294e18e6ba16",
+      "node_type": "list",
+      "translatable": true,
+      "translations": {
+        "ja": "1. Chaos Dashboardを開き、ページ上の**NEW EXPERIMENT**をクリックして新しい実験を作成します。\n\n   ![Create plans](./img/create-new-schedule.png)\n\n2. 実験の具体的な詳細を選択して入力します。\n\n   ![Select and fill in the content](./img/define-schedule-inner-resource.png)\n\n3. 計画サイクルや並行性戦略を含む情報を入力します。\n\n   ![Fill out planning rules](./img/define-schedule-spec.png)\n\n4. 実験情報を送信します。"
+      }
+    },
+    {
+      "segment_id": "43ad2e31",
+      "source_content": "### Pause the scheduled task",
+      "source_content_hash": "4e4b99e40ca16d389ed856b606f1f1711cc156c336f06cf93e60f3521180204f",
+      "node_type": "heading",
+      "translatable": true,
+      "translations": {
+        "ja": "### スケジュールされたタスクを一時停止する"
+      }
+    },
+    {
+      "segment_id": "01902900",
+      "source_content": "Unlike `CronJob`, pausing `Schedule` not only prevents it from creating a new experiment, but also pauses an already created experiment.",
+      "source_content_hash": "54cd20d1302d9ebfc62ec4ec22e44c5778c45cc8eae5b98a003fe53d1c850211",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "`CronJob`とは異なり、`Schedule`を一時停止すると、新しい実験の作成が防止されるだけでなく、既に作成された実験も一時停止されます。"
+      }
+    },
+    {
+      "segment_id": "dbeb30c1",
+      "source_content": "If you do not want to create a Chaos experiment as a scheduled task for now, you need to add the `experiment.chaos-mesh.org/pause=true` annotation to the `Schedule` object. You can add the annotation using the `kubectl` command:",
+      "source_content_hash": "b52c173cff7c872dc8795c4b762fae85995ae2eef9868f5a46dc541cba2b1cfd",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "現在、スケジュールされたタスクとしてChaos実験を作成したくない場合は、`Schedule`オブジェクトに`experiment.chaos-mesh.org/pause=true`アノテーションを追加する必要があります。`kubectl`コマンドを使用してアノテーションを追加できます："
+      }
+    },
+    {
+      "segment_id": "489cbec9",
+      "source_content": "```bash\nkubectl annotate -n $NAMESPACE schedule $NAME experiment.chaos-mesh.org/pause=true\n```",
+      "source_content_hash": "77cead4bf86f7699f4ff42f03ea2572bf0ab65451bc5e73a917e4042bcab7ac2",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_489cbec9"
+      }
+    },
+    {
+      "segment_id": "130a77cc",
+      "source_content": "In the command, `$NAMESPACE` is a namespace, and `$NAME` is the name of `Schedule`. The successful result is returned as follows:",
+      "source_content_hash": "4ec943d019b6d9d78638f2c41fb45fa030ee7082835029d38314f02ac37f8ad3",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "コマンド内の`$NAMESPACE`は名前空間、`$NAME`は`Schedule`の名前です。成功した結果は以下のように返されます："
+      }
+    },
+    {
+      "segment_id": "0883e35a",
+      "source_content": "```bash\nschedule/$NAME annotated\n```",
+      "source_content_hash": "f7a465029e3bacb88b320108b8326dfba36b26357c4501693f5e1e9374b636ec",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_0883e35a"
+      }
+    },
+    {
+      "segment_id": "f211c69a",
+      "source_content": "If you want to unpause the task, you can use the following command to remove the annotation:",
+      "source_content_hash": "57cac87bf574178531080ddff74ac4af9d82bbaed0e8ebde4c07679bd02e81f6",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "タスクの一時停止を解除したい場合は、以下のコマンドを使用してアノテーションを削除できます："
+      }
+    },
+    {
+      "segment_id": "03859cae",
+      "source_content": "```bash\nkubectl annotate -n $NAMESPACE schedule $NAME experiment.chaos-mesh.org/pause-\n```",
+      "source_content_hash": "5cd847dd7645d9ce4246600c4d3ecbf8ef9a8b4ee923558f5cc464e480630366",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_03859cae"
+      }
+    },
+    {
+      "segment_id": "6dc3e423",
+      "source_content": "In the command, `$NAMESPACE` is the namespace, and `$NAME` is the name of `Schedule`.The successful result is returned as follows:",
+      "source_content_hash": "7c93848b423e0e7783bc4ffcf22c6c3947db279feca2698e774b69278b98654d",
+      "node_type": "paragraph",
+      "translatable": true,
+      "translations": {
+        "ja": "コマンド内の`$NAMESPACE`は名前空間、`$NAME`は`Schedule`の名前です。成功した結果は以下のように返されます："
+      }
+    },
+    {
+      "segment_id": "ab152d31",
+      "source_content": "```bash\nschedule/$NAME annotated\n```",
+      "source_content_hash": "f7a465029e3bacb88b320108b8326dfba36b26357c4501693f5e1e9374b636ec",
+      "node_type": "code",
+      "translatable": false,
+      "translations": {
+        "ja": "@@untranslatable_placeholder_ab152d31"
+      }
+    }
+  ],
+  "target_i18n_subpath": "docusaurus-plugin-content-docs/version-2.7.2/define-scheduling-rules.md",
+  "last_updated_timestamp": "2025-06-05T17:50:36.665179+00:00",
+  "schema_version": "1.0",
+  "translated_versions": {
+    "ja": "68b2b228209151de3d04c9282331083b7fb166b9fe0671692e6e45e641143999"
+  }
+}
